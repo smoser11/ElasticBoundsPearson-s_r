@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+*.RData
+.Ruserdata
+*.csv
+.csv
+.DS_Store
+# Example .gitignore
+*.aux
+*.log
+*.out
+*.toc
+# Do NOT ignore paper.tex or paper.docx
