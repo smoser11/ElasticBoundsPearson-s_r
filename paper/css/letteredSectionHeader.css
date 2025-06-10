@@ -1,0 +1,33 @@
+.header-section-number {
+  display: none;
+}
+
+body {
+  counter-reset: counter-level-1;
+}
+
+h1:not(.title) {
+  counter-increment: counter-level-1;
+  counter-reset: counter-level-2;
+}
+
+h1:not(.title)::before{
+  content: counter(counter-level-1, upper-alpha) ". ";
+}
+
+h2 {
+  counter-increment: counter-level-2;
+  counter-reset: counter-level-3;
+}
+
+h2::before {
+  content: counter(counter-level-1, upper-alpha) "." counter(counter-level-2) " ";
+}
+
+h3 {
+  counter-increment: counter-level-3;
+}
+
+h3::before {
+  content: counter(counter-level-1, upper-alpha) "." counter(counter-level-2) "." counter(counter-level-3) " ";
+}
