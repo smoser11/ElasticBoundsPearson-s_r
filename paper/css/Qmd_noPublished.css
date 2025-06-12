@@ -1,1 +1,16 @@
-/Users/sm38679/Dropbox/LaTeX/Stationary/Rmakrdown/Qmd_noPublished.css
+.published {
+    display: none;  /* This hides the published date */
+}
+
+.date {
+    display: none;  /* Hides elements with class 'date' */
+}
+
+/* styles.css */
+.toc .expandable {
+    display: none;  /* Hide sub-sections by default */
+}
+
+.toc li:hover > .expandable {
+    display: block;  /* Show sub-sections on hover */
+}
