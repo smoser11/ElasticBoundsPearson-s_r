@@ -1,5 +1,5 @@
 ---
-title: "Elastic Bounds of Pearson’s  $r$: Theoretical and Empirical Insights for Ordinal Variables"
+title: "Elastic Bounds of Pearson's $r$: Theoretical and Empirical Insights for Ordinal Variables"
 author:
   - name: Cees van der Eijk
     affiliation: UoN
@@ -7,41 +7,26 @@ author:
     affiliation: UoN
 bibliography: references.bib
 csl: apa.csl
-cite-method: citeproc  # Use citeproc for all formats
-# Remove the biblatex settings since you're using citeproc
-# biblatexoptions:
-#   - style=apa
-#   - sorting=nyt
+cite-method: citeproc
 fontsize: 12pt
-# mainfont: "TeX Gyre Pagella"
-# sansfont: "TeX Gyre Heros" 
-# monofont: "TeX Gyre Cursor"
-# mathfont: "TeX Gyre Pagella Math"
-#fontfamily: mathpazo
 geometry: margin=1in
 subparagraph: true
-header-includes:
-  - \usepackage{float}
-  - \usepackage{caption} # Make sure caption is loaded before subcaption
-  - \usepackage{subcaption}
-  - \usepackage{algorithm}
-  - \usepackage{algorithmic}
 execute:
   warning: false
   message: false
 format:
   pdf:
-    keeptex: true
+    keep-tex: true
     documentclass: article
     pdf-engine: xelatex
     number-sections: true
     toc: true
     toc-depth: 3
     colorlinks: true
-    linkcolor: black       # TOC, section refs
-    citecolor: RoyalBlue   # Citations
-    urlcolor: BrickRed     # Raw URLs
-    link-citations: true  # <-- Add this line
+    linkcolor: black
+    citecolor: RoyalBlue
+    urlcolor: BrickRed
+    link-citations: true
     fig-pos: "H"
     include-in-header:
       text: |
@@ -50,28 +35,24 @@ format:
         \usepackage{amssymb}
         \usepackage{amsthm}
         \newtheorem{proposition}{Proposition}
+        \usepackage{float}
+        \usepackage{caption}
+        \usepackage{subcaption}
+        \usepackage{algorithm}
+        \usepackage{algorithmic}
   html:
     toc: true
-    toc-depth: 3
     embed-resources: true
     theme: cosmo
-    css: [css/columns.css, css/seminar_v6.css, css/Qmd_noPublished.css]
-    cite-method: citeproc
-    csl: apa.csl
-    link-external-icon: true
-    link-external-newwindow: true
   docx:
     number-sections: true
     highlight-style: github
-    cite-method: citeproc
-    csl: apa.csl
-    # reference-doc: custom-reference.docx
-editor: 
-  markdown: 
+editor:
+  markdown:
     wrap: sentence
 ---
 
-```{r}
+```{r, echo=FALSE, eval=FALSE}
 
 # Check if the file exists and what's in it
 if (file.exists("references.bib")) {
@@ -83,56 +64,56 @@ if (file.exists("references.bib")) {
 }
 ```
 
-```{r setup, include=FALSE}
-getwd()
-# Ensure fs is available
-if (!requireNamespace("fs", quietly = TRUE)) install.packages("fs")
+<!-- ```{r setup, include=FALSE} -->
+<!-- getwd() -->
+<!-- # Ensure fs is available -->
+<!-- if (!requireNamespace("fs", quietly = TRUE)) install.packages("fs") -->
 
-# Define paths
-home_dir <- Sys.getenv("HOME")
-bib_source <- fs::path(home_dir, "Dropbox", "Bibliog", "scottAll5-BBL-URLdoi2024.bib")
-bib_target <- "references.bib"
+<!-- # Define paths -->
+<!-- home_dir <- Sys.getenv("HOME") -->
+<!-- bib_source <- fs::path(home_dir, "Dropbox", "Bibliog", "scottAll5-BBL-URLdoi2024.bib") -->
+<!-- bib_target <- "references.bib" -->
 
-# Only copy if target doesn't exist or source is newer
-if (!fs::file_exists(bib_target) || 
-    fs::file_info(bib_source)$modification_time > fs::file_info(bib_target)$modification_time) {
-  fs::file_copy(bib_source, bib_target, overwrite = TRUE)
-  message("- Updated bibliography file")
-} else {
-  message("- Bibliography file is up to date")
-}
+<!-- # Only copy if target doesn't exist or source is newer -->
+<!-- if (!fs::file_exists(bib_target) ||  -->
+<!--     fs::file_info(bib_source)$modification_time > fs::file_info(bib_target)$modification_time) { -->
+<!--   fs::file_copy(bib_source, bib_target, overwrite = TRUE) -->
+<!--   message("- Updated bibliography file") -->
+<!-- } else { -->
+<!--   message("- Bibliography file is up to date") -->
+<!-- } -->
 
-# Rest of your setup...
-css_dir <- fs::path(home_dir, "Dropbox", "LaTeX", "Stationary", "Rmakrdown")
-css_files <- c("columns.css", "seminar_v6.css", "Qmd_noPublished.css")
+<!-- # Rest of your setup... -->
+<!-- css_dir <- fs::path(home_dir, "Dropbox", "LaTeX", "Stationary", "Rmakrdown") -->
+<!-- css_files <- c("columns.css", "seminar_v6.css", "Qmd_noPublished.css") -->
 
-fs::dir_create("css")
-for (file in css_files) {
-  source <- fs::path(css_dir, file)
-  target <- fs::path("css", file)
-  if (!fs::file_exists(target) || 
-      fs::file_info(source)$modification_time > fs::file_info(target)$modification_time) {
-    fs::file_copy(source, target, overwrite = TRUE)
-    message(paste("- Updated", file))
-  }
-}
+<!-- fs::dir_create("css") -->
+<!-- for (file in css_files) { -->
+<!--   source <- fs::path(css_dir, file) -->
+<!--   target <- fs::path("css", file) -->
+<!--   if (!fs::file_exists(target) ||  -->
+<!--       fs::file_info(source)$modification_time > fs::file_info(target)$modification_time) { -->
+<!--     fs::file_copy(source, target, overwrite = TRUE) -->
+<!--     message(paste("- Updated", file)) -->
+<!--   } -->
+<!-- } -->
 
-# Download CSL file if missing
-if (!fs::file_exists("apa.csl")) {
-  download.file(
-    "https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl",
-    "apa.csl"
-  )
-  message("- Downloaded APA citation style")
-}
+<!-- # Download CSL file if missing -->
+<!-- if (!fs::file_exists("apa.csl")) { -->
+<!--   download.file( -->
+<!--     "https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl", -->
+<!--     "apa.csl" -->
+<!--   ) -->
+<!--   message("- Downloaded APA citation style") -->
+<!-- } -->
 
-message("Setup complete!")
-```
-
-
+<!-- message("Setup complete!") -->
+<!-- ``` -->
 
 
-```{r}
+
+
+```{r, echo=FALSE, eval=FALSE}
 
 # Check if the file exists and what's in it
 if (file.exists("references.bib")) {
@@ -169,11 +150,15 @@ options(tinytex.verbose = TRUE)
 
 <!-- [^11]: <a name="footnote1"></a>Your detailed footnote text goes here. -->
 
+\newpage
+
 \begin{abstract}
 The use of product-moment correlations to assess relationships between ordered-categorical variables is widespread and generally tolerated in spite of the non-metric character of such variables. Potential problems of this practice have been identified in the literature. This article focusses on one of these, namely that correlation coefficients are poorly comparable across pairs of ordered-categorical variables because their ranges are constrained in non-uniform ways. This not only affects the validity of correlation coefficients for descriptive purposes, but also as bases for subsequent analyses, as in, e.g., principal component analysis, factor analysis, and structural equation modelling. This article focusses on this problem of ‘constrained’ correlations. It explains the problem and explores conditions under which it is most severe. It provides illustrations based on both fabricated and actual empirical data, the latter from a mass-survey that ubiquitously contains many ordered-categorical variables that are commonly analysed with product-moment correlations. The article is accompanied by a software tool in R for analysing the attainable upper- and lower bounds of correlations in actual data. 
 
 Pearson’s correlation coefficient $r$, when applied to ordinal data, is subject to elasticity due to constraints from marginal distributions. This paper develops theoretical bounds for $r$, based on Boole–Fréchet–Hoeffding inequalities and rearrangement inequalities, and derives analytic expressions for their limits. We investigate when symmetry in the bounds holds or breaks, and explore practical implications for correlation-based methods like PCA and SEM. An accompanying R package allows users to compute bounds and perform hypothesis tests given fixed marginals.
 \end{abstract}
+
+\newpage
 
 # Preamble
 
@@ -250,7 +235,12 @@ Determining the minimum and maximum attainable values of r for given marginal di
 -   Proofs in appendix?
 
 How severely are correlations constrained – or: how long is a piece of string?
-- Explain strategy of using BES data and resulting dataset of 7503 item-pairs - Descriptive analyses: - Define a measure for extent of constrainment - Describe univariate distribution of this measure; asymmetry etc. -Probability of reaching the r-max and r-min (and implications: does this mean that the constrainment is even more severe?)
+
+- Explain strategy of using BES data and resulting dataset of 7503 item-pairs 
+- Descriptive analyses: 
+	- Define a measure for extent of constrainment
+	- Describe univariate distribution of this measure; asymmetry etc. 
+-Probability of reaching the r-max and r-min (and implications: does this mean that the constrainment is even more severe?)
 
 Factors influencing the degree to which correlations are constrained
 
@@ -312,8 +302,7 @@ Given fixed marginals $p_X(x_i)$, $p_Y(y_j)$, the expectations $E[X], E[Y]$ and 
 
 $$E[XY] = \sum_{i=1}^{K_X}\sum_{j=1}^{K_Y} x_i y_j P(X = x_i, Y = y_j).$$
 
-This proof relies on a rearrangement inequality of 
-<!-- [@hard52-inequalities] (Theorem 368): -->
+This proof relies on a rearrangement inequality of [@hard52-inequalities] (Theorem 368): 
 
 For real sequences $a_1 \leq a_2 \leq \dots \leq a_n$ and $b_1 \leq b_2 \leq \dots \leq b_n$, and for any permutation $\pi$ of indices $\{1,\dots,n\}$ we have the following:
 
@@ -451,7 +440,7 @@ First *sort* ranks from largest to smallest independently for both $X$ and $Y$; 
 
 
 **Minimum Expectation**
-  
+
 
 Define explicitly a matrix $R_{i,j}$ giving frequencies of pairings $X=x_i$ with $Y=y_j$. For the minimal expectation, pair largest available $X$-values explicitly with smallest available $Y$-values first (greedy algorithm):
 
@@ -460,16 +449,13 @@ Initialize explicitly available frequencies:
 
 $$n'_Y(j)=n_Y(j)\quad\text{for each }j$$
 
-* For $i$ from largest to smallest ($i=K_X$ down to $1$):
+- For $i$ from largest to smallest ($i=K_X$ down to $1$):
     
-    * For $j$ from smallest to largest ($j=1$ up to $K_Y$):
-        
-        * Pair explicitly as many observations as possible:
-            
-
+    - For $j$ from smallest to largest ($j=1$ up to $K_Y$):
+        - Pair explicitly as many observations as possible:
 $$R_{i,j}=\min\left(n_X(i)-\sum_{s=1}^{j-1}R_{i,s},\, n'_Y(j)\right)$$
 
-Update explicitly available frequencies:
+- Update explicitly available frequencies:
 
 
 $$n'_Y(j)\leftarrow n'_Y(j)-R_{i,j}$$
@@ -589,7 +575,7 @@ The *total variation distance* (TV) quantifies this asymmetry:
 
 ## To Do
 
--   Can $r_min >0$?
+-   Can $r_{min} >0$?
 -   Are there systematic biases in testing $H_0: r=0$ using t-test? (Answer with Monte Carlo simulated data?)
 -   Add: "$r_min$ is invariant to 'problem 1' (value assignment. So using ranks is actually w.l.o.g.)
 
@@ -601,9 +587,11 @@ The *total variation distance* (TV) quantifies this asymmetry:
 
 \newpage
 
+# References {.unnumbered}
+
 <!-- # References -->
 <!-- ::: {#refs} -->
-<!-- <!-- This will be populated by Pandoc if you use --citeproc and a .bib file --> -->
+<!-- This will be populated by Pandoc if you use --citeproc and a .bib file --> 
 <!-- ::: -->
 
 \newpage
@@ -620,3 +608,5 @@ The *total variation distance* (TV) quantifies this asymmetry:
 # Appendix C: Additional Tables and Simulations
 
 -   Supplementary empirical examples, simulation results
+
+

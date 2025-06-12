@@ -71,109 +71,19 @@ editor:
     wrap: sentence
 ---
 
-```{r}
-
-# Check if the file exists and what's in it
-if (file.exists("references.bib")) {
-  cat("File size:", file.size("references.bib"), "bytes\n")
-  cat("First 500 characters:\n")
-  cat(readLines("references.bib", n = 10), sep = "\n")
-} else {
-  cat("references.bib does not exist!")
-}
-```
-
-```{r setup, include=FALSE}
-getwd()
-# Ensure fs is available
-if (!requireNamespace("fs", quietly = TRUE)) install.packages("fs")
-
-# Define paths
-home_dir <- Sys.getenv("HOME")
-bib_source <- fs::path(home_dir, "Dropbox", "Bibliog", "scottAll5-BBL-URLdoi2024.bib")
-bib_target <- "references.bib"
-
-# Only copy if target doesn't exist or source is newer
-if (!fs::file_exists(bib_target) || 
-    fs::file_info(bib_source)$modification_time > fs::file_info(bib_target)$modification_time) {
-  fs::file_copy(bib_source, bib_target, overwrite = TRUE)
-  message("- Updated bibliography file")
-} else {
-  message("- Bibliography file is up to date")
-}
-
-# Rest of your setup...
-css_dir <- fs::path(home_dir, "Dropbox", "LaTeX", "Stationary", "Rmakrdown")
-css_files <- c("columns.css", "seminar_v6.css", "Qmd_noPublished.css")
-
-fs::dir_create("css")
-for (file in css_files) {
-  source <- fs::path(css_dir, file)
-  target <- fs::path("css", file)
-  if (!fs::file_exists(target) || 
-      fs::file_info(source)$modification_time > fs::file_info(target)$modification_time) {
-    fs::file_copy(source, target, overwrite = TRUE)
-    message(paste("- Updated", file))
-  }
-}
-
-# Download CSL file if missing
-if (!fs::file_exists("apa.csl")) {
-  download.file(
-    "https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl",
-    "apa.csl"
-  )
-  message("- Downloaded APA citation style")
-}
-
-message("Setup complete!")
-```
 
 
+This is a test citation: @whit76-bivariate.
 
+Another test: [@whit76-bivariate].
 
-```{r}
-
-# Check if the file exists and what's in it
-if (file.exists("references.bib")) {
-  cat("File size:", file.size("references.bib"), "bytes\n")
-  cat("First 500 characters:\n")
-  cat(readLines("references.bib", n = 10), sep = "\n")
-} else {
-  cat("references.bib does not exist!")
-}
-```
-
-
-
-```{r setupKF, include=FALSE, eval=FALSE}
-knitr::opts_chunk$set(fig.path="figure/graphics-", 
-                      cache.path="cache/graphics-", 
-                      fig.align="center",
-                      external=TRUE,
-                      warning=FALSE,
-                      fig.pos="H",
-                      number_sections = FALSE)
-
-```
-
-```{r setup2, include=FALSE, eval=FALSE}
-knitr::opts_chunk$set(echo = TRUE, error = TRUE, eval = FALSE) #fig.path="~/Dropbox/teaching/Notts/figures/", base.dir="~/Dropbox/teaching/Notts/figures/")
-knitr::opts_knit$set(root.dir = 					 "~/Dropbox/teaching/Notts/QSTEP/dataSets/data-teaching/") #"~/Dropbox/teaching/Notts/figures/") 
-options(tinytex.verbose = TRUE)
-```
-
-<!-- NOTES: (1)custom placement of Endnotes only works for `html_document(2)` -- not pdf_document   (2) boxes added -> uses `\usepackage{framed}` for LaTeX-ing -- see https://bookdown.org/yihui/rmarkdown-cookbook/custom-blocks.html  (3)    -->
-
-<!-- As discussed in the [this footnote](#footnote1)  the results are significant.[^11] -->
-
-<!-- [^11]: <a name="footnote1"></a>Your detailed footnote text goes here. -->
 
 \begin{abstract}
 The use of product-moment correlations to assess relationships between ordered-categorical variables is widespread and generally tolerated in spite of the non-metric character of such variables. Potential problems of this practice have been identified in the literature. This article focusses on one of these, namely that correlation coefficients are poorly comparable across pairs of ordered-categorical variables because their ranges are constrained in non-uniform ways. This not only affects the validity of correlation coefficients for descriptive purposes, but also as bases for subsequent analyses, as in, e.g., principal component analysis, factor analysis, and structural equation modelling. This article focusses on this problem of ‘constrained’ correlations. It explains the problem and explores conditions under which it is most severe. It provides illustrations based on both fabricated and actual empirical data, the latter from a mass-survey that ubiquitously contains many ordered-categorical variables that are commonly analysed with product-moment correlations. The article is accompanied by a software tool in R for analysing the attainable upper- and lower bounds of correlations in actual data. 
 
 Pearson’s correlation coefficient $r$, when applied to ordinal data, is subject to elasticity due to constraints from marginal distributions. This paper develops theoretical bounds for $r$, based on Boole–Fréchet–Hoeffding inequalities and rearrangement inequalities, and derives analytic expressions for their limits. We investigate when symmetry in the bounds holds or breaks, and explore practical implications for correlation-based methods like PCA and SEM. An accompanying R package allows users to compute bounds and perform hypothesis tests given fixed marginals.
 \end{abstract}
+
 
 # Preamble
 
@@ -238,6 +148,7 @@ The existence of these debates makes it remarkable that another important issue 
 This is the problem that correlations between ordcats are generally ‘constrained’, which means that they do not range between -1 and +1, but between minima and maxima that have to be calculated separately for each pair.
 The nature of this issue is the subject of the next section.
 
+
 ## Ordinal categorical variables (ordcats) and ‘constrained’ correlations
 
 -   Simple example of 4x4 crosstab
@@ -272,6 +183,7 @@ Consequences of constrained correlations in applied research
 -   Ordinal data and assumptions of interval-scale correlation\
 -   Existing alternatives: Spearman, polychoric, polyserial; their strengths and limitations\
 -   Coupling and rearrangement in discrete settings
+
 
 # Theoretical Framework
 
@@ -599,12 +511,12 @@ The *total variation distance* (TV) quantifies this asymmetry:
 -   An R package accompanies this paper, providing tools to compute max/min bounds and perform randomization-based hypothesis tests for fixed marginals. Details are available in the appendix and online.\
 -   Future work: deeper integration with copula models, correction strategies, and generalizations to higher dimensions
 
-\newpage
 
-<!-- # References -->
-<!-- ::: {#refs} -->
-<!-- <!-- This will be populated by Pandoc if you use --citeproc and a .bib file --> -->
-<!-- ::: -->
+# References
+
+
+
+
 
 \newpage
 
