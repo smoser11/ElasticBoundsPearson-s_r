@@ -1,0 +1,9 @@
+---
+title: "Test Citations"
+bibliography: paper/references.bib
+csl: apa.csl
+citeproc: true
+
+---
+
+This is a test citation [@whit76-bivariate].

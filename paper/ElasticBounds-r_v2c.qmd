@@ -8,6 +8,7 @@ author:
 bibliography: references.bib
 citeproc: true
 csl: apa.csl
+reference-section-title: ""
 #cite-method: citeproc
 fontsize: 12pt
 geometry: margin=1in
@@ -17,7 +18,7 @@ execute:
   message: false
 format:
   pdf:
-    #keep-tex: true
+    keep-tex: true
     documentclass: article
     #pdf-engine: xelatex
     #cite-method: biblatex
@@ -605,32 +606,37 @@ The *total variation distance* (TV) quantifies this asymmetry:
 
 # Conclusion
 
--   Summary: Theoretical bounds, symmetry-breaking conditions, and implications for applied research\
--   An R package accompanies this paper, providing tools to compute max/min bounds and perform randomization-based hypothesis tests for fixed marginals. Details are available in the appendix and online.\
--   Future work: deeper integration with copula models, correction strategies, and generalizations to higher dimensions
+- Summary: Theoretical bounds, symmetry-breaking conditions, and implications for applied research
+- An R package accompanies this paper, providing tools to compute max/min bounds and perform randomization-based hypothesis tests for fixed marginals. Details are available in the appendix and online.
+- Future work: deeper integration with copula models, correction strategies, and generalizations to higher dimensions
 
 \newpage
-
-# References {.unnumbered}
-
-<!-- # References -->
-<!-- ::: {#refs} -->
-<!-- This will be populated by Pandoc if you use --citeproc and a .bib file --> 
-<!-- ::: -->
+# References
+::: {#refs}
+:::
+<!-- This will be populated by Pandoc if you use --citeproc and a .bib file -->
 
 \newpage
+```{=latex}
+\appendix
+```
 
-# Appendix A: Mathematical Proofs
+## Appendix A: Mathematical Proofs
 
 -   Formal derivations of optimal coupling and analytical bounds
 
-# Appendix B: Software Tools and Code Listings
+## Appendix B: Software Tools and Code Listings
 
 -   Documentation and examples for the R package\
 -   Description of randomization testing features
 
-# Appendix C: Additional Tables and Simulations
+## Appendix C: Additional Tables and Simulations
 
 -   Supplementary empirical examples, simulation results
 
 
+<!-- # References {-} -->
+<!-- ```{=latex} -->
+<!-- \renewcommand{\refname}{References} % Optional: customize title -->
+<!-- \clearpage -->
+<!-- ``` -->
