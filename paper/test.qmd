@@ -1,47 +1,34 @@
 ---
-title: "Elastic Bounds of Pearson’s  $r$: Theoretical and Empirical Insights for Ordinal Variables"
+title: "Elastic Bounds of Pearson's $r$: Theoretical and Empirical Insights for Ordinal Variables"
 author:
   - name: Cees van der Eijk
     affiliation: UoN
   - name: Scott Moser
     affiliation: UoN
 bibliography: references.bib
+citeproc: true
 csl: apa.csl
-cite-method: citeproc  # Use citeproc for all formats
-# Remove the biblatex settings since you're using citeproc
-# biblatexoptions:
-#   - style=apa
-#   - sorting=nyt
+#cite-method: citeproc
 fontsize: 12pt
-# mainfont: "TeX Gyre Pagella"
-# sansfont: "TeX Gyre Heros" 
-# monofont: "TeX Gyre Cursor"
-# mathfont: "TeX Gyre Pagella Math"
-#fontfamily: mathpazo
 geometry: margin=1in
 subparagraph: true
-header-includes:
-  - \usepackage{float}
-  - \usepackage{caption} # Make sure caption is loaded before subcaption
-  - \usepackage{subcaption}
-  - \usepackage{algorithm}
-  - \usepackage{algorithmic}
 execute:
   warning: false
   message: false
 format:
   pdf:
-    keeptex: true
+    #keep-tex: true
     documentclass: article
-    pdf-engine: xelatex
+    #pdf-engine: xelatex
+    #cite-method: biblatex
     number-sections: true
     toc: true
     toc-depth: 3
     colorlinks: true
-    linkcolor: black       # TOC, section refs
-    citecolor: RoyalBlue   # Citations
-    urlcolor: BrickRed     # Raw URLs
-    link-citations: true  # <-- Add this line
+    linkcolor: black
+    citecolor: RoyalBlue
+    urlcolor: BrickRed
+    link-citations: true
     fig-pos: "H"
     include-in-header:
       text: |
@@ -50,25 +37,12 @@ format:
         \usepackage{amssymb}
         \usepackage{amsthm}
         \newtheorem{proposition}{Proposition}
-  html:
-    toc: true
-    toc-depth: 3
-    embed-resources: true
-    theme: cosmo
-    css: [css/columns.css, css/seminar_v6.css, css/Qmd_noPublished.css]
-    cite-method: citeproc
-    csl: apa.csl
-    link-external-icon: true
-    link-external-newwindow: true
-  docx:
-    number-sections: true
-    highlight-style: github
-    cite-method: citeproc
-    csl: apa.csl
-    # reference-doc: custom-reference.docx
-editor: 
-  markdown: 
-    wrap: sentence
+        \usepackage{float}
+        \usepackage{caption}
+        \usepackage{subcaption}
+        <!-- \usepackage{algorithm} -->
+        <!-- \usepackage{algorithmic} -->
+        \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 ---
 
 
