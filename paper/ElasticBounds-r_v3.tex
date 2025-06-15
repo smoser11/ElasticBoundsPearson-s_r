@@ -67,46 +67,6 @@
 \fi
 \makeatother
 
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{241,243,245}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
-\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
@@ -168,14 +128,28 @@
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
+\usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
-\usepackage{amsthm}
-\newtheorem{proposition}{Proposition}
 \usepackage{float}
 \usepackage{caption}
 \usepackage{subcaption}
+% Numbering is tied to sections (e.g., Proposition 2.1, 2.2, etc.)
+% Theorems and Propositions (italic)
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+% Definitions and Corollaries (upright)
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{example}{Example}
+% \newtheorem{algorithm}[theorem]{Algorithm}
+% Optional: formatting for the proof environment
+\renewenvironment{proof}
+   {\par\noindent\textbf{Proof.}\ }
+   {\hfill$\blacksquare$\par}
 
 
 \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
@@ -213,6 +187,13 @@
 \@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
 \floatname{codelisting}{Listing}
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\usepackage{amsthm}
+\theoremstyle{remark}
+\AtBeginDocument{\renewcommand*{\proofname}{Proof}}
+\newtheorem*{remark}{Remark}
+\newtheorem*{solution}{Solution}
+\newtheorem{refremark}{Remark}[section]
+\newtheorem{refsolution}{Solution}[section]
 \makeatother
 \makeatletter
 \makeatother
@@ -251,52 +232,6 @@ Insights for Ordinal Variables}
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
-
-This is a test citation: Whitt (\citeproc{ref-whit76-bivariate}{1976}).
-
-Another test: (\citeproc{ref-whit76-bivariate}{Whitt, 1976}).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{Algorithm Name}
-
-\NormalTok{Step 1: Do this  }
-\NormalTok{Step 2: Do that  }
-\end{Highlighting}
-\end{Shaded}
-
-\textbf{Algorithm:} My Algorithm
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Do something\\
-\item
-  Do something else\\
-\end{enumerate}
-
-Just a sample algorithmn
-
-\begin{algorithm}[H]
-\DontPrintSemicolon
-\SetAlgoLined
-\KwResult{Write here the result}
-\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
-\Input{Write here the input}
-\Output{Write here the output}
-\BlankLine
-\While{While condition}{
-    instructions\;
-    \eIf{condition}{
-        instructions1\;
-        instructions2\;
-    }{
-        instructions3\;
-    }
-}
-\caption{While loop with If/Else condition}
-\end{algorithm}
 
 \newpage
 
@@ -394,10 +329,11 @@ assess the magnitude of these constraining effects on 7503 correlations
 between 123 ordcats from a mass survey that typically gives rise ordered
 categorical variables (ordcats), the British Election Study. We use the
 same data to explore conditions that influence the magnitude of the
-constraining effect. {[}Other sections in between?{]} In the concluding
-section we discuss implications of our findings, suggestions for dealing
-with this problem for applied researchers, and directions for further
-research.
+constraining effect.
+
+{[}Other sections in between?{]} In the concluding section we discuss
+implications of our findings, suggestions for dealing with this problem
+for applied researchers, and directions for further research.
 
 \subsection{On ordinal-categorical variables (ordcats), their level of
 measurement and their common use in quantitative
@@ -587,8 +523,8 @@ We formalize the problem of identifying the joint distribution
 (coupling) of two ordinal variables with fixed marginals that maximizes
 or minimizes the Pearson correlation.
 
+\phantomsection\label{prop-max-product}
 \begin{proposition}
-
 
 Let $X$ and $Y$ be discrete ordinal random variables, each with finite ordered support:
 
@@ -598,64 +534,78 @@ $$
 
 with marginal probability distributions $p_X(x_i) = P(X = x_i)$, $p_Y(y_j) = P(Y = y_j)$, respectively.
 
-Then, the maximum and minimum values of the Pearson correlation coefficient $r_{XY}$,
-
-
-consistent with the fixed marginals, are obtained as follows:
+Then, the maximum and minimum values of the Pearson correlation coefficient $r_{XY}$, consistent with the fixed marginals, are obtained as follows:
 
 - Maximum $r_{XY}$: achieved by pairing largest $X$-values with largest $Y$-values (comonotonic arrangement).
     
 - Minimum $r_{XY}$: achieved by pairing largest $X$-values with smallest $Y$-values (anti-comonotonic arrangement).
-    
 \end{proposition}
+
 \begin{proof}
-
-
-
 The Pearson correlation coefficient is given by:
 
-$$r_{XY} = \frac{E[XY] - E[X]E[Y]}{\sigma_X \sigma_Y}.$$
+\[r_{XY} = \frac{E[XY] - E[X]E[Y]}{\sigma_X \sigma_Y}.\]
 
-Given fixed marginals $p_X(x_i)$, $p_Y(y_j)$, the expectations $E[X], E[Y]$ and standard deviations $\sigma_X, \sigma_Y$ are constant. Thus, to maximize or minimize $r_{XY}$, we only need to maximize or minimize the expectation $E[XY]$:
+Given fixed marginals \(p_X(x_i)\), \(p_Y(y_j)\), the expectations
+\(E[X], E[Y]\) and standard deviations \(\sigma_X, \sigma_Y\) are
+constant. Thus, to maximize or minimize \(r_{XY}\), we only need to
+maximize or minimize the expectation \(E[XY]\):
 
-$$E[XY] = \sum_{i=1}^{K_X}\sum_{j=1}^{K_Y} x_i y_j P(X = x_i, Y = y_j).$$
+\[E[XY] = \sum_{i=1}^{K_X}\sum_{j=1}^{K_Y} x_i y_j P(X = x_i, Y = y_j).\]
 
-This proof relies on a rearrangement inequality of [@hard52-inequalities] (Theorem 368): 
+This proof relies on a rearrangement inequality of
+(\citeproc{ref-hard52-inequalities}{Hardy et al., 1952}) (Theorem 368):
 
-For real sequences $a_1 \leq a_2 \leq \dots \leq a_n$ and $b_1 \leq b_2 \leq \dots \leq b_n$, and for any permutation $\pi$ of indices $\{1,\dots,n\}$ we have the following:
+For real sequences \(a_1 \leq a_2 \leq \dots \leq a_n\) and
+\(b_1 \leq b_2 \leq \dots \leq b_n\), and for any permutation \(\pi\) of
+indices \(\{1,\dots,n\}\) we have the following:
 
-    
-
-$$a_1 b_1 + a_2 b_2 + \dots + a_n b_n \geq a_1 b_{\pi(1)} + a_2 b_{\pi(2)} + \dots + a_n b_{\pi(n)}$$
+\[a_1 b_1 + a_2 b_2 + \dots + a_n b_n \geq a_1 b_{\pi(1)} + a_2 b_{\pi(2)} + \dots + a_n b_{\pi(n)}\]
 and
- 
-    
-$$a_1 b_n + a_2 b_{n-1} + \dots + a_n b_1 \leq a_1 b_{\pi(1)} + a_2 b_{\pi(2)} + \dots + a_n b_{\pi(n)}$$
 
-Equality occurs only if the permutation $\pi$ results in a  monotonically increasing sequence (for maximum) or monotonically decreasing sequence (for minimum).
+\[a_1 b_n + a_2 b_{n-1} + \dots + a_n b_1 \leq a_1 b_{\pi(1)} + a_2 b_{\pi(2)} + \dots + a_n b_{\pi(n)}\]
 
+Equality occurs only if the permutation \(\pi\) results in a
+monotonically increasing sequence (for maximum) or monotonically
+decreasing sequence (for minimum).
 
+To explicitly connect this to our problem, enumerate observations
+explicitly from sorted marginals:
 
-To explicitly connect this to our problem, enumerate observations explicitly from sorted marginals:
-    
-        $$X_{\downarrow}: x_{[K_X]} \geq x_{[K_X-1]} \geq \dots \geq x_{[1]}, \quad  
-        Y_{\downarrow}: y_{[K_Y]} \geq y_{[K_Y-1]} \geq \dots \geq y_{[1]}.$$
-(Sorted in descending order for maximization)
+\[
+X_{\downarrow}: x_{[K_X]} \geq x_{[K_X-1]} \geq \dots \geq x_{[1]}, \quad  
+        Y_{\downarrow}: y_{[K_Y]} \geq y_{[K_Y-1]} \geq \dots \geq y_{[1]}.
+\] (Sorted in descending order for maximization)
 
-- Expand discrete probability distributions into explicit observation-level sequences. 
-If $K_X \neq K_Y$, extend the shorter sequence with zero-probability categories so both sequences have equal length, which does not affect marginal probabilities or correlation.
+\begin{itemize}
+\tightlist
+\item
+  Expand discrete probability distributions into explicit
+  observation-level sequences. If \(K_X \neq K_Y\), extend the shorter
+  sequence with zero-probability categories so both sequences have equal
+  length, which does not affect marginal probabilities or correlation.
+\end{itemize}
 
-Hence, to maximize $E[XY]$: pair the largest ranks of $X$ with the largest ranks of $Y$. Explicitly, start from the top (highest values) and move downward:
-    
-- Pair as many observations of the largest $X$-category as possible with the largest $Y$-category, then next-largest, etc., until all observations are paired.
-        
-- By the Hardy–Littlewood–Pólya Rearrangement Inequality, this explicitly constructed pairing yields the maximum possible sum of products, hence maximizing $E[XY]$.
-    
+Hence, to maximize \(E[XY]\): pair the largest ranks of \(X\) with the
+largest ranks of \(Y\). Explicitly, start from the top (highest values)
+and move downward:
 
-Likewise, to minimize $E[XY]$ pair the largest $X$-categories with the smallest $Y$-categories, then second-largest $X$-categories with second-smallest $Y$-categories, and so forth (anti-comonotonic ordering).   By the rearrangement inequality, this arrangement explicitly yields the minimal sum of products, hence minimizing $E[XY]$.
-    
+\begin{itemize}
+\item
+  Pair as many observations of the largest \(X\)-category as possible
+  with the largest \(Y\)-category, then next-largest, etc., until all
+  observations are paired.
+\item
+  By the Hardy--Littlewood--Pólya Rearrangement Inequality, this
+  explicitly constructed pairing yields the maximum possible sum of
+  products, hence maximizing \(E[XY]\).
+\end{itemize}
 
-
+Likewise, to minimize \(E[XY]\) pair the largest \(X\)-categories with
+the smallest \(Y\)-categories, then second-largest \(X\)-categories with
+second-smallest \(Y\)-categories, and so forth (anti-comonotonic
+ordering). By the rearrangement inequality, this arrangement explicitly
+yields the minimal sum of products, hence minimizing \(E[XY]\).
 \end{proof}
 
 In words, given fixed marginals, we have shown:
@@ -676,16 +626,15 @@ In words, given fixed marginals, we have shown:
 With this explicit construction we can simply calculate \(r_{max}\) and
 \(r_{min}\) when the values of \(X\) and \(Y\) are ranks.
 
-\begin{proposition}[Corollary: Analytic Forms for $r_{\min}$ and $r_{\max}$]
+\begin{corollary} {(Analytic Forms for $r_{\min}$ and $r_{\max}$)}
 
 
 Let two ordinal variables $X$ and $Y$ have values as follows:
 
-* $X$ with $K_X$ ordinal levels: $1,2,\dots,K_X$
+- $X$ with $K_X$ ordinal levels: $1,2,\dots,K_X$
     
-* $Y$ with $K_Y$ ordinal levels: $1,2,\dots,K_Y$
+- $Y$ with $K_Y$ ordinal levels: $1,2,\dots,K_Y$
     
-
 with absolute frequencies:
 
 - $n_{X}(i)$, number of observations at level $i$ of $X$.
@@ -702,16 +651,15 @@ $$
 E[XY]_{\max} =\frac{1}{N}\sum_{i=1}^{K_X}\sum_{j=1}^{K_Y}x_i y_j M_{i,j}
 $$
 
-where explicitly defined frequencies $M_{i,j}$ pair observations in a comonotonic manner, calculated explicitly via the greedy iterative algorithm as follows.  
-
-Define the matrix $M_{i,j}$, the frequency with which the level $x_i$ pairs with the level $y_j$. Clearly, we must have:
-
-$$\sum_j M_{i,j}=n_X(i),\quad\sum_i M_{i,j}=n_Y(j)$$
-
-**Algorithm for explicit calculation of $M_{i,j}$** (greedy method):
+where explicitly defined frequencies $M_{i,j}$ pair observations in a comonotonic manner, calculated explicitly via the greedy iterative algorithm in as Algorithm  \ref{alg:greedy} in the proof.
 
 
-Just a sample algorithmn
+
+
+Algorithm for explicit calculation of $M_{i,j}$ (greedy method):
+
+
+
 \begin{algorithm}[H]
 \DontPrintSemicolon
 \SetAlgoLined
@@ -730,7 +678,7 @@ Just a sample algorithmn
     }
 }
 \caption{While loop with If/Else condition}
-
+\label{alg:greedy}
 
 Initialize available frequencies explicitly:  $n'_Y(j)=n_Y(j)\quad\text{for each }j$
 
@@ -748,71 +696,85 @@ Next, update explicitly: $$n'_Y(j)\leftarrow n'_Y(j)-M_{i,j}$$
 \end{algorithm}
 
 
+
+Define the matrix $M_{i,j}$, the frequency with which the level $x_i$ pairs with the level $y_j$. Clearly, we must have:
+
+$$\sum_j M_{i,j}=n_X(i),\quad\sum_i M_{i,j}=n_Y(j)$$
+
 Similarly, the minimum Pearson correlation ($r_{\text{min}}$) achieved by anti-comonotonic alignment (pairing largest ranks of $X$ with smallest ranks of $Y$) is explicitly:
 $$r_{\text{min}} = \frac{E[XY]_{\text{min}} - \bar{X}\bar{Y}}{\sigma_X \sigma_Y}.$$
 
 
 
-\end{proposition}
+\end{corollary}
+
 \begin{proof}
+Let the total number of observations be \(N\), thus:
 
-Let the total number of observations be $N$, thus:
-
-$$\sum_{i=1}^{K_X} n_{X}(i) = N,\quad \sum_{j=1}^{K_Y} n_{Y}(j) = N.$$
+\[\sum_{i=1}^{K_X} n_{X}(i) = N,\quad \sum_{j=1}^{K_Y} n_{Y}(j) = N.\]
 
 Means and standard deviations clearly become:
 
 Means:
-    
-$$
+
+\[
 \bar{X} = \frac{1}{N}\sum_{i=1}^{K_X} i \cdot n_X(i),\quad  
     \bar{Y} = \frac{1}{N}\sum_{j=1}^{K_Y} j \cdot n_Y(j).
-$$
+\]
+
 Standard deviations:
-    
-$$
+
+\[
 \sigma_X = \sqrt{\frac{1}{N}\sum_{i=1}^{K_X} (i - \bar{X})^2 n_X(i)},\quad  
     \sigma_Y = \sqrt{\frac{1}{N}\sum_{j=1}^{K_Y} (j - \bar{Y})^2 n_Y(j)}.
-$$
+\]
 
+To achieve the maximum expected product \(E[XY]_{\text{max}}\), do the
+following: First \emph{sort} ranks from largest to smallest
+independently for both \(X\) and \(Y\); then \emph{pair} ranks directly
+from highest to lowest available observations.
 
-To achieve the maximum expected product $E[XY]_{\text{max}}$, do the following:
-First *sort* ranks from largest to smallest independently for both $X$ and $Y$; then *pair* ranks directly from highest to lowest available observations.
-    
+\textbf{Minimum Expectation}
 
-
-
-
-**Minimum Expectation**
-
-
-Define explicitly a matrix $R_{i,j}$ giving frequencies of pairings $X=x_i$ with $Y=y_j$. For the minimal expectation, pair largest available $X$-values explicitly with smallest available $Y$-values first (greedy algorithm):
+The formula for \(E[XY]_{\text{min}}\) is derived in a similar manner.
+Define explicitly a matrix \(R_{i,j}\) giving frequencies of pairings
+\(X=x_i\) with \(Y=y_j\). For the minimal expectation, pair largest
+available \(X\)-values explicitly with smallest available \(Y\)-values
+first (greedy algorithm):
 
 Initialize explicitly available frequencies:
-    
 
-$$n'_Y(j)=n_Y(j)\quad\text{for each }j$$
+\[n'_Y(j)=n_Y(j)\quad\text{for each }j\]
 
-- For $i$ from largest to smallest ($i=K_X$ down to $1$):
-    
-    - For $j$ from smallest to largest ($j=1$ up to $K_Y$):
-        - Pair explicitly as many observations as possible:
-$$R_{i,j}=\min\left(n_X(i)-\sum_{s=1}^{j-1}R_{i,s},\, n'_Y(j)\right)$$
+\begin{itemize}
+\item
+  For \(i\) from largest to smallest (\(i=K_X\) down to \(1\)):
 
-- Update explicitly available frequencies:
+  \begin{itemize}
+  \tightlist
+  \item
+    For \(j\) from smallest to largest (\(j=1\) up to \(K_Y\)):
 
+    \begin{itemize}
+    \tightlist
+    \item
+      Pair explicitly as many observations as possible:
+      \[R_{i,j}=\min\left(n_X(i)-\sum_{s=1}^{j-1}R_{i,s},\, n'_Y(j)\right)\]
+    \end{itemize}
+  \end{itemize}
+\item
+  Update explicitly available frequencies:
+\end{itemize}
 
-$$n'_Y(j)\leftarrow n'_Y(j)-R_{i,j}$$
+\[n'_Y(j)\leftarrow n'_Y(j)-R_{i,j}\]
 
 Then explicitly the minimal expectation is:
 
-$$E[XY]_{\text{min}}=\frac{1}{N}\sum_{i=1}^{K_X}\sum_{j=1}^{K_Y} x_i y_j R_{i,j}$$
+\[E[XY]_{\text{min}}=\frac{1}{N}\sum_{i=1}^{K_X}\sum_{j=1}^{K_Y} x_i y_j R_{i,j}\]
 
-
-This explicit equation applies Whitt’s rearrangement theorem  (@whit76-bivariate), ensuring proper maximal pairing of ranks.
-
-The formula for $E[XY]_{\text{min}}$ is derived in a similar maner.
-
+This explicit equation applies Whitt's rearrangement theorem , Whitt
+(\citeproc{ref-whit76-bivariate}{1976}) , ensuring proper maximal
+pairing of ranks. (Whitt (\citeproc{ref-whit76-bivariate}{1976}))
 \end{proof}
 
 \textbf{Discussion}
@@ -922,8 +884,8 @@ Although our setting is discrete, the problem is conceptually linked to
 copula-based modeling of dependence with fixed marginals. The connection
 is discussed as a direction for future work.
 
-\section{Empirical Illustration and Practical
-Relevance}\label{empirical-illustration-and-practical-relevance}
+\section{Empirical Illustration and Practical Relevance -- Monte Carlo
+Simulations}\label{empirical-illustration-and-practical-relevance-monte-carlo-simulations}
 
 \subsection{Effects of Marginal
 Shapes}\label{effects-of-marginal-shapes}
@@ -948,10 +910,10 @@ Bounds}\label{symmetry-breaking-in-correlation-bounds}
 \end{itemize}
 
 When we talk about ``asymmetry'' in this context, we're referring to how
-different the distribution of Y is from the distribution of X. Since X
-is kept uniform, any deviation of Y from uniformity creates asymmetry
-between the distributions. The \emph{total variation distance} (TV)
-quantifies this asymmetry:
+different the distribution of \(Y\) is from the distribution of \(X\).
+Since \(X\) is kept uniform, any deviation of \(Y\) from uniformity
+creates asymmetry between the distributions. The \emph{total variation
+distance} (TV) quantifies this asymmetry:
 
 \begin{itemize}
 \tightlist
@@ -1027,6 +989,10 @@ Questions}\label{extensions-and-open-questions}
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-hard52-inequalities}
+Hardy, G. H., Littlewood, J. E., \& Pólya, G. (1952).
+\emph{Inequalities}. Cambridge University Press.
+
 \bibitem[\citeproctext]{ref-whit76-bivariate}
 Whitt, W. (1976). Bivariate {Distributions} with {Given Marginals}.
 \emph{The Annals of Statistics}, \emph{4}(6), 1280--1289.
@@ -1037,7 +1003,7 @@ Whitt, W. (1976). Bivariate {Distributions} with {Given Marginals}.
 
 \appendix
 
-\subsection{Appendix A: Mathematical
+\section{Appendix A: Mathematical
 Proofs}\label{appendix-a-mathematical-proofs}
 
 \begin{itemize}
@@ -1046,7 +1012,7 @@ Proofs}\label{appendix-a-mathematical-proofs}
   Formal derivations of optimal coupling and analytical bounds
 \end{itemize}
 
-\subsection{Appendix B: Software Tools and Code
+\section{Appendix B: Software Tools and Code
 Listings}\label{appendix-b-software-tools-and-code-listings}
 
 \begin{itemize}
@@ -1057,7 +1023,7 @@ Listings}\label{appendix-b-software-tools-and-code-listings}
   Description of randomization testing features
 \end{itemize}
 
-\subsection{Appendix C: Additional Tables and
+\section{Appendix C: Additional Tables and
 Simulations}\label{appendix-c-additional-tables-and-simulations}
 
 \begin{itemize}
