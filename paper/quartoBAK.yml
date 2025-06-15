@@ -1,0 +1,17 @@
+format:
+  pdf:
+    number-sections: true
+    theorem-environments: 
+      - name: proposition
+        title: Proposition
+      - name: corollary
+        title: Corollary
+      - name: theorem
+        title: Theorem
+      - name: example
+        title: Example
+      - name: algorithm
+        title: Algorithm
+      - name: proof
+        title: Proof
+    pdf-engine: pdflatex  # or lualatex if you prefer
