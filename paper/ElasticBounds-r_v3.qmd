@@ -71,6 +71,46 @@ editor:
 ---
 
 
+### 1. **Introduction and Conceptual Framework**
+- Research motivation and objectives
+- Overview of limitations in current correlation testing with ordinal data
+
+### 2. **Theoretical Bounds on Correlation Coefficients**
+- Mathematical explanation of R-min and R-max
+- Elasticity and asymmetry due to marginal distributions
+- Implications for standard significance tests
+- Note on Freshet bounds anomaly (appendix or highlighted sidebar)
+
+### 3. **Measurement Issues and Metrics of Constraint**
+- Problems with interval assumptions in ordinal categorical data
+- Alternatives to traditional scaling (psychometric, text-based)
+- Concept of boundedness and its distortion effects
+- Proposed metrics of constraint: linear and squared shrinkage measures
+- R² interpretation under bounded conditions
+
+### 4. **Simulations and Monte Carlo Approaches**
+- Design of permutation and Monte Carlo simulations
+- Bias and error analysis under null hypotheses
+- Role of mean, skewness, variance in predicting constraint metrics
+
+### 5. **Empirical Illustration Using BES Data**
+- Justification for selection: a typical but not representative case
+- Application of shrinkage and constraint metrics to BES
+- Comparison to simulation outcomes
+
+### 6. **Implications for Applied Research and Tools**
+- Critique of statistical purism in significance testing
+	- Critique of over-reliance on significance without consideration of boundedness or constraint metrics.
+- Reframing effect size: from absolute value to bounded context.
+- Practical guidance for analysts: how to assess when elastic bounds affect inference.
+- Overview of accompanying software tools or R functions developed.
+
+### 7. **Open Questions**
+
+### 8. **Conclusions**
+
+
+
 
 ```{r setup, include=FALSE}
 getwd()
@@ -162,7 +202,7 @@ The 'Point':
 2.  *Provide* tools to assess if problems exist in own data/ research
 3.  *Clarify* that traditional hypothesis testing (e.g. t-test of $H_0: r= 0$) are incorrect and provide correct hypo testing (permutation/ randomization tests)
 
-# Introduction
+# Introduction and Conceptual Setting
 
 In this article we elaborate why correlations involving ordered-categorical variables are generally ‘constrained’, which means that their attainable maximum and minimum values are not +1 and -1, as is often thought, but between values that have to be calculated for each pair of variables.
 We assess the magnitude of these constraints in fictitious as well as empirical data and analyse under which conditions they are most severe.
@@ -240,7 +280,7 @@ Consequences of constrained correlations in applied research
 -   It is also undermined by every correlation being expressed on its own unique scale/unique calibration
 -   Need a nice example of 2 correlations with $r(a,b) \le r(b,c)$ and where $r(a,b)$max is \< $r(b.c)$: is it smaller because the linear relationship is weaker, or because he constrainment is stronger?
 
-# Background and Definitions
+## Background and Definitions
 
 -   Ordinal data and assumptions of interval-scale correlation\
 -   Existing alternatives: Spearman, polychoric, polyserial; their strengths and limitations\
@@ -307,16 +347,13 @@ $$
 X_{\downarrow}: x_{[K_X]} \geq x_{[K_X-1]} \geq \dots \geq x_{[1]}, \quad  
         Y_{\downarrow}: y_{[K_Y]} \geq y_{[K_Y-1]} \geq \dots \geq y_{[1]}.
 $$
-(Sorted in descending order for maximization)
-
-- Expand discrete probability distributions into explicit observation-level sequences. 
-If $K_X \neq K_Y$, extend the shorter sequence with zero-probability categories so both sequences have equal length, which does not affect marginal probabilities or correlation.
+(Sorted in descending order for maximization). Next expand discrete probability distributions into explicit observation-level sequences. If $K_X \neq K_Y$, extend the shorter sequence with zero-probability categories so both sequences have equal length, which does not affect marginal probabilities or correlation.
 
 Hence, to maximize $E[XY]$: pair the largest ranks of $X$ with the largest ranks of $Y$. Explicitly, start from the top (highest values) and move downward:
     
 - Pair as many observations of the largest $X$-category as possible with the largest $Y$-category, then next-largest, etc., until all observations are paired.
         
-- By the Hardy–Littlewood–Pólya Rearrangement Inequality, this explicitly constructed pairing yields the maximum possible sum of products, hence maximizing $E[XY]$.
+- By the Hardy–Littlewood–Pólya Rearrangement Inequality (@hard), this explicitly constructed pairing yields the maximum possible sum of products, hence maximizing $E[XY]$.
     
 
 Likewise, to minimize $E[XY]$ pair the largest $X$-categories with the smallest $Y$-categories, then second-largest $X$-categories with second-smallest $Y$-categories, and so forth (anti-comonotonic ordering).   By the rearrangement inequality, this arrangement explicitly yields the minimal sum of products, hence minimizing $E[XY]$.
@@ -553,7 +590,7 @@ There is an interesting conncetion to Fréchet–Hoeffding and Boole–Fréchet 
 Although our setting is discrete, the problem is conceptually linked to copula-based modeling of dependence with fixed marginals.
 The connection is discussed as a direction for future work.
 
-# Empirical Illustration and Practical Relevance -- Monte Carlo Simulations
+# Monte Carlo Simulations
 
 ## Effects of Marginal Shapes
 
