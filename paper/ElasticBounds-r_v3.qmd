@@ -353,7 +353,7 @@ Hence, to maximize $E[XY]$: pair the largest ranks of $X$ with the largest ranks
     
 - Pair as many observations of the largest $X$-category as possible with the largest $Y$-category, then next-largest, etc., until all observations are paired.
         
-- By the Hardy–Littlewood–Pólya Rearrangement Inequality (@hard), this explicitly constructed pairing yields the maximum possible sum of products, hence maximizing $E[XY]$.
+- By the Hardy–Littlewood–Pólya Rearrangement Inequality [@hard52], this explicitly constructed pairing yields the maximum possible sum of products, hence maximizing $E[XY]$.
     
 
 Likewise, to minimize $E[XY]$ pair the largest $X$-categories with the smallest $Y$-categories, then second-largest $X$-categories with second-smallest $Y$-categories, and so forth (anti-comonotonic ordering).   By the rearrangement inequality, this arrangement explicitly yields the minimal sum of products, hence minimizing $E[XY]$.

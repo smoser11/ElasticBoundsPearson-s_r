@@ -1,0 +1,22 @@
+---
+title: "Pandoc Citer Demo"
+author: "Test Author"
+format: pdf
+bibliography: references.bib
+csl: apa.csl
+citeproc: true
+---
+
+# Introduction
+
+Let’s cite something using Pandoc Citer [@whit76-bivariate].  @hard
+@hard52-inequalities
+
+
+# Conclusion
+
+This is a minimal Quarto document using Zotero citations.
+
+# References
+::: {#refs}
+:::
