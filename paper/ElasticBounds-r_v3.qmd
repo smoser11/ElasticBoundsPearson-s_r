@@ -101,7 +101,9 @@ editor:
 ### 6. **Implications for Applied Research and Tools**
 - Critique of statistical purism in significance testing
 	- Critique of over-reliance on significance without consideration of boundedness or constraint metrics.
-- Reframing effect size: from absolute value to bounded context.
+- Reframing effect size: from absolute value to bounded context and RE-SCALING:
+    1. Map $r_{min}$ to -1, etc.
+    2. Map $\hat{r}^2$ to $[0,1]$, the re-scale $\hat{r}_{adj}$ by preserving sign(?)
 - Practical guidance for analysts: how to assess when elastic bounds affect inference.
 - Overview of accompanying software tools or R functions developed.
 
@@ -109,10 +111,13 @@ editor:
 
 ### 8. **Conclusions**
 
-@hard
 
+
+[@hard52-inequalities]
 
 ```{r setup, include=FALSE}
+
+
 getwd()
 # Ensure fs is available
 if (!requireNamespace("fs", quietly = TRUE)) install.packages("fs")
@@ -365,7 +370,7 @@ Likewise, to minimize $E[XY]$ pair the largest $X$-categories with the smallest 
 
 In words, given fixed marginals, we have shown:
 
--   **Maximum correlation** $r_{\text{max}}$ is achieved by comonotonic (DEFINE THIS!) arrangement:
+-   **Maximum correlation** $r_{\text{max}}$ is achieved by comonotonic (e.g. sorting values of $X$ and $Y$ from largest to smallest independently and pairing) arrangement:
 
     $$P_{\text{max}}(X=x_{[i]}, Y=y_{[i]}) \quad\text{in either descending or ascending order.}$$
 
@@ -485,13 +490,13 @@ $$
 
 
 To achieve the maximum expected product $E[XY]_{\text{max}}$, do the following:
-First *sort* ranks from largest to smallest independently for both $X$ and $Y$; then *pair* ranks directly from highest to lowest available observations.
+First sort ranks from largest to smallest independently for both $X$ and $Y$; then pair ranks directly from highest to lowest available observations.
     
 
 
 
 
-**Minimum Expectation**
+\textbf{Minimum Expectation}
 
 The formula for $E[XY]_{\text{min}}$ is derived in a similar manner.  Define explicitly a matrix $R_{i,j}$ giving frequencies of pairings $X=x_i$ with $Y=y_j$. For the minimal expectation, pair largest available $X$-values explicitly with smallest available $Y$-values first (greedy algorithm):
 
@@ -559,8 +564,7 @@ $$E[XY]_{\text{max}} = \frac{1}{N}\sum_{k=1}^{N} X_{\text{sorted}}(k)\cdot Y_{\t
 
 $$E[XY]_{\text{min}} = \frac{1}{N}\sum_{k=1}^{N} X_{\text{sorted}}(k)\cdot Y_{\text{sorted(min)}}(k)$$
 
-These classical bounds define feasible joint distributions given marginals and constrain the attainable values of $r$.
-There is an interesting conncetion to Fréchet–Hoeffding and Boole–Fréchet Inequalities, which we note but leave for future research.[^1]
+These classical bounds define feasible joint distributions given marginals and constrain the attainable values of $r$. There is an interesting connection to Fréchet–Hoeffding and Boole–Fréchet Inequalities, which we note but leave for future research.[^1]
 
 [^1]: Fréchet–Hoeffding and Boole–Fréchet Inequalities
 
@@ -574,6 +578,14 @@ There is an interesting conncetion to Fréchet–Hoeffding and Boole–Fréchet 
     ```
 
     Or even more paragraphs and content as needed.
+
+
+# Measurement Issues and Metrics of Constraint
+
+IN THIS SECTION:  "How to define metrics (on _pairs_ of discrete probability distributions) to *explain*:
+
+
+1. 
 
 ## Symmetry and the Role of Ties
 
