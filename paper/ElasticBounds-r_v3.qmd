@@ -111,7 +111,7 @@ editor:
 
 ### 8. **Conclusions**
 
-
+@hard
 
 [@hard52-inequalities]
 

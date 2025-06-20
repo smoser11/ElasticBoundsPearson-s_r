@@ -233,6 +233,124 @@ Insights for Ordinal Variables}
 \tableofcontents
 }
 
+\subsubsection{\texorpdfstring{1. \textbf{Introduction and Conceptual
+Framework}}{1. Introduction and Conceptual Framework}}\label{introduction-and-conceptual-framework}
+
+\begin{itemize}
+\tightlist
+\item
+  Research motivation and objectives
+\item
+  Overview of limitations in current correlation testing with ordinal
+  data
+\end{itemize}
+
+\subsubsection{\texorpdfstring{2. \textbf{Theoretical Bounds on
+Correlation
+Coefficients}}{2. Theoretical Bounds on Correlation Coefficients}}\label{theoretical-bounds-on-correlation-coefficients}
+
+\begin{itemize}
+\tightlist
+\item
+  Mathematical explanation of R-min and R-max
+\item
+  Elasticity and asymmetry due to marginal distributions
+\item
+  Implications for standard significance tests
+\item
+  Note on Freshet bounds anomaly (appendix or highlighted sidebar)
+\end{itemize}
+
+\subsubsection{\texorpdfstring{3. \textbf{Measurement Issues and Metrics
+of
+Constraint}}{3. Measurement Issues and Metrics of Constraint}}\label{measurement-issues-and-metrics-of-constraint}
+
+\begin{itemize}
+\tightlist
+\item
+  Problems with interval assumptions in ordinal categorical data
+\item
+  Alternatives to traditional scaling (psychometric, text-based)
+\item
+  Concept of boundedness and its distortion effects
+\item
+  Proposed metrics of constraint: linear and squared shrinkage measures
+\item
+  R² interpretation under bounded conditions
+\end{itemize}
+
+\subsubsection{\texorpdfstring{4. \textbf{Simulations and Monte Carlo
+Approaches}}{4. Simulations and Monte Carlo Approaches}}\label{simulations-and-monte-carlo-approaches}
+
+\begin{itemize}
+\tightlist
+\item
+  Design of permutation and Monte Carlo simulations
+\item
+  Bias and error analysis under null hypotheses
+\item
+  Role of mean, skewness, variance in predicting constraint metrics
+\end{itemize}
+
+\subsubsection{\texorpdfstring{5. \textbf{Empirical Illustration Using
+BES
+Data}}{5. Empirical Illustration Using BES Data}}\label{empirical-illustration-using-bes-data}
+
+\begin{itemize}
+\tightlist
+\item
+  Justification for selection: a typical but not representative case
+\item
+  Application of shrinkage and constraint metrics to BES
+\item
+  Comparison to simulation outcomes
+\end{itemize}
+
+\subsubsection{\texorpdfstring{6. \textbf{Implications for Applied
+Research and
+Tools}}{6. Implications for Applied Research and Tools}}\label{implications-for-applied-research-and-tools}
+
+\begin{itemize}
+\tightlist
+\item
+  Critique of statistical purism in significance testing
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Critique of over-reliance on significance without consideration of
+    boundedness or constraint metrics.
+  \end{itemize}
+\item
+  Reframing effect size: from absolute value to bounded context and
+  RE-SCALING:
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Map \(r_{min}\) to -1, etc.
+  \item
+    Map \(\hat{r}^2\) to \([0,1]\), the re-scale \(\hat{r}_{adj}\) by
+    preserving sign(?)
+  \end{enumerate}
+\item
+  Practical guidance for analysts: how to assess when elastic bounds
+  affect inference.
+\item
+  Overview of accompanying software tools or R functions developed.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{7. \textbf{Open
+Questions}}{7. Open Questions}}\label{open-questions}
+
+\subsubsection{\texorpdfstring{8.
+\textbf{Conclusions}}{8. Conclusions}}\label{conclusions}
+
+(\citeproc{ref-hard}{\textbf{hard?}})
+
+(\citeproc{ref-hard52-inequalities}{Hardy et al., 1952})
+
 \newpage
 
 \begin{abstract}
@@ -291,7 +409,8 @@ The `Point':
   (permutation/ randomization tests)
 \end{enumerate}
 
-\section{Introduction}\label{introduction}
+\section{Introduction and Conceptual
+Setting}\label{introduction-and-conceptual-setting}
 
 In this article we elaborate why correlations involving
 ordered-categorical variables are generally `constrained', which means
@@ -501,7 +620,8 @@ Consequences of constrained correlations in applied research
   stronger?
 \end{itemize}
 
-\section{Background and Definitions}\label{background-and-definitions}
+\subsection{Background and
+Definitions}\label{background-and-definitions}
 
 \begin{itemize}
 \tightlist
@@ -575,16 +695,11 @@ explicitly from sorted marginals:
 \[
 X_{\downarrow}: x_{[K_X]} \geq x_{[K_X-1]} \geq \dots \geq x_{[1]}, \quad  
         Y_{\downarrow}: y_{[K_Y]} \geq y_{[K_Y-1]} \geq \dots \geq y_{[1]}.
-\] (Sorted in descending order for maximization)
-
-\begin{itemize}
-\tightlist
-\item
-  Expand discrete probability distributions into explicit
-  observation-level sequences. If \(K_X \neq K_Y\), extend the shorter
-  sequence with zero-probability categories so both sequences have equal
-  length, which does not affect marginal probabilities or correlation.
-\end{itemize}
+\] (Sorted in descending order for maximization). Next expand discrete
+probability distributions into explicit observation-level sequences. If
+\(K_X \neq K_Y\), extend the shorter sequence with zero-probability
+categories so both sequences have equal length, which does not affect
+marginal probabilities or correlation.
 
 Hence, to maximize \(E[XY]\): pair the largest ranks of \(X\) with the
 largest ranks of \(Y\). Explicitly, start from the top (highest values)
@@ -596,9 +711,11 @@ and move downward:
   with the largest \(Y\)-category, then next-largest, etc., until all
   observations are paired.
 \item
-  By the Hardy--Littlewood--Pólya Rearrangement Inequality, this
-  explicitly constructed pairing yields the maximum possible sum of
-  products, hence maximizing \(E[XY]\).
+  By the Hardy--Littlewood--Pólya Rearrangement Inequality
+  (\citeproc{ref-hard52}{\textbf{hard52?}}), this explicitly constructed
+  pairing yields the maximum possible sum of
+  product(\citeproc{ref-hard52-inequalities}{Hardy et al., 1952})s,
+  hence maximizing \(E[XY]\).
 \end{itemize}
 
 Likewise, to minimize \(E[XY]\) pair the largest \(X\)-categories with
@@ -613,7 +730,8 @@ In words, given fixed marginals, we have shown:
 \begin{itemize}
 \item
   \textbf{Maximum correlation} \(r_{\text{max}}\) is achieved by
-  comonotonic (DEFINE THIS!) arrangement:
+  comonotonic (e.g.~sorting values of \(X\) and \(Y\) from largest to
+  smallest independently and pairing) arrangement:
 
   \[P_{\text{max}}(X=x_{[i]}, Y=y_{[i]}) \quad\text{in either descending or ascending order.}\]
 \item
@@ -730,9 +848,9 @@ Standard deviations:
 \]
 
 To achieve the maximum expected product \(E[XY]_{\text{max}}\), do the
-following: First \emph{sort} ranks from largest to smallest
-independently for both \(X\) and \(Y\); then \emph{pair} ranks directly
-from highest to lowest available observations.
+following: First sort ranks from largest to smallest independently for
+both \(X\) and \(Y\); then pair ranks directly from highest to lowest
+available observations.
 
 \textbf{Minimum Expectation}
 
@@ -839,7 +957,7 @@ The maximum and minimum expectations are simply:
 
 These classical bounds define feasible joint distributions given
 marginals and constrain the attainable values of \(r\). There is an
-interesting conncetion to Fréchet--Hoeffding and Boole--Fréchet
+interesting connection to Fréchet--Hoeffding and Boole--Fréchet
 Inequalities, which we note but leave for future research.\footnote{Fréchet--Hoeffding
   and Boole--Fréchet Inequalities
 
@@ -853,6 +971,18 @@ print("Hello, footnote!")
 \end{Verbatim}
 
   Or even more paragraphs and content as needed.}
+
+\section{Measurement Issues and Metrics of
+Constraint}\label{measurement-issues-and-metrics-of-constraint-1}
+
+IN THIS SECTION: ``How to define metrics (on \emph{pairs} of discrete
+probability distributions) to \emph{explain}:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+\end{enumerate}
 
 \subsection{Symmetry and the Role of
 Ties}\label{symmetry-and-the-role-of-ties}
@@ -884,8 +1014,7 @@ Although our setting is discrete, the problem is conceptually linked to
 copula-based modeling of dependence with fixed marginals. The connection
 is discussed as a direction for future work.
 
-\section{Empirical Illustration and Practical Relevance -- Monte Carlo
-Simulations}\label{empirical-illustration-and-practical-relevance-monte-carlo-simulations}
+\section{Monte Carlo Simulations}\label{monte-carlo-simulations}
 
 \subsection{Effects of Marginal
 Shapes}\label{effects-of-marginal-shapes}
