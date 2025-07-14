@@ -13,3 +13,4 @@
 *.toc
 # Do NOT ignore paper.tex or paper.docx
 .quarto.yml
+/Meetings
