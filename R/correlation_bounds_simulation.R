@@ -618,3 +618,4 @@ if (analysis$overall$properties_differ_percent == 0) {
 } else {
 	cat("affect some mathematical properties of the correlation matrix.\n")
 }
+

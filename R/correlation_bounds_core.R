@@ -298,3 +298,4 @@ probs_to_counts <- function(probs, sample_size) {
   
   return(counts)
 }
+

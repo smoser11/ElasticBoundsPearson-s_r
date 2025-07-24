@@ -208,10 +208,10 @@ The widespread use of Pearson’s $r$ with ordinal data.\
 
 ## Contributions:
 
-    1.  Theory of optimal bounds\
-    2.  Symmetry-breaking conditions\
-    3.  Empirical consequences $\leadsto$ hypo testing and significance
-    4.  Supporting tools
+1.  Theory of optimal bounds\
+2.  Symmetry-breaking conditions\
+3.  Empirical consequences $\leadsto$ hypo testing and significance
+4.  Supporting tools
 
 
 ## Possible Literature
@@ -639,14 +639,48 @@ Or analogs for $\hat{r}^2$:
 
 ## Possible "Metrics of Constraint"
 
-[TO DO: define these.  Add others?  ]
-Measures of 'asymmetry
 
-Aitchison distance (@aitc89-measures)
+### 5.7 Overlap-Based Measures of Asymmetry
 
-Entropy(?)
+In addition to Total Variation (TV) distance, other metrics can quantify the structural dissimilarity between a marginal distribution and its reverse. One natural approach is to assess the degree of **overlap** between the original distribution \( p \) and its reverse \( p^{\mathrm{rev}} \), defined by reversing the order of the categories.
 
-Total Variation(?)
+We consider three complementary measures of overlap and their complements:
+
+#### (i) Total Variation (TV) Distance
+The TV distance, already introduced in Section 5.5, quantifies the maximum absolute discrepancy between the two distributions:
+
+\[
+\text{TV}(p, p^{\mathrm{rev}}) = \frac{1}{2} \sum_{i=1}^{K} \left| p_i - p_{K+1 - i} \right|.
+\]
+
+#### (ii) Bhattacharyya Coefficient (BC) and its Complement
+The **Bhattacharyya Coefficient** provides a geometric measure of similarity:
+
+\[
+\text{BC}(p, p^{\mathrm{rev}}) = \sum_{i=1}^{K} \sqrt{ p_i \cdot p_{K+1 - i} }.
+\]
+
+Its complement, \( 1 - \text{BC} \), can be interpreted as a divergence-like measure that reflects geometric differences between the original and reversed distributions. While not a metric, it is bounded between 0 and 1, with 0 indicating perfect symmetry.
+
+#### (iii) Overlap Coefficient (OVL)
+The **Overlap Coefficient**, sometimes referred to as the Szymkiewicz–Simpson coefficient, captures the shared probability mass:
+
+\[
+\text{OVL}(p, p^{\mathrm{rev}}) = \sum_{i=1}^{K} \min\{ p_i, p_{K+1 - i} \}.
+\]
+
+The complement \( 1 - \text{OVL} \) thus reflects the fraction of mass that is not shared between the two distributions.
+
+These measures differ in their interpretive emphasis:
+- TV focuses on the total discrepancy.
+- BC captures geometric congruence.
+- OVL captures the total shared area between the distributions.
+
+In our simulation study (Section 6), we compute all three diagnostics to illustrate how marginal asymmetry correlates with asymmetry in achievable Pearson correlation bounds. These overlap-based measures are implemented in the R package `overlap` (Ridout & Linkie, 2009), which facilitates reproducible estimation and visualization.
+
+Empirically, we find that all three metrics provide consistent, interpretable diagnostics of distributional asymmetry. Using them jointly provides a robust triangulation of symmetry breaking, especially in applied contexts where ordinal variables are discretized from latent traits or ratings.
+
+
 
 ## Symmetry and the Role of Ties
 
