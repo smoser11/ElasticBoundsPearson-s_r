@@ -33,6 +33,8 @@ format:
     urlcolor: BrickRed
     link-citations: true
     fig-pos: "H"
+    pandoc:
+      from: markdown+tex_math_dollars+tex_math_single_backslash    
     include-in-header:
       text: |
         \usepackage{amsthm}
@@ -73,52 +75,6 @@ editor:
 ---
 
 
-1. **Introduction and Conceptual Framework**
-- Research motivation and objectives
-- Overview of limitations in current correlation testing with ordinal data
-
-2. **Theoretical Bounds on Correlation Coefficients**
-- Mathematical explanation of R-min and R-max
-- Elasticity and asymmetry due to marginal distributions
-- Implications for standard significance tests
-- Note on Freshet bounds anomaly (appendix or highlighted sidebar)
-
-3. **Measurement Issues and Metrics of Constraint** [TITLE?]
-- Problems with interval assumptions in ordinal categorical data
-- Alternatives to traditional scaling (psychometric, text-based)
-- Concept of boundedness and its distortion effects
-- Proposed _metrics of constraint_: Asymmetry; Aitchinson distance; Entropy(?); Total Variation(?)
-
-
-4. **Simulations and Monte Carlo Approaches**
-- Design of permutation and Monte Carlo simulations
-- Bias and error analysis under null hypotheses
-- Role of mean, skewness, variance in predicting constraint metrics
-
-5. **Empirical Illustration Using BES Data**
-- Justification for selection: a typical but not representative case
-- Application of shrinkage and constraint metrics to BES
-- Comparison to simulation outcomes
-
-6. **Implications for Applied Research and Tools**
-- Critique of statistical purism in significance testing
-	- Critique of over-reliance on significance without consideration of boundedness or constraint metrics.
-- Reframing effect size: from absolute value to bounded context
-	- $r^2$ interpretation under bounded conditions
-- RE-SCALING:
-    1. Map $r_{min}$ to -1, etc.
-    2. Map $\hat{r}^2$ to $[0,1]$, the re-scale $\hat{r}_{adj}$ by preserving sign(?)
-	- Effect on PSD and invertability of adjusted correlation matrix (NOTE: only use complete cases here so as to not 'cheat' -- @jaec09-positive; @mish09-note; @shan23-impact)
-- Practical guidance for analysts: how to assess when elastic bounds affect inference.
-- Overview of accompanying software tools or R functions developed.
-
-7. **Open Questions**
-
-8. **Conclusions**
-
-
-
-[@hard52-inequalities]
 
 ```{r setup, include=FALSE}
 
@@ -192,7 +148,16 @@ Pearson’s correlation coefficient $r$, when applied to ordinal data, is subjec
 
 \newpage
 
-# Preamble
+
+# To Do {-}
+
+-   Can $r_{min} >0$?
+-  Show $|r_{min}| \ge r_{max}$ _in the population_.  Discuss how this is often violated by _estimates_ of these quantities (Cees and BES pairs)
+-   Are there systematic biases in testing $H_0: r=0$ using t-test? (Answer with Monte Carlo simulated data?)
+-   Add: "$r_min$ is invariant to 'problem 1' (value assignment. So using ranks is actually w.l.o.g.)
+
+
+# Preamble {-}
 
 ## The 'Point':
 
@@ -221,6 +186,7 @@ The widespread use of Pearson’s $r$ with ordinal data.\
 @shih92-evaluating
 
 
+
 Grether, D. M. (1976). On the Use of Ordinal Data in Correlation Analysis. American Sociological Review, 41(5), 908–912. https://doi.org/10.2307/2094741
 
 Labovitz, S. (1967). Some observations on measurement and statistics. Social Forces, 46(2), 151–160. https://doi.org/10.2307/2574595
@@ -243,7 +209,7 @@ Robitzsch, A. (2022). On the Bias in Confirmatory Factor Analysis When Treating 
 
 @tche80-inequalities
 
-
+\newpage
 
 # Introduction and Conceptual Setting
 
@@ -396,7 +362,7 @@ Hence, to maximize $E[XY]$: pair the largest ranks of $X$ with the largest ranks
     
 - Pair as many observations of the largest $X$-category as possible with the largest $Y$-category, then next-largest, etc., until all observations are paired.
         
-- By the Hardy–Littlewood–Pólya Rearrangement Inequality [@hard52], this explicitly constructed pairing yields the maximum possible sum of product[@hard52-inequalities]s, hence maximizing $E[XY]$.
+- By the Hardy–Littlewood–Pólya Rearrangement Inequality [@hard52-inequalities], this explicitly constructed pairing yields the maximum possible sum of products, hence maximizing $E[XY]$.
     
 
 Likewise, to minimize $E[XY]$ pair the largest $X$-categories with the smallest $Y$-categories, then second-largest $X$-categories with second-smallest $Y$-categories, and so forth (anti-comonotonic ordering).   By the rearrangement inequality, this arrangement explicitly yields the minimal sum of products, hence minimizing $E[XY]$.
@@ -642,7 +608,7 @@ Or analogs for $\hat{r}^2$:
 
 ### 5.7 Overlap-Based Measures of Asymmetry
 
-In addition to Total Variation (TV) distance, other metrics can quantify the structural dissimilarity between a marginal distribution and its reverse. One natural approach is to assess the degree of **overlap** between the original distribution \( p \) and its reverse \( p^{\mathrm{rev}} \), defined by reversing the order of the categories.
+In addition to Total Variation (TV) distance, other metrics can quantify the structural dissimilarity between a marginal distribution and its reverse. One natural approach is to assess the degree of **overlap** between the original distribution $p$ and its reverse $p^{\mathrm{rev}}$, defined by reversing the order of the categories.
 
 We consider three complementary measures of overlap and their complements:
 
@@ -692,6 +658,11 @@ Empirically, we find that all three metrics provide consistent, interpretable di
 -   Equal vs. unequal numbers of categories\
 -   Symmetric vs. asymmetric marginal distributions
 
+# Implications, Issues, and Questions
+
+- Interpretation of 'effect size' (@cohe02-applied)
+- Comparison
+-  **Hypothesis testing here**
 
 
 # Monte Carlo Simulations
@@ -734,15 +705,18 @@ The *total variation distance* (TV) quantifies this asymmetry:
 We do not claim this data is representative of data-sets of ordinal variables used by social scientists.  Rather, we view it as _typical_ in that it is a real-world example possessing many of the features that would raise issues...
 
 
-# Applications and Implications
+
+
+
+# Conclusion
+
+- Summary: Theoretical bounds, symmetry-breaking conditions, and implications for applied research
+- An R package accompanies this paper, providing tools to compute max/min bounds and perform randomization-based hypothesis tests for fixed marginals. Details are available in the appendix and online.
 
 Impacts standard methods:
 
-- **PCA and Factor Analysis**: Attenuated correlations may lead to  $\leadsto$
-	-   Practical risks: over-factoring (more factors estimated than 'should be'), biased structural coefficients(?)
-
-  - **SEM**: Biased estimation of structural paths if ordinal-level
-    attenuation is ignored.
+- interpretation (e.g. 'effect size') and comparison
+- hyothesis testing
 
 Recommendations for interpreting Pearson's $r$ in applied contexts
 
@@ -750,27 +724,17 @@ Recommendations for interpreting Pearson's $r$ in applied contexts
 - Using our tools to test whether an observed $r$ is unusually strong    or weak given marginals.
 
 
-
-
-# Extensions and Open Questions
+## Extensions and Open Questions
 
 -   Role of entropy and joint uncertainty in bounding behavior\
 -   Possibility of adjusting or normalizing $r$
 -   Relation to Copula Theory (Optional)
 	- "Although our setting is discrete, the problem is conceptually linked to copula-based modeling of dependence with fixed marginals. The connection is discussed as a direction for future work."
+- 'Correction' strategies $\leadsto$ _rescaling_
+- Generalizations to higher dimensions $\leadsto$ implications for correlation matricies and Factor Analysis, SEMs, etc.
+	- **PCA and Factor Analysis**: Attenuated correlations may lead to  $\leadsto$ ractical risks: over-factoring (more factors estimated than 'should be'), biased structural coefficients(?)
+	  - **SEM**: Biased estimation of structural paths if ordinal-level attenuation is ignored.
 
-## To Do
-
--   Can $r_{min} >0$?
--   Are there systematic biases in testing $H_0: r=0$ using t-test? (Answer with Monte Carlo simulated data?)
--   Add: "$r_min$ is invariant to 'problem 1' (value assignment. So using ranks is actually w.l.o.g.)
-
-
-# Conclusion
-
-- Summary: Theoretical bounds, symmetry-breaking conditions, and implications for applied research
-- An R package accompanies this paper, providing tools to compute max/min bounds and perform randomization-based hypothesis tests for fixed marginals. Details are available in the appendix and online.
-- Future work: deeper integration with copula models, correction strategies, and generalizations to higher dimensions
 
 \newpage
 # References
@@ -780,6 +744,8 @@ Recommendations for interpreting Pearson's $r$ in applied contexts
 
 \newpage
 ```{=latex}
+
+
 \appendix
 ```
 
@@ -795,4 +761,55 @@ Recommendations for interpreting Pearson's $r$ in applied contexts
 # Appendix C: Additional Tables and Simulations
 
 -   Supplementary empirical examples, simulation results
+
+
+# Appendix D: Old Outline
+
+
+1. **Introduction and Conceptual Framework**
+- Research motivation and objectives
+- Overview of limitations in current correlation testing with ordinal 
+- Why does this matter?  $\leadsto$ consequences if these changing bounds are ignored
+
+2. **Theoretical Bounds on Correlation Coefficients**
+
+- Mathematical explanation of R-min and R-max
+- Elasticity and asymmetry due to marginal distributions
+	- Atainable and non-atainable bounds
+- Implications for standard significance tests
+- Note on Freshet bounds anomaly (appendix or highlighted sidebar)
+
+3. **Measurement Issues and Metrics of Constraint** [TITLE?]
+- Problems with interval assumptions in ordinal categorical data
+- Alternatives to traditional scaling (psychometric, text-based)
+- Concept of boundedness and its distortion effects
+- Proposed _metrics of constraint_: Asymmetry; Aitchinson distance; Entropy(?); Total Variation(?)
+
+
+4. **Simulations and Monte Carlo Approaches**
+- Design of permutation and Monte Carlo simulations
+- Bias and error analysis under null hypotheses
+- Role of mean, skewness, variance in predicting constraint metrics
+
+5. **Empirical Illustration Using BES Data**
+- Justification for selection: a typical but not representative case
+- Application of shrinkage and constraint metrics to BES
+- Comparison to simulation outcomes
+
+6. **Implications for Applied Research and Tools**
+- Critique of statistical purism in significance testing
+	- Critique of over-reliance on significance without consideration of boundedness or constraint metrics.
+- Reframing effect size: from absolute value to bounded context
+	- $r^2$ interpretation under bounded conditions
+- RE-SCALING:
+    1. Map $r_{min}$ to -1, etc.
+    2. Map $\hat{r}^2$ to $[0,1]$, the re-scale $\hat{r}_{adj}$ by preserving sign(?)
+	- Effect on PSD and invertability of adjusted correlation matrix (NOTE: only use complete cases here so as to not 'cheat' -- @jaec09-positive; @mish09-note; @shan23-impact)
+- Practical guidance for analysts: how to assess when elastic bounds affect inference.
+- Overview of accompanying software tools or R functions developed.
+
+7. **Open Questions**
+
+8. **Conclusions**
+
 
