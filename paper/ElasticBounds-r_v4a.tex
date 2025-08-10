@@ -300,20 +300,335 @@ The widespread use of Pearson's \(r\) with ordinal data.\\
   (permutation/ randomization tests)
 \end{enumerate}
 
-\subsection{Contributions:}\label{contributions}
+\textbf{Proposed Section Structure --- Unified Draft Outline}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{1.
+Introduction}}{1. Introduction}}\label{introduction}
+
+\begin{itemize}
 \item
-  Theory of optimal bounds\\
+  \textbf{Purpose:} Introduce the problem and why it matters.
 \item
-  Symmetry-breaking conditions\\
+  Motivation: Researchers assume \emph{r} ∈ {[}--1, 1{]} is attainable
+  for any data, but discrete marginals constrain attainable range.
 \item
-  Empirical consequences \(\leadsto\) hypo testing and significance
+  Consequences: Misinterpretation of effect sizes, misleading hypothesis
+  tests, cross-study comparison issues.
 \item
-  Supporting tools
-\end{enumerate}
+  Contributions:
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \item
+    Theoretical derivation and characterization of attainable bounds.
+  \item
+    Metrics to quantify constraint and asymmetry.
+  \item
+    Rescaling approaches for interpretation.
+  \item
+    Illustration through simulation and applied example (BES data).
+  \end{enumerate}
+\item
+  \textbf{Status:} Needs drafting --- can be adapted from your existing
+  explanatory notes and meeting summaries.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{2. Notation and
+Definitions}}{2. Notation and Definitions}}\label{notation-and-definitions}
+
+\begin{itemize}
+\item
+  Define:
+
+  \begin{itemize}
+  \item
+    Marginal distributions.
+  \item
+    \emph{rₘᵢₙ} (minimum attainable correlation), \emph{rₘₐₓ} (maximum
+    attainable correlation).
+  \item
+    Co-monotonic and anti-co-monotonic arrangements.
+  \item
+    ``Reference interval'' in correlation space.
+  \item
+    Metrics of constraint: width (\emph{rₘₐₓ -- rₘᵢₙ}), asymmetry index.
+  \end{itemize}
+\item
+  Clarify measurement levels (ordinal vs.~interval) and implications for
+  \emph{r²}.
+\item
+  \textbf{Status:} Partially drafted in Cees's Section 3--4 notes.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{3. Theoretical
+Results}}{3. Theoretical Results}}\label{theoretical-results}
+
+\begin{itemize}
+\item
+  \textbf{3.1 Worked Examples}
+
+  \begin{itemize}
+  \item
+    Table 2 (4-category, 12 obs) --- shows symmetry and asymmetry cases.
+  \item
+    Patterns where \emph{rₘᵢₙ} ≠ --\emph{rₘₐₓ}.
+  \item
+    Cases with \emph{rₘₐₓ} = 1 but \emph{rₘᵢₙ} \textgreater{} --1, and
+    vice versa.
+  \item
+    \textbf{Status:} Table 2 drafted; text explanation partial.
+  \end{itemize}
+\item
+  \textbf{3.2 General Conditions for Symmetry}
+
+  \begin{itemize}
+  \item
+    Uniform/symmetric marginals produce symmetry.
+  \item
+    Frequency imbalances cause asymmetry.
+  \item
+    \textbf{Status:} Partially explained in meetings; needs formal
+    statement.
+  \end{itemize}
+\item
+  \textbf{3.3 Extreme Values Not at ±1}
+
+  \begin{itemize}
+  \item
+    Theoretical explanation for why perfect correlation may be
+    unattainable.
+  \item
+    \textbf{Status:} Requires concise proof/derivation.
+  \end{itemize}
+\item
+  \textbf{3.4 Literature Connections}
+
+  \begin{itemize}
+  \item
+    Relation to Fréchet--Hoeffding bounds, medical ``reference
+    intervals''.
+  \item
+    \textbf{Status:} Notes exist; needs integration.
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{4. Rescaling and
+Interpretation}}{4. Rescaling and Interpretation}}\label{rescaling-and-interpretation}
+
+\begin{itemize}
+\item
+  \textbf{4.1 Why Rescale?}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Without rescaling, effect sizes misleading when bounds ≠ ±1.
+  \end{itemize}
+\item
+  \textbf{4.2 Rescaling Methods}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \item
+    Linear transform to {[}0, 1{]} using \emph{rₘᵢₙ} and \emph{rₘₐₓ}.
+  \item
+    Transform then square to yield ratio-level shared variance.
+  \item
+    Optional asymmetry-aware adjustments.
+  \end{enumerate}
+\item
+  \textbf{4.3 Guidance for Applied Use}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    When to use each method; pitfalls.
+  \end{itemize}
+\item
+  \textbf{Status:} Initial logic drafted by Scott; needs fleshing out
+  and examples.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{5. Metrics of
+Constraint}}{5. Metrics of Constraint}}\label{metrics-of-constraint}
+
+\begin{itemize}
+\item
+  Bound width (\emph{rₘₐₓ -- rₘᵢₙ}).
+\item
+  Asymmetry index (normalized difference in absolute magnitude).
+\item
+  Possible uses:
+
+  \begin{itemize}
+  \item
+    Diagnostic indicator in applied analysis.
+  \item
+    Adjusted effect size interpretation.
+  \end{itemize}
+\item
+  \textbf{Status:} Concept defined; formulae/examples still to be
+  finalized.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{6. Implications, Issues, and
+Questions}}{6. Implications, Issues, and Questions}}\label{implications-issues-and-questions}
+
+\begin{itemize}
+\item
+  \textbf{Interpretation of `Effect Size'}
+
+  \begin{itemize}
+  \item
+    Revisiting Cohen's benchmarks in light of constrained bounds.
+  \item
+    Risk of over- or under-stating association.
+  \end{itemize}
+\item
+  \textbf{Comparison Across Studies / Measures}
+
+  \begin{itemize}
+  \item
+    Non-comparable bounds across datasets or variable codings.
+  \item
+    Need for bound-aware effect size metrics.
+  \end{itemize}
+\item
+  \textbf{Hypothesis Testing}
+
+  \begin{itemize}
+  \item
+    Why p-values based on {[}--1, 1{]} bounds may mislead.
+  \item
+    Rescaled test statistics.
+  \item
+    Adjusted null distributions (via permutation or simulation).
+  \end{itemize}
+\item
+  \textbf{Status:} Discussion exists in fragments; needs integration.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{7. Simulation Study (Monte
+Carlo)}}{7. Simulation Study (Monte Carlo)}}\label{simulation-study-monte-carlo}
+
+\begin{itemize}
+\item
+  \textbf{Purpose:} Explore patterns noted in Sections 3--6 under random
+  and controlled marginals.
+\item
+  Design:
+
+  \begin{itemize}
+  \item
+    Random marginals vs.~fixed marginals.
+  \item
+    Vary number of categories and sample size.
+  \item
+    Compute \emph{rₘᵢₙ}, \emph{rₘₐₓ}, constraint metrics.
+  \end{itemize}
+\item
+  Output:
+
+  \begin{itemize}
+  \item
+    Distribution of bound widths and asymmetry.
+  \item
+    Frequency of perfect symmetry.
+  \item
+    Scatterplots of observed \emph{r̂} vs.~attainable range.
+  \end{itemize}
+\item
+  \textbf{Status:} Simulation code partially written by Scott; needs
+  full implementation.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{8. Empirical Illustration (BES
+Data)}}{8. Empirical Illustration (BES Data)}}\label{empirical-illustration-bes-data}
+
+\begin{itemize}
+\item
+  Select variable pairs with constrained bounds.
+\item
+  Show:
+
+  \begin{itemize}
+  \item
+    Raw \emph{r̂}.
+  \item
+    Theoretical bounds.
+  \item
+    Rescaled \emph{r̂}.
+  \item
+    Rescaled \emph{r̂²}.
+  \end{itemize}
+\item
+  Highlight cases where rescaling changes substantive interpretation.
+\item
+  \textbf{Status:} Not yet started.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{9. Discussion and
+Implications}}{9. Discussion and Implications}}\label{discussion-and-implications}
+
+\begin{itemize}
+\item
+  Summarize:
+
+  \begin{itemize}
+  \item
+    Main theoretical findings.
+  \item
+    Key applied consequences.
+  \end{itemize}
+\item
+  Recommendations:
+
+  \begin{itemize}
+  \item
+    Bound-aware effect size interpretation.
+  \item
+    Bound-aware hypothesis testing.
+  \item
+    Possible inclusion in statistical software.
+  \end{itemize}
+\item
+  Open questions and extensions.
+\item
+  \textbf{Status:} Will be final writing task.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{Appendices}}{Appendices}}\label{appendices}
+
+\begin{itemize}
+\item
+  Proofs of theoretical statements.
+\item
+  Extended examples/tables.
+\item
+  Simulation details and R code.
+\item
+  \textbf{Status:} Will grow as paper is drafted.
+\end{itemize}
 
 \subsection{Possible Literature}\label{possible-literature}
 
@@ -394,13 +709,13 @@ actual range of attainable values of correlations between orcats, which
 we address in the subsequent section. In section 5 we assess the
 magnitude of these constraining effects on two different sets of data.
 One is a typical survey dataset in which many of the variables are
-ordinal categorical, the orcatorcat2019 British Election Study. The
+ordinal categorical, the orcatorcat 2019 British Election Study. The
 second consists of data derived from simulations covering all possible
 relevant conditions for pairs of ordered categorical variables. We use
 both sets of data to explore conditions that influence the magnitude of
-the constraining effect. Section 6 concludes by summarizing the
-findings, by elaborating the consequences for applied research, and by
-discussing directions for further research.
+the constraining effect. Section Section~\ref{sec-MCsim} concludes by
+summarizing the findings, by elaborating the consequences for applied
+research, and by discussing directions for further research.
 
 \subsection{On ordinal-categorical variables (orcats), their level of
 measurement and their common use in quantitative
@@ -660,9 +975,9 @@ observations about rmin and rmax.:
 \item
   The values of rmin and rmax are not constant across all examples, and
   not even across correlations involving a specific variable (see
-  examples (a) and (b) which involve the same X-variable). The variation
-  in the values of the bounds of r is across pairs of variables. In
-  other words, the bounds of r are specific for each pair.
+  examples (a) and (b) which involve the same \(X\)-variable). The
+  variation in the values of the bounds of r is across pairs of
+  variables. In other words, the bounds of r are specific for each pair.
 \item
   rmin max can be -1, and rmax can be 1, but neither of these values
   implies the other (as seen in examples (b) and (c). The combination of
@@ -1133,7 +1448,9 @@ probability distributions) to \emph{explain}:
 \item
   \[\frac{ r_{max}-r_{min}}{2}\]
 \item
-  \[1-r_{max}\] 3.\[|-1-r_{min}|\]
+  \[1-r_{max}\]
+\item
+  \[|-1-r_{min}|\]
 \end{enumerate}
 
 Or analogs for \(\hat{r}^2\):
@@ -1145,13 +1462,15 @@ Or analogs for \(\hat{r}^2\):
   \[\frac{ r_{max}^2-r_{min}^2}{2}\] 1a.
   \[\frac{ (r_{max}-r_{min})^2}{2}\]
 \item
-  \[1-r_{max}^2\] 3.\[1-r_{min}^2\]
+  \[1-r_{max}^2\]
+\item
+  \[1-r_{min}^2\]
 \end{enumerate}
 
 \subsection{Possible ``Metrics of
 Constraint''}\label{possible-metrics-of-constraint}
 
-\subsubsection{5.7 Overlap-Based Measures of
+\subsubsection{Overlap-Based Measures of
 Asymmetry}\label{overlap-based-measures-of-asymmetry}
 
 In addition to Total Variation (TV) distance, other metrics can quantify
@@ -1205,7 +1524,7 @@ These measures differ in their interpretive emphasis: - TV focuses on
 the total discrepancy. - BC captures geometric congruence. - OVL
 captures the total shared area between the distributions.
 
-In our simulation study (Section 6), we compute all three diagnostics to
+In our simulation study (Section ), we compute all three diagnostics to
 illustrate how marginal asymmetry correlates with asymmetry in
 achievable Pearson correlation bounds. These overlap-based measures are
 implemented in the R package \texttt{overlap} (Ridout \& Linkie, 2009),
@@ -1241,7 +1560,7 @@ Conditions}\label{special-cases-and-boundary-conditions}
 \end{itemize}
 
 \section{Implications, Issues, and
-Questions}\label{implications-issues-and-questions}
+Questions}\label{implications-issues-and-questions-1}
 
 \begin{itemize}
 \tightlist
@@ -1254,17 +1573,63 @@ Questions}\label{implications-issues-and-questions}
   \textbf{Hypothesis testing here}
 \end{itemize}
 
-\section{Monte Carlo Simulations}\label{monte-carlo-simulations}
+\section{Monte Carlo Simulations}\label{sec-MCsim}
 
-\begin{itemize}
-\tightlist
-\item
-  What is the `universe of possible' (data)?
-\end{itemize}
-
-\subsection{\texorpdfstring{Probabilistic modeling over the
-\(r \in [r_{\min}, r_{\max}]\) interval
-(?)}{Probabilistic modeling over the r \textbackslash in {[}r\_\{\textbackslash min\}, r\_\{\textbackslash max\}{]} interval (?)}}\label{probabilistic-modeling-over-the-r-in-r_min-r_max-interval}
+To investigate factors that affect the bounds of attainable values of r
+and thus the strength of constraints on r exerted by marginal
+distributions we use two different sets of data. Our first dataset is
+simulation generated and covers in principle all possible combinations
+of marginal distributions for two orcats with given numbers of
+categories and given n.~We simulate orcats containing, respectively, 4,
+5, 6, 7, 10 and 11 categories, these being by far the most common in
+empirical data deriving from survey studies. For each of these we
+generate a large number of variables, each with its own simulated
+univariate distribution, and thus also its own form (modality, symmetry,
+etc.), mean, variance, skew and kurtosis as follows. {[}insert
+description, detailing n, how many univariate distributions we generate
+for each number of categories; how to populate the categories, whether
+we impose distributional characteristics such as normality, modality,
+skew etc. Btw: my preference would be to impose as little as possible,
+and derive characteristics such as mean, variance, skew, kurtosis from
+the distributions generated. {]} We subsequently randomly select pairs
+of simulated variables and determine for each rmin, rmax, C1 and C2.
+From the resulting simulated pairs of orcats we delete the cases in
+which one, or both of the variables have zero variance. This results in
+a dataset with n= xxx {[}insert very large number{]} that forms the
+basis of subsequent analyses. Further details are specified in Appendix
+3. This simulated dataset constitutes, within the bounds of granularity
+of the procedure, a random sample all possible combinations of
+univariate distributions of pairs of orcats, and can therefore be used
+as an adequate basis for investigating functional relationships between
+sundry properties of pairs of orcats and the range of attainable values
+of r for those pairs. Although this simulated dataset randomly
+represents all possible combinations of univariate distributions of
+pairs of orcats, it cannot be considered to be a random sample of pairs
+of orcats that applied researchers would encounter in actual, empirical
+data such as derived from, e.g., mass surveys. This is because, when
+designing survey questions, researchers tend to avoid formulations that
+they expect to yield little variance in the responses. Therefore, we use
+a second dataset to investigate constraints on the attainable range of
+values of r, that is derived from the British Election Study 2019.
+{[}fn: insert details about BES2019{]}. In this study we identified xxx
+orcats, which define 7503 pairs, for each of which we calculated
+pair-wise distributional characteristics including rmin, rmax, C1 and
+C2. Further details on this dataset are provided in Appendix 4.
+Obviously, the orcats in BES2019 are not a random sample from the
+contents of all socio-political mass surveys in Britain in 2019, let
+alone of those in wider areas such as the developed western world, or in
+other years. But the BES can sensibly be regarded as typical for such
+studies, which include (national) election studies, general social
+surveys, and many public opinion and marketing surveys. As such,
+findings based on this dataset derived from the BES can sensibly be
+regarded as typical for what applied researchers in other countries will
+encounter in their survey data. These two datasets will be used to
+address, in the subsequent sections, questions with regard to: -
+Distributions of rmin, rmax and measures of overall constraint of r by
+marginals - Factors affecting rmin, rmax and overall constraint of r -
+Consequences of constrained correlations in applied research, including
+for descriptive purposes and hypothesis testing - Possibilities for
+reducing undesired consequences of constrained correlations
 
 \subsection{Effects of Marginal
 Shapes}\label{effects-of-marginal-shapes}
