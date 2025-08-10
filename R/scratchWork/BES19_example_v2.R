@@ -10,7 +10,7 @@ library(dplyr)
 library(ggplot2)
 library(gridExtra)
 library(readstata13)
-bes_data <- read.dta13("correlation and other data about pairs of BES2019 variables.dta")
+bes_data <- read.dta13("./data/correlation and other data about pairs of BES2019 variables.dta")
 
 # Source the required functions
 source("correlation_bounds_core.R")
@@ -192,6 +192,8 @@ demonstrate_batch_processing <- function(n_rows = 5) {
 	return(summary_report)
 }
 
+ ggplot(all_results, aes(x=r_min, y=r_max)) + geom_point()
+
 # Run demonstrations if this file is executed directly
 if (!interactive()) {
 	cat("========================================\n")
@@ -308,7 +310,7 @@ visualize_corr_bounds(all_results)
 
 dd <- left_join(bes_data, all_results, by= c("var1", "var2"))
 
-write.csv(as.data.frame(dd), file = "BESpairs_Rminmax.csv")
+write.csv(as.data.frame(dd), file = "./data/BESpairs_Rminmax.csv")
 
 library(readr)
 BESpairs_Rminmax <- read_csv("BESpairs_Rminmax.csv")

@@ -120,7 +120,7 @@ library(dplyr)
 
 # Source the core functions
 # Adjust the path as needed
-source("correlation_bounds_core.R")
+source("./R/correlation_bounds_core.R")
 
 #' Calculate correlation bounds for a pair of ordinal variables
 #'
@@ -545,3 +545,126 @@ plot_correlation_bounds_scatter <- function(summary_df, plot_type = c("bounds", 
 	
 	return(p)
 }
+
+
+
+
+
+
+
+
+############
+
+# Load required libraries
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
+
+# Source the required functions (assuming you have these files)
+source("./R/correlation_bounds_core.R")
+source("./R/correlation_bounds_bes.R")
+
+# Step 1: Calculate bounds for all variable pairs
+# (This may take some time depending on your dataset size)
+cat("Calculating correlation bounds for all BES variable pairs...\n")
+all_results <- analyze_all_corr_bounds(bes_data, nsim = 500, progress = TRUE)
+
+# Step 2: Basic scatter plot of r_min vs r_max
+p1 <- ggplot(all_results, aes(x = r_min, y = r_max)) +
+	geom_point(alpha = 0.6, size = 1) +
+	geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "red") +
+	geom_hline(yintercept = 0, linetype = "dotted", color = "gray") +
+	geom_vline(xintercept = 0, linetype = "dotted", color = "gray") +
+	labs(title = "Theoretical Correlation Bounds for BES Variable Pairs",
+		 subtitle = "Each point represents one pair of ordinal variables",
+		 x = "Minimum Possible Correlation (r_min)",
+		 y = "Maximum Possible Correlation (r_max)") +
+	theme_minimal() +
+	coord_equal()
+
+print(p1)
+
+# Step 3: Color by observed correlation
+p2 <- ggplot(all_results, aes(x = r_min, y = r_max, color = observed_r)) +
+	geom_point(alpha = 0.7, size = 1.5) +
+	geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "black") +
+	scale_color_gradient2(low = "blue", mid = "white", high = "red", 
+						  midpoint = 0, name = "Observed\nCorrelation") +
+	labs(title = "Correlation Bounds Colored by Observed Correlation",
+		 x = "Minimum Possible Correlation (r_min)",
+		 y = "Maximum Possible Correlation (r_max)") +
+	theme_minimal() +
+	coord_equal()
+
+print(p2)
+
+# Step 4: Bounds range analysis
+all_results$bounds_range <- all_results$r_max - all_results$r_min
+all_results$bounds_center <- (all_results$r_max + all_results$r_min) / 2
+
+p3 <- ggplot(all_results, aes(x = bounds_center, y = bounds_range)) +
+	geom_point(alpha = 0.6, size = 1) +
+	labs(title = "Range vs Center of Correlation Bounds",
+		 subtitle = "Shows asymmetry (center ≠ 0) and constraint strength (range)",
+		 x = "Center of Bounds ((r_max + r_min)/2)",
+		 y = "Range of Bounds (r_max - r_min)") +
+	geom_vline(xintercept = 0, linetype = "dotted", color = "gray") +
+	theme_minimal()
+
+print(p3)
+
+# Step 5: Asymmetry analysis
+all_results$asymmetry <- all_results$r_max + all_results$r_min
+
+p4 <- ggplot(all_results, aes(x = asymmetry)) +
+	geom_histogram(bins = 50, fill = "skyblue", alpha = 0.7, color = "black") +
+	geom_vline(xintercept = 0, linetype = "dashed", color = "red", size = 1) +
+	labs(title = "Distribution of Bounds Asymmetry",
+		 subtitle = "r_max + r_min = 0 indicates symmetric bounds",
+		 x = "Asymmetry (r_max + r_min)",
+		 y = "Count of Variable Pairs") +
+	theme_minimal()
+
+print(p4)
+
+# Step 6: Color by number of categories
+p5 <- ggplot(all_results, aes(x = r_min, y = r_max, color = var1_categories + var2_categories)) +
+	geom_point(alpha = 0.7, size = 1.5) +
+	geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "black") +
+	scale_color_viridis_c(name = "Total\nCategories") +
+	labs(title = "Correlation Bounds by Total Number of Categories",
+		 x = "Minimum Possible Correlation (r_min)",
+		 y = "Maximum Possible Correlation (r_max)") +
+	theme_minimal() +
+	coord_equal()
+
+print(p5)
+
+# Step 7: Create a comprehensive summary plot
+p_summary <- grid.arrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
+
+# Step 8: Summary statistics
+cat("\nSummary Statistics for Correlation Bounds:\n")
+cat("Number of variable pairs:", nrow(all_results), "\n")
+cat("r_min range:", round(range(all_results$r_min), 3), "\n")
+cat("r_max range:", round(range(all_results$r_max), 3), "\n")
+cat("Mean bounds range:", round(mean(all_results$bounds_range), 3), "\n")
+cat("Percentage with asymmetric bounds (r_max + r_min ≠ 0):", 
+	round(100 * mean(abs(all_results$asymmetry) > 0.01), 1), "%\n")
+
+# Step 9: Identify interesting cases
+cat("\nInteresting Cases:\n")
+# Most constrained (smallest range)
+most_constrained <- all_results[which.min(all_results$bounds_range), ]
+cat("Most constrained pair: Var", most_constrained$var1, "vs Var", most_constrained$var2,
+	"with range", round(most_constrained$bounds_range, 3), "\n")
+
+# Most asymmetric
+most_asymmetric <- all_results[which.max(abs(all_results$asymmetry)), ]
+cat("Most asymmetric pair: Var", most_asymmetric$var1, "vs Var", most_asymmetric$var2,
+	"with asymmetry", round(most_asymmetric$asymmetry, 3), "\n")
+
+# Largest range
+largest_range <- all_results[which.max(all_results$bounds_range), ]
+cat("Largest range pair: Var", largest_range$var1, "vs Var", largest_range$var2,
+	"with range", round(largest_range$bounds_range, 3), "\n")

@@ -170,13 +170,235 @@ The widespread use of Pearson’s $r$ with ordinal data.\
 
 
 
+**Proposed Section Structure — Unified Draft Outline**
 
-## Contributions:
+* * *
 
-1.  Theory of optimal bounds\
-2.  Symmetry-breaking conditions\
-3.  Empirical consequences $\leadsto$ hypo testing and significance
-4.  Supporting tools
+### **1. Introduction**
+
+* **Purpose:** Introduce the problem and why it matters.
+    
+* Motivation: Researchers assume _r_ ∈ [–1, 1] is attainable for any data, but discrete marginals constrain attainable range.
+    
+* Consequences: Misinterpretation of effect sizes, misleading hypothesis tests, cross-study comparison issues.
+    
+* Contributions:
+    
+    1. Theoretical derivation and characterization of attainable bounds.
+        
+    2. Metrics to quantify constraint and asymmetry.
+        
+    3. Rescaling approaches for interpretation.
+        
+    4. Illustration through simulation and applied example (BES data).
+        
+* **Status:** Needs drafting — can be adapted from your existing explanatory notes and meeting summaries.
+    
+
+* * *
+
+### **2. Notation and Definitions**
+
+* Define:
+    
+    * Marginal distributions.
+        
+    * _rₘᵢₙ_ (minimum attainable correlation), _rₘₐₓ_ (maximum attainable correlation).
+        
+    * Co-monotonic and anti-co-monotonic arrangements.
+        
+    * “Reference interval” in correlation space.
+        
+    * Metrics of constraint: width (_rₘₐₓ – rₘᵢₙ_), asymmetry index.
+        
+* Clarify measurement levels (ordinal vs. interval) and implications for _r²_.
+    
+* **Status:** Partially drafted in Cees’s Section 3–4 notes.
+    
+
+* * *
+
+### **3. Theoretical Results**
+
+* **3.1 Worked Examples**
+    
+    * Table 2 (4-category, 12 obs) — shows symmetry and asymmetry cases.
+        
+    * Patterns where _rₘᵢₙ_ ≠ –_rₘₐₓ_.
+        
+    * Cases with _rₘₐₓ_ = 1 but _rₘᵢₙ_ > –1, and vice versa.
+        
+    * **Status:** Table 2 drafted; text explanation partial.
+        
+* **3.2 General Conditions for Symmetry**
+    
+    * Uniform/symmetric marginals produce symmetry.
+        
+    * Frequency imbalances cause asymmetry.
+        
+    * **Status:** Partially explained in meetings; needs formal statement.
+        
+* **3.3 Extreme Values Not at ±1**
+    
+    * Theoretical explanation for why perfect correlation may be unattainable.
+        
+    * **Status:** Requires concise proof/derivation.
+        
+* **3.4 Literature Connections**
+    
+    * Relation to Fréchet–Hoeffding bounds, medical “reference intervals”.
+        
+    * **Status:** Notes exist; needs integration.
+        
+
+* * *
+
+### **4. Rescaling and Interpretation**
+
+* **4.1 Why Rescale?**
+    
+    * Without rescaling, effect sizes misleading when bounds ≠ ±1.
+        
+* **4.2 Rescaling Methods**
+    
+    1. Linear transform to [0, 1] using _rₘᵢₙ_ and _rₘₐₓ_.
+        
+    2. Transform then square to yield ratio-level shared variance.
+        
+    3. Optional asymmetry-aware adjustments.
+        
+* **4.3 Guidance for Applied Use**
+    
+    * When to use each method; pitfalls.
+        
+* **Status:** Initial logic drafted by Scott; needs fleshing out and examples.
+    
+
+* * *
+
+### **5. Metrics of Constraint**
+
+* Bound width (_rₘₐₓ – rₘᵢₙ_).
+    
+* Asymmetry index (normalized difference in absolute magnitude).
+    
+* Possible uses:
+    
+    * Diagnostic indicator in applied analysis.
+        
+    * Adjusted effect size interpretation.
+        
+* **Status:** Concept defined; formulae/examples still to be finalized.
+    
+
+* * *
+
+### **6. Implications, Issues, and Questions**
+
+* **Interpretation of 'Effect Size'**
+    
+    * Revisiting Cohen’s benchmarks in light of constrained bounds.
+        
+    * Risk of over- or under-stating association.
+        
+* **Comparison Across Studies / Measures**
+    
+    * Non-comparable bounds across datasets or variable codings.
+        
+    * Need for bound-aware effect size metrics.
+        
+* **Hypothesis Testing**
+    
+    * Why p-values based on [–1, 1] bounds may mislead.
+        
+    * Rescaled test statistics.
+        
+    * Adjusted null distributions (via permutation or simulation).
+        
+* **Status:** Discussion exists in fragments; needs integration.
+    
+
+* * *
+
+### **7. Simulation Study (Monte Carlo)**
+
+* **Purpose:** Explore patterns noted in Sections 3–6 under random and controlled marginals.
+    
+* Design:
+    
+    * Random marginals vs. fixed marginals.
+        
+    * Vary number of categories and sample size.
+        
+    * Compute _rₘᵢₙ_, _rₘₐₓ_, constraint metrics.
+        
+* Output:
+    
+    * Distribution of bound widths and asymmetry.
+        
+    * Frequency of perfect symmetry.
+        
+    * Scatterplots of observed _r̂_ vs. attainable range.
+        
+* **Status:** Simulation code partially written by Scott; needs full implementation.
+    
+
+* * *
+
+### **8. Empirical Illustration (BES Data)**
+
+* Select variable pairs with constrained bounds.
+    
+* Show:
+    
+    * Raw _r̂_.
+        
+    * Theoretical bounds.
+        
+    * Rescaled _r̂_.
+        
+    * Rescaled _r̂²_.
+        
+* Highlight cases where rescaling changes substantive interpretation.
+    
+* **Status:** Not yet started.
+    
+
+* * *
+
+### **9. Discussion and Implications**
+
+* Summarize:
+    
+    * Main theoretical findings.
+        
+    * Key applied consequences.
+        
+* Recommendations:
+    
+    * Bound-aware effect size interpretation.
+        
+    * Bound-aware hypothesis testing.
+        
+    * Possible inclusion in statistical software.
+        
+* Open questions and extensions.
+    
+* **Status:** Will be final writing task.
+    
+
+* * *
+
+### **Appendices**
+
+* Proofs of theoretical statements.
+    
+* Extended examples/tables.
+    
+* Simulation details and R code.
+    
+* **Status:** Will grow as paper is drafted.
+    
 
 
 ## Possible Literature
@@ -213,81 +435,182 @@ Robitzsch, A. (2022). On the Bias in Confirmatory Factor Analysis When Treating 
 
 # Introduction and Conceptual Setting
 
-In this article we elaborate why correlations involving ordered-categorical variables are generally ‘constrained’, which means that their attainable maximum and minimum values are not +1 and -1, as is often thought, but between values that have to be calculated for each pair of variables.
-We assess the magnitude of these constraints in fictitious as well as empirical data and analyse under which conditions they are most severe.
-The article is accompanied by a software tool in `R:` that allows applied researchers to easily assess the extent of the problem in their own data.
-The use of product-moment correlations (also known as Pearson correlations) to assess relationships between ordered-categorical variables –henceforth referred to as ordcats– is widespread and widely condoned in empirical studies, in spite of such variables not being metric while the product-moment correlation assumes that they are.
-We do not focus on this problem from an obsessive desire for methodological purity, were it only because many statistical procedures are quite robust for violations of their assumptions \[fn: examples?\]
-.
-Instead, we draw attention to a problematic consequence of this violation of assumptions that, as far as we know, has been rarely recognised in the applied literature although it is well-known in the theoretical statistical literature.
-This is the problem that correlation coefficients involving ordcats are constrained in their range which may make them mutually incomparable and may lead to further problems downstream the analytical process.
-This article proceeds as follows.
-We start by briefly elaborating the character of ordinal categorical variables (ordcats), why they are generally not regarded as being metric, and why, in spite of that, they are nevertheless very frequently used in statistical procedures that assume metric level data.
-We then proceed to show why correlations based on ordcats tend to be constrained, which implies that their range is smaller than from -1 to +1, and why this is problematic in applied research.
-This raises the question how to determine the actual range of correlations between ordcats, which we address in the subsequent section.
-In section 5 we assess the magnitude of these constraining effects on 7503 correlations between 123 ordcats from a mass survey that typically gives rise ordered categorical variables (ordcats), the British Election Study.
-We use the same data to explore conditions that influence the magnitude of the constraining effect.
 
-\[Other sections in between?\]
-In the concluding section we discuss implications of our findings, suggestions for dealing with this problem for applied researchers, and directions for further research.
+In this article we elaborate why correlations involving ordered-categorical variables are generally ‘constrained’, which means that their attainable maximum and minimum values are rarely +1 and -1, as is often thought, but values that have to be calculated for each pair of variables. We assess the magnitude of these constraints in fictitious as well as empirical data and analyse under which conditions they are most severe. The article is accompanied by a software tool in R: that allows applied researchers to easily assess the extent of the problem in their own data. 
+The use of product-moment correlations (also known as Pearson correlations) to assess linear relationships between ordered-categorical variables –henceforth referred to as orcats– is widespread and widely condoned in empirical studies, in spite of such variables not being metric while the product-moment correlation assumes that they are. We do not focus on this problem from an obsessive desire for methodological purity, were it only because many statistical procedures are quite robust for violations of their assumptions [fn: examples?]. Instead, we draw attention to problematic consequences of this violation of assumptions that, as far as we know, have been rarely recognised in the applied literature although they are well-known in the theoretical statistical literature. This is the problem that correlation coefficients involving orcats are constrained in their range which makes them mutually incomparable, leading to problems  in hypothesis testing and in analytical procedures that use correlations as their input. 
+This article proceeds as follows. We start by briefly elaborating the character of ordinal categorical variables (orcats), why they are generally not regarded as being metric, and why, in spite of that, they are nevertheless very frequently used in statistical procedures that assume metric level data. We then proceed in section 3 to show why correlations based on orcats tend to be constrained, which implies that their range is smaller than from -1 to +1, and why this is problematic in applied research. This raises the question how to determine the actual range of attainable values of correlations between orcats, which we address in the subsequent section. In section 5 we assess the magnitude of these constraining effects on two different sets of data. One is a typical survey dataset in which many of the variables are ordinal categorical, the orcatorcat 2019 British Election Study. The second consists of data derived from simulations covering all possible relevant conditions for pairs of ordered categorical variables. We use both sets of data to explore conditions that influence the magnitude of the constraining effect. Section @sec-MCsim concludes by summarizing the findings, by elaborating the consequences for applied research, and by discussing directions for further research.
 
-## On ordinal-categorical variables (ordcats), their level of measurement and their common use in quantitative analyses
 
-Ordcats are ordinal variables with a relatively small number of categories (or ranks) compared to the number of cases, thus resulting in partial orderings of cases.
-Although they can be found in all field of quantitative inquiry they are ubiquitous in data from standardised social science surveys.
-Likert items and rating scales \[describe in fn Likert items and rating scales, add that there are yet other formats such as semantic-differential scales that also yield ordcats\] are among the most favoured ways to elicit responses in such surveys.
-These survey-question formats have most often between 3 and 11 ordinal categories \[fn (or not?) about ANES ‘feeling thermometer’ which has 101 categories but in view of the clustering of responses around only some values can perhaps better be regarded as a 13-point ordcat\].
-The numerical values used to distinguish the categories of ordcats are most often consecutive integers, starting with either 0 or 1, and in applied survey data analyses it is common to interpret these values as scores.
-A frequently issued objection against this so-called equal-distance scoring practice \[fn: add references\] is that it implies that the difference in meaning between, e.g., categories 1 and 2 is equal to that between categories 3 and 4, etc., without clear justification.
-In other words, it implies an interval-level interpretation by fiat.
-\[add fn: In principle it is quite possible to assign values to survey-based ordcats that have a clear empirical justification, for example by calibrating against psychophysical measurements (cf., Lodge; Tillie; others), or against the results of psychometric/linguistic analysis of verbal response labels (cf Sönning 2024).
-However, such procedures are rarely integrated in applied survey research because of their high costs.\] The consequence of this objection is that ordcats should be considered ordinal variables and that they should not be analysed with statistical procedures requiring metric data.
-In spite of this objection we find that ordcats are very commonly analysed with product-moment correlations or with procedures that build upon such correlations.
-We find this clearly exhibited in published articles in high-ranking academic journals \[fn: explain how we did this\] and in highly regarded textbooks where examples are given of the use of correlations between ordcats as input for procedures such as PCA, FA or SEM \[fn: examples: Kline; Byrne; xxx\].
-This practice is so established that it is occasionally rationalised by referring to ordcats as being ‘quasi-interval level’ measures \[fn: reference\].
-One can, however, also find some justifications in the literature for this practice, which emphasises the robustness of correlation coefficients for violations of variables involved .
-Labovitz (1967, 1970) in particular has compared correlations between ordcats using the equal-scoring distance with a monotonic random scoring (a procedure that only assumes ordinality between categories).
-He claims that the differences are negligible, which suggests that eve n if the theoretical objection against unfounded interval level interpretations of ordcats would be justified, that objection would nevertheless have such minor practical consequences as to make to irrelevant in most situations.
-Not surprisingly, Labovitz’ work has, in turn be criticised itself on various grounds, most particularly of (inadvertently) mainly covering situations where this robustness holds, and not very well other situations (cf O’Brien 1979; xxx).
-At this place we will not focus on discussions about the equal-distance scoring practice.
-Our main reason for referring to it is to demonstrate the existence of lively debates in the applied literature about potential issues when using ordcats in procedures requiring metric data.
-The existence of these debates makes it remarkable that another important issue has –to the best of our knowledge– remained mainly overlooked in the applied literature while it has been well-known in the theoretical statistical literature.
-This is the problem that correlations between ordcats are generally ‘constrained’, which means that they do not range between -1 and +1, but between minima and maxima that have to be calculated separately for each pair.
-The nature of this issue is the subject of the next section.
+## On ordinal-categorical variables (orcats), their level of measurement and their common use in quantitative analyses
 
-## Ordinal categorical variables (ordcats) and ‘constrained’ correlations
+Orcats are ordinal variables with a relatively small number of categories (or ranks) compared to the number of cases, thus resulting in partial orderings of cases. Although they can be found in all field of quantitative inquiry they are ubiquitous in data from standardised social science surveys. Likert items and rating scales [describe in fn Likert items and rating scales, add that there are yet other formats such as semantic-differential scales that also yield orcats] are among the most favoured ways to elicit responses in such surveys. These survey-question formats have most often between 3 and 11 ordinal categories. The numerical values assigned to the categories of orcats are most often consecutive integers, starting with either 0 or 1. [fn: explain that these values may be included in the formulation of a survey question, which is immaterial to our discussion here. The values assigned to the categories (and to the responses) reflect, in combination with the analysis procedure the analyst’s interpretation of their meaning.] . Such an assignment of values is as good as, and indeed analytically equivalent to, any other set of values that reflects the analyst’s understanding of the ordinal relations between the categories, i.e., any monotonic transformation. However, objections are often raised when orcats  [fn: add references] are analysed with procedures requiring metric measurement. That requirement implies that the differences between values can validly be compared so that, e.g., the substantive difference between categories 1 and 2 is equal to that between categories 3 and 4, and half as large as the difference between categories 2 and 4, etc. Any implied interval-level interpretation of ordinal categorical variables requires therefore a compelling theoretical or empirical justification of the numerical values assigned to the categories rather than just the analyst’s fiat. In principle this is quite possible, for example by calibrating values of categories against psychophysical measurements (cf., Lodge; Tillie; others), or against the results of psychometric/linguistic analysis of verbal response labels (cf Sönning 2024). However, such procedures are rarely integrated in applied survey research because of their high cost. In the absence of compelling justifications for values assigned to categories orcats can only be considered to provide ordinal information, not metric information. In spite of this we find that  they are very commonly analysed with statistical tools that require metric measurement of variables such as product-moment correlations or procedures that build upon such correlations. We find this clearly exhibited in published articles in high-ranking academic journals [fn: explain how we did this] and in highly regarded textbooks where examples are given of the use of correlations between orcats as input for procedures such as PCA, FA or SEM [fn: examples: Kline; Byrne; xxx]. This practice is so established that it is occasionally rationalised by referring to  orcats as being ‘quasi-interval level’ measures [fn: reference]. One can, however, also find more explicit justifications for this practice, which emphasise the robustness of correlation coefficients for violations of their measurement level assumptions. Labovitz (1967, 1970) in particular has compared correlations between orcats scored according to equal-distances with correlations when the variables were scored with a monotonic random procedure (which only assumes ordinality between categories). He reports that the differences are negligible, and suggests that even if the theoretical objection against unfounded interval level interpretations of orcats would be justified, that objection would nevertheless have such minor practical consequences as to make it irrelevant in most situations. Not surprisingly, Labovitz’ work has in turn be criticised itself on various grounds, most particularly of (inadvertently) mainly covering situations where this robustness holds, and overlooking other situations (cf O’Brien 1979; xxx). At this place we will not focus on discussions about the equal-distance scoring practice. Our main reason for referring to them is to demonstrate the existence of lively debates in the applied literature about potential issues when using orcats in procedures requiring metric data. The existence of these debates makes it remarkable that another important issue has –to the best of our knowledge– remained mainly overlooked in the applied literature while it has been well-known in the theoretical statistical literature. This is the problem that correlations between orcats are generally ‘constrained’, which means that they do not range between -1 and +1, but between minima and maxima that have to be calculated separately for each pair of variables. The nature of this issue is the subject of the next section.
 
--   Simple example of 4x4 crosstab
--   Conclusion: for every given distribution of a variable, there are only two distributions of the other variable which do not constrain r: the same, and the inverse. Every other distribution does constrain r
--   In case of constrainment ('shrinkage'?), the relationship becomes partially nonlinear, by necessity (does this means that the problem of constrainment does not exist for eta?) Is there a measure for nonlinearity? (polynomial multiple correlation?)
 
-Determining the minimum and maximum attainable values of r for given marginal distributions
 
--   Explain different strategies which will all yield the same answers: separate sorting and pairing / Frechet-Hoeffding bounds/ etc
--   Proofs in appendix?
 
-How severely are correlations constrained – or: how long is a piece of string?
 
-- Explain strategy of using BES data and resulting dataset of 7503 item-pairs 
-- Descriptive analyses: 
-	- Define a measure for extent of constrainment
-	- Describe univariate distribution of this measure; asymmetry etc. 
--Probability of reaching the r-max and r-min (and implications: does this mean that the constrainment is even more severe?)
+##  Bounds of correlations between ordinal categorical variables (orcats)
 
-Factors influencing the degree to which correlations are constrained
 
--   Analyses of the same dataset of 7503 item pairs
--   Other characteristics of these include
-    -   Characteristics of each of the two vars separately (their variance / skew / kurtosis / mean etc), as well as dyadic characteristics (difference of means / skew/ etc)
-    -   Hypotheses/expectations:
-        -   Effect of difference of means and of difference of skew
-        -   Perhaps effect of number of categories (constrainment less severe the larger the number of categories)
+
+The values that product-moment correlations between ordinal-categorical variables (orcats) can attain are generally constrained by minimum and maximum bounds of attainable values that are not -1 and +1. [fn: The maximum attainable value is +1 only when the univariate distributions of the variables are identical. But that does not imply the minimum attainable value then to be -1, as that also requires further conditions that the univariate distributions ,must meet (see below, in the discussion of Table 2). The minimum attainable value of a correlation is -1 when the univariate distributions are each other’s inverse, but again, that does not imply that the maximum is +1, as that requires additional conditions of the univariate distributions.]
+
+Because the bounds of correlations between orcats are not -1 and +1 it is even more difficult than commonly thought in applied research to interpret the strength of correlations. The well-known and often referred to criteria formulated by Cohen (1988: 77-81) for correlations in the behavioural sciences [fn: Cohen suggested, with appropriate caution, the following guidelines: $0.10<r<0.29$ weak; $0.30<r<0.49$ moderate; $0.50<r<1.00$ strong. Hemphill (2003) suggests on the basis of a review of several meta-analyses in psychological research that the cut-off of 0.50 for considering a correlation to be ‘strong’ may be too high in many common instances.] are explicitly based on the notion that the minimum and maximum attainable values for r are -1 and +1. But that is generally not the case and, moreover, the actual upper- and lower-bounds of r are not the same across pairs of variables, but specific to each. This state of affairs thus generates two interconnected problems when correlating orcats. First, the absence of clarity of the lower- and upper-bounds of r makes qualitative interpretations of the strength of correlations elusive. Second, because the bounds of attainable values of r are specific for each pair of variables each correlation is expressed in terms of a different, but unknown reference interval. Such correlations are therefore not comparable. To better grasp these problems, it is necessary to determine the upper- and lower bounds of correlations, given the univariate distributions of the variables involved. 
+
+Statistical scholarship has since long recognized that, in contrast to what is ofen thought, the upper- and lower-bounds of correlations between orcats are generally not the reference interval [-1, +1]. [insert references, including Shi&Huang 1992; xxxx]. Determining the actual bounds given the marginal distributions of the two variables can be done by using Whitt’s (1976) rearrangement theorem and Hardy–Littlewood–Pólya’s (1952) rearrangement inequality. For obtaining the maximum attainable value of a correlation the values of X and Y have each to be sorted independently in either ascending or descending order and then paired (comonotonic arrangement). For the minimum attainable value of the correlation (given the marginals of the two variables) the anti-comonotonic arrangement is required (sorting one of the variables in ascending and the other in descending order). A formalized elaboration is presented in Appendix 1. Moreover, the algorithm for calculating rmin and rmax has been programmed in R and is [or: will be] freely available for researchers to assess the minimum and maximum attainable values of r for pairs of variables in their own data. Details about this routine are described in Appendix 2. 
+
+Table 1 presents an illustrative example of comonotonic and anti-comonotonic arrangements and of the resulting lower- and upper-bounds of r, for two 4-category variables and 12 cases. One can easily expand this example to pairs of variables with different numbers of categories and different numbers of cases. 
+
+
+```{=latex}
+% Table 1: Determining minimum and maximum attainable values
+\begin{table}[H]
+\centering
+\caption{Determining minimum and maximum attainable values of correlation between two ordered categorical variables X and Y given their marginal distributions.}
+\label{tab:correlation_bounds}
+
+\vspace{0.5em}
+
+% Part (a): Observed frequency distributions
+\textbf{(a) Observed frequency distributions}
+
+\vspace{0.3em}
+
+\begin{tabular}{c|cccc|c}
+\hline
+ & \textbf{Category 1} & \textbf{Category 2} & \textbf{Category 3} & \textbf{Category 4} & \textbf{Total} \\
+\hline
+\textbf{X} & 6 & 3 & 2 & 1 & 12 \\
+\textbf{Y} & 3 & 5 & 2 & 2 & 12 \\
+\hline
+\end{tabular}
+
+\vspace{0.5em}
+
+% Part (b): Comonotonic arrangement
+\textbf{(b) Comonotonic arrangement and pairing:}
+
+\vspace{0.3em}
+
+\begin{tabular}{ll}
+\textbf{X:} & 1 1 1 1 1 1 2 2 2 3 3 4 \\
+\textbf{Y:} & 1 1 1 2 2 2 2 2 3 3 4 4 \quad $r_{\max} = 0.87831$
+\end{tabular}
+
+\vspace{0.5em}
+
+% Part (c): Anti-comonotonic arrangement
+\textbf{(c) Anti-comonotonic arrangement and pairing:}
+
+\vspace{0.3em}
+
+\begin{tabular}{ll}
+\textbf{X:} & 1 1 1 1 1 1 2 2 2 3 3 4 \\
+\textbf{Y:} & 4 4 3 3 2 2 2 2 2 1 1 1 \quad $r_{\min} = -0.79466$
+\end{tabular}
+
+\end{table}
+```
+
+
+```{=latex}
+% Table 2: Illustrative pairs of marginal distributions
+\begin{table}[H]
+\centering
+\caption{Illustrative pairs of marginal distributions and their associated minimum and maximum attainable values of $r$ ($r_{\min}$, $r_{\max}$) given these distributions. The distributions are given in counts (n=12). The categories are assigned consecutive integer values starting with 1. C1 and C2 are measures of constraint, as discussed in the text.}
+\label{tab:marginal_distributions}
+
+\vspace{0.5em}
+
+\begin{tabular}{c|cccc|c|cc}
+\hline
+ & \multicolumn{4}{c|}{\textbf{Category}} & \textbf{Total} & $r_{\min}$ & $r_{\max}$ \\
+ & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(a) Two arbitrarily distributed ordinal categorical variables (orcats)}} \\
+\textbf{X} & 6 & 3 & 2 & 1 & 12 & -0.79466 & 0.87831 \\
+\textbf{Y} & 3 & 5 & 2 & 2 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(b) One arbitrarily distributed variable, and one with same distribution inversed}} \\
+\textbf{X} & 6 & 3 & 2 & 1 & 12 & -1 & 0.71429 \\
+\textbf{Y} & 1 & 2 & 3 & 6 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(c) Two variables with arbitrary identical distributions}} \\
+\textbf{X} & 6 & 3 & 2 & 1 & 12 & -0.71429 & 1 \\
+\textbf{Y} & 6 & 3 & 2 & 1 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(d) Two variables with identical symmetric and unimodal distributions}} \\
+\textbf{X} & 2 & 4 & 4 & 2 & 12 & -1 & 1 \\
+\textbf{Y} & 2 & 4 & 4 & 2 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(e) Two variables with different distributions, both symmetric and unimodal}} \\
+\textbf{X} & 2 & 4 & 4 & 2 & 12 & -0.91169 & 0.91169 \\
+\textbf{Y} & 1 & 5 & 5 & 1 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(f) Two variables with identical symmetric bimodal distributions}} \\
+\textbf{X} & 4 & 2 & 2 & 4 & 12 & -1 & 1 \\
+\textbf{Y} & 4 & 2 & 2 & 4 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(g) Two variables with different distributions, both symmetric and bimodal}} \\
+\textbf{X} & 4 & 2 & 2 & 4 & 12 & -0.95673 & 0.95673 \\
+\textbf{Y} & 5 & 1 & 1 & 5 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(h) One symmetric unimodal variable, the other symmetric bimodal}} \\
+\textbf{X} & 2 & 4 & 4 & 2 & 12 & -0.89923 & 0.89923 \\
+\textbf{Y} & 4 & 2 & 2 & 4 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(i) Two variables, one very left skewed, the other very right skewed}} \\
+\textbf{X} & 1 & 1 & 1 & 9 & 12 & -0.95818 & 0.31939 \\
+\textbf{Y} & 8 & 2 & 1 & 1 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(j) Same as situation (i), above, but categories assigned values 1; 2.25; 2.75; 4}} \\
+\textbf{X} & 1 & 1 & 1 & 9 & 12 & -0.93321 & 0.33829 \\
+\textbf{Y} & 8 & 2 & 1 & 1 & 12 & & \\
+\hline
+\end{tabular}
+
+\end{table}
+```
+
+A series of illustrative cases is presented in Table 2 (as in Table 1 for n=12 and two orcats with 4 categories each). Although the distributions of the variables given in these examples is of no particular importance, and could have been replaced by innumerable other examples, they are nevertheless helpful to arrive at some general observations about rmin and rmax.: 
+
+-	The values of rmin and rmax are not constant across all examples, and not even across correlations involving a specific variable (see examples (a) and (b) which involve the same $X$-variable). The variation in the values of the bounds of r is across pairs of variables. In other words, the bounds of r are specific for each pair. 
+-	rmin max can be -1, and rmax can be 1, but neither of these values implies the other (as seen in examples (b) and (c). The combination of rmin=-1 and rmax=1 is possible, but dependent on specific characteristics of the two marginal distributions involved (see examples (d) and (f). Both variables must not only have identical distributions, but these must also be symmetrical. 
+-	rmin and rmax are not necessarily symmetric around 0. Such symmetry may exist, but requires specific characteristics of the pair of marginal distributions, namely that both are symmetric (see examples (e), (g) and (h).  
+-	The extent to which the reference interval [-1, 1] is covered by the interval [rmin, rmax] varies across pairs of variables. 
+-	The values of rmin and rmax depend not only on the marginal distributions of the two variables, but also on the values assigned to their categories. Unless specified differently, we follow in this article the common practice of assigning consecutive integer values to the ordered categories. But any monotonic transformation of values is equally adequate to represent the ordinal character of variables. Examples (i) and (j) involve the same pair of variables, but in (i) their categories have been assigned values 1. 2, 3 and 4, while in (j) the assigned values were 1, 2.25, 2.75 and 4. The consequences of this change are visible in the values of rmin and rmax. This observation implies that value assignment to categories of orcats (and the justification thereof) remains an issue of importance when using Pearson correlations on orcats. It is a different problem, however, than that of constrainment of correlations on which we focus here. 
+
+
+
 
 Consequences of constrained correlations in applied research
 
 -   Descriptive interpretation of correlations (Cohen’s criteria) is undermined
 -   It is also undermined by every correlation being expressed on its own unique scale/unique calibration
 -   Need a nice example of 2 correlations with $r(a,b) \le r(b,c)$ and where $r(a,b)$max is \< $r(b.c)$: is it smaller because the linear relationship is weaker, or because he constrainment is stronger?
+
+
+
+
+As demonstrated above, the extent to which marginal distributions of orcats constrain the range of attainable value of r varies considerably. In the few illustrative examples presented in Table 2 rmin varied between -1 and -0.71, while rmax varied between 0.32 and 1. Moreover, in Table 2 rmin and rmax do not vary in lockstep but at least to some extent independent of each other.[fn: Table 2 is a poor basis to assess the functional relationship between rmin and rmax as it contains a small number of handpicked situations. This relationship will be investigated in detail later, in section ??.] This raises the question how strong the overall constraining effect is that marginal distributions exert on the attainable values of r. It also raises the question of what factors affect the strength of this overall constraining effect. In this section we describe two ways in which the strength of constraints can be defined. Later (in section ??) we turn to the questions of the conditions that drive the strength of this effect. 
+Perhaps the most obvious way to express the strength of the marginal constraints on the attainable values of r is by comparing the width of the interval between rmin and rmax with that of the ubiquitously used reference interval [-1, 1]. As the width of the latter interval is 2, it is advantageous to express the strength of the overall constraining effect –to be denoted as $C_1$ as 
+
+$$
+C_1 = \frac{|r_{min}| +|r_{max}|}{2}
+$$
+$C_1$ reflects the proportion of the range of the attainable values of r compared to the theoretically maximum width of this range. 
+Applying this measure to the illustrative cases listed in Table 2 shows that C1 varies. Its highest value is 1, reflecting the absence of any constraining effect (see examples (d) and (f) in Table 2). The lowest value of C1 in Table 2 is for example (i), where it is 0.639. In other words, the marginal distributions of the two variables in that example restrict the range of its attainable values to 63.9% of the traditional [-1, 1] reference interval. 
+Some might object to the $C_1$ measure on the grounds that it assumes that r (and thus also rmin and rmax) is expressed at interval level and that one could thus state validly that a correlation of 0.4 reflects an association twice as strong as one of 0.2. That would be so if numerical differences between correlations correspond to similar differences in observable aspects of data [insert references to correspondence NRS to ERS]. That not being the case, one could instead compare r2s –percentages of shared variance– rather than rs. [fn: This perspective is not uncontested, however, and its usefulness depends on the purpose of inspecting correlations: as reflections of the association between variables, or as reflections of associations between indicators of a latent concept (for an elaboration of this difference, cf. Ozer 1985).] This would lead to a somewhat different measure of the strength of the constraining effect of marginal distributions on the attainable values of r, as follows: 
+
+$$
+C_2 = \frac{r_{min}^2 +r_{max}^2}{2}
+$$
+
+For the examples in Table 2, the values C2 are, respectively, 0.701; 0.755; 0.715; 1; 0.831; 1; 0.809; 0.915 and 0.510. Obviously, C1 and C2 are correlated, but how strongly cannot be assessed very well from the few handpicked examples in Table 2, but it will be considered below, using more encompassing sets of data. 
+
+
+
+
 
 ## Background and Definitions
 
@@ -591,7 +914,7 @@ IN THIS SECTION:  "How to define metrics (on _pairs_ of discrete probability dis
 
 1. $$\frac{ r_{max}-r_{min}}{2}$$
 2. $$1-r_{max}$$
-3.$$|-1-r_{min}|$$
+3. $$|-1-r_{min}|$$
 
 
 Or analogs for $\hat{r}^2$:
@@ -600,13 +923,13 @@ Or analogs for $\hat{r}^2$:
 1. $$\frac{ r_{max}^2-r_{min}^2}{2}$$
 1a. $$\frac{ (r_{max}-r_{min})^2}{2}$$
 2. $$1-r_{max}^2$$
-3.$$1-r_{min}^2$$
+3. $$1-r_{min}^2$$
 
 
 ## Possible "Metrics of Constraint"
 
 
-### 5.7 Overlap-Based Measures of Asymmetry
+###  Overlap-Based Measures of Asymmetry
 
 In addition to Total Variation (TV) distance, other metrics can quantify the structural dissimilarity between a marginal distribution and its reverse. One natural approach is to assess the degree of **overlap** between the original distribution $p$ and its reverse $p^{\mathrm{rev}}$, defined by reversing the order of the categories.
 
@@ -642,7 +965,7 @@ These measures differ in their interpretive emphasis:
 - BC captures geometric congruence.
 - OVL captures the total shared area between the distributions.
 
-In our simulation study (Section 6), we compute all three diagnostics to illustrate how marginal asymmetry correlates with asymmetry in achievable Pearson correlation bounds. These overlap-based measures are implemented in the R package `overlap` (Ridout & Linkie, 2009), which facilitates reproducible estimation and visualization.
+In our simulation study (Section ), we compute all three diagnostics to illustrate how marginal asymmetry correlates with asymmetry in achievable Pearson correlation bounds. These overlap-based measures are implemented in the R package `overlap` (Ridout & Linkie, 2009), which facilitates reproducible estimation and visualization.
 
 Empirically, we find that all three metrics provide consistent, interpretable diagnostics of distributional asymmetry. Using them jointly provides a robust triangulation of symmetry breaking, especially in applied contexts where ordinal variables are discretized from latent traits or ratings.
 
@@ -665,11 +988,21 @@ Empirically, we find that all three metrics provide consistent, interpretable di
 -  **Hypothesis testing here**
 
 
-# Monte Carlo Simulations
+# Monte Carlo Simulations {#sec-MCsim}
 
-- What is the 'universe of possible' (data)?
 
-## Probabilistic modeling over the $r \in [r_{\min}, r_{\max}]$ interval (?)
+To investigate factors that affect the bounds of attainable values of r and thus the strength of constraints on r exerted by marginal distributions we use two different sets of data.
+Our first dataset is simulation generated and covers in principle all possible combinations of marginal distributions for two orcats with given numbers of categories and given n. We simulate orcats containing, respectively, 4, 5, 6, 7, 10 and 11 categories, these being by far the most common in empirical data deriving from survey studies. For each of these we generate a large number of variables, each with its own simulated univariate distribution, and thus also its own form (modality, symmetry, etc.), mean, variance, skew and kurtosis as follows. [insert description, detailing n, how many univariate distributions we generate for each number of categories; how to populate the categories, whether we impose distributional characteristics such as normality, modality, skew etc. Btw: my preference would be to impose as little as possible, and derive characteristics such as mean, variance, skew, kurtosis from the distributions generated. ] We subsequently randomly select pairs of simulated variables and determine for each rmin, rmax, C1 and C2. From the resulting simulated pairs of orcats we delete the cases in which one, or both of the variables have zero variance. This results in a dataset with n= xxx [insert very large number] that forms the basis of subsequent analyses. Further details are specified in Appendix 3. 
+This simulated dataset constitutes, within the bounds of granularity of the procedure, a random sample all possible combinations of univariate distributions of pairs of orcats, and can therefore be used as an adequate basis for investigating functional relationships between sundry properties of pairs of orcats and the range of attainable values of r for those pairs. 
+Although this simulated dataset randomly represents all possible combinations of univariate distributions of pairs of orcats, it cannot be considered to be a random sample of pairs of orcats that applied researchers would encounter in actual, empirical data such as derived from, e.g., mass surveys. This is because, when designing survey questions, researchers tend to avoid formulations that they expect to yield little variance in the responses. Therefore, we use a second dataset to investigate constraints on the attainable range of values of r, that is derived from the British Election Study 2019. [fn: insert details about BES2019]. In this study we identified xxx orcats, which define 7503 pairs, for each of which we calculated pair-wise distributional characteristics including rmin, rmax, C1 and C2. Further details on this dataset are provided in Appendix 4. 
+Obviously, the orcats in BES2019 are not a random sample from the contents of all socio-political mass surveys in Britain in 2019, let alone of those in wider areas such as the developed western world, or in other years. But the BES can sensibly be regarded as typical for such studies, which include (national) election studies, general social surveys, and many public opinion and marketing surveys. As such, findings based on this dataset derived from the BES can sensibly be regarded as typical for what applied researchers in other countries will encounter in their survey data.
+These two datasets will be used to address, in the subsequent sections, questions with regard to:
+-	Distributions of rmin, rmax and measures of overall constraint of r by marginals
+-	Factors affecting rmin, rmax and overall constraint of r
+-	Consequences of constrained correlations in applied research, including for descriptive purposes and hypothesis testing
+-	Possibilities for reducing undesired consequences of constrained correlations
+
+
 
 
 ## Effects of Marginal Shapes
