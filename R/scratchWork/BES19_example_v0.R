@@ -101,7 +101,7 @@ analyze_corr_bounds <- function(row, nsim = 1000, use_prop = FALSE, return_simul
 	# Calculate theoretical bounds
 	r_min <- min_corr_bound(var1_marginals, var2_marginals, sample_size = n_obs)
 	r_max <- max_corr_bound(var1_marginals, var2_marginals, sample_size = n_obs)
-	
+	nsim <- 200
 	# Simulate permutation distribution
 	r_sim <- simulate_permutation_distribution(var1_marginals, var2_marginals, 
 											   nsim = nsim, sample_size = n_obs)

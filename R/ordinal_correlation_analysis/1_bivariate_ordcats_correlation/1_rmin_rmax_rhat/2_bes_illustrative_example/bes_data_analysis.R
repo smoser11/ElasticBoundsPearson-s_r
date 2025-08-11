@@ -165,6 +165,7 @@ analyze_bes_corr_bounds <- function(row, nsim = 1000, use_prop = FALSE, return_s
 		}
 		
 		return(result)
+		cat(class(result))
 	}
 		# [Copy rest of function body exactly, but update internal function calls]
 		# Change: min_corr_bound() → min_corr_bound() (no change needed if properly sourced)
@@ -191,6 +192,7 @@ analyze_bes_corr_bounds <- function(row, nsim = 1000, use_prop = FALSE, return_s
 #' all_results <- analyze_all_corr_bounds(bes_data)
 analyze_all_bes_bounds <- function(df, nsim = 1000, use_prop = FALSE, 
 									return_simulations = FALSE, progress = TRUE) {
+	df <- bes_data
 	# Initialize results list
 	results_list <- list()
 	
@@ -200,7 +202,7 @@ analyze_all_bes_bounds <- function(df, nsim = 1000, use_prop = FALSE,
 	
 	# Process each row
 	for (i in 1:n_rows) {
-		if (progress && i %% 100 == 0) cat("Processed", i, "of", n_rows, "pairs\n")
+		#if (progress && i %% 100 == 0) cat("Processed", i, "of", n_rows, "pairs\n")
 		
 		# Extract row
 		row <- df[i, ]
@@ -210,7 +212,7 @@ analyze_all_bes_bounds <- function(df, nsim = 1000, use_prop = FALSE,
 											 return_simulations = return_simulations)
 		
 		# Add original variables
-		bounds_result$var1 <- row$var1
+		bounds_result[var1] <- row$var1
 		bounds_result$var2 <- row$var2
 		
 		# Store results
