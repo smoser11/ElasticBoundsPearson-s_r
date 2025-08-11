@@ -17,7 +17,8 @@ source("3_fixes_and_rescaling/rescaling_main.R")
 #' @param config Analysis configuration  
 #' @return Complete analysis results
 run_complete_analysis <- function(bes_data, config = get_default_config()) {
-	config <- research_config
+
+#	config <- research_config
 	cat("Starting comprehensive ordinal correlation analysis...\n")
 	cat("Dataset:", nrow(bes_data), "variable pairs\n")
 	
@@ -64,6 +65,7 @@ if (!interactive()) {
 	# results <- run_complete_analysis(bes_data)
 	
 	cat("Run: results <- run_complete_analysis(your_bes_data)\n")
+
 }
 
 
@@ -360,3 +362,4 @@ cat("Research configuration:\n")
 	 
 	 
 ## 6.2 Results Section Key Points
+

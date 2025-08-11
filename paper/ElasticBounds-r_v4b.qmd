@@ -743,7 +743,9 @@ To illustrate these idea concretely,  Table 1 presents an illustrative example o
 
 ## Population Bounds
 
+
 In this section we further explore the theoretical properties on $r_{min}$ and $r_{max}$.
+
 
 
 # Measurement Issues and Metrics of Constraint
