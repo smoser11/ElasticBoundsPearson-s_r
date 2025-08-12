@@ -5,7 +5,7 @@
 
 # Source required dependencies
 if (!exists("max_corr_bound")) {
-	source("1_bivariate_ordcats_correlation/1_rmin_rmax_rhat/1_monte_carlo_simulation/core_bounds_functions.R")
+	source("./R/ordinal_correlation_analysis/1_bivariate_ordcats_correlation/1_rmin_rmax_rhat/1_monte_carlo_simulation/core_bounds_functions.R")
 }
 
 # Required libraries

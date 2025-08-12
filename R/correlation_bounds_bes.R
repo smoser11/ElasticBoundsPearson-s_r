@@ -1,3 +1,4 @@
+## makes `all_results`
 #' Plot the comparison between observed and rescaled correlations
 #'
 #' @param summary_df The results data frame from generate_bounds_summary

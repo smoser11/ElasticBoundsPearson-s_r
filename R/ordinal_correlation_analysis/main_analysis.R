@@ -76,7 +76,7 @@ if (!interactive()) {
 getwd()
 library(readstata13)
 # bes_data <- read.dta13("../data/correlation and other data about pairs of BES2019 variables.dta")
-bes_data <-read.dta13('/Users/sm38679/Documents/GitHub/ElasticBoundsPearson-s_r/R/data/processed/correlation and other data about pairs of BES2019 variables.dta')
+bes_data <-read.dta13('/Users/sm38679/Documents/GitHub/ElasticBoundsPearson-s_r/R/ordinal_correlation_analysis/data/processed/correlation and other data about pairs of BES2019 variables.dta')
 
 # Or if you have it in another format:
 # bes_data <- readRDS("BES_2019_processed.rds")

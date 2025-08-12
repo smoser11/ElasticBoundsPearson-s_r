@@ -18,7 +18,42 @@
 # Returns:
 #   The maximum possible Pearson's correlation coefficient
 # -----------------------------------------------------------------------------
+
 max_corr_bound <- function(marginalX, marginalY, sample_size = 10000) {
+	# If marginals sum to ~1, treat as probabilities and generate counts
+	if (sum(marginalX) <= 1.1) {
+		countsX <- as.vector(rmultinom(1, size = sample_size, prob = marginalX))
+	} else {
+		countsX <- marginalX
+		sample_size <- sum(countsX)
+	}
+	if (sum(marginalY) <= 1.1) {
+		countsY <- as.vector(rmultinom(1, size = sample_size, prob = marginalY))
+	} else {
+		countsY <- marginalY
+		if (sum(countsY) != sample_size) stop("Counts for X and Y must be equal.")
+	}
+	
+	# Define ordinal levels (0, 1, 2, ...)
+	x_levels <- 0:(length(countsX) - 1)
+	y_levels <- 0:(length(countsY) - 1)
+	
+	# Create full sample vectors based on counts
+	x_vec <- rep(x_levels, times = countsX)
+	y_vec <- rep(y_levels, times = countsY)
+	
+	# Pair the highest X with the lowest Y (anti-comonotonic pairing)
+	x_sorted <- sort(x_vec, decreasing = TRUE)
+	y_sorted <- sort(y_vec, decreasing = TRUE)
+	
+	# Calculate correlation
+	r_max <- cor(x_sorted, y_sorted)
+	return(r_max)
+}
+
+
+
+max_corr_boundFH <- function(marginalX, marginalY, sample_size = 10000) {
   # If marginals sum to ~1, treat as probabilities and generate counts
   if (sum(marginalX) <= 1.1) {
     countsX <- as.vector(rmultinom(1, size = sample_size, prob = marginalX))

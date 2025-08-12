@@ -1,0 +1,322 @@
+---
+title: "Pearson Correlation for Ordinal Variables: Consolidated Analysis"
+format:
+  pdf:
+    pdf-engine: xelatex
+    pandoc:
+      from: markdown+tex_math_dollars+tex_math_single_backslash
+    toc: true
+    number-sections: true
+---
+
+# Extremal Pearson Correlation for Ordinal Variables
+
+## 1. Problem Setting and Notation
+
+We consider two ordinal variables:
+
+- \( X \) with \(K_X\) ordered categories \(0, 1, \dots, K_X-1\)
+- \( Y \) with \(K_Y\) ordered categories \(0, 1, \dots, K_Y-1\)
+
+**Marginals** given by:
+
+\[
+p_X(i) = P(X = i), \quad p_Y(j) = P(Y = j)
+\]
+or counts:
+\[
+n_{X=i}, \quad n_{Y=j}, \quad N = \sum_i n_{X=i} = \sum_j n_{Y=j}
+\]
+
+**CDFs**:
+\[
+F_X(i) = \sum_{k \le i} p_X(k), \quad F_Y(j) = \sum_{k \le j} p_Y(k)
+\]
+
+**Pearson correlation**:
+\[
+r_{XY} = \frac{\mathrm{Cov}(X,Y)}{\sigma_X \sigma_Y}, \quad
+E[XY] = \sum_{i=0}^{K_X-1} \sum_{j=0}^{K_Y-1} x_i y_j \, P(X=x_i, Y=y_j)
+\]
+For Spearman's correlation, replace \(X,Y\) by their ranks \(R_X,R_Y\).
+
+*(Sources: Proofs-OrdinalVariables.md; Ordinal Variables and Correlation.md; BFbounds.md; Math Proof GPT – Whitt 1976 Paper.md)*
+
+---
+
+## 2. Fréchet–Hoeffding / Boole–Fréchet Bounds
+
+Any joint CDF \(F_{XY}\) with marginals \(F_X, F_Y\) satisfies:
+
+\[
+\max\{F_X(i) + F_Y(j) - 1, 0\} \ \le \ F_{XY}(i,j) \ \le \ \min\{F_X(i), F_Y(j)\}
+\]  
+*(BFbounds.md)*
+
+- **Upper bound (comonotonic)**:
+\[
+F^{\text{upper}}_{XY}(i,j) = \min\{F_X(i), F_Y(j)\}
+\]
+- **Lower bound (countermonotonic)**:
+\[
+F^{\text{lower}}_{XY}(i,j) = \max\{F_X(i) + F_Y(j) - 1, 0\}
+\]
+
+---
+
+## 3. Maximizing and Minimizing \(r\)
+
+#### 3.1 Max \(r\) — Comonotonic Coupling
+
+**Claim:** The maximum correlation \(r_{\max}\) is achieved by the comonotonic (FH upper) arrangement.
+
+**Proofs / Arguments:**
+- **FH upper pmf construction**: In discrete case, differences of CDF steps allocate mass along the diagonal, pairing high \(X\) with high \(Y\).  
+  *(BFbounds.md; Proofs-OrdinalVariables.md)*
+- **Rearrangement inequality (ranks)**: For ranks \(R_X, R_Y\), \(\sum R_X R_Y\) is maximized when sequences are ordered the same way.  
+  *(Ordinal Variables and Correlation.md)*
+- **Quantile coupling**: \(U \sim \mathrm{Unif}(0,1)\), \(X = F_X^{-1}(U), Y = F_Y^{-1}(U)\).  
+  *(Math Proof GPT – Whitt 1976 Paper.md)*
+
+---
+
+#### 3.2 Min \(r\) — Countermonotonic Coupling
+
+**Claim:** The minimal correlation \(r_{\min}\) corresponds conceptually to the countermonotonic (FH lower) arrangement.
+
+**Proofs / Arguments:**
+- **FH lower pmf construction**: Differences of the lower-bound CDF.  
+  *(BFbounds.md)*
+- **Opposite-order pairing**: Sort \(X\) descending, \(Y\) ascending; achieves best feasible negative correlation.  
+  *(Proofs-OrdinalVariables.md; Ordinal Variables and Correlation.md)*
+- **Quantile coupling**: \(X = F_X^{-1}(U), Y = F_Y^{-1}(1-U)\) in ideal continuous case.  
+  *(Math Proof GPT – Whitt 1976 Paper.md)*
+
+**Note:** In discrete settings, FH lower may not be attainable; see Section 5.
+
+---
+
+## 4. Binary (2×2) Cases and Examples
+
+*(From Cheemera v1.1 – Pearson Correlation Analysis Implications.md)*
+
+#### 4.1 Balanced marginals (70–30, 70–30)
+- Perfect diagonal fill yields \(r_{\max} = 1\).
+
+#### 4.2 Skew vs balanced (90–10, 50–50)
+- Perfect alignment impossible; \(r_{\max} < 1\) due to capacity limits.
+
+---
+
+## 5. Attainability and Symmetry (Updated)
+
+#### 5.1 Maximal correlation
+- **Result:** In the discrete ordinal setting, \(r_{\max}\) is **always** attained by the FH upper (comonotonic) construction.  
+  *(BFbounds.md; Proofs-OrdinalVariables.md; Ordinal Variables and Correlation.md)*
+
+#### 5.2 Minimal correlation
+- **Result:** The FH lower (countermonotonic) construction may be **unattainable** in discrete settings; \(r_{\min}\) is then the best feasible opposite-order arrangement.  
+  *(BFbounds.md; Proofs-OrdinalVariables.md; Ordinal Variables and Correlation.md)*
+
+#### 5.3 Magnitude relationships
+- **Earlier view:** Often \(|r_{\min}| < r_{\max}\) for discrete asymmetrical marginals.  
+  *(BFbounds.md; Ordinal Variables and Correlation.md)*
+- **New evidence (BES data)**: Possible to have \(|r_{\min}| > r_{\max}|\).  
+  Example: \(X\) with 4 categories, \(Y\) with 5 categories, skewed marginals;  
+  \(r_{\max} = 0.85027\), \(r_{\min} = -0.89916\).  
+  *(Cees – r_min MAGNITUDE Asymmetry in Pearson Correlation.md)*
+
+**Reason:** Pearson correlation uses centered values; skewness can make negative deviations in antitone pairing larger in magnitude than positive deviations in comonotone pairing.
+
+#### 5.4 Symmetry condition
+- If one marginal is **palindromically symmetric** about its center rank, then \(r_{\min} = -r_{\max}\).  
+  *(Cees – r_min MAGNITUDE Asymmetry in Pearson Correlation.md)*
+
+---
+
+## 6. Simulation / Randomization
+
+**Permutation distribution:**  
+Generate full vectors from marginals, independently permute \(X\) and \(Y\), compute \(r\), repeat. Produces null distribution centered at 0.  
+*(Proofs-OrdinalVariables.md)*
+
+---
+
+## 7. Key Tools Referenced
+
+- **Fréchet–Hoeffding bounds** for extremal joint CDFs.  
+  *(BFbounds.md)*
+- **Hardy–Littlewood–Pólya rearrangement inequality** for rank-based maximization/minimization.  
+  *(Ordinal Variables and Correlation.md)*
+- **Comonotone/countermonotone quantile coupling**.  
+  *(Math Proof GPT – Whitt 1976 Paper.md)*
+- **Capacity limits** in discrete joint tables explain why FH lower may be unattainable.
+
+---
+
+## 8. Master Takeaways
+
+1. **\(r_{\max}\) = FH upper (comonotonic), always attainable** in discrete ordinal settings.
+2. **\(r_{\min}\)** may **not** equal FH lower in discrete settings; use best feasible opposite-order arrangement.
+3. No universal bound on relative magnitudes: \(|r_{\min}|\) may be less than, equal to, or greater than \(r_{\max}\).
+4. Palindromic symmetry of one marginal guarantees \(|r_{\min}| = r_{\max}|\).
+5. Binary cases illustrate when perfect alignment is feasible and when skew prevents it.
+
+---
+
+
+\newpage
+
+
+
+# Positive Semi-Definiteness in Covariance Matrices: Implications for PCA, Factor Analysis, and SEM
+
+
+
+## 1. Variance–Covariance Matrices: Definition and Core Property
+
+#### 1.1 Definition
+For a random vector $\mathbf{X} = (X_1, X_2, \dots, X_n)^\top$, the variance–covariance matrix is
+
+\[
+\mathbf{\Sigma} = \mathbb{E} \left[ (\mathbf{X} - \mathbb{E}[\mathbf{X}]) (\mathbf{X} - \mathbb{E}[\mathbf{X}])^\top \right],
+\]
+where $\sigma_{ij} = \operatorname{Cov}(X_i, X_j)$.  
+*(vcov_PSD.md):contentReference[oaicite:2]{index=2}*
+
+- **Diagonal elements** $\sigma_{ii}$ are variances, always $\ge 0$.
+- **Off-diagonal** entries are covariances.
+
+---
+
+#### 1.2 PSD Property
+A matrix is **positive semi-definite (PSD)** if, for all nonzero $\mathbf{z}$,
+\[
+\mathbf{z}^\top \mathbf{\Sigma} \mathbf{z} \ge 0.
+\]
+For covariance matrices:
+\[
+\mathbf{z}^\top \mathbf{\Sigma} \mathbf{z}
+= \mathbb{E}\!\left[(\mathbf{z}^\top (\mathbf{X} - \mathbb{E}[\mathbf{X}]))^2\right] \ge 0,
+\]
+since it is an expectation of a square.  
+*(vcov_PSD.md):contentReference[oaicite:3]{index=3}*
+
+---
+
+#### 1.3 Positive Definite (PD) vs PSD
+- **PD** if $\mathbf{z}^\top \mathbf{\Sigma} \mathbf{z} > 0$ for all $\mathbf{z} \neq 0$, i.e., no perfect linear dependence among variables.
+- **PSD** if at least one nonzero $\mathbf{z}$ yields equality (rank-deficient case).
+*(vcov_PSD.md):contentReference[oaicite:4]{index=4}*
+
+---
+
+## 2. PCA and PSD Requirements
+
+#### 2.1 PCA Overview
+Principal Components Analysis (PCA) decomposes a sample covariance or correlation matrix $\mathbf{S} = n^{-1} \mathbf{X}^\top \mathbf{X}$ into
+\[
+\mathbf{S} = \mathbf{Q} \,\mathrm{diag}(\lambda_1,\dots,\lambda_p)\, \mathbf{Q}^\top.
+\]
+*(PCA and FA PSD requirement.md):contentReference[oaicite:5]{index=5}*
+
+---
+
+#### 2.2 Why PSD Matters for PCA
+- **Mathematically**: Eigen-decomposition works for any symmetric $\mathbf{S}$, PSD or not.
+- **Interpretively**: Negative eigenvalues break the “variance explained” story (variance cannot be negative).
+- **Software behavior**: Most PCA routines check PD/PSD; failure can cause warnings or dropped components.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:6]{index=6}*
+
+---
+
+#### 2.3 If Input is Symmetric but not PSD
+Example:  
+\[
+\mathbf{A} = \begin{bmatrix} 1 & 2 \\ 2 & 1 \end{bmatrix},\quad \lambda = (3,-1),
+\]
+is indefinite (one negative eigenvalue).  
+- PCA math still runs; eigenvalues/vectors computed.
+- Interpretation fails: $\sqrt{\lambda_j}$ imaginary for $\lambda_j<0$.
+- Some software refuses input; others run but return nonsensical variance metrics.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:7]{index=7}*
+
+---
+
+#### 2.4 Remedies for PCA
+1. Treat tiny negative eigenvalues as zero.  
+2. Adjust to nearest PSD matrix (Higham 2002).  
+3. Run SVD on the raw data matrix instead of precomputed $\mathbf{S}$.  
+*(PCA and FA PSD requirement.md):contentReference[oaicite:8]{index=8}*
+
+---
+
+## 3. Factor Analysis and PSD Requirements
+
+#### 3.1 FA Model
+Common factor analysis models $\boldsymbol\Sigma$ as:
+\[
+\boldsymbol\Sigma = \boldsymbol\Lambda \boldsymbol\Lambda^\top + \boldsymbol\Psi,
+\]
+where $\boldsymbol\Psi$ is diagonal with positive entries.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:9]{index=9}*
+
+---
+
+#### 3.2 PSD/PD Needs in FA
+- **ML FA**: Requires $\mathbf{S} \succ 0$; $\log \det \mathbf{S}$ undefined if indefinite.
+- **Principal-axis / Image FA**: Also break with negative eigenvalues (square roots fail).
+*(PCA and FA PSD requirement.md):contentReference[oaicite:10]{index=10}*
+
+---
+
+#### 3.3 Remedies for FA
+- Repair $\mathbf{S}$ to PSD before analysis.
+- Add small ridge term $\epsilon \mathbf{I}$.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:11]{index=11}*
+
+---
+
+## 4. SEM and PSD Requirements
+
+#### 4.1 SEM Machinery
+Observed covariance $\mathbf{S}$; implied covariance $\boldsymbol\Sigma(\boldsymbol\theta)$ from structural and measurement models.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:12]{index=12}*
+
+---
+
+#### 4.2 Fit Functions and PD Needs
+- **ML / GLS**: Require both $\mathbf{S}$ and $\boldsymbol\Sigma(\theta)$ PD.
+- **WLS/DWLS**: Need PD indirectly (weight matrix invertible).
+- **ULS**: Can start from indefinite $\mathbf{S}$, but test statistics again require PD.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:13]{index=13}*
+
+---
+
+#### 4.3 What Happens if Not PSD
+- Software errors out (“matrix is not positive definite”).
+- Log-determinant undefined; inversion fails.
+- Even if bypassed, optimisation steps hit complex/NaN values.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:14]{index=14}*
+
+---
+
+#### 4.4 Remedies in SEM
+- Nearest PD smoothing (Higham 2002).
+- Ridge adjustment.
+- Analyse raw data.
+- Check rounding issues.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:15]{index=15}*
+
+---
+
+## 5. Core Lessons Across PCA, FA, SEM
+
+1. **Theoretical PSD**: Covariance matrices from real data are PSD by definition:contentReference[oaicite:16]{index=16}.
+2. **Numerical Issues**: Sampling noise, rounding, or listwise deletion can yield small negative eigenvalues:contentReference[oaicite:17]{index=17}.
+3. **PCA**: Can compute from indefinite matrix but interpretation breaks:contentReference[oaicite:18]{index=18}.
+4. **FA and SEM**: Require PD input; will not run on indefinite matrices:contentReference[oaicite:19]{index=19}.
+5. **Repairs**: Adjust to nearest PSD, ridge, or recompute from raw data:contentReference[oaicite:20]{index=20}.
+
+---
+

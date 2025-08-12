@@ -83,6 +83,7 @@ boot_extremes <- function(x, y, B = 1000, seed = 1){
 # Simplified bootstrap analysis using your existing functions
 
 # Simplified bootstrap analysis using your existing functions
+# Simplified bootstrap analysis using your existing functions
 
 # Simplified bootstrap analysis using your existing functions
 
@@ -170,7 +171,7 @@ is_table_valid_for_bootstrap <- function(table_matrix) {
 # Apply bootstrap to a single configuration
 # B = number of bootstrap samples (matches your boot_extremes function)
 bootstrap_configuration <- function(sim_results, config_id, B = 1000, 
-									seed_offset = 1000) {
+									seed_offset = 1000, store_full_samples = FALSE) {
 	
 	if(config_id > length(sim_results$tables)) {
 		stop("config_id out of range")
@@ -183,8 +184,10 @@ bootstrap_configuration <- function(sim_results, config_id, B = 1000,
 				config_id, config_info$K1, config_info$K2, config_info$N))
 	cat("Number of tables:", length(config_tables), "\n")
 	
+	
 	# Storage for summary results
 	summary_stats <- data.frame()
+	full_bootstrap_samples <- list()  # NEW: Store full samples if requested
 	skipped_tables <- 0
 	
 	# Process each table
@@ -225,6 +228,18 @@ bootstrap_configuration <- function(sim_results, config_id, B = 1000,
 			next
 		}
 		
+		# NEW: Store full bootstrap samples if requested
+		if(store_full_samples) {
+			full_bootstrap_samples[[length(full_bootstrap_samples) + 1]] <- list(
+				config_id = config_id,
+				sim_id = sim_id,
+				bootstrap_samples = boot_result$boot,  # The full B x 2 matrix
+				original_estimates = boot_result$est
+			)
+		}
+		
+		# Extract summary statistics INCLUDING joint relationship
+		
 		# Extract summary statistics INCLUDING joint relationship
 		boot_cor <- cor(boot_result$boot[,"r_min"], boot_result$boot[,"r_max"])
 		boot_cov <- cov(boot_result$boot[,"r_min"], boot_result$boot[,"r_max"])
@@ -258,30 +273,43 @@ bootstrap_configuration <- function(sim_results, config_id, B = 1000,
 	cat("Successfully processed:", nrow(summary_stats), "tables\n")
 	cat("Skipped:", skipped_tables, "tables\n\n")
 	
-	return(list(
+	result <- list(
 		config_info = config_info,
 		summary_stats = summary_stats,
 		skipped_count = skipped_tables,
 		success_count = nrow(summary_stats)
-	))
+	)
+	
+	# NEW: Add full samples if stored
+	if(store_full_samples) {
+		result$full_bootstrap_samples <- full_bootstrap_samples
+		cat("Stored full bootstrap samples for", length(full_bootstrap_samples), "tables\n")
+	}
+	
+	return(result)
 }
 
 # Apply bootstrap to ALL configurations
 bootstrap_all_configurations <- function(sim_results, B = 1000, 
-										 seed_offset = 1000) {
+										 seed_offset = 1000, store_full_samples = FALSE) {
 	
 	num_configs <- length(sim_results$tables)
 	all_summaries <- data.frame()
 	
 	cat("Starting bootstrap analysis for", num_configs, "configurations\n")
 	cat("Bootstrap samples per table:", B, "\n\n")
+	cat("Bootstrap samples per table:", B, "\n")
+	if(store_full_samples) {
+		cat("WARNING: Storing full samples will create very large files!\n")
+	}
+	cat("\n")
 	
 	start_time <- Sys.time()
 	
 	for(config_id in 1:num_configs) {
 		config_result <- bootstrap_configuration(sim_results, config_id, 
-												 B = B, seed_offset = seed_offset)
-		
+												 B = B, seed_offset = seed_offset,
+												 store_full_samples = store_full_samples)
 		# Combine summary statistics
 		all_summaries <- rbind(all_summaries, config_result$summary_stats)
 		
@@ -304,7 +332,9 @@ bootstrap_all_configurations <- function(sim_results, B = 1000,
 		analysis_info = list(
 			B = B,
 			seed_offset = seed_offset,
-			total_time_mins = total_time
+			total_time_mins = total_time,
+			store_full_samples = store_full_samples  # ← This line should be there
+			
 		)
 	))
 }
@@ -419,124 +449,64 @@ analyze_joint_relationships <- function(boot_analysis) {
 		least_dependent = least_dependent
 	))
 }
+# stats <- boot_analysis$summary_stats
+# 
+# cat("Bootstrap Analysis Summary\n")
+# cat("========================\n")
+# cat("Total configurations:", length(unique(stats$config_id)), "\n")
+# cat("Total tables analyzed:", nrow(stats), "\n")
+# cat("Bootstrap samples per table:", boot_analysis$analysis_info$B, "\n")
+# cat("Analysis time:", round(boot_analysis$analysis_info$total_time_mins, 1), "minutes\n\n")
+# 
+# # Summary by configuration
+# config_summary <- aggregate(cbind(r_min_est, r_max_est, r_range) ~ K1 + K2 + N, 
+# 							data = stats, FUN = function(x) c(mean = mean(x), sd = sd(x)))
+# 
+# print(config_summary)
+# 
+# return(config_summary)
+# }
 
 
-
-stats <- boot_analysis$summary_stats
-
-cat("Bootstrap Analysis Summary\n")
-cat("========================\n")
-cat("Total configurations:", length(unique(stats$config_id)), "\n")
-cat("Total tables analyzed:", nrow(stats), "\n")
-cat("Bootstrap samples per table:", boot_analysis$analysis_info$B, "\n")
-cat("Analysis time:", round(boot_analysis$analysis_info$total_time_mins, 1), "minutes\n\n")
-
-# Summary by configuration
-config_summary <- aggregate(cbind(r_min_est, r_max_est, r_range) ~ K1 + K2 + N, 
-							data = stats, FUN = function(x) c(mean = mean(x), sd = sd(x)))
-
-print(config_summary)
-
-return(config_summary)
-}
 
 # Example usage:
 # 
-# # Load your MC simulation results
-# sim_data <- load_simulation("my_contingency_sim.rds")
-# 
-# # Quick check of a single table (no bootstrap)
-# single_table <- sim_data$tables[[1]][[1]]
-# analyze_single_table(single_table)
-# 
-# # Single table WITH bootstrap uncertainty (B = number of bootstrap samples)
-# analyze_single_table_with_bootstrap(single_table, B = 500)
-# 
-# # Bootstrap analysis for ALL configurations (now includes joint relationships!)
-# full_analysis <- bootstrap_all_configurations(sim_data, B = 1000)
-# 
-# # Analyze the joint r_min/r_max relationships
-# joint_analysis <- analyze_joint_relationships(full_analysis)
-# 
-# # Check which configurations have most/least correlated r_min and r_max
-# print(joint_analysis$most_dependent)
-# print(joint_analysis$least_dependent)
-# 
-# # Save and summarize
-# save_bootstrap_results(full_analysis, "bootstrap_results.rds")
-# summary <- summarize_bootstrap_results(full_analysis)
 
-#
-# # Bootstrap analysis for ALL configurations (now includes joint relationships!)
-# full_analysis <- bootstrap_all_configurations(sim_data, B = 1000)
 # 
-# # Analyze the joint r_min/r_max relationships
-# joint_analysis <- analyze_joint_relationships(full_analysis)
-# 
-# # Check which configurations have most/least correlated r_min and r_max
-# print(joint_analysis$most_dependent)
-# print(joint_analysis$least_dependent)
-# 
-# # Save and summarize
-# save_bootstrap_results(full_analysis, "bootstrap_results.rds")
-# summary <- summarize_bootstrap_results(full_analysis)
+# Quick check of a single table (no bootstrap)
+single_table <- sim_data$tables[[1]][[1]]
+analyze_single_table(single_table)
 
-#### EXAMPLE USAGE
-
-## for simulated data:
-sim_data <- load_simulation("./R/ordinal_correlation_analysis/data/raw/MCsim.rds")
-
+# Single table WITH bootstrap uncertainty (B = number of bootstrap samples)
 analyze_single_table_with_bootstrap(single_table, B = 500)
-full_analysis <- bootstrap_all_configurations(sim_data, B = 1000)
-#Analyze the joint r_min/r_max relationships
+
+# Bootstrap analysis for ALL configurations (now includes joint relationships!)
+full_analysis <- bootstrap_all_configurations(sim_data, B = 10, store_full_samples = TRUE)
+
+# Analyze the joint r_min/r_max relationships
 joint_analysis <- analyze_joint_relationships(full_analysis)
 
 # Check which configurations have most/least correlated r_min and r_max
 print(joint_analysis$most_dependent)
 print(joint_analysis$least_dependent)
 
-
-
-
-
-single_table <- sim_data$tables[[1]][[1]]
-analyze_single_table_with_bootstrap(single_table, B=10)
-single_result <- bootstrap_configuration(sim_data, config_id = 1, B = 10)
-sim_data$tables[[176]][[10]]
-
-# # Single table WITH bootstrap uncertainty (B = number of bootstrap samples)
-# analyze_single_table_with_bootstrap(single_table, B = 500)
-# 
-# # Bootstrap analysis for a single configuration (for testing)
-# single_result <- bootstrap_configuration(sim_data, config_id = 1, B = 100)
-# 
-# # Bootstrap analysis for ALL configurations (uses your boot_extremes function!)
-# full_analysis <- bootstrap_all_configurations(sim_data, B = 1000)
-# 
-# # Save and summarize
-# save_bootstrap_results(full_analysis, "bootstrap_results.rds")
-# summary <- summarize_bootstrap_results(full_analysis)
-
-
-
-# Bootstrap analysis for a single configuration (for testing)
-single_result <- bootstrap_configuration(sim_data, config_id = 1, B = 1000)
-# 
-# Bootstrap analysis for ALL configurations (uses your boot_extremes function!)
-full_analysis <- bootstrap_all_configurations(sim_data, B = 1000)
-# 
-
-save_bootstrap_results(full_analysis, "bootstrap_results.rds")
+# Save and summarize
+save_bootstrap_results(full_analysis, "./R/ordinal_correlation_analysis/data/Processed/bootstrap_results_sim.rds")
 summary <- summarize_bootstrap_results(full_analysis)
 summary
-
-
-
 
 
 #####################################
 # VISUALIZE dependence
 
+
+# Visualize joint uncertainty distributions from bootstrap results
+
+# Load required libraries
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
+library(viridis)
 
 # Visualize joint uncertainty distributions from bootstrap results
 
@@ -613,8 +583,14 @@ visualize_joint_uncertainty_summary <- function(boot_results_file) {
 	))
 }
 
-# Function to create confidence ellipses (approximation using summary stats)
-visualize_confidence_ellipses <- function(boot_results_file, selected_configs = NULL) {
+# Unified function to create confidence regions with method choice
+visualize_joint_confidence_regions <- function(boot_results_file, 
+											   method = c("empirical", "parametric"),
+											   selected_tables = NULL, 
+											   confidence_level = 0.95,
+											   max_tables = 20) {
+	
+	method <- match.arg(method)
 	
 	# Load the bootstrap results
 	if(is.character(boot_results_file)) {
@@ -623,71 +599,279 @@ visualize_confidence_ellipses <- function(boot_results_file, selected_configs = 
 		boot_analysis <- boot_results_file
 	}
 	
-	stats <- boot_analysis$summary_stats
-	
-	# Select subset of configurations if specified
-	if(!is.null(selected_configs)) {
-		stats <- stats[stats$config_id %in% selected_configs, ]
+	if(method == "empirical") {
+		cat("Using EMPIRICAL method (actual bootstrap samples)\n")
+		
+		# Check if full samples are available
+		if(is.null(boot_analysis$full_bootstrap_samples)) {
+			cat("Full bootstrap samples not available. Falling back to parametric method.\n")
+			method <- "parametric"
+		} else {
+			return(visualize_empirical_method(boot_analysis, selected_tables, 
+											  confidence_level, max_tables))
+		}
 	}
 	
-	# Create approximate confidence ellipses using summary statistics
-	create_ellipse_data <- function(row) {
-		# Approximate ellipse using correlation and standard deviations
+	if(method == "parametric") {
+		cat("Using PARAMETRIC method (summary statistics + ellipses)\n")
+		return(visualize_parametric_method(boot_analysis, selected_tables, 
+										   confidence_level, max_tables))
+	}
+}
+
+# Internal function for empirical method
+visualize_empirical_method <- function(boot_analysis, selected_tables, 
+									   confidence_level, max_tables) {
+	
+	full_samples <- boot_analysis$full_bootstrap_samples
+	cat("Found full bootstrap samples for", length(full_samples), "tables\n")
+	
+	# Select subset if specified
+	if(!is.null(selected_tables)) {
+		if(max(selected_tables) > length(full_samples)) {
+			selected_tables <- selected_tables[selected_tables <= length(full_samples)]
+		}
+		full_samples <- full_samples[selected_tables]
+	} else if(length(full_samples) > max_tables) {
+		selected_indices <- sample(length(full_samples), max_tables)
+		full_samples <- full_samples[selected_indices]
+		cat("Sampling", max_tables, "tables from", length(boot_analysis$full_bootstrap_samples), "for visualization\n")
+	}
+	
+	# Create the empirical data
+	all_points <- data.frame()
+	region_data <- data.frame()
+	
+	for(i in 1:length(full_samples)) {
+		table_data <- full_samples[[i]]
+		boot_samples <- table_data$bootstrap_samples
+		
+		# Add all bootstrap points
+		points_df <- data.frame(
+			r_min = boot_samples[, "r_min"],
+			r_max = boot_samples[, "r_max"],
+			table_id = paste("Config", table_data$config_id, "Table", table_data$sim_id),
+			config_id = table_data$config_id,
+			sim_id = table_data$sim_id
+		)
+		all_points <- rbind(all_points, points_df)
+		
+		# Create empirical confidence region using Mahalanobis distance
+		center_x <- mean(boot_samples[, "r_min"])
+		center_y <- mean(boot_samples[, "r_max"])
+		cov_matrix <- cov(boot_samples)
+		
+		# Handle potential singular covariance matrices
+		if(det(cov_matrix) > 1e-10) {
+			mahal_dist <- mahalanobis(boot_samples, c(center_x, center_y), cov_matrix)
+			cutoff <- quantile(mahal_dist, confidence_level)
+			in_region <- mahal_dist <= cutoff
+			boundary_points <- boot_samples[in_region, ]
+			
+			# Create convex hull
+			if(nrow(boundary_points) > 3) {
+				hull_indices <- chull(boundary_points[, "r_min"], boundary_points[, "r_max"])
+				hull_points <- boundary_points[hull_indices, ]
+				
+				region_df <- data.frame(
+					r_min = hull_points[, "r_min"],
+					r_max = hull_points[, "r_max"],
+					table_id = paste("Config", table_data$config_id, "Table", table_data$sim_id),
+					config_id = table_data$config_id,
+					sim_id = table_data$sim_id
+				)
+				region_data <- rbind(region_data, region_df)
+			}
+		}
+	}
+	
+	# Create plots
+	p1 <- create_confidence_plot(all_points, region_data, confidence_level, 
+								 "Empirical", "convex hull regions")
+	
+	p2 <- ggplot(all_points, aes(x = r_min, y = r_max)) +
+		geom_density_2d_filled(alpha = 0.7) +
+		geom_point(alpha = 0.5, size = 0.5) +
+		facet_wrap(~table_id, scales = "free") +
+		geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "red") +
+		labs(title = "Empirical Joint Density by Table",
+			 x = "r_min", y = "r_max") +
+		theme_minimal() +
+		theme(axis.text.x = element_text(angle = 45, hjust = 1),
+			  strip.text = element_text(size = 8))
+	
+	return(list(
+		method = "empirical",
+		confidence_plot = p1,
+		density_plot = p2,
+		sample_data = all_points,
+		region_data = region_data
+	))
+}
+
+# Internal function for parametric method
+visualize_parametric_method <- function(boot_analysis, selected_tables, 
+										confidence_level, max_tables) {
+	
+	stats <- boot_analysis$summary_stats
+	
+	# Select subset if specified
+	if(!is.null(selected_tables)) {
+		if(max(selected_tables) > nrow(stats)) {
+			selected_tables <- selected_tables[selected_tables <= nrow(stats)]
+		}
+		stats <- stats[selected_tables, ]
+	} else if(nrow(stats) > max_tables) {
+		stats <- stats[sample(nrow(stats), max_tables), ]
+		cat("Sampling", max_tables, "tables from", nrow(boot_analysis$summary_stats), "for visualization\n")
+	}
+	
+	# Create parametric ellipses using summary statistics
+	create_parametric_ellipse <- function(row) {
 		rho <- row$boot_cor_rmin_rmax
 		sx <- row$boot_sd_rmin
 		sy <- row$boot_sd_rmax
 		mx <- row$boot_mean_rmin
 		my <- row$boot_mean_rmax
 		
-		# Generate ellipse points (95% confidence)
+		# Handle edge cases
+		if(is.na(rho) || sx <= 0 || sy <= 0) return(NULL)
+		
+		# Generate ellipse points
 		theta <- seq(0, 2*pi, length.out = 100)
-		chi2_val <- qchisq(0.95, 2)  # 95% confidence
+		chi2_val <- qchisq(confidence_level, 2)
 		
-		# Ellipse in standardized coordinates
-		x_std <- sqrt(chi2_val) * cos(theta)
-		y_std <- sqrt(chi2_val) * sin(theta)
+		# Create correlation matrix and eigendecomposition
+		corr_matrix <- matrix(c(1, rho, rho, 1), 2, 2)
+		eigen_decomp <- eigen(corr_matrix)
 		
-		# Transform to original coordinates
-		x <- mx + sx * (x_std * sqrt(1 + rho) + y_std * sqrt(1 - rho)) / sqrt(2)
-		y <- my + sy * (x_std * sqrt(1 - rho) + y_std * sqrt(1 + rho)) / sqrt(2)
+		# Scale by standard deviations
+		scale_matrix <- diag(c(sx, sy))
+		transform_matrix <- scale_matrix %*% eigen_decomp$vectors %*% 
+			diag(sqrt(pmax(eigen_decomp$values, 0)))
+		
+		# Generate ellipse
+		ellipse_points <- sqrt(chi2_val) * cbind(cos(theta), sin(theta))
+		transformed_points <- t(transform_matrix %*% t(ellipse_points))
 		
 		data.frame(
-			r_min = x, r_max = y,
+			r_min = transformed_points[, 1] + mx,
+			r_max = transformed_points[, 2] + my,
+			table_id = paste("Config", row$config_id, "Table", row$sim_id),
 			config_id = row$config_id,
-			sim_id = row$sim_id,
-			K1 = row$K1, K2 = row$K2, N = row$N
+			sim_id = row$sim_id
 		)
 	}
 	
-	# Create ellipse data for selected tables (sample if too many)
-	if(nrow(stats) > 50) {
-		stats_sample <- stats[sample(nrow(stats), 50), ]
-		cat("Sampling 50 tables from", nrow(stats), "for visualization\n")
-	} else {
-		stats_sample <- stats
-	}
+	# Create ellipse data
+	ellipse_list <- lapply(1:nrow(stats), function(i) create_parametric_ellipse(stats[i, ]))
+	ellipse_data <- do.call(rbind, ellipse_list[!sapply(ellipse_list, is.null)])
 	
-	ellipse_list <- lapply(1:nrow(stats_sample), function(i) create_ellipse_data(stats_sample[i, ]))
-	ellipse_data <- do.call(rbind, ellipse_list)
+	# Create point data for centers
+	point_data <- data.frame(
+		r_min = stats$boot_mean_rmin,
+		r_max = stats$boot_mean_rmax,
+		table_id = paste("Config", stats$config_id, "Table", stats$sim_id),
+		config_id = stats$config_id,
+		sim_id = stats$sim_id
+	)
 	
-	# Plot ellipses
-	p <- ggplot(ellipse_data, aes(x = r_min, y = r_max)) +
-		geom_polygon(aes(group = interaction(config_id, sim_id), 
-						 fill = factor(N), color = factor(N)), 
+	# Create plots
+	p1 <- create_confidence_plot(point_data, ellipse_data, confidence_level, 
+								 "Parametric", "elliptical regions")
+	
+	# Correlation vs range plot
+	p2 <- ggplot(stats, aes(x = r_range, y = boot_cor_rmin_rmax, 
+							color = factor(K1), shape = factor(K2))) +
+		geom_point(size = 3, alpha = 0.7) +
+		scale_color_viridis_d(name = "K1") +
+		labs(title = "Bootstrap Correlation vs Range by Configuration",
+			 x = "r_max - r_min", y = "Bootstrap Correlation",
+			 shape = "K2") +
+		theme_minimal()
+	
+	return(list(
+		method = "parametric", 
+		confidence_plot = p1,
+		correlation_plot = p2,
+		sample_data = point_data,
+		region_data = ellipse_data,
+		summary_stats = stats
+	))
+}
+
+# Helper function to create consistent plots
+create_confidence_plot <- function(point_data, region_data, confidence_level, 
+								   method_name, region_type) {
+	
+	ggplot() +
+		geom_polygon(data = region_data, 
+					 aes(x = r_min, y = r_max, group = table_id, 
+					 	fill = factor(config_id)), 
 					 alpha = 0.3) +
-		geom_point(data = stats_sample, 
-				   aes(x = r_min_est, y = r_max_est, color = factor(N)), 
-				   size = 2) +
+		geom_point(data = point_data, 
+				   aes(x = r_min, y = r_max, color = factor(config_id)), 
+				   alpha = 0.8, size = 1.5) +
 		geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "black") +
-		scale_fill_viridis_d(name = "Sample Size") +
-		scale_color_viridis_d(name = "Sample Size") +
-		labs(title = "Approximate 95% Confidence Ellipses for (r_min, r_max)",
-			 subtitle = "Each ellipse represents uncertainty for one table",
+		scale_fill_viridis_d(name = "Config ID") +
+		scale_color_viridis_d(name = "Config ID") +
+		labs(title = paste0(method_name, " Joint Distribution of (r_min, r_max)"),
+			 subtitle = paste0(confidence_level * 100, "% confidence ", region_type),
 			 x = "r_min", y = "r_max") +
 		theme_minimal() +
 		theme(legend.position = "bottom")
+}
+
+# Function to analyze empirical correlations and patterns
+analyze_empirical_patterns <- function(boot_results_file) {
 	
-	return(p)
+	# Load the bootstrap results
+	if(is.character(boot_results_file)) {
+		boot_analysis <- readRDS(boot_results_file)
+	} else {
+		boot_analysis <- boot_results_file
+	}
+	
+	# Check if full samples are available
+	if(is.null(boot_analysis$full_bootstrap_samples)) {
+		stop("Full bootstrap samples not available. Rerun bootstrap with store_full_samples = TRUE")
+	}
+	
+	full_samples <- boot_analysis$full_bootstrap_samples
+	
+	# Extract patterns from each table
+	pattern_summary <- data.frame()
+	
+	for(i in 1:length(full_samples)) {
+		table_data <- full_samples[[i]]
+		boot_samples <- table_data$bootstrap_samples
+		
+		# Calculate empirical statistics
+		empirical_cor <- cor(boot_samples[, "r_min"], boot_samples[, "r_max"])
+		empirical_cov <- cov(boot_samples[, "r_min"], boot_samples[, "r_max"])
+		
+		# Shape of the distribution (skewness, kurtosis if needed)
+		range_r_min <- diff(range(boot_samples[, "r_min"]))
+		range_r_max <- diff(range(boot_samples[, "r_max"]))
+		
+		pattern_summary <- rbind(pattern_summary, data.frame(
+			config_id = table_data$config_id,
+			sim_id = table_data$sim_id,
+			empirical_cor = empirical_cor,
+			empirical_cov = empirical_cov,
+			range_r_min = range_r_min,
+			range_r_max = range_r_max,
+			mean_r_min = mean(boot_samples[, "r_min"]),
+			mean_r_max = mean(boot_samples[, "r_max"]),
+			sd_r_min = sd(boot_samples[, "r_min"]),
+			sd_r_max = sd(boot_samples[, "r_max"])
+		))
+	}
+	
+	# Merge with config info
+	config_patterns <- merge(pattern_summary, boot_analysis$config_info, by = "config_id")
+	
+	return(config_patterns)
 }
 
 # Function to modify bootstrap analysis to store full joint samples
@@ -713,19 +897,49 @@ quick_joint_viz <- function(boot_results_file) {
 
 # Example usage:
 # 
-# # Basic visualization using summary statistics
-# plots <- visualize_joint_uncertainty_summary("bootstrap_results.rds")
+# # Step 1: Run bootstrap WITH full samples (WARNING: Large files!)
+# full_analysis <- bootstrap_all_configurations(sim_data, B = 1000, store_full_samples = TRUE)
+# save_bootstrap_results(full_analysis, "bootstrap_with_samples.rds")
 # 
-# # Individual plots
-# print(plots$correlation_heatmap)
-# print(plots$scatter_plot)
+# # Step 2: Visualize empirical joint distributions
+# empirical_plots <- visualize_empirical_joint_distribution("bootstrap_with_samples.rds")
+# print(empirical_plots$joint_plot)
+# print(empirical_plots$individual_densities)
 # 
-# # Confidence ellipses (approximation)
-# ellipse_plot <- visualize_confidence_ellipses("bootstrap_results.rds")
-# print(ellipse_plot)
+# # Step 3: Analyze empirical patterns
+# patterns <- analyze_empirical_patterns("bootstrap_with_samples.rds")
+# print(head(patterns))
 # 
-# # Quick combined view
-# quick_joint_viz("bootstrap_results.rds")
+# # Step 4: Basic visualization using summary statistics (smaller files)
+# basic_plots <- visualize_joint_uncertainty_summary("bootstrap_results.rds")
+# print(basic_plots$combined)
+
+# Example usage:
+# 
+# Basic visualization using summary statistics
+plots <- visualize_joint_uncertainty_summary("bootstrap_results.rds")
+
+# Individual plots
+print(plots$correlation_heatmap)
+print(plots$scatter_plot)
+
+# Confidence ellipses (approximation)
+ellipse_plot <- visualize_confidence_ellipses("bootstrap_results.rds")
+print(ellipse_plot)
+
+# Empirical method (uses actual bootstrap samples → convex hulls)
+empirical_viz <- visualize_joint_confidence_regions("./R/ordinal_correlation_analysis/data/processed/bootstrap_with_samples.rds",
+													method = "empirical")
+empirical_viz
+
+# Parametric method (uses summary stats → ellipses) 
+parametric_viz <- visualize_joint_confidence_regions("./R/ordinal_correlation_analysis/data/processed/bootstrap_with_samples.rds", 
+													 method = "parametric")
+parametric_viz
+
+# Auto-fallback: tries empirical, falls back to parametric if no full samples
+auto_viz <- visualize_joint_confidence_regions("bootstrap_results.rds", 
+											   method = "empirical")
 
 
 # Load and visualize your results
@@ -741,4 +955,23 @@ print(ellipse_plot)
 
 # Quick combined view
 quick_joint_viz("bootstrap_results.rds")
+
+#### USE EMPERICAL JOINT SE --- this will take a long time
+
+# # Step 1: Run bootstrap WITH full samples (WARNING: Large files!)
+full_analysis <- bootstrap_all_configurations(sim_data, B = 1000, store_full_samples = TRUE)
+save_bootstrap_results(full_analysis, "./R/ordinal_correlation_analysis/data/processed/bootstrap_with_samples.rds")
+# 
+# # Step 2: Visualize empirical joint distributions
+empirical_plots <- visualize_empirical_joint_distribution("./R/ordinal_correlation_analysis/data/processed/bootstrap_with_samples.rds")
+# print(empirical_plots$joint_plot)
+# print(empirical_plots$individual_densities)
+# 
+# # Step 3: Analyze empirical patterns
+# patterns <- analyze_empirical_patterns("bootstrap_with_samples.rds")
+# print(head(patterns))
+# 
+# # Step 4: Basic visualization using summary statistics (smaller files)
+# basic_plots <- visualize_joint_uncertainty_summary("bootstrap_results.rds")
+# print(basic_plots$combined)
 
