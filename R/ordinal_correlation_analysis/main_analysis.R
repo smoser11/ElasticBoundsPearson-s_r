@@ -6,8 +6,9 @@ library(dplyr)
 library(ggplot2)
 library(gridExtra)
 
+getwd()
 # Source all module coordinators
-source("1_bivariate_ordcats_correlation/bivariate_main.R")
+source("/Users/sm38679/Documents/GitHub/ElasticBoundsPearson-s_r/R/ordinal_correlation_analysis/1_bivariate_ordcats_correlation/bivariate_main.R")
 source("2_correlation_matrices/matrices_main.R") 
 source("3_fixes_and_rescaling/rescaling_main.R")
 
@@ -90,11 +91,6 @@ cat("Required columns present:", all(c("var1", "var2", "corr", "nobs", "var1cats
 head(bes_data)
 summary(bes_data[c("corr", "nobs", "var1cats", "var2cats")])
 
-
-# 1.2 Load and Validate Your BES Dataset
-# Create data quality report
-source("./utilities/data_loading.R")  # If you created this file
-
 # Comprehensive data validation
 data_validation <- validate_bes_dataset(bes_data)
 cat("Data validation passed:", data_validation$valid, "\n")
@@ -133,7 +129,7 @@ cat("Research configuration:\n")
 	 
 	 # Load the main analysis system
 	 source("main_analysis.R")
-	 
+	 bes_data_clean <- bes_data 
 	 # Run comprehensive analysis
 	 cat("Starting research analysis on", nrow(bes_data_clean), "variable pairs...\n")
 	 cat("This may take several minutes for large datasets.\n")
