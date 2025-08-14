@@ -16,7 +16,8 @@ library(Matrix)
 library(MASS)  # For mvrnorm
 
 # Source the required functions (assuming they're in your working directory)
-source("./R/correlation_bounds_core.R")
+library(here)
+source(here("R", "correlation_bounds_core.R"))
 
 # -----------------------------------------------------------------------------
 # 1. Functions for generating ordinal data

@@ -5,12 +5,12 @@
 library(dplyr)
 library(ggplot2)
 library(gridExtra)
+library(here)
 
-getwd()
-# Source all module coordinators
-source("/Users/sm38679/Documents/GitHub/ElasticBoundsPearson-s_r/R/ordinal_correlation_analysis/1_bivariate_ordcats_correlation/bivariate_main.R")
-source("2_correlation_matrices/matrices_main.R") 
-source("3_fixes_and_rescaling/rescaling_main.R")
+# Source all module coordinators using here() for robust paths
+source(here("R", "ordinal_correlation_analysis", "1_bivariate_ordcats_correlation", "bivariate_main.R"))
+source(here("R", "ordinal_correlation_analysis", "2_correlation_matrices", "matrices_main.R"))
+source(here("R", "ordinal_correlation_analysis", "3_fixes_and_rescaling", "rescaling_main.R"))
 
 #' Run complete ordinal correlation analysis pipeline
 #'
@@ -74,10 +74,10 @@ if (!interactive()) {
 ######################### RESEARCH
 # 1.1 Load and Validate Your BES Dataset
 # Load your actual BES data
-getwd()
+# getwd()  # Remove dependency on working directory
 library(readstata13)
 # bes_data <- read.dta13("../data/correlation and other data about pairs of BES2019 variables.dta")
-bes_data <-read.dta13('/Users/sm38679/Documents/GitHub/ElasticBoundsPearson-s_r/R/ordinal_correlation_analysis/data/processed/correlation and other data about pairs of BES2019 variables.dta')
+bes_data <-read.dta13(here("R", "ordinal_correlation_analysis", "data", "processed", "correlation and other data about pairs of BES2019 variables.dta"))
 
 # Or if you have it in another format:
 # bes_data <- readRDS("BES_2019_processed.rds")
@@ -91,19 +91,19 @@ cat("Required columns present:", all(c("var1", "var2", "corr", "nobs", "var1cats
 head(bes_data)
 summary(bes_data[c("corr", "nobs", "var1cats", "var2cats")])
 
-# Comprehensive data validation
-data_validation <- validate_bes_dataset(bes_data)
-cat("Data validation passed:", data_validation$valid, "\n")
-if (!data_validation$valid) {
-	cat("Issues found:\n")
-	for (error in data_validation$errors) {
-		cat("  -", error, "\n")
-	}
-}
-
-# Clean the data if needed
-bes_data_clean <- clean_bes_data(bes_data)
-cat("Cleaned dataset size:", nrow(bes_data_clean), "variable pairs\n")
+# # Comprehensive data validation
+# data_validation <- validate_bes_dataset(bes_data)
+# cat("Data validation passed:", data_validation$valid, "\n")
+# if (!data_validation$valid) {
+# 	cat("Issues found:\n")
+# 	for (error in data_validation$errors) {
+# 		cat("  -", error, "\n")
+# 	}
+# }
+# 
+# # Clean the data if needed
+# bes_data_clean <- clean_bes_data(bes_data)
+# cat("Cleaned dataset size:", nrow(bes_data_clean), "variable pairs\n")
 
 ## 2.1 configure analysis params
 
@@ -128,7 +128,7 @@ cat("Research configuration:\n")
 	 
 	 
 	 # Load the main analysis system
-	 source("main_analysis.R")
+#	 source(here("R", "ordinal_correlation_analysis", "main_analysis.R"))
 	 bes_data_clean <- bes_data 
 	 # Run comprehensive analysis
 	 cat("Starting research analysis on", nrow(bes_data_clean), "variable pairs...\n")
@@ -143,21 +143,21 @@ cat("Research configuration:\n")
 	 cat("Analysis completed in", round(analysis_time, 1), "minutes\n")	 
 	 
 	 
-# 2.3 2.3 Generate Research Outputs
-	 # Create output directories for publication
-	 dir.create("research_output", showWarnings = FALSE)
-	 dir.create("research_output/figures", showWarnings = FALSE)
-	 dir.create("research_output/tables", showWarnings = FALSE)
-	 dir.create("research_output/data", showWarnings = FALSE)
+# # 2.3 2.3 Generate Research Outputs
+# 	 # Create output directories for publication
+# 	 dir.create("research_output", showWarnings = FALSE)
+# 	 dir.create("research_output/figures", showWarnings = FALSE)
+# 	 dir.create("research_output/tables", showWarnings = FALSE)
+# 	 dir.create("research_output/data", showWarnings = FALSE)
 	 
 	 # Save complete results
-	 saveRDS(research_results, "research_output/data/complete_analysis_results.rds")
+	 saveRDS(research_results, here("R", "ordinal_correlation_analysis", "output", "reports", "complete_analysis_results.rds"))
 	 cat("✓ Complete results saved\n")
 	 
 # 3.1 Main Research Figures
 	 
 	 # Load visualization functions
-	 source("1_bivariate_ordcats_correlation/3_visualization/bounds_visualization.R")
+	 source(here("R", "ordinal_correlation_analysis", "1_bivariate_ordcats_correlation", "3_visualization", "bounds_visualization.R"))
 	 
 	 # Figure 1: Correlation Bounds Landscape
 	 fig1 <- plot_bounds_scatter(research_results$bivariate$bounds_data, color_by = "bounds_range")
@@ -165,8 +165,8 @@ cat("Research configuration:\n")
 	 	labs(title = "Theoretical Correlation Bounds for Ordinal Variables",
 	 		 subtitle = paste("British Election Study 2019 (n =", nrow(research_results$bivariate$bounds_data), "variable pairs)")) +
 	 	theme(text = element_text(size = 12), plot.title = element_text(size = 14, face = "bold"))
-	 
-	 ggsave("research_output/figures/figure1_correlation_bounds_landscape.png", 
+	 fig1
+	 ggsave(here("R", "ordinal_correlation_analysis", "output", "figures", "figure1_correlation_bounds_landscape.png"), 
 	 	   fig1, width = 10, height = 8, dpi = 300)
 	 
 	 # Figure 2: Rescaling Effects
@@ -177,7 +177,7 @@ cat("Research configuration:\n")
 	 			 subtitle = "Rescaling maps correlations to theoretical [-1,1] range") +
 	 		theme(text = element_text(size = 12), plot.title = element_text(size = 14, face = "bold"))
 	 	
-	 	ggsave("research_output/figures/figure2_rescaling_effects.png", 
+	 	ggsave(here("R", "ordinal_correlation_analysis", "output", "figures", "figure2_rescaling_effects.png"), 
 	 		   fig2, width = 10, height = 8, dpi = 300)
 	 }
 	 
@@ -187,14 +187,16 @@ cat("Research configuration:\n")
 	 	
 	 	fig3 <- ggplot(asymmetry_data, aes(x = basic_asymmetry)) +
 	 		geom_histogram(bins = 50, fill = "steelblue", alpha = 0.7, color = "white") +
-	 		geom_vline(xintercept = 0, linetype = "dashed", color = "red", size = 1) +
+	 		geom_vline(xintercept = 0, linetype = "dashed", color = "red", linewidth = 1) +
 	 		labs(title = "Distribution of Correlation Bounds Asymmetry",
 	 			 subtitle = "Asymmetry = r_max + r_min (perfect symmetry = 0)",
 	 			 x = "Bounds Asymmetry", y = "Number of Variable Pairs") +
 	 		theme_minimal() +
 	 		theme(text = element_text(size = 12), plot.title = element_text(size = 14, face = "bold"))
 	 	
-	 	ggsave("research_output/figures/figure3_asymmetry_distribution.png", 
+	 	fig3
+	 	
+	 	ggsave(here("R", "ordinal_correlation_analysis", "output", "figures", "figure3_asymmetry_distribution.png"), 
 	 		   fig3, width = 10, height = 6, dpi = 300)
 	 }
 	 
@@ -228,7 +230,7 @@ cat("Research configuration:\n")
 	 		theme(text = element_text(size = 12), plot.title = element_text(size = 14, face = "bold"),
 	 			  axis.text.x = element_text(angle = 45, hjust = 1))
 	 	
-	 	ggsave("research_output/figures/figureS1_matrix_properties.png", 
+	 	ggsave(here("R", "ordinal_correlation_analysis", "output", "figures", "figureS1_matrix_properties.png"), 
 	 		   figS1, width = 12, height = 8, dpi = 300)
 	 }
 	 
@@ -260,10 +262,62 @@ cat("Research configuration:\n")
 	 	)
 	 )
 	 
-	 write.csv(table1, "research_output/tables/table1_descriptive_statistics.csv", row.names = FALSE)
+	 table1
+	 
+	 library(gt)
+	 gt_table <- table1 %>%
+	 	gt() %>%
+	 	# Integers with thousand separators
+	 	fmt_number(
+	 		columns = Value,
+	 		rows = Statistic %in% c("Number of Variable Pairs", "Mean Sample Size", "SD Sample Size"),
+	 		decimals = 0,
+	 		use_seps = TRUE
+	 	) %>%
+	 	# 3 decimal places for correlations and ranges
+	 	fmt_number(
+	 		columns = Value,
+	 		rows = !Statistic %in% c("Number of Variable Pairs", "Mean Sample Size", "SD Sample Size"),
+	 		decimals = 3
+	 	) %>%
+	 	tab_header(
+	 		title = md("**Summary Statistics**")
+	 	) %>%
+	 	cols_label(
+	 		Statistic = "Statistic",
+	 		Value = "Value"
+	 	) %>%
+	 	tab_style(
+	 		style = list(
+	 			cell_text(weight = "bold", align = "center")
+	 		),
+	 		locations = cells_title(groups = "title")
+	 	) %>%
+	 	cols_align(
+	 		align = "right",
+	 		columns = Value
+	 	)
+	 
+	 print(gt_table)
+	 # Save the gt table as a Word document
+	 gtsave(gt_table,  here("R", "ordinal_correlation_analysis", "output", "tables","summary_stats_table.docx")	)
+	 
+	 table1
+	 
+	 write.csv(table1, here("R", "ordinal_correlation_analysis", "output", "tables", "table1_descriptive_statistics.csv"), row.names = FALSE)
 	 print(table1)	 
 	 
+library(knitr)
+library(kableExtra)
 	 
+	 ## 1. Export to MMD table
+	 mmd_table <- kable(table1, format = "pipe", align = c("l","r"))
+	 writeLines(mmd_table, here("R", "ordinal_correlation_analysis", "output", "tables","summary_stats_table.md") )
+	 
+	 ## 2. Export to HTML table
+	 html_table <- kable(table1, format = "html", table.attr = "border=1")
+	 writeLines(html_table, here("R", "ordinal_correlation_analysis", "output", "tables", "summary_stats_table.html") )
+
 	 
 ## 4.2 Key Findings Table
 	 
@@ -298,11 +352,56 @@ cat("Research configuration:\n")
 	 		)
 	 	)
 	 	
-	 	write.csv(table2, "research_output/tables/table2_key_findings.csv", row.names = FALSE)
+	 	table2
+	 	
+	 	write.csv(table2, here("R", "ordinal_correlation_analysis", "output", "tables", "table2_key_findings.csv"), row.names = FALSE)
 	 	print(table2)
 	 }
 	 
+	 gt_table2 <- table2 %>%
+	 	gt() %>%
+	 	# Integers with thousand separators
+	 	fmt_number(
+	 		columns = Value,
+	 		decimals = 1,
+	 		use_seps = TRUE
+	 	) %>%
+	 	tab_header(
+	 		title = md("**Key Findings**")
+	 	) %>%
+	 	cols_label(
+	 		Finding = "Finding",
+	 		Value = "Value"
+	 	) %>%
+	 	tab_style(
+	 		style = list(
+	 			cell_text(weight = "bold", align = "center")
+	 		),
+	 		locations = cells_title(groups = "title")
+	 	) %>%
+	 	cols_align(
+	 		align = "right",
+	 		columns = Value
+	 	)
+	 
+	 print(gt_table2)
+	 # Save the gt table as a Word document
+	 gtsave(gt_table2,  here("R", "ordinal_correlation_analysis", "output", "tables","table2_key_findings.docx")	)
+	 
+	 ## 1. Export to MMD table
+	 mmd_table <- kable(table2, format = "pipe", align = c("l","r"))
+	 writeLines(mmd_table, here("R", "ordinal_correlation_analysis", "output", "tables","table2_key_findings.md") )
+	 
+	 ## 2. Export to HTML table
+	 html_table <- kable(table2, format = "html", table.attr = "border=1")
+	 writeLines(html_table, here("R", "ordinal_correlation_analysis", "output", "tables", "table2_key_findings.html") )	 
+	 
 	 cat("✓ Tables saved to research_output/tables/\n")	 
+	 
+	 
+	 
+	 
+	 
 	 
 	 
 ## 5.1 Automated Research Summary
@@ -351,7 +450,7 @@ cat("Research configuration:\n")
 	 )
 	 
 	 # Save research summary
-	 writeLines(research_summary, "research_output/research_summary.txt")
+	 writeLines(research_summary, here("R", "ordinal_correlation_analysis", "output", "research_summary.txt"))
 	 cat("✓ Research summary saved\n")
 	 cat("\nRESEARCH SUMMARY:\n")
 	 cat(research_summary)	 

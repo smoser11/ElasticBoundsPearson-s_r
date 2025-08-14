@@ -13,10 +13,10 @@ library(tidyr)
 library(ggplot2)
 library(gridExtra)
 
-# Source the core and visualization functions
-# Adjust the path as needed
-source("correlation_bounds_core.R")
-source("correlation_bounds_visualization.R")
+# Source the core and visualization functions using here package for robust paths
+library(here)
+source(here("R", "correlation_bounds_core.R"))
+source(here("R", "correlation-bounds-visualization.R"))
 
 # -----------------------------------------------------------------------------
 # Example 1: Basic demonstration with uniform and extreme distributions

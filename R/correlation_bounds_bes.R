@@ -119,9 +119,9 @@ plot_bounds_significance <- function(summary_df) {
 # Load required libraries
 library(dplyr)
 
-# Source the core functions
-# Adjust the path as needed
-source("./R/correlation_bounds_core.R")
+# Source the core functions using here package for robust paths
+library(here)
+source(here("R", "correlation_bounds_core.R"))
 
 #' Calculate correlation bounds for a pair of ordinal variables
 #'
@@ -561,9 +561,10 @@ library(ggplot2)
 library(dplyr)
 library(gridExtra)
 
-# Source the required functions (assuming you have these files)
-source("./R/correlation_bounds_core.R")
-source("./R/correlation_bounds_bes.R")
+# Source the required functions using here package for robust paths
+# Note: here package should already be loaded from earlier in this file
+source(here("R", "correlation_bounds_core.R"))
+# source(here("R", "correlation_bounds_bes.R"))  # Self-reference removed
 
 # Step 1: Calculate bounds for all variable pairs
 # (This may take some time depending on your dataset size)

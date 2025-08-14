@@ -3,9 +3,10 @@
 # BES-specific correlation bounds analysis functions
 # Adapted from correlation_bounds_bes.R
 
-# Source required dependencies
+# Source required dependencies using here() for robust paths
 if (!exists("max_corr_bound")) {
-	source("./R/ordinal_correlation_analysis/1_bivariate_ordcats_correlation/1_rmin_rmax_rhat/1_monte_carlo_simulation/core_bounds_functions.R")
+	library(here)
+	source(here("R", "ordinal_correlation_analysis", "1_bivariate_ordcats_correlation", "1_rmin_rmax_rhat", "1_monte_carlo_simulation", "core_bounds_functions.R"))
 }
 
 # Required libraries
@@ -218,7 +219,7 @@ analyze_all_bes_bounds <- function(df, nsim = 1000, use_prop = FALSE,
 		
 		# Add original variables
 
-		bounds_result[var1] <- row$var1
+		bounds_result$var1 <- row$var1
 		bounds_result$var2 <- row$var2
 		
 		# Store results

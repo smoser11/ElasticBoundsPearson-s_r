@@ -1,9 +1,12 @@
 # rescaling_main.R  
 # Rescaling analysis module coordinator
 
-# Source rescaling components
-source("3_fixes_and_rescaling/1_simple_rescaling/linear_rescaling.R")
-# source("3_fixes_and_rescaling/2_advanced_rescaling/sophisticated_methods.R")  # When created
+# Load here package for robust paths
+library(here)
+
+# Source rescaling components using here() for robust paths
+source(here("R", "ordinal_correlation_analysis", "3_fixes_and_rescaling", "1_simple_rescaling", "linear_rescaling.R"))
+# source(here("R", "ordinal_correlation_analysis", "3_fixes_and_rescaling", "2_advanced_rescaling", "sophisticated_methods.R"))  # When created
 
 # Required libraries
 library(dplyr)

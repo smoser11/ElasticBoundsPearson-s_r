@@ -6,15 +6,16 @@
 # Date: March 2, 2025
 
 # Load required libraries
+library(here)
 library(dplyr)
 library(ggplot2)
 library(gridExtra)
 library(readstata13)
-bes_data <- read.dta13("./data/correlation and other data about pairs of BES2019 variables.dta")
+bes_data <- read.dta13(here("R", "ordinal_correlation_analysis", "data", "processed", "correlation and other data about pairs of BES2019 variables.dta"))
 
 # Source the required functions
-source("correlation_bounds_core.R")
-source("correlation_bounds_bes.R")
+source(here("R", "correlation_bounds_core.R"))
+source(here("R", "correlation_bounds_bes.R"))
 
 # Example data row (based on the provided example)
 create_example_row <- function() {
@@ -310,10 +311,10 @@ visualize_corr_bounds(all_results)
 
 dd <- left_join(bes_data, all_results, by= c("var1", "var2"))
 
-write.csv(as.data.frame(dd), file = "./data/BESpairs_Rminmax.csv")
+write.csv(as.data.frame(dd), file = here("R", "ordinal_correlation_analysis", "data", "processed", "BESpairs_Rminmax.csv"))
 
 library(readr)
-BESpairs_Rminmax <- read_csv("BESpairs_Rminmax.csv")
+BESpairs_Rminmax <- read_csv(here("R", "ordinal_correlation_analysis", "data", "processed", "BESpairs_Rminmax.csv"))
 View(BESpairs_Rminmax)
 
 # Generate a summary report
@@ -343,7 +344,7 @@ close_to_max
 significant <- subset(summary_report, outside_ci == TRUE)
 significant
 
-save.image("BES19_example.RData")
+save.image(here("R", "ordinal_correlation_analysis", "data", "processed", "BES19_example.RData"))
 
 names(BESpairs_Rminmax)
 

@@ -10,9 +10,10 @@ library(dplyr)
 library(ggplot2)
 library(gridExtra)
 
-# Source the required functions
-source("correlation_bounds_core.R")
-source("correlation_bounds_bes.R")
+# Source the required functions using here package for robust paths
+library(here)
+source(here("R", "correlation_bounds_core.R"))
+source(here("R", "correlation_bounds_bes.R"))
 
 # Example data row (based on the provided example)
 create_example_row <- function() {

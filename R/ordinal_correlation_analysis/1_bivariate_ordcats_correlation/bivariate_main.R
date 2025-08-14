@@ -1,11 +1,14 @@
 # bivariate_main.R
 # Bivariate correlation analysis module coordinator
 
-# Source all bivariate analysis components
-source("1_bivariate_ordcats_correlation/1_rmin_rmax_rhat/1_monte_carlo_simulation/core_bounds_functions.R")
-source("1_bivariate_ordcats_correlation/1_rmin_rmax_rhat/2_bes_illustrative_example/bes_data_analysis.R")
-source("1_bivariate_ordcats_correlation/2_asymmetry_analysis/asymmetry_measures.R")
-source("1_bivariate_ordcats_correlation/3_visualization/bounds_visualization.R")
+# Load here package for robust paths
+library(here)
+
+# Source all bivariate analysis components using here() for robust paths
+source(here("R", "ordinal_correlation_analysis", "1_bivariate_ordcats_correlation", "1_rmin_rmax_rhat", "1_monte_carlo_simulation", "core_bounds_functions.R"))
+source(here("R", "ordinal_correlation_analysis", "1_bivariate_ordcats_correlation", "1_rmin_rmax_rhat", "2_bes_illustrative_example", "bes_data_analysis.R"))
+source(here("R", "ordinal_correlation_analysis", "1_bivariate_ordcats_correlation", "2_asymmetry_analysis", "asymmetry_measures.R"))
+source(here("R", "ordinal_correlation_analysis", "1_bivariate_ordcats_correlation", "3_visualization", "bounds_visualization.R"))
 
 # Required libraries for this module
 library(dplyr)
@@ -47,3 +50,4 @@ run_bivariate_analysis <- function(bes_data, config = list()) {
 
 #' Default null coalescing operator
 `%||%` <- function(x, y) if (is.null(x)) y else x
+

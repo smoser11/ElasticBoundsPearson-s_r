@@ -1,8 +1,9 @@
 # 2_correlation_matrices/1_matrix_properties/matrix_diagnostics.R
 # Core matrix construction and property testing
 
-# Source required dependencies
-source("2_correlation_matrices/1_matrix_properties/psd_validation.R")
+# Source required dependencies using here() for robust paths
+library(here)
+source(here("R", "ordinal_correlation_analysis", "2_correlation_matrices", "1_matrix_properties", "psd_validation.R"))
 
 # Required libraries
 library(Matrix)

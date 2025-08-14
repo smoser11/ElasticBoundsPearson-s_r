@@ -491,7 +491,8 @@ print(joint_analysis$most_dependent)
 print(joint_analysis$least_dependent)
 
 # Save and summarize
-save_bootstrap_results(full_analysis, "./R/ordinal_correlation_analysis/data/Processed/bootstrap_results_sim.rds")
+library(here)
+save_bootstrap_results(full_analysis, here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_results_sim.rds"))
 summary <- summarize_bootstrap_results(full_analysis)
 summary
 
@@ -928,12 +929,12 @@ ellipse_plot <- visualize_confidence_ellipses("bootstrap_results.rds")
 print(ellipse_plot)
 
 # Empirical method (uses actual bootstrap samples → convex hulls)
-empirical_viz <- visualize_joint_confidence_regions("./R/ordinal_correlation_analysis/data/processed/bootstrap_with_samples.rds",
+empirical_viz <- visualize_joint_confidence_regions(here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_with_samples.rds"),
 													method = "empirical")
 empirical_viz
 
 # Parametric method (uses summary stats → ellipses) 
-parametric_viz <- visualize_joint_confidence_regions("./R/ordinal_correlation_analysis/data/processed/bootstrap_with_samples.rds", 
+parametric_viz <- visualize_joint_confidence_regions(here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_with_samples.rds"), 
 													 method = "parametric")
 parametric_viz
 
@@ -960,10 +961,10 @@ quick_joint_viz("bootstrap_results.rds")
 
 # # Step 1: Run bootstrap WITH full samples (WARNING: Large files!)
 full_analysis <- bootstrap_all_configurations(sim_data, B = 1000, store_full_samples = TRUE)
-save_bootstrap_results(full_analysis, "./R/ordinal_correlation_analysis/data/processed/bootstrap_with_samples.rds")
+save_bootstrap_results(full_analysis, here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_with_samples.rds"))
 # 
 # # Step 2: Visualize empirical joint distributions
-empirical_plots <- visualize_empirical_joint_distribution("./R/ordinal_correlation_analysis/data/processed/bootstrap_with_samples.rds")
+empirical_plots <- visualize_empirical_joint_distribution(here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_with_samples.rds"))
 # print(empirical_plots$joint_plot)
 # print(empirical_plots$individual_densities)
 # 

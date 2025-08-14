@@ -15,11 +15,12 @@ library(gridExtra)
 library(Matrix)
 library(matrixcalc)
 
-# Source all required functions (make sure they're in your working directory)
-source("correlation_bounds_core.R")
-source("correlation-bounds-visualization.R")
-source("correlation_bounds_bes.R")
-source("correlation_matrix_test.R")
+# Source all required functions using here package for robust paths
+library(here)
+source(here("R", "correlation_bounds_core.R"))
+source(here("R", "correlation-bounds-visualization.R"))
+source(here("R", "correlation_bounds_bes.R"))
+# source(here("R", "correlation_matrix_test.R"))  # Comment out if file doesn't exist
 
 # Set seed for reproducibility
 set.seed(42)

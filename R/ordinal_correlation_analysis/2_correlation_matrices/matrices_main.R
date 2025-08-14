@@ -1,11 +1,14 @@
 # matrices_main.R
 # Correlation matrix analysis module coordinator
 
-# Source all matrix analysis components
-source("2_correlation_matrices/1_matrix_properties/matrix_diagnostics.R")
-source("2_correlation_matrices/1_matrix_properties/psd_validation.R")
-source("2_correlation_matrices/1_matrix_properties/condition_number_analysis.R")
-source("2_correlation_matrices/2_matrix_construction/random_trials.R")
+# Load here package for robust paths
+library(here)
+
+# Source all matrix analysis components using here() for robust paths
+source(here("R", "ordinal_correlation_analysis", "2_correlation_matrices", "1_matrix_properties", "matrix_diagnostics.R"))
+source(here("R", "ordinal_correlation_analysis", "2_correlation_matrices", "1_matrix_properties", "psd_validation.R"))
+source(here("R", "ordinal_correlation_analysis", "2_correlation_matrices", "1_matrix_properties", "condition_number_analysis.R"))
+source(here("R", "ordinal_correlation_analysis", "2_correlation_matrices", "2_matrix_construction", "random_trials.R"))
 
 # Required libraries
 library(Matrix)

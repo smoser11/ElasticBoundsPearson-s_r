@@ -1,5 +1,6 @@
 library(readstata13)
-bes19 <- read.dta13("correlation and other data about pairs of BES2019 variables.dta")
+library(here)
+bes19 <- read.dta13(here("R", "ordinal_correlation_analysis", "data", "processed", "correlation and other data about pairs of BES2019 variables.dta"))
 
 # correlation_bounds_bes.R
 #
@@ -13,7 +14,7 @@ library(dplyr)
 
 # Source the core functions
 # Adjust the path as needed
-source("correlation_bounds_core.R")
+source(here("R", "correlation_bounds_core.R"))
 
 #' Calculate correlation bounds for a pair of ordinal variables
 #'

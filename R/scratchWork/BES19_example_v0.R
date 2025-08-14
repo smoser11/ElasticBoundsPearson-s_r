@@ -1,5 +1,6 @@
+library(here)
 library(readstata13)
-bes19 <- read.dta13("correlation and other data about pairs of BES2019 variables.dta")
+bes19 <- read.dta13(here("R", "ordinal_correlation_analysis", "data", "processed", "correlation and other data about pairs of BES2019 variables.dta"))
 
 
 # correlation_bounds_bes.R
@@ -14,7 +15,7 @@ library(dplyr)
 
 # Source the core functions
 # Adjust the path as needed
-source("correlation_bounds_core.R")
+source(here("R", "correlation_bounds_core.R"))
 
 #' Calculate correlation bounds for a pair of ordinal variables
 #'
@@ -375,8 +376,8 @@ library(ggplot2)
 library(gridExtra)
 
 # Source the required functions
-source("correlation_bounds_core.R")
-source("correlation_bounds_bes.R")
+source(here("R", "correlation_bounds_core.R"))
+source(here("R", "correlation_bounds_bes.R"))
 
 # Example data row (based on the provided example)
 create_example_row <- function() {
@@ -569,8 +570,8 @@ if (!interactive()) {
 
 
 # Source the files
-source("correlation_bounds_core.R")
-source("correlation_bounds_bes.R")
+source(here("R", "correlation_bounds_core.R"))
+source(here("R", "correlation_bounds_bes.R"))
 bes_data <- bes19
 
 # Analyze a single row
