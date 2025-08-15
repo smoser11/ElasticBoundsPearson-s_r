@@ -22,13 +22,17 @@ cat("==============================\n\n")
 # ================================================================
 
 params <- list(
-  nsim = 2000,                 # Permutation simulations for bounds
+  nsim = 100,                  # Permutation simulations for bounds (reduced for testing)
   confidence_level = 0.95,     # Confidence level for intervals
   force_regenerate = FALSE,    # Set TRUE to ignore existing cache
   
   # Data filtering parameters
   min_nobs = 100,              # Minimum sample size for inclusion
-  max_missing_prop = 0.1       # Maximum proportion missing data
+  max_missing_prop = 0.1,      # Maximum proportion missing data
+  
+  # Progress reporting
+  verbose = TRUE,              # Show detailed progress messages
+  max_pairs = 500              # Limit pairs for testing (remove for full analysis)
 )
 
 cat("📋 Configuration:\n")
@@ -83,7 +87,7 @@ cat("=== SECTION 2: BES BOUNDS COMPUTATION ===\n")
 
 # Cache file for bounds computation
 bounds_cache_file <- here("R", "ordinal_correlation_analysis", "output", "reports",
-                         generate_cache_filename("bes_bounds", params[c("nsim", "min_nobs")]))
+                         generate_cache_filename("bes_bounds", params[c("nsim", "min_nobs", "max_pairs")]))
 
 bes_bounds_data <- cache_or_compute(
   cache_file = bounds_cache_file,
@@ -102,6 +106,12 @@ bes_bounds_data <- cache_or_compute(
              !is.na(corr),
              !is.na(var1cats),
              !is.na(var2cats))
+    
+    # Limit pairs for testing if specified
+    if (!is.null(params$max_pairs) && nrow(filtered_data) > params$max_pairs) {
+      filtered_data <- filtered_data[1:params$max_pairs, ]
+      cat("🔬 Limited to", params$max_pairs, "pairs for testing\n")
+    }
     
     cat("Analyzing", nrow(filtered_data), "variable pairs (after filtering)\n")
     
@@ -180,7 +190,7 @@ plot1 <- ggplot(bes_analysis, aes(x = r_min, y = r_max)) +
   ) +
   theme_minimal() +
   theme(plot.title = element_text(face = "bold", size = 14))
-
+plot1
 plot1_file <- file.path(figures_dir, "bes_bounds_landscape.png")
 ggsave(plot1_file, plot1, width = 12, height = 8, dpi = 300)
 
@@ -196,6 +206,8 @@ plot2 <- ggplot(bes_analysis, aes(x = bounds_range, y = abs(observed_r))) +
   ) +
   theme_minimal() +
   theme(plot.title = element_text(face = "bold"))
+
+plot2
 
 plot2_file <- file.path(figures_dir, "bes_observed_vs_bounds.png") 
 ggsave(plot2_file, plot2, width = 10, height = 8, dpi = 300)
@@ -217,6 +229,8 @@ plot3 <- ggplot(bes_analysis, aes(x = bounds_asymmetry)) +
   theme_minimal() +
   theme(plot.title = element_text(face = "bold"))
 
+plot3
+
 plot3_file <- file.path(figures_dir, "bes_bounds_asymmetry.png")
 ggsave(plot3_file, plot3, width = 10, height = 6, dpi = 300)
 
@@ -233,6 +247,8 @@ plot4 <- ggplot(bes_analysis, aes(x = observed_r, y = rescaled_r)) +
   ) +
   theme_minimal() +
   theme(plot.title = element_text(face = "bold"))
+
+plot4
 
 plot4_file <- file.path(figures_dir, "bes_original_vs_rescaled.png")
 ggsave(plot4_file, plot4, width = 10, height = 8, dpi = 300)
@@ -326,3 +342,4 @@ cat("🔄 Next steps:\n")
 cat("   - Run workflow_bivariate_asymmetry.R for detailed asymmetry analysis\n")
 cat("   - Run workflow_matrices.R for matrix property analysis\n") 
 cat("   - Compare with Monte Carlo results using comparison workflows\n\n")
+

@@ -474,27 +474,27 @@ analyze_joint_relationships <- function(boot_analysis) {
 
 # 
 # Quick check of a single table (no bootstrap)
-single_table <- sim_data$tables[[1]][[1]]
-analyze_single_table(single_table)
+# single_table <- sim_data$tables[[1]][[1]]
+# analyze_single_table(single_table)
 
 # Single table WITH bootstrap uncertainty (B = number of bootstrap samples)
-analyze_single_table_with_bootstrap(single_table, B = 500)
+# analyze_single_table_with_bootstrap(single_table, B = 500)
 
 # Bootstrap analysis for ALL configurations (now includes joint relationships!)
-full_analysis <- bootstrap_all_configurations(sim_data, B = 10, store_full_samples = TRUE)
+# full_analysis <- bootstrap_all_configurations(sim_data, B = 10, store_full_samples = TRUE)
 
 # Analyze the joint r_min/r_max relationships
-joint_analysis <- analyze_joint_relationships(full_analysis)
+# joint_analysis <- analyze_joint_relationships(full_analysis)
 
 # Check which configurations have most/least correlated r_min and r_max
-print(joint_analysis$most_dependent)
-print(joint_analysis$least_dependent)
+# print(joint_analysis$most_dependent)
+# print(joint_analysis$least_dependent)
 
 # Save and summarize
-library(here)
-save_bootstrap_results(full_analysis, here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_results_sim.rds"))
-summary <- summarize_bootstrap_results(full_analysis)
-summary
+# library(here)
+# save_bootstrap_results(full_analysis, here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_results_sim.rds"))
+# summary <- summarize_bootstrap_results(full_analysis)
+# summary
 
 
 #####################################
@@ -899,7 +899,7 @@ quick_joint_viz <- function(boot_results_file) {
 # Example usage:
 # 
 # # Step 1: Run bootstrap WITH full samples (WARNING: Large files!)
-# full_analysis <- bootstrap_all_configurations(sim_data, B = 1000, store_full_samples = TRUE)
+# # full_analysis <- bootstrap_all_configurations(sim_data, B = 1000, store_full_samples = TRUE)
 # save_bootstrap_results(full_analysis, "bootstrap_with_samples.rds")
 # 
 # # Step 2: Visualize empirical joint distributions
@@ -912,59 +912,59 @@ quick_joint_viz <- function(boot_results_file) {
 # print(head(patterns))
 # 
 # # Step 4: Basic visualization using summary statistics (smaller files)
-# basic_plots <- visualize_joint_uncertainty_summary("bootstrap_results.rds")
+# basic_# plots <- visualize_joint_uncertainty_summary("bootstrap_results.rds")
 # print(basic_plots$combined)
 
 # Example usage:
 # 
 # Basic visualization using summary statistics
-plots <- visualize_joint_uncertainty_summary("bootstrap_results.rds")
+# plots <- visualize_joint_uncertainty_summary("bootstrap_results.rds")
 
 # Individual plots
-print(plots$correlation_heatmap)
-print(plots$scatter_plot)
+# print(plots$correlation_heatmap)
+# print(plots$scatter_plot)
 
 # Confidence ellipses (approximation)
-ellipse_plot <- visualize_confidence_ellipses("bootstrap_results.rds")
-print(ellipse_plot)
+# ellipse_plot <- visualize_confidence_ellipses("bootstrap_results.rds")
+# print(ellipse_plot)
 
 # Empirical method (uses actual bootstrap samples → convex hulls)
-empirical_viz <- visualize_joint_confidence_regions(here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_with_samples.rds"),
-													method = "empirical")
-empirical_viz
+# empirical_viz <- visualize_joint_confidence_regions(here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_with_samples.rds"),
+# 													method = "empirical")
+# empirical_viz
 
 # Parametric method (uses summary stats → ellipses) 
-parametric_viz <- visualize_joint_confidence_regions(here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_with_samples.rds"), 
-													 method = "parametric")
-parametric_viz
+# parametric_viz <- visualize_joint_confidence_regions(here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_with_samples.rds"), 
+# 													 method = "parametric")
+# parametric_viz
 
 # Auto-fallback: tries empirical, falls back to parametric if no full samples
-auto_viz <- visualize_joint_confidence_regions("bootstrap_results.rds", 
-											   method = "empirical")
+# auto_viz <- visualize_joint_confidence_regions("bootstrap_results.rds", 
+# 											   method = "empirical")
 
 
 # Load and visualize your results
-plots <- visualize_joint_uncertainty_summary("bootstrap_results.rds")
+# plots <- visualize_joint_uncertainty_summary("bootstrap_results.rds")
 
 # See individual plots
-print(plots$correlation_heatmap)
-print(plots$scatter_plot)
+# print(plots$correlation_heatmap)
+# print(plots$scatter_plot)
 
 # Get confidence ellipses
-ellipse_plot <- visualize_confidence_ellipses("bootstrap_results.rds")
-print(ellipse_plot)
+# ellipse_plot <- visualize_confidence_ellipses("bootstrap_results.rds")
+# print(ellipse_plot)
 
 # Quick combined view
-quick_joint_viz("bootstrap_results.rds")
+# quick_joint_viz("bootstrap_results.rds")
 
 #### USE EMPERICAL JOINT SE --- this will take a long time
 
 # # Step 1: Run bootstrap WITH full samples (WARNING: Large files!)
-full_analysis <- bootstrap_all_configurations(sim_data, B = 1000, store_full_samples = TRUE)
-save_bootstrap_results(full_analysis, here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_with_samples.rds"))
+# full_analysis <- bootstrap_all_configurations(sim_data, B = 1000, store_full_samples = TRUE)
+# save_bootstrap_results(full_analysis, here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_with_samples.rds"))
 # 
 # # Step 2: Visualize empirical joint distributions
-empirical_plots <- visualize_empirical_joint_distribution(here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_with_samples.rds"))
+# empirical_plots <- visualize_empirical_joint_distribution(here("R", "ordinal_correlation_analysis", "data", "processed", "bootstrap_with_samples.rds"))
 # print(empirical_plots$joint_plot)
 # print(empirical_plots$individual_densities)
 # 
@@ -973,6 +973,6 @@ empirical_plots <- visualize_empirical_joint_distribution(here("R", "ordinal_cor
 # print(head(patterns))
 # 
 # # Step 4: Basic visualization using summary statistics (smaller files)
-# basic_plots <- visualize_joint_uncertainty_summary("bootstrap_results.rds")
+# basic_# plots <- visualize_joint_uncertainty_summary("bootstrap_results.rds")
 # print(basic_plots$combined)
 

@@ -107,12 +107,11 @@ analyze_bes_corr_bounds <- function(row, nsim = 1000, use_prop = FALSE, return_s
 		}
 		
 		# Calculate theoretical bounds
-		r_min <- min_corr_bound(var1_marginals, var2_marginals, sample_size = n_obs)
-		r_max <- max_corr_bound(var1_marginals, var2_marginals, sample_size = n_obs)
+		r_min <- min_corr_bound(var1_marginals, var2_marginals)
+		r_max <- max_corr_bound(var1_marginals, var2_marginals)
 		
 		# Simulate permutation distribution
-		r_sim <- simulate_permutation_distribution(var1_marginals, var2_marginals, 
-												   nsim = nsim, sample_size = n_obs)
+		r_sim <- simulate_permutation_distribution(var1_marginals, var2_marginals, nsim = nsim)
 		
 		# Calculate 95% confidence interval
 		ci_bounds <- quantile(r_sim, probs = c(0.025, 0.975))
@@ -167,7 +166,6 @@ analyze_bes_corr_bounds <- function(row, nsim = 1000, use_prop = FALSE, return_s
 		
 		return(result)
 
-		cat(class(result))
 
 	}
 		# [Copy rest of function body exactly, but update internal function calls]
@@ -196,8 +194,6 @@ analyze_bes_corr_bounds <- function(row, nsim = 1000, use_prop = FALSE, return_s
 analyze_all_bes_bounds <- function(df, nsim = 1000, use_prop = FALSE, 
 									return_simulations = FALSE, progress = TRUE) {
 
-	df <- bes_data
-
 	# Initialize results list
 	results_list <- list()
 	
@@ -214,7 +210,7 @@ analyze_all_bes_bounds <- function(df, nsim = 1000, use_prop = FALSE,
 		row <- df[i, ]
 		
 		# Analyze bounds
-		bounds_result <- analyze_corr_bounds(row, nsim = nsim, use_prop = use_prop, 
+		bounds_result <- analyze_bes_corr_bounds(row, nsim = nsim, use_prop = use_prop, 
 											 return_simulations = return_simulations)
 		
 		# Add original variables
