@@ -152,7 +152,8 @@ examine_table <- function(sim_results, config_id, sim_id) {
 # examine_table(loaded_data, config_id = 1, sim_id = 1)
 
 
-sim_data <- run_mc_simulation(numsims = 10) 
-library(here)
-save_simulation(sim_data, here("R", "ordinal_correlation_analysis", "data", "raw", "MCsim.rds"))
-examine_table(loaded_data, config_id = 1, sim_id = 1)
+# Example usage (commented out to prevent execution when sourcing):
+# sim_data <- run_mc_simulation(numsims = 10) 
+# library(here)
+# save_simulation(sim_data, here("R", "ordinal_correlation_analysis", "data", "raw", "MCsim.rds"))
+# examine_table(sim_data, config_id = 1, sim_id = 1)

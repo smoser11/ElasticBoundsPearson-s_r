@@ -1,0 +1,2010 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  12pt,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+\usepackage{fancyvrb}
+
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+% Numbering is tied to sections (e.g., Proposition 2.1, 2.2, etc.)
+% Theorems and Propositions (italic)
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+% Definitions and Corollaries (upright)
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{example}{Example}
+% \newtheorem{algorithm}[theorem]{Algorithm}
+% Optional: formatting for the proof environment
+\renewenvironment{proof}
+   {\par\noindent\textbf{Proof.}\ }
+   {\hfill$\blacksquare$\par}
+
+
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\usepackage{amsthm}
+\theoremstyle{remark}
+\AtBeginDocument{\renewcommand*{\proofname}{Proof}}
+\newtheorem*{remark}{Remark}
+\newtheorem*{solution}{Solution}
+\newtheorem{refremark}{Remark}[section]
+\newtheorem{refsolution}{Solution}[section]
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\VerbatimFootnotes % allow verbatim text in footnotes
+\hypersetup{
+  pdftitle={Elastic Bounds of Pearson's r: Theoretical and Empirical Insights for Ordinal Variables},
+  pdfauthor={Cees van der Eijk; Scott Moser},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={RoyalBlue},
+  urlcolor={BrickRed},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Elastic Bounds of Pearson's \(r\): Theoretical and Empirical
+Insights for Ordinal Variables}
+\author{Cees van der Eijk \and Scott Moser}
+\date{15, August 2025}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Table of contents}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+
+\newpage
+
+\begin{abstract}
+The use of product-moment correlations to assess relationships between ordered-categorical variables is widespread and generally tolerated in spite of the non-metric character of such variables. Potential problems of this practice have been identified in the literature. This article focusses on one of these, namely that correlation coefficients are poorly comparable across pairs of ordered-categorical variables because their ranges are constrained in non-uniform ways. This not only affects the validity of correlation coefficients for descriptive purposes, but also as bases for subsequent analyses, as in, e.g., principal component analysis, factor analysis, and structural equation modelling. This article focusses on this problem of ‘constrained’ correlations. It explains the problem and explores conditions under which it is most severe. It provides illustrations based on both fabricated and actual empirical data, the latter from a mass-survey that ubiquitously contains many ordered-categorical variables that are commonly analysed with product-moment correlations. The article is accompanied by a software tool in R for analysing the attainable upper- and lower bounds of correlations in actual data. 
+
+Pearson’s correlation coefficient $r$, when applied to ordinal data, is subject to elasticity due to constraints from marginal distributions. This paper develops theoretical bounds for $r$, based on Boole–Fréchet–Hoeffding inequalities and rearrangement inequalities, and derives analytic expressions for their limits. We investigate when symmetry in the bounds holds or breaks, and explore practical implications for correlation-based methods like PCA and SEM. An accompanying R package allows users to compute bounds and perform hypothesis tests given fixed marginals.
+\end{abstract}
+
+\newpage
+
+\section*{Preamble}\label{preamble}
+\addcontentsline{toc}{section}{Preamble}
+
+\subsection{The `Point':}\label{the-point}
+
+The widespread use of Pearson's \(r\) with ordinal data.\\
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \emph{Alert} applied researachers of `elastic bounds'
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    Problems of ignoring the above \(\leadsto\) errors in interpretation
+    (e.g.~Cohen and Cohen) -- how max/min bounds of \(r\) vary with
+    marginals.\\
+  \end{enumerate}
+\item
+  \emph{Provide} tools to assess if problems exist in own data/ research
+\item
+  \emph{Clarify} that traditional hypothesis testing (e.g.~t-test of
+  \(H_0: r= 0\)) are incorrect and provide correct hypo testing
+  (permutation/ randomization tests)
+\end{enumerate}
+
+\textbf{Proposed Section Structure --- Unified Draft Outline}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{1.
+Introduction}}{1. Introduction}}\label{introduction}
+
+\begin{itemize}
+\item
+  \textbf{Purpose:} Introduce the problem and why it matters.
+\item
+  Motivation: Researchers assume \emph{r} ∈ {[}--1, 1{]} is attainable
+  for any data, but discrete marginals constrain attainable range.
+\item
+  Consequences: Misinterpretation of effect sizes, misleading hypothesis
+  tests, cross-study comparison issues.
+\item
+  Contributions:
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \item
+    Theoretical derivation and characterization of attainable bounds.
+  \item
+    Metrics to quantify constraint and asymmetry.
+  \item
+    Rescaling approaches for interpretation.
+  \item
+    Illustration through simulation and applied example (BES data).
+  \end{enumerate}
+\item
+  \textbf{Status:} Needs drafting --- can be adapted from your existing
+  explanatory notes and meeting summaries.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{2. Notation and
+Definitions}}{2. Notation and Definitions}}\label{notation-and-definitions}
+
+\begin{itemize}
+\item
+  Define:
+
+  \begin{itemize}
+  \item
+    Marginal distributions.
+  \item
+    \emph{rₘᵢₙ} (minimum attainable correlation), \emph{rₘₐₓ} (maximum
+    attainable correlation).
+  \item
+    Co-monotonic and anti-co-monotonic arrangements.
+  \item
+    ``Reference interval'' in correlation space.
+  \item
+    Metrics of constraint: width (\emph{rₘₐₓ -- rₘᵢₙ}), asymmetry index.
+  \end{itemize}
+\item
+  Clarify measurement levels (ordinal vs.~interval) and implications for
+  \emph{r²}.
+\item
+  \textbf{Status:} Partially drafted in Cees's Section 3--4 notes.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{3. Theoretical
+Results}}{3. Theoretical Results}}\label{theoretical-results}
+
+\begin{itemize}
+\item
+  \textbf{3.1 Worked Examples}
+
+  \begin{itemize}
+  \item
+    Table 2 (4-category, 12 obs) --- shows symmetry and asymmetry cases.
+  \item
+    Patterns where \emph{rₘᵢₙ} ≠ --\emph{rₘₐₓ}.
+  \item
+    Cases with \emph{rₘₐₓ} = 1 but \emph{rₘᵢₙ} \textgreater{} --1, and
+    vice versa.
+  \item
+    \textbf{Status:} Table 2 drafted; text explanation partial.
+  \end{itemize}
+\item
+  \textbf{3.2 General Conditions for Symmetry}
+
+  \begin{itemize}
+  \item
+    Uniform/symmetric marginals produce symmetry.
+  \item
+    Frequency imbalances cause asymmetry.
+  \item
+    \textbf{Status:} Partially explained in meetings; needs formal
+    statement.
+  \end{itemize}
+\item
+  \textbf{3.3 Extreme Values Not at ±1}
+
+  \begin{itemize}
+  \item
+    Theoretical explanation for why perfect correlation may be
+    unattainable.
+  \item
+    \textbf{Status:} Requires concise proof/derivation.
+  \end{itemize}
+\item
+  \textbf{3.4 Literature Connections}
+
+  \begin{itemize}
+  \item
+    Relation to Fréchet--Hoeffding bounds, medical ``reference
+    intervals''.
+  \item
+    \textbf{Status:} Notes exist; needs integration.
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{4. Rescaling and
+Interpretation}}{4. Rescaling and Interpretation}}\label{rescaling-and-interpretation}
+
+\begin{itemize}
+\item
+  \textbf{4.1 Why Rescale?}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Without rescaling, effect sizes misleading when bounds ≠ ±1.
+  \end{itemize}
+\item
+  \textbf{4.2 Rescaling Methods}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \item
+    Linear transform to {[}0, 1{]} using \emph{rₘᵢₙ} and \emph{rₘₐₓ}.
+  \item
+    Transform then square to yield ratio-level shared variance.
+  \item
+    Optional asymmetry-aware adjustments.
+  \end{enumerate}
+\item
+  \textbf{4.3 Guidance for Applied Use}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    When to use each method; pitfalls.
+  \end{itemize}
+\item
+  \textbf{Status:} Initial logic drafted by Scott; needs fleshing out
+  and examples.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{5. Metrics of
+Constraint}}{5. Metrics of Constraint}}\label{metrics-of-constraint}
+
+\begin{itemize}
+\item
+  Bound width (\emph{rₘₐₓ -- rₘᵢₙ}).
+\item
+  Asymmetry index (normalized difference in absolute magnitude).
+\item
+  Possible uses:
+
+  \begin{itemize}
+  \item
+    Diagnostic indicator in applied analysis.
+  \item
+    Adjusted effect size interpretation.
+  \end{itemize}
+\item
+  \textbf{Status:} Concept defined; formulae/examples still to be
+  finalized.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{7. Simulation Study (Monte
+Carlo)}}{7. Simulation Study (Monte Carlo)}}\label{simulation-study-monte-carlo}
+
+\begin{itemize}
+\item
+  \textbf{Purpose:} Explore patterns noted in Sections 3--6 under random
+  and controlled marginals.
+\item
+  Design:
+
+  \begin{itemize}
+  \item
+    Random marginals vs.~fixed marginals.
+  \item
+    Vary number of categories and sample size.
+  \item
+    Compute \emph{rₘᵢₙ}, \emph{rₘₐₓ}, constraint metrics.
+  \end{itemize}
+\item
+  Output:
+
+  \begin{itemize}
+  \item
+    Distribution of bound widths and asymmetry.
+  \item
+    Frequency of perfect symmetry.
+  \item
+    Scatterplots of observed \emph{r̂} vs.~attainable range.
+  \end{itemize}
+\item
+  \textbf{Status:} Simulation code partially written by Scott; needs
+  full implementation.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{8. Empirical Illustration (BES
+Data)}}{8. Empirical Illustration (BES Data)}}\label{empirical-illustration-bes-data}
+
+\begin{itemize}
+\item
+  Select variable pairs with constrained bounds.
+\item
+  Show:
+
+  \begin{itemize}
+  \item
+    Raw \emph{r̂}.
+  \item
+    Theoretical bounds.
+  \item
+    Rescaled \emph{r̂}.
+  \item
+    Rescaled \emph{r̂²}.
+  \end{itemize}
+\item
+  Highlight cases where rescaling changes substantive interpretation.
+\item
+  \textbf{Status:} Not yet started.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{9. Discussion and
+Implications}}{9. Discussion and Implications}}\label{discussion-and-implications}
+
+\begin{itemize}
+\item
+  Summarize:
+
+  \begin{itemize}
+  \item
+    Main theoretical findings.
+  \item
+    Key applied consequences.
+  \end{itemize}
+\item
+  Recommendations:
+
+  \begin{itemize}
+  \item
+    Bound-aware effect size interpretation.
+  \item
+    Bound-aware hypothesis testing.
+  \item
+    Possible inclusion in statistical software.
+  \end{itemize}
+\item
+  Open questions and extensions.
+\item
+  \textbf{Status:} Will be final writing task.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{\textbf{Appendices}}{Appendices}}\label{appendices}
+
+\begin{itemize}
+\item
+  Proofs of theoretical statements.
+\item
+  Extended examples/tables.
+\item
+  Simulation details and R code.
+\item
+  \textbf{Status:} Will grow as paper is drafted.
+\end{itemize}
+
+\subsection{Possible Literature}\label{possible-literature}
+
+Cambanis et al. (\citeproc{ref-camb76-inequalities}{1976})
+
+Shih \& Huang (\citeproc{ref-shih92-evaluating}{1992})
+
+Grether, D. M. (1976). On the Use of Ordinal Data in Correlation
+Analysis. American Sociological Review, 41(5), 908--912.
+https://doi.org/10.2307/2094741
+
+Labovitz, S. (1967). Some observations on measurement and statistics.
+Social Forces, 46(2), 151--160. https://doi.org/10.2307/2574595
+
+Labovitz, S. (1970). The assignment of numbers to rank order categories.
+American Sociological Review, 35(3), 515--524.
+https://doi.org/10.2307/2092993
+
+Moss, J., \& Grønneberg, S. (2023). Partial Identification of Latent
+Correlations with Ordinal Data. Psychometrika, 88(1), 241--252.
+https://doi.org/10.1007/s11336-022-09898-y
+
+O'Brien, R. M. (1979). The use of Pearson's r with ordinal data.
+American Sociological Review, 44(5), 851--857.
+https://doi.org/10.2307/2094532
+
+Robitzsch, A. (2022). On the Bias in Confirmatory Factor Analysis When
+Treating Discrete Variables as Ordinal Instead of Continuous. Axioms,
+11(4), Article 4. https://doi.org/10.3390/axioms11040162
+
+Fréchet (\citeproc{ref-frec51-tableaux}{1951})
+
+Whitt (\citeproc{ref-whit76-bivariate}{1976})
+
+Hoeffding (\citeproc{ref-hoef40-masstabinvariante}{1940})
+
+Lehmann (\citeproc{ref-lehm66-concepts}{1966})
+
+Tchen (\citeproc{ref-tche80-inequalities}{1980})
+
+\newpage
+
+\section{Introduction and Conceptual
+Setting}\label{introduction-and-conceptual-setting}
+
+In this article we elaborate why correlations involving
+ordered-categorical variables are generally `constrained', which means
+that their attainable maximum and minimum values are rarely +1 and -1,
+as is often thought, but values that have to be calculated for each pair
+of variables. We assess the magnitude of these constraints in fictitious
+as well as empirical data and analyse under which conditions they are
+most severe. The article is accompanied by a software tool in R: that
+allows applied researchers to easily assess the extent of the problem in
+their own data. The use of product-moment correlations (also known as
+Pearson correlations) to assess linear relationships between
+ordered-categorical variables --henceforth referred to as orcats-- is
+widespread and widely condoned in empirical studies, in spite of such
+variables not being metric while the product-moment correlation assumes
+that they are. We do not focus on this problem from an obsessive desire
+for methodological purity, were it only because many statistical
+procedures are quite robust for violations of their assumptions {[}fn:
+examples?{]}. Instead, we draw attention to problematic consequences of
+this violation of assumptions that, as far as we know, have been rarely
+recognised in the applied literature although they are well-known in the
+theoretical statistical literature. This is the problem that correlation
+coefficients involving orcats are constrained in their range which makes
+them mutually incomparable, leading to problems in hypothesis testing
+and in analytical procedures that use correlations as their input. This
+article proceeds as follows. We start by briefly elaborating the
+character of ordinal categorical variables (orcats), why they are
+generally not regarded as being metric, and why, in spite of that, they
+are nevertheless very frequently used in statistical procedures that
+assume metric level data. We then proceed in section 3 to show why
+correlations based on orcats tend to be constrained, which implies that
+their range is smaller than from -1 to +1, and why this is problematic
+in applied research. This raises the question how to determine the
+actual range of attainable values of correlations between orcats, which
+we address in the subsequent section. In section 5 we assess the
+magnitude of these constraining effects on two different sets of data.
+One is a typical survey dataset in which many of the variables are
+ordinal categorical, the orcatorcat 2019 British Election Study. The
+second consists of data derived from simulations covering all possible
+relevant conditions for pairs of ordered categorical variables. We use
+both sets of data to explore conditions that influence the magnitude of
+the constraining effect. Section Section~\ref{sec-MCsim} concludes by
+summarizing the findings, by elaborating the consequences for applied
+research, and by discussing directions for further research.
+
+\subsection{On ordinal-categorical variables (orcats), their level of
+measurement and their common use in quantitative
+analyses}\label{on-ordinal-categorical-variables-orcats-their-level-of-measurement-and-their-common-use-in-quantitative-analyses}
+
+Orcats are ordinal variables with a relatively small number of
+categories (or ranks) compared to the number of cases, thus resulting in
+partial orderings of cases. Although they can be found in all field of
+quantitative inquiry they are ubiquitous in data from standardised
+social science surveys. Likert items and rating scales {[}describe in fn
+Likert items and rating scales, add that there are yet other formats
+such as semantic-differential scales that also yield orcats{]} are among
+the most favoured ways to elicit responses in such surveys. These
+survey-question formats have most often between 3 and 11 ordinal
+categories. The numerical values assigned to the categories of orcats
+are most often consecutive integers, starting with either 0 or 1. {[}fn:
+explain that these values may be included in the formulation of a survey
+question, which is immaterial to our discussion here. The values
+assigned to the categories (and to the responses) reflect, in
+combination with the analysis procedure the analyst's interpretation of
+their meaning.{]} . Such an assignment of values is as good as, and
+indeed analytically equivalent to, any other set of values that reflects
+the analyst's understanding of the ordinal relations between the
+categories, i.e., any monotonic transformation. However, objections are
+often raised when orcats {[}fn: add references{]} are analysed with
+procedures requiring metric measurement. That requirement implies that
+the differences between values can validly be compared so that, e.g.,
+the substantive difference between categories 1 and 2 is equal to that
+between categories 3 and 4, and half as large as the difference between
+categories 2 and 4, etc. Any implied interval-level interpretation of
+ordinal categorical variables requires therefore a compelling
+theoretical or empirical justification of the numerical values assigned
+to the categories rather than just the analyst's fiat. In principle this
+is quite possible, for example by calibrating values of categories
+against psychophysical measurements (cf., Lodge; Tillie; others), or
+against the results of psychometric/linguistic analysis of verbal
+response labels (cf Sönning 2024). However, such procedures are rarely
+integrated in applied survey research because of their high cost. In the
+absence of compelling justifications for values assigned to categories
+orcats can only be considered to provide ordinal information, not metric
+information. In spite of this we find that they are very commonly
+analysed with statistical tools that require metric measurement of
+variables such as product-moment correlations or procedures that build
+upon such correlations. We find this clearly exhibited in published
+articles in high-ranking academic journals {[}fn: explain how we did
+this{]} and in highly regarded textbooks where examples are given of the
+use of correlations between orcats as input for procedures such as PCA,
+FA or SEM {[}fn: examples: Kline; Byrne; xxx{]}. This practice is so
+established that it is occasionally rationalised by referring to orcats
+as being `quasi-interval level' measures {[}fn: reference{]}. One can,
+however, also find more explicit justifications for this practice, which
+emphasise the robustness of correlation coefficients for violations of
+their measurement level assumptions. Labovitz (1967, 1970) in particular
+has compared correlations between orcats scored according to
+equal-distances with correlations when the variables were scored with a
+monotonic random procedure (which only assumes ordinality between
+categories). He reports that the differences are negligible, and
+suggests that even if the theoretical objection against unfounded
+interval level interpretations of orcats would be justified, that
+objection would nevertheless have such minor practical consequences as
+to make it irrelevant in most situations. Not surprisingly, Labovitz'
+work has in turn be criticised itself on various grounds, most
+particularly of (inadvertently) mainly covering situations where this
+robustness holds, and overlooking other situations (cf O'Brien 1979;
+xxx). At this place we will not focus on discussions about the
+equal-distance scoring practice. Our main reason for referring to them
+is to demonstrate the existence of lively debates in the applied
+literature about potential issues when using orcats in procedures
+requiring metric data. The existence of these debates makes it
+remarkable that another important issue has --to the best of our
+knowledge-- remained mainly overlooked in the applied literature while
+it has been well-known in the theoretical statistical literature. This
+is the problem that correlations between orcats are generally
+`constrained', which means that they do not range between -1 and +1, but
+between minima and maxima that have to be calculated separately for each
+pair of variables. The nature of this issue is the subject of the next
+section.
+
+\subsection{Bounds of correlations between ordinal categorical variables
+(orcats)}\label{bounds-of-correlations-between-ordinal-categorical-variables-orcats}
+
+The values that product-moment correlations between ordinal-categorical
+variables (orcats) can attain are generally constrained by minimum and
+maximum bounds of attainable values that are not -1 and +1. {[}fn: The
+maximum attainable value is +1 only when the univariate distributions of
+the variables are identical. But that does not imply the minimum
+attainable value then to be -1, as that also requires further conditions
+that the univariate distributions ,must meet (see below, in the
+discussion of Table 2). The minimum attainable value of a correlation is
+-1 when the univariate distributions are each other's inverse, but
+again, that does not imply that the maximum is +1, as that requires
+additional conditions of the univariate distributions.{]}
+
+Because the bounds of correlations between orcats are not -1 and +1 it
+is even more difficult than commonly thought in applied research to
+interpret the strength of correlations. The well-known and often
+referred to criteria formulated by Cohen (1988: 77-81) for correlations
+in the behavioural sciences {[}fn: Cohen suggested, with appropriate
+caution, the following guidelines: \(0.10<r<0.29\) weak; \(0.30<r<0.49\)
+moderate; \(0.50<r<1.00\) strong. Hemphill (2003) suggests on the basis
+of a review of several meta-analyses in psychological research that the
+cut-off of 0.50 for considering a correlation to be `strong' may be too
+high in many common instances.{]} are explicitly based on the notion
+that the minimum and maximum attainable values for r are -1 and +1. But
+that is generally not the case and, moreover, the actual upper- and
+lower-bounds of r are not the same across pairs of variables, but
+specific to each. This state of affairs thus generates two
+interconnected problems when correlating orcats. First, the absence of
+clarity of the lower- and upper-bounds of r makes qualitative
+interpretations of the strength of correlations elusive. Second, because
+the bounds of attainable values of r are specific for each pair of
+variables each correlation is expressed in terms of a different, but
+unknown reference interval. Such correlations are therefore not
+comparable. To better grasp these problems, it is necessary to determine
+the upper- and lower bounds of correlations, given the univariate
+distributions of the variables involved.
+
+Statistical scholarship has since long recognized that, in contrast to
+what is ofen thought, the upper- and lower-bounds of correlations
+between orcats are generally not the reference interval {[}-1, +1{]}.
+{[}insert references, including Shi\&Huang 1992; xxxx{]}. Determining
+the actual bounds given the marginal distributions of the two variables
+can be done by using Whitt's (1976) rearrangement theorem and
+Hardy--Littlewood--Pólya's (1952) rearrangement inequality. For
+obtaining the maximum attainable value of a correlation the values of X
+and Y have each to be sorted independently in either ascending or
+descending order and then paired (comonotonic arrangement). For the
+minimum attainable value of the correlation (given the marginals of the
+two variables) the anti-comonotonic arrangement is required (sorting one
+of the variables in ascending and the other in descending order). A
+formalized elaboration is presented in Appendix 1. Moreover, the
+algorithm for calculating rmin and rmax has been programmed in R and is
+{[}or: will be{]} freely available for researchers to assess the minimum
+and maximum attainable values of r for pairs of variables in their own
+data. Details about this routine are described in Appendix 2.
+
+A series of illustrative cases is presented in Table 2 (as in Table 1
+for n=12 and two orcats with 4 categories each). Although the
+distributions of the variables given in these examples is of no
+particular importance, and could have been replaced by innumerable other
+examples, they are nevertheless helpful to arrive at some general
+observations about rmin and rmax.:
+
+\begin{itemize}
+\tightlist
+\item
+  The values of rmin and rmax are not constant across all examples, and
+  not even across correlations involving a specific variable (see
+  examples (a) and (b) which involve the same \(X\)-variable). The
+  variation in the values of the bounds of r is across pairs of
+  variables. In other words, the bounds of r are specific for each pair.
+\item
+  rmin max can be -1, and rmax can be 1, but neither of these values
+  implies the other (as seen in examples (b) and (c). The combination of
+  rmin=-1 and rmax=1 is possible, but dependent on specific
+  characteristics of the two marginal distributions involved (see
+  examples (d) and (f). Both variables must not only have identical
+  distributions, but these must also be symmetrical.
+\item
+  rmin and rmax are not necessarily symmetric around 0. Such symmetry
+  may exist, but requires specific characteristics of the pair of
+  marginal distributions, namely that both are symmetric (see examples
+  (e), (g) and (h).\\
+\item
+  The extent to which the reference interval {[}-1, 1{]} is covered by
+  the interval {[}rmin, rmax{]} varies across pairs of variables.
+\item
+  The values of rmin and rmax depend not only on the marginal
+  distributions of the two variables, but also on the values assigned to
+  their categories. Unless specified differently, we follow in this
+  article the common practice of assigning consecutive integer values to
+  the ordered categories. But any monotonic transformation of values is
+  equally adequate to represent the ordinal character of variables.
+  Examples (i) and (j) involve the same pair of variables, but in (i)
+  their categories have been assigned values 1. 2, 3 and 4, while in (j)
+  the assigned values were 1, 2.25, 2.75 and 4. The consequences of this
+  change are visible in the values of rmin and rmax. This observation
+  implies that value assignment to categories of orcats (and the
+  justification thereof) remains an issue of importance when using
+  Pearson correlations on orcats. It is a different problem, however,
+  than that of constrainment of correlations on which we focus here.
+\end{itemize}
+
+Consequences of constrained correlations in applied research
+
+\begin{itemize}
+\tightlist
+\item
+  Descriptive interpretation of correlations (Cohen's criteria) is
+  undermined
+\item
+  It is also undermined by every correlation being expressed on its own
+  unique scale/unique calibration
+\item
+  Need a nice example of 2 correlations with \(r(a,b) \le r(b,c)\) and
+  where \(r(a,b)\)max is \textless{} \(r(b.c)\): is it smaller because
+  the linear relationship is weaker, or because he constrainment is
+  stronger?
+\end{itemize}
+
+\subsection{Background and
+Definitions}\label{background-and-definitions}
+
+\begin{itemize}
+\tightlist
+\item
+  Ordinal data and assumptions of interval-scale correlation\\
+\item
+  Existing alternatives: Spearman, polychoric, polyserial; their
+  strengths and limitations\\
+\item
+  Coupling and rearrangement in discrete settings
+\end{itemize}
+
+\section{Theoretical Framework}\label{theoretical-framework}
+
+\subsection{Optimal Coupling and Correlation
+Bounds}\label{optimal-coupling-and-correlation-bounds}
+
+We formalize the problem of identifying the joint distribution
+(coupling) of two ordinal variables with fixed marginals that maximizes
+or minimizes the Pearson correlation.
+
+\phantomsection\label{prop-max-product}
+\begin{proposition}
+
+Let $X$ and $Y$ be discrete ordinal random variables, each with finite ordered support:
+
+$$
+X: x_1 < x_2 < \dots < x_{K_X},\quad Y: y_1 < y_2 < \dots < y_{K_Y}
+$$
+
+with marginal probability distributions $p_X(x_i) = P(X = x_i)$, $p_Y(y_j) = P(Y = y_j)$, respectively.
+
+Then, the maximum and minimum values of the Pearson correlation coefficient $r_{XY}$, consistent with the fixed marginals, are obtained as follows:
+
+- Maximum $r_{XY}$: achieved by pairing largest $X$-values with largest $Y$-values (comonotonic arrangement).
+    
+- Minimum $r_{XY}$: achieved by pairing largest $X$-values with smallest $Y$-values (anti-comonotonic arrangement).
+\end{proposition}
+
+\begin{proof}
+The Pearson correlation coefficient is given by:
+
+\[r_{XY} = \frac{E[XY] - E[X]E[Y]}{\sigma_X \sigma_Y}.\]
+
+Given fixed marginals \(p_X(x_i)\), \(p_Y(y_j)\), the expectations
+\(E[X], E[Y]\) and standard deviations \(\sigma_X, \sigma_Y\) are
+constant. Thus, to maximize or minimize \(r_{XY}\), we only need to
+maximize or minimize the expectation \(E[XY]\):
+
+\[E[XY] = \sum_{i=1}^{K_X}\sum_{j=1}^{K_Y} x_i y_j P(X = x_i, Y = y_j).\]
+
+This proof relies on a rearrangement inequality of
+(\citeproc{ref-hard52-inequalities}{Hardy et al., 1952}) (Theorem 368):
+
+For real sequences \(a_1 \leq a_2 \leq \dots \leq a_n\) and
+\(b_1 \leq b_2 \leq \dots \leq b_n\), and for any permutation \(\pi\) of
+indices \(\{1,\dots,n\}\) we have the following:
+
+\[a_1 b_1 + a_2 b_2 + \dots + a_n b_n \geq a_1 b_{\pi(1)} + a_2 b_{\pi(2)} + \dots + a_n b_{\pi(n)}\]
+and
+
+\[a_1 b_n + a_2 b_{n-1} + \dots + a_n b_1 \leq a_1 b_{\pi(1)} + a_2 b_{\pi(2)} + \dots + a_n b_{\pi(n)}\]
+
+Equality occurs only if the permutation \(\pi\) results in a
+monotonically increasing sequence (for maximum) or monotonically
+decreasing sequence (for minimum).
+
+To explicitly connect this to our problem, enumerate observations
+explicitly from sorted marginals:
+
+\[
+X_{\downarrow}: x_{[K_X]} \geq x_{[K_X-1]} \geq \dots \geq x_{[1]}, \quad  
+        Y_{\downarrow}: y_{[K_Y]} \geq y_{[K_Y-1]} \geq \dots \geq y_{[1]}.
+\] (Sorted in descending order for maximization). Next expand discrete
+probability distributions into explicit observation-level sequences. If
+\(K_X \neq K_Y\), extend the shorter sequence with zero-probability
+categories so both sequences have equal length, which does not affect
+marginal probabilities or correlation.
+
+Hence, to maximize \(E[XY]\): pair the largest ranks of \(X\) with the
+largest ranks of \(Y\). Explicitly, start from the top (highest values)
+and move downward:
+
+\begin{itemize}
+\item
+  Pair as many observations of the largest \(X\)-category as possible
+  with the largest \(Y\)-category, then next-largest, etc., until all
+  observations are paired.
+\item
+  By the Hardy--Littlewood--Pólya Rearrangement Inequality
+  (\citeproc{ref-hard52-inequalities}{Hardy et al., 1952}), this
+  explicitly constructed pairing yields the maximum possible sum of
+  products, hence maximizing \(E[XY]\).
+\end{itemize}
+
+Likewise, to minimize \(E[XY]\) pair the largest \(X\)-categories with
+the smallest \(Y\)-categories, then second-largest \(X\)-categories with
+second-smallest \(Y\)-categories, and so forth (anti-comonotonic
+ordering). By the rearrangement inequality, this arrangement explicitly
+yields the minimal sum of products, hence minimizing \(E[XY]\).
+\end{proof}
+
+In words, given fixed marginals, we have shown:
+
+\begin{itemize}
+\item
+  \textbf{Maximum correlation} \(r_{\text{max}}\) is achieved by
+  comonotonic (e.g.~sorting values of \(X\) and \(Y\) from largest to
+  smallest independently and pairing) arrangement:
+
+  \[P_{\text{max}}(X=x_{[i]}, Y=y_{[i]}) \quad\text{in either descending or ascending order.}\]
+\item
+  \textbf{Minimum correlation} \(r_{\text{min}}\) is achieved by
+  anti-comonotonic arrangement:
+
+  \[P_{\text{min}}(X=x_{[i]}, Y=y_{[n+1-i]}) \quad\text{pairing descending X with ascending Y, or viceversa.}\]
+\end{itemize}
+
+With this explicit construction we can simply calculate \(r_{max}\) and
+\(r_{min}\) when the values of \(X\) and \(Y\) are ranks.
+
+\phantomsection\label{corr-min}
+\begin{corollary} {(Analytic Forms for $r_{\min}$ and $r_{\max}$)}
+
+
+Let two ordinal variables $X$ and $Y$ have values as follows:
+
+- $X$ with $K_X$ ordinal levels: $1,2,\dots,K_X$
+    
+- $Y$ with $K_Y$ ordinal levels: $1,2,\dots,K_Y$
+    
+with absolute frequencies:
+
+- $n_{X}(i)$, number of observations at level $i$ of $X$.
+    
+- $n_{Y}(j)$, number of observations at level $j$ of $Y$.
+    
+
+Then the maximum Pearson correlation is:
+
+$$r_{\text{max}} = \frac{E[XY]_{\text{max}} - \bar{X}\bar{Y}}{\sigma_X \sigma_Y}.$$
+Where 
+
+$$
+E[XY]_{\max} =\frac{1}{N}\sum_{i=1}^{K_X}\sum_{j=1}^{K_Y}x_i y_j M_{i,j}
+$$
+
+where explicitly defined frequencies $M_{i,j}$ pair observations in a comonotonic manner, calculated explicitly via the greedy iterative algorithm in as Algorithm  \ref{alg:greedy} in the proof.
+
+
+Then explicitly the minimal expectation is:
+
+$$E[XY]_{\text{min}}=\frac{1}{N}\sum_{i=1}^{K_X}\sum_{j=1}^{K_Y} x_i y_j R_{i,j}$$
+Where $R_{ij}$ is defined in the proof.
+\end{corollary}
+
+\begin{proof}
+Algorithm for explicit calculation of \(M_{i,j}\) (greedy method):
+
+Initialize available frequencies explicitly:
+\(n'_Y(j)=n_Y(j)\quad\text{for each }j\)
+
+\begin{itemize}
+\item
+  For each level \(x_i\), from smallest \(i=1\) to largest:
+
+  \begin{itemize}
+  \item
+    For each level \(y_j\), from smallest \(j=1\) to largest:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Pair as many observations as possible:
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\[M_{i,j}=\min\left(n_X(i)-\sum_{s=1}^{j-1}M_{i,s},\, n'_Y(j)\right)\]
+
+Next, update explicitly: \[n'_Y(j)\leftarrow n'_Y(j)-M_{i,j}\]
+
+Define the matrix \(M_{i,j}\), the frequency with which the level
+\(x_i\) pairs with the level \(y_j\). Clearly, we must have:
+
+\[\sum_j M_{i,j}=n_X(i),\quad\sum_i M_{i,j}=n_Y(j)\]
+
+Similarly, the minimum Pearson correlation (\(r_{\text{min}}\)) achieved
+by anti-comonotonic alignment (pairing largest ranks of \(X\) with
+smallest ranks of \(Y\)) is explicitly:
+\[r_{\text{min}} = \frac{E[XY]_{\text{min}} - \bar{X}\bar{Y}}{\sigma_X \sigma_Y}.\]
+
+To achieve the maximum expected product \(E[XY]_{\text{max}}\), do the
+following: First sort ranks from largest to smallest independently for
+both \(X\) and \(Y\); then pair ranks directly from highest to lowest
+available observations.
+
+\textbf{Minimum Expectation}
+
+The formula for \(E[XY]_{\text{min}}\) is derived in a similar manner.
+Define explicitly a matrix \(R_{i,j}\) giving frequencies of pairings
+\(X=x_i\) with \(Y=y_j\). For the minimal expectation, pair largest
+available \(X\)-values explicitly with smallest available \(Y\)-values
+first (greedy algorithm):
+
+Initialize explicitly available frequencies:
+
+\[n'_Y(j)=n_Y(j)\quad\text{for each }j\]
+
+\begin{itemize}
+\item
+  For \(i\) from largest to smallest (\(i=K_X\) down to \(1\)):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    For \(j\) from smallest to largest (\(j=1\) up to \(K_Y\)):
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Pair explicitly as many observations as possible:
+      \[R_{i,j}=\min\left(n_X(i)-\sum_{s=1}^{j-1}R_{i,s},\, n'_Y(j)\right)\]
+    \end{itemize}
+  \end{itemize}
+\item
+  Update explicitly available frequencies:
+\end{itemize}
+
+\[n'_Y(j)\leftarrow n'_Y(j)-R_{i,j}\]
+
+Then explicitly the minimal expectation is:
+
+\[E[XY]_{\text{min}}=\frac{1}{N}\sum_{i=1}^{K_X}\sum_{j=1}^{K_Y} x_i y_j R_{i,j}\]
+
+This explicit equation applies Whitt's rearrangement theorem , Whitt
+(\citeproc{ref-whit76-bivariate}{1976}) , ensuring proper maximal
+pairing of ranks. (Whitt (\citeproc{ref-whit76-bivariate}{1976}))
+\end{proof}
+
+\textbf{Discussion}
+
+We want to construct a joint distribution table \(M\) such that:
+
+\begin{itemize}
+\item
+  The \textbf{row sums} match the marginal counts for \(X\):
+  \(\sum_j M_{i,j} = n_X(i)\)
+\item
+  The \textbf{column sums} match the marginal counts for \(Y\):
+  \(\sum_i M_{i,j} = n_Y(j)\)
+\end{itemize}
+
+To do this, we go \textbf{greedily}, pairing the highest available \(X\)
+values with the \textbf{smallest available} \(Y\) values, one cell at a
+time.
+
+To avoid \textbf{exceeding} the available marginal totals in \(Y\), we
+must track how much of \(n_Y(j)\) is \textbf{still unassigned} at each
+step --- and that's what \(n_Y'(j)\) represents.\\
+After assigning \(M_{i,j}\) units to the cell \((i,j)\), we subtract
+that amount from the remaining pool of level \(y_j\) values, like this:
+\(n_Y'(j) \leftarrow n_Y'(j) - M_{i,j}\)This ensures we don't
+\textbf{overfill} any column of the matrix.
+
+To maximize the expectation \(E[XY]\), the rearrangement inequality
+states we must pair values of \(X\) and \(Y\) from smallest-to-smallest,
+second-smallest-to-second-smallest, and so forth (comonotonic
+alignment).
+
+Thus, explicitly:
+
+\begin{itemize}
+\tightlist
+\item
+  Sort \(X\): lowest-to-highest:
+\end{itemize}
+
+\[X_{\text{sorted}} = (\underbrace{x_1,\dots,x_1}_{n_X(1)}, \underbrace{x_2,\dots,x_2}_{n_X(2)}, \dots,\underbrace{x_{K_X},\dots,x_{K_X}}_{n_X(K_X)})\]
+
+Sorted \(Y\)-values (ascending order for max, descending for min):
+
+\[Y_{\text{sorted(max)}} = (\underbrace{y_1,\dots,y_1}_{n_Y(1)}, \underbrace{y_2,\dots,y_2}_{n_Y(2)}, \dots,\underbrace{y_{K_Y},\dots,y_{K_Y}}_{n_Y(K_Y)})\]
+
+\[Y_{\text{sorted(min)}} = (\underbrace{y_{K_Y},\dots,y_{K_Y}}_{n_Y(K_Y)}, \underbrace{y_{K_Y-1},\dots,y_{K_Y-1}}_{n_Y(K_Y-1)}, \dots,\underbrace{y_1,\dots,y_1}_{n_Y(1)})\]
+
+The maximum and minimum expectations are simply:
+
+\textbf{Maximum expectation} (pair element-by-element):
+
+\[E[XY]_{\text{max}} = \frac{1}{N}\sum_{k=1}^{N} X_{\text{sorted}}(k)\cdot Y_{\text{sorted(max)}}(k)\]
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Minimum expectation}:
+\end{itemize}
+
+\[E[XY]_{\text{min}} = \frac{1}{N}\sum_{k=1}^{N} X_{\text{sorted}}(k)\cdot Y_{\text{sorted(min)}}(k)\]
+
+These classical bounds define feasible joint distributions given
+marginals and constrain the attainable values of \(r\). There is an
+interesting connection to Fréchet--Hoeffding and Boole--Fréchet
+Inequalities, which we note but leave for future research.\footnote{Fréchet--Hoeffding
+  and Boole--Fréchet Inequalities
+
+  This is the second paragraph. Indent each new paragraph with four
+  spaces or a tab, just like you would for a multi-paragraph list item.
+
+  You can also include code blocks:
+
+\begin{Verbatim}
+print("Hello, footnote!")
+\end{Verbatim}
+
+  Or even more paragraphs and content as needed.}
+
+\subsubsection{Illustration}\label{illustration}
+
+To illustrate these idea concretely, Table 1 presents an illustrative
+example of comonotonic and anti-comonotonic arrangements and of the
+resulting lower- and upper-bounds of r, for two 4-category variables and
+12 cases. One can easily expand this example to pairs of variables with
+different numbers of categories and different numbers of cases.
+
+% Table 1: Determining minimum and maximum attainable values
+\begin{table}[H]
+\centering
+\caption{Determining minimum and maximum attainable values of correlation between two ordered categorical variables X and Y given their marginal distributions.}
+\label{tab:correlation_bounds}
+
+\vspace{0.5em}
+
+% Part (a): Observed frequency distributions
+\textbf{(a) Observed frequency distributions}
+
+\vspace{0.3em}
+
+\begin{tabular}{c|cccc|c}
+\hline
+ & \textbf{Category 1} & \textbf{Category 2} & \textbf{Category 3} & \textbf{Category 4} & \textbf{Total} \\
+\hline
+\textbf{X} & 6 & 3 & 2 & 1 & 12 \\
+\textbf{Y} & 3 & 5 & 2 & 2 & 12 \\
+\hline
+\end{tabular}
+
+\vspace{0.5em}
+
+% Part (b): Comonotonic arrangement
+\textbf{(b) Comonotonic arrangement and pairing:}
+
+\vspace{0.3em}
+
+\begin{tabular}{ll}
+\textbf{X:} & 1 1 1 1 1 1 2 2 2 3 3 4 \\
+\textbf{Y:} & 1 1 1 2 2 2 2 2 3 3 4 4 \quad $r_{\max} = 0.87831$
+\end{tabular}
+
+\vspace{0.5em}
+
+% Part (c): Anti-comonotonic arrangement
+\textbf{(c) Anti-comonotonic arrangement and pairing:}
+
+\vspace{0.3em}
+
+\begin{tabular}{ll}
+\textbf{X:} & 1 1 1 1 1 1 2 2 2 3 3 4 \\
+\textbf{Y:} & 4 4 3 3 2 2 2 2 2 1 1 1 \quad $r_{\min} = -0.79466$
+\end{tabular}
+
+\end{table}
+
+% Table 2: Illustrative pairs of marginal distributions
+\begin{table}[H]
+\centering
+\caption{Illustrative pairs of marginal distributions and their associated minimum and maximum attainable values of $r$ ($r_{\min}$, $r_{\max}$) given these distributions. The distributions are given in counts (n=12). The categories are assigned consecutive integer values starting with 1. C1 and C2 are measures of constraint, as discussed in the text.}
+\label{tab:marginal_distributions}
+
+\vspace{0.5em}
+
+\begin{tabular}{c|cccc|c|cc}
+\hline
+ & \multicolumn{4}{c|}{\textbf{Category}} & \textbf{Total} & $r_{\min}$ & $r_{\max}$ \\
+ & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(a) Two arbitrarily distributed ordinal categorical variables (orcats)}} \\
+\textbf{X} & 6 & 3 & 2 & 1 & 12 & -0.79466 & 0.87831 \\
+\textbf{Y} & 3 & 5 & 2 & 2 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(b) One arbitrarily distributed variable, and one with same distribution inversed}} \\
+\textbf{X} & 6 & 3 & 2 & 1 & 12 & -1 & 0.71429 \\
+\textbf{Y} & 1 & 2 & 3 & 6 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(c) Two variables with arbitrary identical distributions}} \\
+\textbf{X} & 6 & 3 & 2 & 1 & 12 & -0.71429 & 1 \\
+\textbf{Y} & 6 & 3 & 2 & 1 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(d) Two variables with identical symmetric and unimodal distributions}} \\
+\textbf{X} & 2 & 4 & 4 & 2 & 12 & -1 & 1 \\
+\textbf{Y} & 2 & 4 & 4 & 2 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(e) Two variables with different distributions, both symmetric and unimodal}} \\
+\textbf{X} & 2 & 4 & 4 & 2 & 12 & -0.91169 & 0.91169 \\
+\textbf{Y} & 1 & 5 & 5 & 1 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(f) Two variables with identical symmetric bimodal distributions}} \\
+\textbf{X} & 4 & 2 & 2 & 4 & 12 & -1 & 1 \\
+\textbf{Y} & 4 & 2 & 2 & 4 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(g) Two variables with different distributions, both symmetric and bimodal}} \\
+\textbf{X} & 4 & 2 & 2 & 4 & 12 & -0.95673 & 0.95673 \\
+\textbf{Y} & 5 & 1 & 1 & 5 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(h) One symmetric unimodal variable, the other symmetric bimodal}} \\
+\textbf{X} & 2 & 4 & 4 & 2 & 12 & -0.89923 & 0.89923 \\
+\textbf{Y} & 4 & 2 & 2 & 4 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(i) Two variables, one very left skewed, the other very right skewed}} \\
+\textbf{X} & 1 & 1 & 1 & 9 & 12 & -0.95818 & 0.31939 \\
+\textbf{Y} & 8 & 2 & 1 & 1 & 12 & & \\
+\hline
+\multicolumn{8}{l}{\textbf{(j) Same as situation (i), above, but categories assigned values 1; 2.25; 2.75; 4}} \\
+\textbf{X} & 1 & 1 & 1 & 9 & 12 & -0.93321 & 0.33829 \\
+\textbf{Y} & 8 & 2 & 1 & 1 & 12 & & \\
+\hline
+\end{tabular}
+
+\end{table}
+
+\subsection{Population Bounds}\label{population-bounds}
+
+In this section we further explore the theoretical properties on
+\(r_{min}\) and \(r_{max}\).
+
+\section{Measurement Issues and Metrics of
+Constraint}\label{measurement-issues-and-metrics-of-constraint}
+
+IN THIS SECTION: ``How to define metrics (on \emph{pairs} of discrete
+probability distributions) to \emph{explain}:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \[\frac{ r_{max}-r_{min}}{2}\]
+\item
+  \[1-r_{max}\]
+\item
+  \[|-1-r_{min}|\]
+\end{enumerate}
+
+Or analogs for \(\hat{r}^2\):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \[\frac{ r_{max}^2-r_{min}^2}{2}\] 1a.
+  \[\frac{ (r_{max}-r_{min})^2}{2}\]
+\item
+  \[1-r_{max}^2\]
+\item
+  \[1-r_{min}^2\]
+\end{enumerate}
+
+As demonstrated above, the extent to which marginal distributions of
+orcats constrain the range of attainable value of r varies considerably.
+In the few illustrative examples presented in Table 2 rmin varied
+between -1 and -0.71, while rmax varied between 0.32 and 1. Moreover, in
+Table 2 rmin and rmax do not vary in lockstep but at least to some
+extent independent of each other.{[}fn: Table 2 is a poor basis to
+assess the functional relationship between rmin and rmax as it contains
+a small number of handpicked situations. This relationship will be
+investigated in detail later, in section ??.{]} This raises the question
+how strong the overall constraining effect is that marginal
+distributions exert on the attainable values of r. It also raises the
+question of what factors affect the strength of this overall
+constraining effect. In this section we describe two ways in which the
+strength of constraints can be defined. Later (in section ??) we turn to
+the questions of the conditions that drive the strength of this effect.
+Perhaps the most obvious way to express the strength of the marginal
+constraints on the attainable values of r is by comparing the width of
+the interval between rmin and rmax with that of the ubiquitously used
+reference interval {[}-1, 1{]}. As the width of the latter interval is
+2, it is advantageous to express the strength of the overall
+constraining effect --to be denoted as \(C_1\) as
+
+\[
+C_1 = \frac{|r_{min}| +|r_{max}|}{2}
+\] \(C_1\) reflects the proportion of the range of the attainable values
+of r compared to the theoretically maximum width of this range. Applying
+this measure to the illustrative cases listed in Table 2 shows that C1
+varies. Its highest value is 1, reflecting the absence of any
+constraining effect (see examples (d) and (f) in Table 2). The lowest
+value of C1 in Table 2 is for example (i), where it is 0.639. In other
+words, the marginal distributions of the two variables in that example
+restrict the range of its attainable values to 63.9\% of the traditional
+{[}-1, 1{]} reference interval. Some might object to the \(C_1\) measure
+on the grounds that it assumes that r (and thus also rmin and rmax) is
+expressed at interval level and that one could thus state validly that a
+correlation of 0.4 reflects an association twice as strong as one of
+0.2. That would be so if numerical differences between correlations
+correspond to similar differences in observable aspects of data
+{[}insert references to correspondence NRS to ERS{]}. That not being the
+case, one could instead compare r2s --percentages of shared variance--
+rather than rs. {[}fn: This perspective is not uncontested, however, and
+its usefulness depends on the purpose of inspecting correlations: as
+reflections of the association between variables, or as reflections of
+associations between indicators of a latent concept (for an elaboration
+of this difference, cf.~Ozer 1985).{]} This would lead to a somewhat
+different measure of the strength of the constraining effect of marginal
+distributions on the attainable values of r, as follows:
+
+\[
+C_2 = \frac{r_{min}^2 +r_{max}^2}{2}
+\]
+
+For the examples in Table 2, the values C2 are, respectively, 0.701;
+0.755; 0.715; 1; 0.831; 1; 0.809; 0.915 and 0.510. Obviously, C1 and C2
+are correlated, but how strongly cannot be assessed very well from the
+few handpicked examples in Table 2, but it will be considered below,
+using more encompassing sets of data.
+
+\subsection{Possible ``Metrics of
+Constraint''}\label{possible-metrics-of-constraint}
+
+\subsubsection{Overlap-Based Measures of
+Asymmetry}\label{overlap-based-measures-of-asymmetry}
+
+In addition to Total Variation (TV) distance, other metrics can quantify
+the structural dissimilarity between a marginal distribution and its
+reverse. One natural approach is to assess the degree of
+\textbf{overlap} between the original distribution \(p\) and its reverse
+\(p^{\mathrm{rev}}\), defined by reversing the order of the categories.
+
+We consider three complementary measures of overlap and their
+complements:
+
+\paragraph{(i) Total Variation (TV)
+Distance}\label{i-total-variation-tv-distance}
+
+The TV distance, already introduced in Section 5.5, quantifies the
+maximum absolute discrepancy between the two distributions:
+
+\[
+\text{TV}(p, p^{\mathrm{rev}}) = \frac{1}{2} \sum_{i=1}^{K} \left| p_i - p_{K+1 - i} \right|.
+\]
+
+\paragraph{(ii) Bhattacharyya Coefficient (BC) and its
+Complement}\label{ii-bhattacharyya-coefficient-bc-and-its-complement}
+
+The \textbf{Bhattacharyya Coefficient} provides a geometric measure of
+similarity:
+
+\[
+\text{BC}(p, p^{\mathrm{rev}}) = \sum_{i=1}^{K} \sqrt{ p_i \cdot p_{K+1 - i} }.
+\]
+
+Its complement, \(1 - \text{BC}\), can be interpreted as a
+divergence-like measure that reflects geometric differences between the
+original and reversed distributions. While not a metric, it is bounded
+between 0 and 1, with 0 indicating perfect symmetry.
+
+\paragraph{(iii) Overlap Coefficient
+(OVL)}\label{iii-overlap-coefficient-ovl}
+
+The \textbf{Overlap Coefficient}, sometimes referred to as the
+Szymkiewicz--Simpson coefficient, captures the shared probability mass:
+
+\[
+\text{OVL}(p, p^{\mathrm{rev}}) = \sum_{i=1}^{K} \min\{ p_i, p_{K+1 - i} \}.
+\]
+
+The complement \(1 - \text{OVL}\) thus reflects the fraction of mass
+that is not shared between the two distributions.
+
+These measures differ in their interpretive emphasis: - TV focuses on
+the total discrepancy. - BC captures geometric congruence. - OVL
+captures the total shared area between the distributions.
+
+In our simulation study (Section ), we compute all three diagnostics to
+illustrate how marginal asymmetry correlates with asymmetry in
+achievable Pearson correlation bounds. These overlap-based measures are
+implemented in the R package \texttt{overlap} (Ridout \& Linkie, 2009),
+which facilitates reproducible estimation and visualization.
+
+Empirically, we find that all three metrics provide consistent,
+interpretable diagnostics of distributional asymmetry. Using them
+jointly provides a robust triangulation of symmetry breaking, especially
+in applied contexts where ordinal variables are discretized from latent
+traits or ratings.
+
+\subsection{Symmetry and the Role of
+Ties}\label{symmetry-and-the-role-of-ties}
+
+\begin{itemize}
+\tightlist
+\item
+  Conditions under which \(r_{\min} = -r_{\max}\)
+\item
+  How ties in marginal distributions affect the attainability of the
+  lower bound
+\end{itemize}
+
+\subsection{Special Cases and Boundary
+Conditions}\label{special-cases-and-boundary-conditions}
+
+\begin{itemize}
+\tightlist
+\item
+  Equal vs.~unequal numbers of categories\\
+\item
+  Symmetric vs.~asymmetric marginal distributions
+\end{itemize}
+
+\section{Implications, Issues, and
+Questions}\label{implications-issues-and-questions}
+
+\begin{itemize}
+\tightlist
+\item
+\end{itemize}
+
+\subsection{\texorpdfstring{\textbf{Interpretation of `Effect
+Size'}}{Interpretation of `Effect Size'}}\label{interpretation-of-effect-size}
+
+\begin{verbatim}
+* Revisiting Cohen’s benchmarks in light of constrained bounds $\leadsto$ Interpretation of 'effect size' (@cohe02-applied)
+    
+* Risk of over- or under-stating association.
+    
+\end{verbatim}
+
+\subsection{\texorpdfstring{\textbf{Comparison Across Studies /
+Measures}}{Comparison Across Studies / Measures}}\label{comparison-across-studies-measures}
+
+\begin{verbatim}
+* Non-comparable bounds across datasets or variable codings.
+    
+* Need for bound-aware effect size metrics.
+    
+\end{verbatim}
+
+\subsection{\texorpdfstring{\textbf{Hypothesis
+Testing}}{Hypothesis Testing}}\label{hypothesis-testing}
+
+\begin{itemize}
+\tightlist
+\item
+  t-test can misslead: Example from BES: (i) t-test sig; perm test not;
+  (ii) visa versa
+\item
+  Why p-values based on {[}--1, 1{]} bounds may mislead \(\leadsto\)
+  need for Adjusted null distributions
+\item
+  \textbf{Permutation distribution:} Generate full vectors from
+  marginals, independently permute \(X\) and \(Y\), compute \(r\),
+  repeat. Produces null distribution centered at 0.
+  \emph{(Proofs-OrdinalVariables.md)}
+\end{itemize}
+
+\subsection{\texorpdfstring{\textbf{Rescaling}}{Rescaling}}\label{rescaling}
+
+So, what to do? \emph{One} idea: \textbf{linear resclaing} (preserving
+zero)
+
+\begin{verbatim}
+* Adjusted null distributions (via permutation or simulation).
+\end{verbatim}
+
+\subsection{Variance ``Explained''}\label{variance-explained}
+
+\begin{itemize}
+\item
+  Interpretation of \(r^2\) is ambiguous for at least two reasons:
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    ordcats are invariant to monotone transformation (variance is a
+    \emph{canrdinal} property, simply not approriate for ordinal
+    variables)
+  \item
+    is \(r^2_{max}\) the \ldots. maximal `amount' of variance between
+    the two ordcats? How is this quantity to be interpreted? How is
+    \(r^2_{min}\) to be interpreted?
+  \end{enumerate}
+\end{itemize}
+
+\section{Monte Carlo Simulations}\label{sec-MCsim}
+
+To investigate factors that affect the bounds of attainable values of r
+and thus the strength of constraints on r exerted by marginal
+distributions we use two different sets of data. Our first dataset is
+simulation generated and covers in principle all possible combinations
+of marginal distributions for two orcats with given numbers of
+categories and given n.~We simulate orcats containing, respectively, 4,
+5, 6, 7, 10 and 11 categories, these being by far the most common in
+empirical data deriving from survey studies. For each of these we
+generate a large number of variables, each with its own simulated
+univariate distribution, and thus also its own form (modality, symmetry,
+etc.), mean, variance, skew and kurtosis as follows. {[}insert
+description, detailing n, how many univariate distributions we generate
+for each number of categories; how to populate the categories, whether
+we impose distributional characteristics such as normality, modality,
+skew etc. Btw: my preference would be to impose as little as possible,
+and derive characteristics such as mean, variance, skew, kurtosis from
+the distributions generated. {]} We subsequently randomly select pairs
+of simulated variables and determine for each rmin, rmax, C1 and C2.
+From the resulting simulated pairs of orcats we delete the cases in
+which one, or both of the variables have zero variance. This results in
+a dataset with n= xxx {[}insert very large number{]} that forms the
+basis of subsequent analyses. Further details are specified in Appendix
+3. This simulated dataset constitutes, within the bounds of granularity
+of the procedure, a random sample all possible combinations of
+univariate distributions of pairs of orcats, and can therefore be used
+as an adequate basis for investigating functional relationships between
+sundry properties of pairs of orcats and the range of attainable values
+of r for those pairs. Although this simulated dataset randomly
+represents all possible combinations of univariate distributions of
+pairs of orcats, it cannot be considered to be a random sample of pairs
+of orcats that applied researchers would encounter in actual, empirical
+data such as derived from, e.g., mass surveys. This is because, when
+designing survey questions, researchers tend to avoid formulations that
+they expect to yield little variance in the responses. Therefore, we use
+a second dataset to investigate constraints on the attainable range of
+values of r, that is derived from the British Election Study 2019.
+{[}fn: insert details about BES2019{]}. In this study we identified xxx
+orcats, which define 7503 pairs, for each of which we calculated
+pair-wise distributional characteristics including rmin, rmax, C1 and
+C2. Further details on this dataset are provided in Appendix 4.
+Obviously, the orcats in BES2019 are not a random sample from the
+contents of all socio-political mass surveys in Britain in 2019, let
+alone of those in wider areas such as the developed western world, or in
+other years. But the BES can sensibly be regarded as typical for such
+studies, which include (national) election studies, general social
+surveys, and many public opinion and marketing surveys. As such,
+findings based on this dataset derived from the BES can sensibly be
+regarded as typical for what applied researchers in other countries will
+encounter in their survey data. These two datasets will be used to
+address, in the subsequent sections, questions with regard to: -
+Distributions of rmin, rmax and measures of overall constraint of r by
+marginals - Factors affecting rmin, rmax and overall constraint of r -
+Consequences of constrained correlations in applied research, including
+for descriptive purposes and hypothesis testing - Possibilities for
+reducing undesired consequences of constrained correlations
+
+\subsection{Effects of Marginal
+Shapes}\label{effects-of-marginal-shapes}
+
+\begin{itemize}
+\item
+  Shape-based elasticity of correlation bounds\\
+\item
+  Skewness and modality heavily influence the attainable range of \(r\).
+\item
+  Marginals with extreme concentration (e.g., most responses in one or
+  two categories) sharply restrict the possible correlation range.
+\end{itemize}
+
+\subsection{Symmetry Breaking in Correlation
+Bounds}\label{symmetry-breaking-in-correlation-bounds}
+
+\begin{itemize}
+\item
+  When and why \(r_{\min} \neq -r_{\max}\)
+\item
+  Empirical indicators of bound asymmetry
+\item
+  When given marginal distributions are sufficiently asymmetric, the min
+  and max bounds of \(r\) are not symmetric about zero.
+\item
+  The shape of the null distribution of \(r\) can be strongly skewed,
+  especially in cases with unequal marginals.
+\end{itemize}
+
+When we talk about ``asymmetry'' in this context, we're referring to how
+different the distribution of \(Y\) is from the distribution of \(X\).
+Since \(X\) is kept uniform, any deviation of \(Y\) from uniformity
+creates asymmetry between the distributions.
+
+The \emph{total variation distance} (TV) quantifies this asymmetry:
+
+\begin{itemize}
+\tightlist
+\item
+  It measures how different Y is from being symmetric around its
+  midpoint
+\item
+  When TV = 0: \(Y\) is symmetric (like \(X\))
+\item
+  When TV is large: \(Y\) is highly asymmetric compared to \(X\)
+\end{itemize}
+
+\section{Illustration with `Typical' Data:
+BES}\label{illustration-with-typical-data-bes}
+
+We do not claim this data is representative of data-sets of ordinal
+variables used by social scientists. Rather, we view it as
+\emph{typical} in that it is a real-world example possessing many of the
+features that would raise issues\ldots{}
+
+\section{Conclusion}\label{conclusion}
+
+\begin{itemize}
+\tightlist
+\item
+  Summary: Theoretical bounds, symmetry-breaking conditions, and
+  implications for applied research
+\item
+  An R package accompanies this paper, providing tools to compute
+  max/min bounds and perform randomization-based hypothesis tests for
+  fixed marginals. Details are available in the appendix and online.
+\end{itemize}
+
+Impacts standard methods:
+
+\begin{itemize}
+\tightlist
+\item
+  interpretation (e.g.~`effect size') and comparison
+\item
+  hyothesis testing
+\end{itemize}
+
+Recommendations for interpreting Pearson's \(r\) in applied contexts
+
+\begin{itemize}
+\tightlist
+\item
+  Reporting observed \(r\) in context of its attainable bounds.
+\item
+  Using our tools to test whether an observed \(r\) is unusually strong
+  or weak given marginals.
+\end{itemize}
+
+\subsection{Extensions and Open
+Questions}\label{extensions-and-open-questions}
+
+\begin{itemize}
+\tightlist
+\item
+  Role of entropy and joint uncertainty in bounding behavior\\
+\item
+  Possibility of adjusting or normalizing \(r\)
+\item
+  Relation to Copula Theory (Optional)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ``Although our setting is discrete, the problem is conceptually
+    linked to copula-based modeling of dependence with fixed marginals.
+    The connection is discussed as a direction for future work.''
+  \end{itemize}
+\item
+  `Correction' strategies \(\leadsto\) \emph{rescaling}
+\item
+  Generalizations to higher dimensions \(\leadsto\) implications for
+  correlation matricies and Factor Analysis, SEMs, etc.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{PCA and Factor Analysis}: Attenuated correlations may lead
+    to \(\leadsto\) ractical risks: over-factoring (more factors
+    estimated than `should be'), biased structural coefficients(?)
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \textbf{SEM}: Biased estimation of structural paths if
+      ordinal-level attenuation is ignored.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\newpage
+
+\section{References}\label{references}
+
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-camb76-inequalities}
+Cambanis, S., Simons, G., \& Stout, W. (1976). Inequalities for {E}
+k({X}, {Y}) when the marginals are fixed. \emph{Zeitschrift Für
+Wahrscheinlichkeitstheorie Und Verwandte Gebiete}, \emph{36}(4, 4),
+285--294. \url{https://doi.org/10.1007/BF00532695}
+
+\bibitem[\citeproctext]{ref-frec51-tableaux}
+Fréchet, M. (1951). Sur les tableaux de corrélation dont les marges sont
+données. \emph{Annales de l'Université de Lyon}, \emph{14}, 53--77.
+
+\bibitem[\citeproctext]{ref-hard52-inequalities}
+Hardy, G. H., Littlewood, J. E., \& Pólya, G. (1952).
+\emph{Inequalities}. Cambridge University Press.
+
+\bibitem[\citeproctext]{ref-hoef40-masstabinvariante}
+Hoeffding, W. (1940). Masstabinvariante {Korrelationstheorie}.
+\emph{Schriften Des Mathematischen Instituts Und Instituts Fur
+Angewandte Mathematik Der Universitat Berlin}, \emph{5}, 181--233.
+
+\bibitem[\citeproctext]{ref-jaec09-positive}
+Jaeckel, P., \& Kahl, C. (2009). \emph{Positive semi-definite
+correlation matrix completion}.
+
+\bibitem[\citeproctext]{ref-lehm66-concepts}
+Lehmann, E. L. (1966). Some {Concepts} of {Dependence}. \emph{The Annals
+of Mathematical Statistics}, \emph{37}(5), 1137--1153.
+
+\bibitem[\citeproctext]{ref-mish09-note}
+Mishra, S. K. (2009). A note on positive semi-definiteness of some
+non-pearsonian correlation matrices. \emph{Available at SSRN 1419362}.
+
+\bibitem[\citeproctext]{ref-shan23-impact}
+Shantal, M., Othman, Z., \& Bakar, A. A. (2023). Impact of {Missing
+Data} on {Correlation Coefficient Values}: {Deletion} and {Imputation
+Methods} for {Data Preparation}. \emph{Malaysian Journal of Fundamental
+and Applied Sciences}, \emph{19}(6, 6), 1052--1067.
+\url{https://doi.org/10.11113/mjfas.v19n6.3098}
+
+\bibitem[\citeproctext]{ref-shih92-evaluating}
+Shih, W. J., \& Huang, W.-M. (1992). Evaluating {Correlation} with
+{Proper Bounds}. \emph{Biometrics}, \emph{48}(4), 1207--1213.
+\url{https://doi.org/10.2307/2532712}
+
+\bibitem[\citeproctext]{ref-tche80-inequalities}
+Tchen, A. H. (1980). Inequalities for {Distributions} with {Given
+Marginals}. \emph{The Annals of Probability}, \emph{8}(4), 814--827.
+
+\bibitem[\citeproctext]{ref-whit76-bivariate}
+Whitt, W. (1976). Bivariate {Distributions} with {Given Marginals}.
+\emph{The Annals of Statistics}, \emph{4}(6), 1280--1289.
+
+\end{CSLReferences}
+
+\newpage
+
+\appendix
+
+\section{Appendix A: Mathematical
+Proofs}\label{appendix-a-mathematical-proofs}
+
+\subsection{Proof A.1}\label{proof-max-product}
+
+\textbf{Proof of \hyperref[prop-max-product]{Proposition
+(\citeproc{ref-prop-max-product}{\textbf{prop-max-product?}})}.}
+
+\subsection{Proof A.2}\label{proof-cor-min}
+
+\textbf{Proof of \hyperref[cor-min]{Corollary 1}.}
+
+\section{Appendix B: Software Tools and Code
+Listings}\label{appendix-b-software-tools-and-code-listings}
+
+\begin{itemize}
+\tightlist
+\item
+  Documentation and examples for the R package\\
+\item
+  Description of randomization testing features
+\end{itemize}
+
+\section{Appendix C: Additional Tables and
+Simulations}\label{appendix-c-additional-tables-and-simulations}
+
+\begin{itemize}
+\tightlist
+\item
+  Supplementary empirical examples, simulation results
+\end{itemize}
+
+\section{Appendix D: Old Outline}\label{appendix-d-old-outline}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Introduction and Conceptual Framework}
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Research motivation and objectives
+\item
+  Overview of limitations in current correlation testing with ordinal
+\item
+  Why does this matter? \(\leadsto\) consequences if these changing
+  bounds are ignored
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \textbf{Theoretical Bounds on Correlation Coefficients}
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Mathematical explanation of R-min and R-max
+\item
+  Elasticity and asymmetry due to marginal distributions
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Atainable and non-atainable bounds
+  \end{itemize}
+\item
+  Implications for standard significance tests
+\item
+  Note on Freshet bounds anomaly (appendix or highlighted sidebar)
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  \textbf{Measurement Issues and Metrics of Constraint} {[}TITLE?{]}
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Problems with interval assumptions in ordinal categorical data
+\item
+  Alternatives to traditional scaling (psychometric, text-based)
+\item
+  Concept of boundedness and its distortion effects
+\item
+  Proposed \emph{metrics of constraint}: Asymmetry; Aitchinson distance;
+  Entropy(?); Total Variation(?)
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  \textbf{Simulations and Monte Carlo Approaches}
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Design of permutation and Monte Carlo simulations
+\item
+  Bias and error analysis under null hypotheses
+\item
+  Role of mean, skewness, variance in predicting constraint metrics
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  \textbf{Empirical Illustration Using BES Data}
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Justification for selection: a typical but not representative case
+\item
+  Application of shrinkage and constraint metrics to BES
+\item
+  Comparison to simulation outcomes
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  \textbf{Implications for Applied Research and Tools}
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Critique of statistical purism in significance testing
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Critique of over-reliance on significance without consideration of
+    boundedness or constraint metrics.
+  \end{itemize}
+\item
+  Reframing effect size: from absolute value to bounded context
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(r^2\) interpretation under bounded conditions
+  \end{itemize}
+\item
+  RE-SCALING:
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Map \(r_{min}\) to -1, etc.
+  \item
+    Map \(\hat{r}^2\) to \([0,1]\), the re-scale \(\hat{r}_{adj}\) by
+    preserving sign(?)
+  \end{enumerate}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Effect on PSD and invertability of adjusted correlation matrix
+    (NOTE: only use complete cases here so as to not `cheat' -- Jaeckel
+    \& Kahl (\citeproc{ref-jaec09-positive}{2009}); Mishra
+    (\citeproc{ref-mish09-note}{2009}); Shantal et al.
+    (\citeproc{ref-shan23-impact}{2023}))
+  \end{itemize}
+\item
+  Practical guidance for analysts: how to assess when elastic bounds
+  affect inference.
+\item
+  Overview of accompanying software tools or R functions developed.
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{6}
+\item
+  \textbf{Open Questions}
+\item
+  \textbf{Conclusions}
+\end{enumerate}
+
+
+
+
+\end{document}

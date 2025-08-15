@@ -24,7 +24,7 @@ The theoretical landscape has been further enriched by **partial identification 
 
 **The R ecosystem has experienced significant expansion** with several key packages emerging in 2024. The **easystats/correlation package represents current state-of-the-art** for comprehensive correlation analysis, supporting 15+ correlation types including polychoric correlation with full tidyverse integration. The new **bullseye package** (August 2024) provides specialized tidy data structures for multiple correlation measures with integrated visualization capabilities.
 
-**Modern visualization approaches** emphasize ggplot2-based solutions through packages like ggcorrplot and advanced Gaussian Graphical Model visualizations. Interactive approaches using plotly and DT provide enhanced exploration capabilities, while **network-style visualizations** using ggraph enable sophisticated partial correlation analysis.
+**Modern visualisation approaches** emphasize ggplot2-based solutions through packages like ggcorrplot and advanced Gaussian Graphical Model visualizations. Interactive approaches using plotly and DT provide enhanced exploration capabilities, while **network-style visualizations** using ggraph enable sophisticated partial correlation analysis.
 
 **Specialized packages** address specific needs: SimCorrMix provides correlation bounds validation through validcorr() functions, while the robust polychoric correlation methods are available through the robcat package. The ordinal package offers cumulative link models for complex correlation contexts.
 
@@ -61,6 +61,10 @@ The 2024-2025 period represents a watershed moment for ordinal categorical corre
 
 ----
 
+
+
+
+# Literature Review #
 
 
 

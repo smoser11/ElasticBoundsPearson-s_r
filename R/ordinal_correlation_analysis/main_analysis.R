@@ -408,7 +408,7 @@ library(kableExtra)
 	 # Generate executive research summary
 	 research_summary <- paste0(
 	 	"CORRELATION BOUNDS ANALYSIS: BRITISH ELECTION STUDY 2019\n",
-	 	"=" %&% strrep("=", 55), "\n\n",
+	 	strrep("=", 63), "\n\n",
 	 	
 	 	"DATASET OVERVIEW:\n",
 	 	"- Variable pairs analyzed: ", nrow(bounds_data), "\n",
