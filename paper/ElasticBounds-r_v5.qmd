@@ -8,8 +8,10 @@ author:
 date: today
 date-format: "DD, MMMM YYYY"
 bibliography: references.bib
-citeproc: true
 csl: apa.csl
+citeproc: true
+filters:
+  - citefield.lua #https://github.com/bcdavasconcelos/cite-field
 reference-section-title: ""
 #cite-method: citeproc
 fontsize: 12pt
@@ -44,6 +46,7 @@ format:
         \usepackage{float}
         \usepackage{caption}
         \usepackage{subcaption}
+        \usepackage{stmaryrd}
         % Numbering is tied to sections (e.g., Proposition 2.1, 2.2, etc.)
         % Theorems and Propositions (italic)
         \theoremstyle{plain}
@@ -149,263 +152,20 @@ Pearson’s correlation coefficient $r$, when applied to ordinal data, is subjec
 \newpage
 
 
-# Preamble {-}
-
-## The 'Point':
-
-The widespread use of Pearson’s $r$ with ordinal data.\
-
-1.  *Alert* applied researachers of 'elastic bounds'
-    1.  Problems of ignoring the above $\leadsto$ errors in interpretation (e.g. Cohen and Cohen) -- how max/min bounds of $r$ vary with marginals.\
-2.  *Provide* tools to assess if problems exist in own data/ research
-3.  *Clarify* that traditional hypothesis testing (e.g. t-test of $H_0: r= 0$) are incorrect and provide correct hypo testing (permutation/ randomization tests)
-
-
-
-**Proposed Section Structure — Unified Draft Outline**
-
-* * *
-
-### **1. Introduction**
-
-* **Purpose:** Introduce the problem and why it matters.
-    
-* Motivation: Researchers assume _r_ ∈ [–1, 1] is attainable for any data, but discrete marginals constrain attainable range.
-    
-* Consequences: Misinterpretation of effect sizes, misleading hypothesis tests, cross-study comparison issues.
-    
-* Contributions:
-    
-    1. Theoretical derivation and characterization of attainable bounds.
-        
-    2. Metrics to quantify constraint and asymmetry.
-        
-    3. Rescaling approaches for interpretation.
-        
-    4. Illustration through simulation and applied example (BES data).
-        
-* **Status:** Needs drafting — can be adapted from your existing explanatory notes and meeting summaries.
-    
-
-* * *
-
-### **2. Notation and Definitions**
-
-* Define:
-    
-    * Marginal distributions.
-        
-    * _rₘᵢₙ_ (minimum attainable correlation), _rₘₐₓ_ (maximum attainable correlation).
-        
-    * Co-monotonic and anti-co-monotonic arrangements.
-        
-    * “Reference interval” in correlation space.
-        
-    * Metrics of constraint: width (_rₘₐₓ – rₘᵢₙ_), asymmetry index.
-        
-* Clarify measurement levels (ordinal vs. interval) and implications for _r²_.
-    
-* **Status:** Partially drafted in Cees’s Section 3–4 notes.
-    
-
-* * *
-
-### **3. Theoretical Results**
-
-* **3.1 Worked Examples**
-    
-    * Table 2 (4-category, 12 obs) — shows symmetry and asymmetry cases.
-        
-    * Patterns where _rₘᵢₙ_ ≠ –_rₘₐₓ_.
-        
-    * Cases with _rₘₐₓ_ = 1 but _rₘᵢₙ_ > –1, and vice versa.
-        
-    * **Status:** Table 2 drafted; text explanation partial.
-        
-* **3.2 General Conditions for Symmetry**
-    
-    * Uniform/symmetric marginals produce symmetry.
-        
-    * Frequency imbalances cause asymmetry.
-        
-    * **Status:** Partially explained in meetings; needs formal statement.
-        
-* **3.3 Extreme Values Not at ±1**
-    
-    * Theoretical explanation for why perfect correlation may be unattainable.
-        
-    * **Status:** Requires concise proof/derivation.
-        
-* **3.4 Literature Connections**
-    
-    * Relation to Fréchet–Hoeffding bounds, medical “reference intervals”.
-        
-    * **Status:** Notes exist; needs integration.
-        
-
-* * *
-
-### **4. Rescaling and Interpretation**
-
-* **4.1 Why Rescale?**
-    
-    * Without rescaling, effect sizes misleading when bounds ≠ ±1.
-        
-* **4.2 Rescaling Methods**
-    
-    1. Linear transform to [0, 1] using _rₘᵢₙ_ and _rₘₐₓ_.
-        
-    2. Transform then square to yield ratio-level shared variance.
-        
-    3. Optional asymmetry-aware adjustments.
-        
-* **4.3 Guidance for Applied Use**
-    
-    * When to use each method; pitfalls.
-        
-* **Status:** Initial logic drafted by Scott; needs fleshing out and examples.
-    
-
-* * *
-
-### **5. Metrics of Constraint**
-
-* Bound width (_rₘₐₓ – rₘᵢₙ_).
-    
-* Asymmetry index (normalized difference in absolute magnitude).
-    
-* Possible uses:
-    
-    * Diagnostic indicator in applied analysis.
-        
-    * Adjusted effect size interpretation.
-        
-* **Status:** Concept defined; formulae/examples still to be finalized.
-    
-
-* * *
-
-
-* * *
-
-### **7. Simulation Study (Monte Carlo)**
-
-* **Purpose:** Explore patterns noted in Sections 3–6 under random and controlled marginals.
-    
-* Design:
-    
-    * Random marginals vs. fixed marginals.
-        
-    * Vary number of categories and sample size.
-        
-    * Compute _rₘᵢₙ_, _rₘₐₓ_, constraint metrics.
-        
-* Output:
-    
-    * Distribution of bound widths and asymmetry.
-        
-    * Frequency of perfect symmetry.
-        
-    * Scatterplots of observed _r̂_ vs. attainable range.
-        
-* **Status:** Simulation code partially written by Scott; needs full implementation.
-    
-
-* * *
-
-### **8. Empirical Illustration (BES Data)**
-
-* Select variable pairs with constrained bounds.
-    
-* Show:
-    
-    * Raw _r̂_.
-        
-    * Theoretical bounds.
-        
-    * Rescaled _r̂_.
-        
-    * Rescaled _r̂²_.
-        
-* Highlight cases where rescaling changes substantive interpretation.
-    
-* **Status:** Not yet started.
-    
-
-* * *
-
-### **9. Discussion and Implications**
-
-* Summarize:
-    
-    * Main theoretical findings.
-        
-    * Key applied consequences.
-        
-* Recommendations:
-    
-    * Bound-aware effect size interpretation.
-        
-    * Bound-aware hypothesis testing.
-        
-    * Possible inclusion in statistical software.
-        
-* Open questions and extensions.
-    
-* **Status:** Will be final writing task.
-    
-
-* * *
-
-### **Appendices**
-
-* Proofs of theoretical statements.
-    
-* Extended examples/tables.
-    
-* Simulation details and R code.
-    
-* **Status:** Will grow as paper is drafted.
-    
-
-
-## Possible Literature
-
-@camb76-inequalities
-
-@shih92-evaluating
-
-
-
-Grether, D. M. (1976). On the Use of Ordinal Data in Correlation Analysis. American Sociological Review, 41(5), 908–912. https://doi.org/10.2307/2094741
-
-Labovitz, S. (1967). Some observations on measurement and statistics. Social Forces, 46(2), 151–160. https://doi.org/10.2307/2574595
-
-Labovitz, S. (1970). The assignment of numbers to rank order categories. American Sociological Review, 35(3), 515–524. https://doi.org/10.2307/2092993
-
-Moss, J., & Grønneberg, S. (2023). Partial Identification of Latent Correlations with Ordinal Data. Psychometrika, 88(1), 241–252. https://doi.org/10.1007/s11336-022-09898-y
-
-O’Brien, R. M. (1979). The use of Pearson’s r with ordinal data. American Sociological Review, 44(5), 851–857. https://doi.org/10.2307/2094532
-
-Robitzsch, A. (2022). On the Bias in Confirmatory Factor Analysis When Treating Discrete Variables as Ordinal Instead of Continuous. Axioms, 11(4), Article 4. https://doi.org/10.3390/axioms11040162
-
-@frec51-tableaux
-
-@whit76-bivariate
-
-@hoef40-masstabinvariante
-
-@lehm66-concepts
-
-@tche80-inequalities
-
 \newpage
 
 # Introduction and Conceptual Setting
 
 
 In this article we elaborate why correlations involving ordered-categorical variables are generally ‘constrained’, which means that their attainable maximum and minimum values are rarely +1 and -1, as is often thought, but values that have to be calculated for each pair of variables. We assess the magnitude of these constraints in fictitious as well as empirical data and analyse under which conditions they are most severe. The article is accompanied by a software tool in R: that allows applied researchers to easily assess the extent of the problem in their own data. 
+
 The use of product-moment correlations (also known as Pearson correlations) to assess linear relationships between ordered-categorical variables –henceforth referred to as orcats– is widespread and widely condoned in empirical studies, in spite of such variables not being metric while the product-moment correlation assumes that they are. We do not focus on this problem from an obsessive desire for methodological purity, were it only because many statistical procedures are quite robust for violations of their assumptions [fn: examples?]. Instead, we draw attention to problematic consequences of this violation of assumptions that, as far as we know, have been rarely recognised in the applied literature although they are well-known in the theoretical statistical literature. This is the problem that correlation coefficients involving orcats are constrained in their range which makes them mutually incomparable, leading to problems  in hypothesis testing and in analytical procedures that use correlations as their input. 
+
+Despite long-standing cautions about applying Pearson’s correlation coefficient \(r\) to ordinal variables (\citealt{Labovitz1970}; \citealt{Gaito1980}), it remains routine in survey-based social science. In political science and sociology alike, researchers frequently correlate 4–, 5–, or 7–point items as if they were interval-scaled, usually without examining the implications of the marginals. Examples include correlations among attitude items in large-scale survey batteries (\citealt{AlwinKrosnick1991}), ideology and issue positions on mixed-resolution scales (\citealt{BrewerGross2005}; \citealt{KinderKam2009}), and summary indices that are subsequently modeled using correlation-based techniques. Reviews document that such practices are pervasive in applied survey analysis (\citealt{KreuterValliant2007}). Methodological discussions sometimes defend pragmatic use of parametric tools with ordinal data (\citealt{Jacoby1999}), but even optimistic views do not address the \emph{feasible range} of \(r\) imposed by fixed marginals—an omission with direct consequences for substantive interpretation.
+
+Alternatives to Pearson’s \(r\)—notably Spearman’s \(\rho\), Kendall’s \(\tau\), and the polychoric correlation—offer different trade-offs (\citealt{Spearman1904}; \citealt{Kendall1938}; \citealt{Olsson1979}). Rank-based measures ignore the marginals; polychorics assume latent bivariate normality. In contrast, we pursue bounds on \(r\) that \emph{explicitly} depend on the observed marginals, drawing on rearrangement inequalities and the Fréchet–Hoeffding framework (\citealt{Frechet1951}; \citealt{Hoeffding1940}; \citealt{Rueschendorf1981}). This perspective clarifies when the attainable range of \(r\) is narrow, when symmetry fails (\(r_{\min}\neq -r_{\max}\)), and when the lower bound can be strictly positive. It also explains why correlation-based models with ordinal indicators (EFA/CFA/SEM) can be distorted when Pearson correlations are used (\citealt{FloraCurran2004}; \citealt{GreenEtAl1997}). Our contribution situates empirical practice within these theoretical limits and provides tools to compute and visualize the bounds given fixed marginals.
+
+
 This article proceeds as follows. We start by briefly elaborating the character of ordinal categorical variables (orcats), why they are generally not regarded as being metric, and why, in spite of that, they are nevertheless very frequently used in statistical procedures that assume metric level data. We then proceed in section 3 to show why correlations based on orcats tend to be constrained, which implies that their range is smaller than from -1 to +1, and why this is problematic in applied research. This raises the question how to determine the actual range of attainable values of correlations between orcats, which we address in the subsequent section. In section 5 we assess the magnitude of these constraining effects on two different sets of data. One is a typical survey dataset in which many of the variables are ordinal categorical, the orcatorcat 2019 British Election Study. The second consists of data derived from simulations covering all possible relevant conditions for pairs of ordered categorical variables. We use both sets of data to explore conditions that influence the magnitude of the constraining effect. Section @sec-MCsim concludes by summarizing the findings, by elaborating the consequences for applied research, and by discussing directions for further research.
 
 
@@ -456,6 +216,9 @@ Consequences of constrained correlations in applied research
 -   Coupling and rearrangement in discrete settings
 
 # Theoretical Framework
+
+The problem of extremal correlations under fixed marginals connects directly to classical results in probability inequalities. Fréchet’s work on admissible joint distributions (\citealt{frech51-sur}) and Hoeffding’s development of covariance bounds (\citealt{hoef40-massta}) laid the groundwork. Later refinements, such as Rüschendorf’s demonstration of sharpness of Fréchet bounds (\citealt{rues81-sharpn}), clarified when comonotonic and countermonotonic couplings achieve extremal values. The rearrangement inequality, and its discrete extensions, ensure that matching high values of \( X \) with high values of \( Y \) maximizes \(\mathbb{E}[XY]\), while opposite pairings minimize it. This perspective is elaborated in comparison and coupling frameworks (\citealt{muel02-compa}; \citealt{thor00-coupli}). These results provide the theoretical backbone for our derivations of \(r_{\min}\) and \(r_{\max}\).
+
 
 ## Optimal Coupling and Correlation Bounds
 
@@ -710,18 +473,32 @@ $$E[XY]_{\text{min}} = \frac{1}{N}\sum_{k=1}^{N} X_{\text{sorted}}(k)\cdot Y_{\t
 
 These classical bounds define feasible joint distributions given marginals and constrain the attainable values of $r$. There is an interesting connection to Fréchet–Hoeffding and Boole–Fréchet Inequalities, which we note but leave for future research.[^1]
 
-[^1]: Fréchet–Hoeffding and Boole–Fréchet Inequalities
+[^1]: Fréchet–Hoeffding and Boole–Fréchet Inequalities:  The upper bound is always attained by $r_{max}$.  However, the lower bound is _not_ guaerenteed to attain.  The fundamental asymmetry arises because discrete ordinal distributions cannot smoothly bridge these gaps. Thus, the upper bound alignment is always feasible, while the lower bound alignment frequently encounters structural obstacles.
 
-    This is the second paragraph.
-    Indent each new paragraph with four spaces or a tab, just like you would for a multi-paragraph list item.
+	In the discrete ordinal setting, \(r_{\max}\) is **always** attained by the FH upper (comonotonic) construction.  
+  *(BFbounds.md; Proofs-OrdinalVariables.md; Ordinal Variables and Correlation.md)*
 
-    You can also include code blocks:
+	The FH lower (countermonotonic) construction may be **unattainable** in discrete settings; \(r_{\min}\) is then the best feasible opposite-order arrangement.  
+  *(BFbounds.md; Proofs-OrdinalVariables.md; Ordinal Variables and Correlation.md)*
+  
+    **Upper bound** (positive alignment):
+    
+    * Sorting $X$ and $Y$ separately in descending order, then pairing largest-to-largest, smallest-to-smallest, **always works**.
+        
+    * You never run out of "matching" observations because the descending order for both variables naturally aligns category sizes. Even if one variable has large gaps, you can still sequentially pair without difficulty.
+        
+	**Lower bound** (negative alignment):
+	    
+    * You sort $X$ descending but $Y$ ascending. You're pairing extremes together: highest $X$ with lowest $Y$, lowest $X$ with highest $Y$.
+        
+    * Now you face potential "imbalance":
+        
+        * If one category is large for $X$ but the corresponding opposite-ranked category for $Y$ is small, you quickly exhaust available "opposite-end" observations.
+            
+        * After exhausting the best opposites, you are forced to pair less "extreme" pairs, creating a suboptimal alignment.
+            
+    * Hence, perfect negative alignment (lower bound) becomes impossible to achieve fully, leaving you short of the theoretical Fréchet–Hoeffding lower bound.
 
-    ```         
-    print("Hello, footnote!")
-    ```
-
-    Or even more paragraphs and content as needed.
 
 
 
@@ -847,12 +624,68 @@ To illustrate these idea concretely,  Table 1 presents an illustrative example o
 
 In this section we further explore the theoretical properties on $r_{min}$ and $r_{max}$.
 
+## Asymetry
+
+
+**Symmetry and the Role of Ties**
+
+-   Conditions under which $r_{\min} = -r_{\max}$
+
+
+PROP: If one marginal is **palindromically symmetric** about its center rank, then \(r_{\min} = -r_{\max}\).  
+  *(Cees – r_min MAGNITUDE Asymmetry in Pearson Correlation.md)*
+
+
+
+-   How ties in marginal distributions affect the attainability of the lower bound
+
+1. **\(r_{\max}\) = FH upper (comonotonic), always attainable** in discrete ordinal settings.
+2. **\(r_{\min}\)** may **not** equal FH lower in discrete settings; use best feasible opposite-order arrangement.
+3. No universal bound on relative magnitudes: \(|r_{\min}|\) may be less than, equal to, or greater than \(r_{\max}\).
+4. Palindromic symmetry of one marginal guarantees \(|r_{\min}| = r_{\max}|\).
+
+
+VH  3. **Symmetry Analysis:**
+    
+    * (3a) Visualize and explore how changes from symmetric to asymmetric marginal distributions influence the joint distributions and, consequently, the correlation. Consider the potential role of entropy in measuring asymmetry.
+        
+4. **Investigate when the minimum and maximum correlations are asymmetric ($r_{\text{min}} \neq -r_{\text{max}}$)**:
+    
+    * Show why and under what conditions this asymmetry occurs.
+        
+    * Visually investigate why perfect negative and positive correlations may not be symmetric in magnitude given ordinal marginals.
+        
+
+
+**Special Cases and Boundary Conditions**
+
+-   Equal vs. unequal numbers of categories\
+-   Symmetric vs. asymmetric marginal distributions
+
+Often \(|r_{\min}| < r_{\max}\) for discrete asymmetrical marginals.  
+  *(BFbounds.md; Ordinal Variables and Correlation.md)*
+- **New evidence (BES data)**: Possible to have \(|r_{\min}| > r_{\max}|\).  
+  Example: \(X\) with 4 categories, \(Y\) with 5 categories, skewed marginals;  
+  \(r_{\max} = 0.85027\), \(r_{\min} = -0.89916\).  
+  *(Cees – r_min MAGNITUDE Asymmetry in Pearson Correlation.md)*
+
+**Reason:** Pearson correlation uses centered values; skewness can make negative deviations in antitone pairing larger in magnitude than positive deviations in comonotone pairing.
+
+
+
+VH
+
+
+## Estiimation and Joint Uncertainty
+
+VH
 
 
 # Measurement Issues and Metrics of Constraint
 
 IN THIS SECTION:  "How to define metrics (on _pairs_ of discrete probability distributions) to *explain*:
 
+VH
 
 1. $$\frac{ r_{max}-r_{min}}{2}$$
 2. $$1-r_{max}$$
@@ -932,16 +765,6 @@ Empirically, we find that all three metrics provide consistent, interpretable di
 
 
 
-## Symmetry and the Role of Ties
-
--   Conditions under which $r_{\min} = -r_{\max}$
--   How ties in marginal distributions affect the attainability of the lower bound
-
-## Special Cases and Boundary Conditions
-
--   Equal vs. unequal numbers of categories\
--   Symmetric vs. asymmetric marginal distributions
-
 
 
 # Implications, Issues, and Questions
@@ -996,7 +819,7 @@ These two datasets will be used to address, in the subsequent sections, question
 -	Possibilities for reducing undesired consequences of constrained correlations
 
 
-
+VH:  $(r_{min}, r_{max})$
 
 ## Effects of Marginal Shapes
 
@@ -1031,10 +854,79 @@ The *total variation distance* (TV) quantifies this asymmetry:
 We do not claim this data is representative of data-sets of ordinal variables used by social scientists.  Rather, we view it as _typical_ in that it is a real-world example possessing many of the features that would raise issues...
 
 
+VH:  $(r_{min}, r_{max})$ And compare with MC simulated data
+
+# Discussion
+
+## Comparing 'Typical' Data (BES) with Simulated Data
+
+
+
+
+
+## Relation to Literature
+
+
+!fullcite camb76-inequalities
+
+
+
+Full citation:
+
+[@camb76-inequalities]{.author}
+
+
+
+Grether, D. M. (1976). On the Use of Ordinal Data in Correlation Analysis. American Sociological Review, 41(5), 908–912. https://doi.org/10.2307/2094741
+
+Labovitz, S. (1967). Some observations on measurement and statistics. Social Forces, 46(2), 151–160. https://doi.org/10.2307/2574595
+
+Labovitz, S. (1970). The assignment of numbers to rank order categories. American Sociological Review, 35(3), 515–524. https://doi.org/10.2307/2092993
+
+Moss, J., & Grønneberg, S. (2023). Partial Identification of Latent Correlations with Ordinal Data. Psychometrika, 88(1), 241–252. https://doi.org/10.1007/s11336-022-09898-y
+
+O’Brien, R. M. (1979). The use of Pearson’s r with ordinal data. American Sociological Review, 44(5), 851–857. https://doi.org/10.2307/2094532
+
+Robitzsch, A. (2022). On the Bias in Confirmatory Factor Analysis When Treating Discrete Variables as Ordinal Instead of Continuous. Axioms, 11(4), Article 4. https://doi.org/10.3390/axioms11040162
+
+@frec51-tableaux
+
+@whit76-bivariate
+
+@hoef40-masstabinvariante
+
+@lehm66-concepts
+
+@tche80-inequalities
+
+@camb76-inequalities
+
+@shih92-evaluating
+
+
+@alwi91-reliability; @brew05-values; @flor04-empirical; @gait80-measurement; @gree97-effect; @jaco99-levels; @kend38-new; @knok02-statistics; @kreu07-survey; @kros97-designing; @labo70-assignment; @olss79-maximum; @spea04-proof
+
+        
+## Recommendations
+
+    
+* Bound-aware effect size interpretation.
+* Bound-aware hypothesis testing.
+* Possible inclusion in statistical software.
+
+
+
 
 
 
 # Conclusion
+
+* Summarize:
+    
+    * Main theoretical findings.
+        
+    * Key applied consequences.
+
 
 - Summary: Theoretical bounds, symmetry-breaking conditions, and implications for applied research
 - An R package accompanies this paper, providing tools to compute max/min bounds and perform randomization-based hypothesis tests for fixed marginals. Details are available in the appendix and online.
@@ -1060,6 +952,95 @@ Recommendations for interpreting Pearson's $r$ in applied contexts
 - Generalizations to higher dimensions $\leadsto$ implications for correlation matricies and Factor Analysis, SEMs, etc.
 	- **PCA and Factor Analysis**: Attenuated correlations may lead to  $\leadsto$ ractical risks: over-factoring (more factors estimated than 'should be'), biased structural coefficients(?)
 	  - **SEM**: Biased estimation of structural paths if ordinal-level attenuation is ignored.
+
+
+### Correlation Matricies
+
+The consequences of using Pearson correlations with ordinal data extend beyond descriptive association. In factor analysis and SEM, attenuated correlations can yield distorted loadings, inflated factor numbers, and biased structural coefficients. Empirical studies confirm this risk: \citet{flor04-emperical} show that CFA models fitted with Pearson’s \( r \) among ordinal indicators produce biased estimates compared to models using polychoric correlations; \citet{gree97-efffect} demonstrate how the number of response categories alters apparent model fit. More broadly, psychometric research emphasizes that ignoring the ordinal nature of indicators can misrepresent latent structures (\citealt{lord68-statis}; \citealt{muth84-generl}; \citealt{bart11-laten}). For survey-based political science and sociology, this means that correlations reported between Likert items are not only bounded by their marginals, but may also systematically bias downstream modeling.
+
+Since the possible values $r$ may take on depend on the marginal distributions of the two variables being correlated, and since this reference interval may -- and often is -- quite different for different pairs of variables, interpreting and working with correlation matricies (alternatively variance-covariance marticies) must be paid speacial attention.  Such matricies form the basis for a number of statistical techniques, from regression to  Factor Analysis or Structual Equation Modeling (CITES).  In this section we present preliminary results exploring the implications of our findings above for PCA, FA, SEM.
+
+First, some preliminaries.  It is well known that any correlation matrix (using completely cases -- i.e. when each pair of variables is observed for the same set of respondents), $S$, is positive semi-definite and symmetric.  Hence, $S$ is invertable.  However, ... 
+
+**Why PSD Matters for PCA:**
+
+- **Mathematically**: Eigen-decomposition works for any symmetric $\mathbf{S}$, PSD or not.
+- **Interpretively**: Negative eigenvalues break the “variance explained” story (variance cannot be negative).
+- **Software behavior**: Most PCA routines check PD/PSD; failure can cause warnings or dropped components.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:6]{index=6}*
+
+**If Input is Symmetric but not PSD:**
+ 
+Example:  
+\[
+\mathbf{A} = \begin{bmatrix} 1 & 2 \\ 2 & 1 \end{bmatrix},\quad \lambda = (3,-1),
+\]
+is indefinite (one negative eigenvalue). 
+
+- PCA math still runs; eigenvalues/vectors computed.
+- Interpretation fails: $\sqrt{\lambda_j}$ imaginary for $\lambda_j<0$.
+- Some software refuses input; others run but return nonsensical variance metrics.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:7]{index=7}*
+
+**PSD/PD Needs in FA:**
+
+- **ML FA**: Requires $\mathbf{S}$ be PSD; $\log \det \mathbf{S}$ undefined if indefinite.
+- **Principal-axis / Image FA**: Also break with negative eigenvalues (square roots fail).
+*(PCA and FA PSD requirement.md):contentReference[oaicite:10]{index=10}*
+
+
+**SEM and PSD Requirements**
+
+#### 4.1 SEM Machinery
+Observed covariance $\mathbf{S}$; implied covariance $\boldsymbol\Sigma(\boldsymbol\theta)$ from structural and measurement models.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:12]{index=12}*
+
+---
+
+#### 4.2 Fit Functions and PD Needs
+- **ML / GLS**: Require both $\mathbf{S}$ and $\boldsymbol\Sigma(\theta)$ PD.
+- **WLS/DWLS**: Need PD indirectly (weight matrix invertible).
+- **ULS**: Can start from indefinite $\mathbf{S}$, but test statistics again require PD.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:13]{index=13}*
+
+---
+
+#### 4.3 What Happens if Not PSD
+- Software errors out (“matrix is not positive definite”).
+- Log-determinant undefined; inversion fails.
+- Even if bypassed, optimisation steps hit complex/NaN values.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:14]{index=14}*
+
+---
+
+#### 4.4 Remedies in SEM
+- Nearest PD smoothing (Higham 2002).
+- Ridge adjustment.
+- Analyse raw data.
+- Check rounding issues.
+*(PCA and FA PSD requirement.md):contentReference[oaicite:15]{index=15}*
+
+---
+
+**Core Lessons Across PCA, FA, SEM**
+
+1. **Theoretical PSD**: Covariance matrices from real data are PSD by definition:contentReference[oaicite:16]{index=16}.
+2. **Numerical Issues**: Sampling noise, rounding, or listwise deletion can yield small negative eigenvalues:contentReference[oaicite:17]{index=17}.
+3. **PCA**: Can compute from indefinite matrix but interpretation breaks:contentReference[oaicite:18]{index=18}.
+4. **FA and SEM**: Require PD input; will not run on indefinite matrices:contentReference[oaicite:19]{index=19}.
+5. **Repairs**: Adjust to nearest PSD, ridge, or recompute from raw data:contentReference[oaicite:20]{index=20}.
+
+
+
+So, we consider linearly re-scaling the estimated $r$ for each pair of variables in the correlation matirx $S$.  Call this new rescaled correlation matrix $S'$.  We seek to understand what the process of pair-wise linear rescaling has on the PSD-ness and invertability of $S'$.  This is importnant because without an invertable corrleation matrix, several analysese scholars perform on $S$ becuase questionable (at best).  Further, some estimators used in e.g. FA require PSD (namely, MLE).
+
+
+<!-- ![Condition number of linearly rescaled correlation matricies]() -->
+
+The general result is that linear rescaling does not 'break' invertability (nor PSD) but does make invertability 'worse' vizaviz the condition number.
+[Discuss condition number here]
+
+
 
 
 \newpage

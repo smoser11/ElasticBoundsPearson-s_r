@@ -311,6 +311,8 @@ if (length(bes_files) > 0) {
     theme_minimal() +
     theme(plot.title = element_text(face = "bold"))
   
+  plot4
+  
   plot4_file <- file.path(figures_dir, "joint_uncertainty_bes_individual.png")
   ggsave(plot4_file, plot4, width = 10, height = 8, dpi = 300)
   
@@ -320,39 +322,81 @@ if (length(bes_files) > 0) {
   plot4_generated <- FALSE
 }
 
-# Plot 5: Empirical ellipses using MC simulation data
-# Use the bootstrap summary statistics to create empirical confidence regions
+# Plot 5: Individual empirical ellipses using MC bootstrap data
 mc_summary <- bootstrap_results$summary_stats
 
 if (!is.null(mc_summary) && nrow(mc_summary) > 0) {
   # Sample subset of MC results for visualization
-  if (nrow(mc_summary) > 100) {
-    mc_subset <- mc_summary[sample(nrow(mc_summary), 100), ]
+  if (nrow(mc_summary) > 30) {
+    mc_subset <- mc_summary[sample(nrow(mc_summary), 30), ]
   } else {
-    mc_subset <- mc_summary
+    mc_subset <- mc_summary[1:min(30, nrow(mc_summary)), ]
   }
   
-  # Create empirical confidence regions using bootstrap statistics
-  plot5 <- ggplot(mc_subset, aes(x = boot_mean_rmin, y = boot_mean_rmax)) +
-    geom_point(alpha = 0.6, color = "forestgreen", size = 1.5) +
-    # Add uncertainty using confidence intervals as error bars
-    geom_errorbar(aes(ymin = r_max_ci_lower, ymax = r_max_ci_upper), 
-                  alpha = 0.4, color = "forestgreen", width = 0.01) +
-    geom_errorbarh(aes(xmin = r_min_ci_lower, xmax = r_min_ci_upper), 
-                   alpha = 0.4, color = "forestgreen", height = 0.01) +
-    # Add overall confidence contour
-    stat_ellipse(level = 0.95, color = "darkgreen", linewidth = 1.2, alpha = 0.8) +
+  # Function to create empirical ellipse using bootstrap statistics
+  create_empirical_ellipse <- function(center_x, center_y, sd_x, sd_y, rho, level = 0.95, point_id) {
+    # Generate ellipse points
+    theta <- seq(0, 2*pi, length.out = 50)
+    chi2_val <- qchisq(level, 2)
+    
+    # Create covariance matrix from bootstrap statistics
+    cov_matrix <- matrix(c(sd_x^2, rho*sd_x*sd_y, rho*sd_x*sd_y, sd_y^2), 2, 2)
+    
+    # Handle potential singular matrices
+    if (det(cov_matrix) <= 1e-10) {
+      # Default to circular uncertainty if covariance is singular
+      cov_matrix <- matrix(c(sd_x^2, 0, 0, sd_y^2), 2, 2)
+    }
+    
+    eigen_decomp <- eigen(cov_matrix)
+    
+    # Generate ellipse
+    ellipse_points <- sqrt(chi2_val) * cbind(cos(theta), sin(theta))
+    transform_matrix <- eigen_decomp$vectors %*% diag(sqrt(pmax(eigen_decomp$values, 0)))
+    transformed_points <- t(transform_matrix %*% t(ellipse_points))
+    
+    data.frame(
+      x = transformed_points[, 1] + center_x,
+      y = transformed_points[, 2] + center_y,
+      point_id = point_id
+    )
+  }
+  
+  # Create ellipse data for each MC point using actual bootstrap statistics
+  mc_ellipse_data <- data.frame()
+  for (i in 1:nrow(mc_subset)) {
+    # Use actual bootstrap statistics for uncertainty
+    ellipse_points <- create_empirical_ellipse(
+      center_x = mc_subset$boot_mean_rmin[i],
+      center_y = mc_subset$boot_mean_rmax[i],
+      sd_x = mc_subset$boot_sd_rmin[i],
+      sd_y = mc_subset$boot_sd_rmax[i],
+      rho = mc_subset$boot_cor_rmin_rmax[i],  # Actual bootstrap correlation
+      level = 0.95,
+      point_id = i
+    )
+    mc_ellipse_data <- rbind(mc_ellipse_data, ellipse_points)
+  }
+  
+  # Create plot with individual empirical ellipses
+  plot5 <- ggplot() +
+    geom_polygon(data = mc_ellipse_data, aes(x = x, y = y, group = point_id), 
+                 fill = "lightgreen", alpha = 0.3, color = "forestgreen", linewidth = 0.5) +
+    geom_point(data = mc_subset, aes(x = boot_mean_rmin, y = boot_mean_rmax), 
+               color = "darkgreen", size = 2, alpha = 0.8) +
     geom_abline(slope = -1, intercept = 0, linetype = "dashed", color = "gray", alpha = 0.7) +
     labs(
-      title = "Joint Uncertainty: Empirical Bootstrap Results from MC Data",
-      subtitle = "Bootstrap means with 95% confidence intervals and overall 95% ellipse",
+      title = "Individual Joint Uncertainty: MC Bootstrap Results",
+      subtitle = "Each ellipse shows 95% confidence region from actual bootstrap data",
       x = "r_min Bootstrap Mean",
       y = "r_max Bootstrap Mean"
     ) +
     theme_minimal() +
     theme(plot.title = element_text(face = "bold"))
   
-  plot5_file <- file.path(figures_dir, "joint_uncertainty_mc_empirical.png")
+  plot5
+  
+  plot5_file <- file.path(figures_dir, "joint_uncertainty_mc_individual.png")
   ggsave(plot5_file, plot5, width = 10, height = 8, dpi = 300)
   
   plot5_generated <- TRUE
@@ -366,8 +410,8 @@ cat("📈 Uncertainty visualizations generated:\n")
 cat("   1. Confidence intervals:", basename(plot1_file), "\n")
 cat("   2. Uncertainty comparison:", basename(plot2_file), "\n") 
 cat("   3. Uncertainty distribution:", basename(plot3_file), "\n")
-if (plot4_generated) cat("   4. BES parametric ellipses:", basename(plot4_file), "\n")
-if (plot5_generated) cat("   5. MC empirical ellipses:", basename(plot5_file), "\n")
+if (plot4_generated) cat("   4. BES individual ellipses:", basename(plot4_file), "\n")
+if (plot5_generated) cat("   5. MC individual ellipses:", basename(plot5_file), "\n")
 cat("\n")
 
 # ================================================================

@@ -64,7 +64,6 @@
   \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
 \makeatother
-\usepackage{fancyvrb}
 
 
 \usepackage{longtable,booktabs,array}
@@ -147,6 +146,7 @@
 \usepackage{float}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{stmaryrd}
 % Numbering is tied to sections (e.g., Proposition 2.1, 2.2, etc.)
 % Theorems and Propositions (italic)
 \theoremstyle{plain}
@@ -216,7 +216,6 @@
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
-\VerbatimFootnotes % allow verbatim text in footnotes
 \hypersetup{
   pdftitle={Elastic Bounds of Pearson's r: Theoretical and Empirical Insights for Ordinal Variables},
   pdfauthor={Cees van der Eijk; Scott Moser},
@@ -231,7 +230,7 @@
 \title{Elastic Bounds of Pearson's \(r\): Theoretical and Empirical
 Insights for Ordinal Variables}
 \author{Cees van der Eijk \and Scott Moser}
-\date{15, August 2025}
+\date{16, August 2025}
 \begin{document}
 \maketitle
 
@@ -251,367 +250,6 @@ Pearson’s correlation coefficient $r$, when applied to ordinal data, is subjec
 \end{abstract}
 
 \newpage
-
-\section*{Preamble}\label{preamble}
-\addcontentsline{toc}{section}{Preamble}
-
-\subsection{The `Point':}\label{the-point}
-
-The widespread use of Pearson's \(r\) with ordinal data.\\
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  \emph{Alert} applied researachers of `elastic bounds'
-
-  \begin{enumerate}
-  \def\labelenumii{\arabic{enumii}.}
-  \tightlist
-  \item
-    Problems of ignoring the above \(\leadsto\) errors in interpretation
-    (e.g.~Cohen and Cohen) -- how max/min bounds of \(r\) vary with
-    marginals.\\
-  \end{enumerate}
-\item
-  \emph{Provide} tools to assess if problems exist in own data/ research
-\item
-  \emph{Clarify} that traditional hypothesis testing (e.g.~t-test of
-  \(H_0: r= 0\)) are incorrect and provide correct hypo testing
-  (permutation/ randomization tests)
-\end{enumerate}
-
-\textbf{Proposed Section Structure --- Unified Draft Outline}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsubsection{\texorpdfstring{\textbf{1.
-Introduction}}{1. Introduction}}\label{introduction}
-
-\begin{itemize}
-\item
-  \textbf{Purpose:} Introduce the problem and why it matters.
-\item
-  Motivation: Researchers assume \emph{r} ∈ {[}--1, 1{]} is attainable
-  for any data, but discrete marginals constrain attainable range.
-\item
-  Consequences: Misinterpretation of effect sizes, misleading hypothesis
-  tests, cross-study comparison issues.
-\item
-  Contributions:
-
-  \begin{enumerate}
-  \def\labelenumi{\arabic{enumi}.}
-  \item
-    Theoretical derivation and characterization of attainable bounds.
-  \item
-    Metrics to quantify constraint and asymmetry.
-  \item
-    Rescaling approaches for interpretation.
-  \item
-    Illustration through simulation and applied example (BES data).
-  \end{enumerate}
-\item
-  \textbf{Status:} Needs drafting --- can be adapted from your existing
-  explanatory notes and meeting summaries.
-\end{itemize}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsubsection{\texorpdfstring{\textbf{2. Notation and
-Definitions}}{2. Notation and Definitions}}\label{notation-and-definitions}
-
-\begin{itemize}
-\item
-  Define:
-
-  \begin{itemize}
-  \item
-    Marginal distributions.
-  \item
-    \emph{rₘᵢₙ} (minimum attainable correlation), \emph{rₘₐₓ} (maximum
-    attainable correlation).
-  \item
-    Co-monotonic and anti-co-monotonic arrangements.
-  \item
-    ``Reference interval'' in correlation space.
-  \item
-    Metrics of constraint: width (\emph{rₘₐₓ -- rₘᵢₙ}), asymmetry index.
-  \end{itemize}
-\item
-  Clarify measurement levels (ordinal vs.~interval) and implications for
-  \emph{r²}.
-\item
-  \textbf{Status:} Partially drafted in Cees's Section 3--4 notes.
-\end{itemize}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsubsection{\texorpdfstring{\textbf{3. Theoretical
-Results}}{3. Theoretical Results}}\label{theoretical-results}
-
-\begin{itemize}
-\item
-  \textbf{3.1 Worked Examples}
-
-  \begin{itemize}
-  \item
-    Table 2 (4-category, 12 obs) --- shows symmetry and asymmetry cases.
-  \item
-    Patterns where \emph{rₘᵢₙ} ≠ --\emph{rₘₐₓ}.
-  \item
-    Cases with \emph{rₘₐₓ} = 1 but \emph{rₘᵢₙ} \textgreater{} --1, and
-    vice versa.
-  \item
-    \textbf{Status:} Table 2 drafted; text explanation partial.
-  \end{itemize}
-\item
-  \textbf{3.2 General Conditions for Symmetry}
-
-  \begin{itemize}
-  \item
-    Uniform/symmetric marginals produce symmetry.
-  \item
-    Frequency imbalances cause asymmetry.
-  \item
-    \textbf{Status:} Partially explained in meetings; needs formal
-    statement.
-  \end{itemize}
-\item
-  \textbf{3.3 Extreme Values Not at ±1}
-
-  \begin{itemize}
-  \item
-    Theoretical explanation for why perfect correlation may be
-    unattainable.
-  \item
-    \textbf{Status:} Requires concise proof/derivation.
-  \end{itemize}
-\item
-  \textbf{3.4 Literature Connections}
-
-  \begin{itemize}
-  \item
-    Relation to Fréchet--Hoeffding bounds, medical ``reference
-    intervals''.
-  \item
-    \textbf{Status:} Notes exist; needs integration.
-  \end{itemize}
-\end{itemize}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsubsection{\texorpdfstring{\textbf{4. Rescaling and
-Interpretation}}{4. Rescaling and Interpretation}}\label{rescaling-and-interpretation}
-
-\begin{itemize}
-\item
-  \textbf{4.1 Why Rescale?}
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Without rescaling, effect sizes misleading when bounds ≠ ±1.
-  \end{itemize}
-\item
-  \textbf{4.2 Rescaling Methods}
-
-  \begin{enumerate}
-  \def\labelenumi{\arabic{enumi}.}
-  \item
-    Linear transform to {[}0, 1{]} using \emph{rₘᵢₙ} and \emph{rₘₐₓ}.
-  \item
-    Transform then square to yield ratio-level shared variance.
-  \item
-    Optional asymmetry-aware adjustments.
-  \end{enumerate}
-\item
-  \textbf{4.3 Guidance for Applied Use}
-
-  \begin{itemize}
-  \tightlist
-  \item
-    When to use each method; pitfalls.
-  \end{itemize}
-\item
-  \textbf{Status:} Initial logic drafted by Scott; needs fleshing out
-  and examples.
-\end{itemize}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsubsection{\texorpdfstring{\textbf{5. Metrics of
-Constraint}}{5. Metrics of Constraint}}\label{metrics-of-constraint}
-
-\begin{itemize}
-\item
-  Bound width (\emph{rₘₐₓ -- rₘᵢₙ}).
-\item
-  Asymmetry index (normalized difference in absolute magnitude).
-\item
-  Possible uses:
-
-  \begin{itemize}
-  \item
-    Diagnostic indicator in applied analysis.
-  \item
-    Adjusted effect size interpretation.
-  \end{itemize}
-\item
-  \textbf{Status:} Concept defined; formulae/examples still to be
-  finalized.
-\end{itemize}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsubsection{\texorpdfstring{\textbf{7. Simulation Study (Monte
-Carlo)}}{7. Simulation Study (Monte Carlo)}}\label{simulation-study-monte-carlo}
-
-\begin{itemize}
-\item
-  \textbf{Purpose:} Explore patterns noted in Sections 3--6 under random
-  and controlled marginals.
-\item
-  Design:
-
-  \begin{itemize}
-  \item
-    Random marginals vs.~fixed marginals.
-  \item
-    Vary number of categories and sample size.
-  \item
-    Compute \emph{rₘᵢₙ}, \emph{rₘₐₓ}, constraint metrics.
-  \end{itemize}
-\item
-  Output:
-
-  \begin{itemize}
-  \item
-    Distribution of bound widths and asymmetry.
-  \item
-    Frequency of perfect symmetry.
-  \item
-    Scatterplots of observed \emph{r̂} vs.~attainable range.
-  \end{itemize}
-\item
-  \textbf{Status:} Simulation code partially written by Scott; needs
-  full implementation.
-\end{itemize}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsubsection{\texorpdfstring{\textbf{8. Empirical Illustration (BES
-Data)}}{8. Empirical Illustration (BES Data)}}\label{empirical-illustration-bes-data}
-
-\begin{itemize}
-\item
-  Select variable pairs with constrained bounds.
-\item
-  Show:
-
-  \begin{itemize}
-  \item
-    Raw \emph{r̂}.
-  \item
-    Theoretical bounds.
-  \item
-    Rescaled \emph{r̂}.
-  \item
-    Rescaled \emph{r̂²}.
-  \end{itemize}
-\item
-  Highlight cases where rescaling changes substantive interpretation.
-\item
-  \textbf{Status:} Not yet started.
-\end{itemize}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsubsection{\texorpdfstring{\textbf{9. Discussion and
-Implications}}{9. Discussion and Implications}}\label{discussion-and-implications}
-
-\begin{itemize}
-\item
-  Summarize:
-
-  \begin{itemize}
-  \item
-    Main theoretical findings.
-  \item
-    Key applied consequences.
-  \end{itemize}
-\item
-  Recommendations:
-
-  \begin{itemize}
-  \item
-    Bound-aware effect size interpretation.
-  \item
-    Bound-aware hypothesis testing.
-  \item
-    Possible inclusion in statistical software.
-  \end{itemize}
-\item
-  Open questions and extensions.
-\item
-  \textbf{Status:} Will be final writing task.
-\end{itemize}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsubsection{\texorpdfstring{\textbf{Appendices}}{Appendices}}\label{appendices}
-
-\begin{itemize}
-\item
-  Proofs of theoretical statements.
-\item
-  Extended examples/tables.
-\item
-  Simulation details and R code.
-\item
-  \textbf{Status:} Will grow as paper is drafted.
-\end{itemize}
-
-\subsection{Possible Literature}\label{possible-literature}
-
-Cambanis et al. (\citeproc{ref-camb76-inequalities}{1976})
-
-Shih \& Huang (\citeproc{ref-shih92-evaluating}{1992})
-
-Grether, D. M. (1976). On the Use of Ordinal Data in Correlation
-Analysis. American Sociological Review, 41(5), 908--912.
-https://doi.org/10.2307/2094741
-
-Labovitz, S. (1967). Some observations on measurement and statistics.
-Social Forces, 46(2), 151--160. https://doi.org/10.2307/2574595
-
-Labovitz, S. (1970). The assignment of numbers to rank order categories.
-American Sociological Review, 35(3), 515--524.
-https://doi.org/10.2307/2092993
-
-Moss, J., \& Grønneberg, S. (2023). Partial Identification of Latent
-Correlations with Ordinal Data. Psychometrika, 88(1), 241--252.
-https://doi.org/10.1007/s11336-022-09898-y
-
-O'Brien, R. M. (1979). The use of Pearson's r with ordinal data.
-American Sociological Review, 44(5), 851--857.
-https://doi.org/10.2307/2094532
-
-Robitzsch, A. (2022). On the Bias in Confirmatory Factor Analysis When
-Treating Discrete Variables as Ordinal Instead of Continuous. Axioms,
-11(4), Article 4. https://doi.org/10.3390/axioms11040162
-
-Fréchet (\citeproc{ref-frec51-tableaux}{1951})
-
-Whitt (\citeproc{ref-whit76-bivariate}{1976})
-
-Hoeffding (\citeproc{ref-hoef40-masstabinvariante}{1940})
-
-Lehmann (\citeproc{ref-lehm66-concepts}{1966})
-
-Tchen (\citeproc{ref-tche80-inequalities}{1980})
 
 \newpage
 
@@ -1166,18 +804,61 @@ These classical bounds define feasible joint distributions given
 marginals and constrain the attainable values of \(r\). There is an
 interesting connection to Fréchet--Hoeffding and Boole--Fréchet
 Inequalities, which we note but leave for future research.\footnote{Fréchet--Hoeffding
-  and Boole--Fréchet Inequalities
+  and Boole--Fréchet Inequalities: The upper bound is always attained by
+  \(r_{max}\). However, the lower bound is \emph{not} guaerenteed to
+  attain. The fundamental asymmetry arises because discrete ordinal
+  distributions cannot smoothly bridge these gaps. Thus, the upper bound
+  alignment is always feasible, while the lower bound alignment
+  frequently encounters structural obstacles.
 
-  This is the second paragraph. Indent each new paragraph with four
-  spaces or a tab, just like you would for a multi-paragraph list item.
+  In the discrete ordinal setting, \(r_{\max}\) is \textbf{always}
+  attained by the FH upper (comonotonic) construction.\\
+  \emph{(BFbounds.md; Proofs-OrdinalVariables.md; Ordinal Variables and
+  Correlation.md)}
 
-  You can also include code blocks:
+  The FH lower (countermonotonic) construction may be
+  \textbf{unattainable} in discrete settings; \(r_{\min}\) is then the
+  best feasible opposite-order arrangement.\\
+  \emph{(BFbounds.md; Proofs-OrdinalVariables.md; Ordinal Variables and
+  Correlation.md)}
 
-\begin{Verbatim}
-print("Hello, footnote!")
-\end{Verbatim}
+  \textbf{Upper bound} (positive alignment):
 
-  Or even more paragraphs and content as needed.}
+  \begin{itemize}
+  \item
+    Sorting \(X\) and \(Y\) separately in descending order, then pairing
+    largest-to-largest, smallest-to-smallest, \textbf{always works}.
+  \item
+    You never run out of ``matching'' observations because the
+    descending order for both variables naturally aligns category sizes.
+    Even if one variable has large gaps, you can still sequentially pair
+    without difficulty.
+  \end{itemize}
+
+  \textbf{Lower bound} (negative alignment):
+
+  \begin{itemize}
+  \item
+    You sort \(X\) descending but \(Y\) ascending. You're pairing
+    extremes together: highest \(X\) with lowest \(Y\), lowest \(X\)
+    with highest \(Y\).
+  \item
+    Now you face potential ``imbalance'':
+
+    \begin{itemize}
+    \item
+      If one category is large for \(X\) but the corresponding
+      opposite-ranked category for \(Y\) is small, you quickly exhaust
+      available ``opposite-end'' observations.
+    \item
+      After exhausting the best opposites, you are forced to pair less
+      ``extreme'' pairs, creating a suboptimal alignment.
+    \end{itemize}
+  \item
+    Hence, perfect negative alignment (lower bound) becomes impossible
+    to achieve fully, leaving you short of the theoretical
+    Fréchet--Hoeffding lower bound.
+  \end{itemize}}
 
 \subsubsection{Illustration}\label{illustration}
 
@@ -1297,11 +978,103 @@ different numbers of categories and different numbers of cases.
 In this section we further explore the theoretical properties on
 \(r_{min}\) and \(r_{max}\).
 
+\subsection{Asymetry}\label{asymetry}
+
+\textbf{Symmetry and the Role of Ties}
+
+\begin{itemize}
+\tightlist
+\item
+  Conditions under which \(r_{\min} = -r_{\max}\)
+\end{itemize}
+
+PROP: If one marginal is \textbf{palindromically symmetric} about its
+center rank, then \(r_{\min} = -r_{\max}\).\\
+\emph{(Cees -- r\_min MAGNITUDE Asymmetry in Pearson Correlation.md)}
+
+\begin{itemize}
+\tightlist
+\item
+  How ties in marginal distributions affect the attainability of the
+  lower bound
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{\(r_{\max}\) = FH upper (comonotonic), always attainable} in
+  discrete ordinal settings.
+\item
+  \textbf{\(r_{\min}\)} may \textbf{not} equal FH lower in discrete
+  settings; use best feasible opposite-order arrangement.
+\item
+  No universal bound on relative magnitudes: \(|r_{\min}|\) may be less
+  than, equal to, or greater than \(r_{\max}\).
+\item
+  Palindromic symmetry of one marginal guarantees
+  \(|r_{\min}| = r_{\max}|\).
+\end{enumerate}
+
+VH 3. \textbf{Symmetry Analysis:}
+
+\begin{verbatim}
+* (3a) Visualize and explore how changes from symmetric to asymmetric marginal distributions influence the joint distributions and, consequently, the correlation. Consider the potential role of entropy in measuring asymmetry.
+    
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\item
+  \textbf{Investigate when the minimum and maximum correlations are
+  asymmetric (\(r_{\text{min}} \neq -r_{\text{max}}\))}:
+
+  \begin{itemize}
+  \item
+    Show why and under what conditions this asymmetry occurs.
+  \item
+    Visually investigate why perfect negative and positive correlations
+    may not be symmetric in magnitude given ordinal marginals.
+  \end{itemize}
+\end{enumerate}
+
+\textbf{Special Cases and Boundary Conditions}
+
+\begin{itemize}
+\tightlist
+\item
+  Equal vs.~unequal numbers of categories\\
+\item
+  Symmetric vs.~asymmetric marginal distributions
+\end{itemize}
+
+Often \(|r_{\min}| < r_{\max}\) for discrete asymmetrical marginals.\\
+\emph{(BFbounds.md; Ordinal Variables and Correlation.md)} - \textbf{New
+evidence (BES data)}: Possible to have \(|r_{\min}| > r_{\max}|\).\\
+Example: \(X\) with 4 categories, \(Y\) with 5 categories, skewed
+marginals;\\
+\(r_{\max} = 0.85027\), \(r_{\min} = -0.89916\).\\
+\emph{(Cees -- r\_min MAGNITUDE Asymmetry in Pearson Correlation.md)}
+
+\textbf{Reason:} Pearson correlation uses centered values; skewness can
+make negative deviations in antitone pairing larger in magnitude than
+positive deviations in comonotone pairing.
+
+VH
+
+\subsection{Estiimation and Joint
+Uncertainty}\label{estiimation-and-joint-uncertainty}
+
+VH
+
 \section{Measurement Issues and Metrics of
 Constraint}\label{measurement-issues-and-metrics-of-constraint}
 
 IN THIS SECTION: ``How to define metrics (on \emph{pairs} of discrete
 probability distributions) to \emph{explain}:
+
+VH
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1455,29 +1228,6 @@ jointly provides a robust triangulation of symmetry breaking, especially
 in applied contexts where ordinal variables are discretized from latent
 traits or ratings.
 
-\subsection{Symmetry and the Role of
-Ties}\label{symmetry-and-the-role-of-ties}
-
-\begin{itemize}
-\tightlist
-\item
-  Conditions under which \(r_{\min} = -r_{\max}\)
-\item
-  How ties in marginal distributions affect the attainability of the
-  lower bound
-\end{itemize}
-
-\subsection{Special Cases and Boundary
-Conditions}\label{special-cases-and-boundary-conditions}
-
-\begin{itemize}
-\tightlist
-\item
-  Equal vs.~unequal numbers of categories\\
-\item
-  Symmetric vs.~asymmetric marginal distributions
-\end{itemize}
-
 \section{Implications, Issues, and
 Questions}\label{implications-issues-and-questions}
 
@@ -1611,6 +1361,8 @@ Consequences of constrained correlations in applied research, including
 for descriptive purposes and hypothesis testing - Possibilities for
 reducing undesired consequences of constrained correlations
 
+VH: \((r_{min}, r_{max})\)
+
 \subsection{Effects of Marginal
 Shapes}\label{effects-of-marginal-shapes}
 
@@ -1666,10 +1418,96 @@ variables used by social scientists. Rather, we view it as
 \emph{typical} in that it is a real-world example possessing many of the
 features that would raise issues\ldots{}
 
-\section{Conclusion}\label{conclusion}
+VH: \((r_{min}, r_{max})\) And compare with MC simulated data
+
+\section{Discussion}\label{discussion}
+
+\subsection{Comparing `Typical' Data (BES) with Simulated
+Data}\label{comparing-typical-data-bes-with-simulated-data}
+
+\subsection{Relation to Literature}\label{relation-to-literature}
+
+!fullcite camb76-inequalities
+
+Full citation:
+
+Cambanis et al. (\citeproc{ref-camb76-inequalities}{1976})
+
+Grether, D. M. (1976). On the Use of Ordinal Data in Correlation
+Analysis. American Sociological Review, 41(5), 908--912.
+https://doi.org/10.2307/2094741
+
+Labovitz, S. (1967). Some observations on measurement and statistics.
+Social Forces, 46(2), 151--160. https://doi.org/10.2307/2574595
+
+Labovitz, S. (1970). The assignment of numbers to rank order categories.
+American Sociological Review, 35(3), 515--524.
+https://doi.org/10.2307/2092993
+
+Moss, J., \& Grønneberg, S. (2023). Partial Identification of Latent
+Correlations with Ordinal Data. Psychometrika, 88(1), 241--252.
+https://doi.org/10.1007/s11336-022-09898-y
+
+O'Brien, R. M. (1979). The use of Pearson's r with ordinal data.
+American Sociological Review, 44(5), 851--857.
+https://doi.org/10.2307/2094532
+
+Robitzsch, A. (2022). On the Bias in Confirmatory Factor Analysis When
+Treating Discrete Variables as Ordinal Instead of Continuous. Axioms,
+11(4), Article 4. https://doi.org/10.3390/axioms11040162
+
+Fréchet (\citeproc{ref-frec51-tableaux}{1951})
+
+Whitt (\citeproc{ref-whit76-bivariate}{1976})
+
+Hoeffding (\citeproc{ref-hoef40-masstabinvariante}{1940})
+
+Lehmann (\citeproc{ref-lehm66-concepts}{1966})
+
+Tchen (\citeproc{ref-tche80-inequalities}{1980})
+
+Cambanis et al. (\citeproc{ref-camb76-inequalities}{1976})
+
+Shih \& Huang (\citeproc{ref-shih92-evaluating}{1992})
+
+(\citeproc{ref-alwi91-reliability}{\textbf{alwi91-reliability?}});
+(\citeproc{ref-brew05-values}{\textbf{brew05-values?}});
+(\citeproc{ref-flor04-empirical}{\textbf{flor04-empirical?}});
+(\citeproc{ref-gait80-measurement}{\textbf{gait80-measurement?}});
+(\citeproc{ref-gree97-effect}{\textbf{gree97-effect?}}); Jacoby
+(\citeproc{ref-jaco99-levels}{1999});
+(\citeproc{ref-kend38-new}{\textbf{kend38-new?}});
+(\citeproc{ref-knok02-statistics}{\textbf{knok02-statistics?}});
+(\citeproc{ref-kreu07-survey}{\textbf{kreu07-survey?}});
+(\citeproc{ref-kros97-designing}{\textbf{kros97-designing?}}); Labovitz
+(\citeproc{ref-labo70-assignment}{1970});
+(\citeproc{ref-olss79-maximum}{\textbf{olss79-maximum?}});
+(\citeproc{ref-spea04-proof}{\textbf{spea04-proof?}})
+
+\subsection{Recommendations}\label{recommendations}
 
 \begin{itemize}
 \tightlist
+\item
+  Bound-aware effect size interpretation.
+\item
+  Bound-aware hypothesis testing.
+\item
+  Possible inclusion in statistical software.
+\end{itemize}
+
+\section{Conclusion}\label{conclusion}
+
+\begin{itemize}
+\item
+  Summarize:
+
+  \begin{itemize}
+  \item
+    Main theoretical findings.
+  \item
+    Key applied consequences.
+  \end{itemize}
 \item
   Summary: Theoretical bounds, symmetry-breaking conditions, and
   implications for applied research
@@ -1741,6 +1579,169 @@ Questions}\label{extensions-and-open-questions}
   \end{itemize}
 \end{itemize}
 
+\subsubsection{Correlation Matricies}\label{correlation-matricies}
+
+Since the possible values \(r\) may take on depend on the marginal
+distributions of the two variables being correlated, and since this
+reference interval may -- and often is -- quite different for different
+pairs of variables, interpreting and working with correlation matricies
+(alternatively variance-covariance marticies) must be paid speacial
+attention. Such matricies form the basis for a number of statistical
+techniques, from regression to Factor Analysis or Structual Equation
+Modeling (CITES). In this section we present preliminary results
+exploring the implications of our findings above for PCA, FA, SEM.
+
+First, some preliminaries. It is well known that any correlation matrix
+(using completely cases -- i.e.~when each pair of variables is observed
+for the same set of respondents), \(S\), is positive semi-definite and
+symmetric. Hence, \(S\) is invertable. However, \ldots{}
+
+\textbf{Why PSD Matters for PCA:}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mathematically}: Eigen-decomposition works for any symmetric
+  \(\mathbf{S}\), PSD or not.
+\item
+  \textbf{Interpretively}: Negative eigenvalues break the ``variance
+  explained'' story (variance cannot be negative).
+\item
+  \textbf{Software behavior}: Most PCA routines check PD/PSD; failure
+  can cause warnings or dropped components. \emph{(PCA and FA PSD
+  requirement.md):contentReference{oaicite:6}}
+\end{itemize}
+
+\textbf{If Input is Symmetric but not PSD:}
+
+Example:\\
+\[
+\mathbf{A} = \begin{bmatrix} 1 & 2 \\ 2 & 1 \end{bmatrix},\quad \lambda = (3,-1),
+\] is indefinite (one negative eigenvalue).
+
+\begin{itemize}
+\tightlist
+\item
+  PCA math still runs; eigenvalues/vectors computed.
+\item
+  Interpretation fails: \(\sqrt{\lambda_j}\) imaginary for
+  \(\lambda_j<0\).
+\item
+  Some software refuses input; others run but return nonsensical
+  variance metrics. \emph{(PCA and FA PSD
+  requirement.md):contentReference{oaicite:7}}
+\end{itemize}
+
+\textbf{PSD/PD Needs in FA:}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{ML FA}: Requires \(\mathbf{S}\) be PSD;
+  \(\log \det \mathbf{S}\) undefined if indefinite.
+\item
+  \textbf{Principal-axis / Image FA}: Also break with negative
+  eigenvalues (square roots fail). \emph{(PCA and FA PSD
+  requirement.md):contentReference{oaicite:10}}
+\end{itemize}
+
+\textbf{SEM and PSD Requirements}
+
+\paragraph{4.1 SEM Machinery}\label{sem-machinery}
+
+Observed covariance \(\mathbf{S}\); implied covariance
+\(\boldsymbol\Sigma(\boldsymbol\theta)\) from structural and measurement
+models. \emph{(PCA and FA PSD
+requirement.md):contentReference{oaicite:12}}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\paragraph{4.2 Fit Functions and PD
+Needs}\label{fit-functions-and-pd-needs}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{ML / GLS}: Require both \(\mathbf{S}\) and
+  \(\boldsymbol\Sigma(\theta)\) PD.
+\item
+  \textbf{WLS/DWLS}: Need PD indirectly (weight matrix invertible).
+\item
+  \textbf{ULS}: Can start from indefinite \(\mathbf{S}\), but test
+  statistics again require PD. \emph{(PCA and FA PSD
+  requirement.md):contentReference{oaicite:13}}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\paragraph{4.3 What Happens if Not PSD}\label{what-happens-if-not-psd}
+
+\begin{itemize}
+\tightlist
+\item
+  Software errors out (``matrix is not positive definite'').
+\item
+  Log-determinant undefined; inversion fails.
+\item
+  Even if bypassed, optimisation steps hit complex/NaN values.
+  \emph{(PCA and FA PSD requirement.md):contentReference{oaicite:14}}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\paragraph{4.4 Remedies in SEM}\label{remedies-in-sem}
+
+\begin{itemize}
+\tightlist
+\item
+  Nearest PD smoothing (Higham 2002).
+\item
+  Ridge adjustment.
+\item
+  Analyse raw data.
+\item
+  Check rounding issues. \emph{(PCA and FA PSD
+  requirement.md):contentReference{oaicite:15}}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Core Lessons Across PCA, FA, SEM}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Theoretical PSD}: Covariance matrices from real data are PSD
+  by definition:contentReference{oaicite:16}.
+\item
+  \textbf{Numerical Issues}: Sampling noise, rounding, or listwise
+  deletion can yield small negative
+  eigenvalues:contentReference{oaicite:17}.
+\item
+  \textbf{PCA}: Can compute from indefinite matrix but interpretation
+  breaks:contentReference{oaicite:18}.
+\item
+  \textbf{FA and SEM}: Require PD input; will not run on indefinite
+  matrices:contentReference{oaicite:19}.
+\item
+  \textbf{Repairs}: Adjust to nearest PSD, ridge, or recompute from raw
+  data:contentReference{oaicite:20}.
+\end{enumerate}
+
+So, we consider linearly re-scaling the estimated \(r\) for each pair of
+variables in the correlation matirx \(S\). Call this new rescaled
+correlation matrix \(S'\). We seek to understand what the process of
+pair-wise linear rescaling has on the PSD-ness and invertability of
+\(S'\). This is importnant because without an invertable corrleation
+matrix, several analysese scholars perform on \(S\) becuase questionable
+(at best). Further, some estimators used in e.g.~FA require PSD (namely,
+MLE).
+
+The general result is that linear rescaling does not `break'
+invertability (nor PSD) but does make invertability `worse' vizaviz the
+condition number. {[}Discuss condition number here{]}
+
 \newpage
 
 \section{References}\label{references}
@@ -1766,9 +1767,19 @@ Hoeffding, W. (1940). Masstabinvariante {Korrelationstheorie}.
 \emph{Schriften Des Mathematischen Instituts Und Instituts Fur
 Angewandte Mathematik Der Universitat Berlin}, \emph{5}, 181--233.
 
+\bibitem[\citeproctext]{ref-jaco99-levels}
+Jacoby, W. G. (1999). Levels of {Measurement} and {Political Research}:
+{An Optimistic View}. \emph{American Journal of Political Science},
+\emph{43}(1), 271--301.
+
 \bibitem[\citeproctext]{ref-jaec09-positive}
 Jaeckel, P., \& Kahl, C. (2009). \emph{Positive semi-definite
 correlation matrix completion}.
+
+\bibitem[\citeproctext]{ref-labo70-assignment}
+Labovitz, S. (1970). The assignment of numbers to rank order categories.
+\emph{American Sociological Review}, \emph{35}(3), 515--524.
+\url{https://doi.org/10.2307/2092993}
 
 \bibitem[\citeproctext]{ref-lehm66-concepts}
 Lehmann, E. L. (1966). Some {Concepts} of {Dependence}. \emph{The Annals

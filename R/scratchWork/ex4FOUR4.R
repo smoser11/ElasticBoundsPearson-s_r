@@ -534,3 +534,4 @@ ggplot(results_long, aes(x = Scenario, y = Range, fill = Type)) +
 		 y = "Range (r_max - r_min)", x = "Scenario") +
 	scale_fill_manual(values = c("theo_range" = "darkblue", "emp_range" = "orange")) +
 	theme_minimal()
+
