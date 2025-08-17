@@ -22,17 +22,17 @@ cat("===================================\n\n")
 # ================================================================
 
 params <- list(
-  numsims = 10,              # Number of simulated contingency tables 1000
+  numsims = 1000,              # Number of simulated contingency tables 1000
   seed = 42,                   # Random seed for reproducibility  
-  force_regenerate = FALSE,    # Set TRUE to ignore existing cache
+  force_regenerate = TRUE,    # Set TRUE to ignore existing cache
   
   # Analysis parameters
-  nsim_bounds = 10,          # Simulations for bounds computation 1000
+  nsim_bounds = 1000,          # Simulations for bounds computation 1000
   confidence_level = 0.95,     # Confidence level for intervals
   
   # Progress reporting
   verbose = TRUE,              # Show detailed progress messages
-  progress_every = 10          # Report progress every N configurations
+  progress_every = 100          # Report progress every N configurations
 )
 
 cat("📋 Configuration:\n")
@@ -81,6 +81,14 @@ if (length(mc_data$tables) > 0 && !is.null(mc_data$tables[[1]])) {
   cat("   Tables per config:", length(mc_data$tables[[1]]), "\n")
 }
 cat("\n")
+
+
+# Save summary data
+mc_data_cache_file <- here("R", "ordinal_correlation_analysis", "data", "raw",
+						   generate_cache_filename("mc_data", 
+						   						params[c("numsims", "seed")], "rds"))
+saveRDS(mc_data, mc_data_cache_file)
+
 
 # ================================================================
 # SECTION 2: CHECK/GENERATE MC BOUNDS ANALYSIS
@@ -358,8 +366,8 @@ cat("   Tables: 1 summary statistics file\n\n")
 
 cat("📊 Analysis summary:\n")
 cat("   Simulated tables:", nrow(mc_summary), "\n")
-cat("   Average bounds range:", round(mean(mc_summary$bounds_range), 3), "\n")
-cat("   Proportion asymmetric:", round(mean(abs(mc_summary$bounds_asymmetry) > 0.01), 3), "\n\n")
+cat("   Average bounds range:", round(mean(mc_summary$bounds_range, na.rm = TRUE), 3), "\n")
+cat("   Proportion asymmetric:", round(mean(abs(mc_summary$bounds_asymmetry) > 0.01, , na.rm = TRUE), 3), "\n\n")
 
 cat("🔄 To rerun sections:\n")
 cat("   - Modify params$force_regenerate = TRUE for fresh computation\n")
