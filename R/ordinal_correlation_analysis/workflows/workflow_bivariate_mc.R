@@ -85,7 +85,11 @@ cat("\n")
 
 # Save summary data
 mc_data_cache_file <- here("R", "ordinal_correlation_analysis", "data", "raw",
+<<<<<<< HEAD
 						   generate_cache_filename("MCsim", 
+=======
+						   generate_cache_filename("mc_data", 
+>>>>>>> 1bb81f79d9253c78bb5dd91f1067f3b33fafb71b
 						   						params[c("numsims", "seed")], "rds"))
 saveRDS(mc_data, mc_data_cache_file)
 
