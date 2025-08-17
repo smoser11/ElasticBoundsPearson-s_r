@@ -1,6 +1,21 @@
 # Monte Carlo simulation for contingency tables
 # Sweeps over different configurations of categories and sample sizes
 
+
+sample_uniform_table <- function(K1, K2, N) {
+	K <- K1 * K2
+	if (K == 1L) return(matrix(N, nrow = K1, ncol = K2))
+	cuts <- sort(sample.int(N + K - 1L, K - 1L))
+	prev <- 0L
+	x <- integer(K)
+	for (i in seq_len(K - 1L)) {
+		x[i] <- cuts[i] - prev - 1L
+		prev <- cuts[i]
+	}
+	x[K] <- (N + K - 1L) - prev - 1L
+	matrix(x, nrow = K1, ncol = K2, byrow = TRUE)
+}
+
 # Function to generate a single random contingency table
 generate_random_table <- function(K1, K2, N) {
 	# Initialize empty table
@@ -69,7 +84,7 @@ run_mc_simulation <- function(numsims = 1000, seed = 123,
 				config_tables <- list()
 				
 				for(sim in 1:numsims) {
-					config_tables[[sim]] <- generate_random_table(K1, K2, N)
+					config_tables[[sim]] <- sample_uniform_table(K1, K2, N)
 				}
 				
 				# Store results for this configuration

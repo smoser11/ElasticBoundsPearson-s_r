@@ -81,16 +81,17 @@ bootstrap_cache_file <- here("R", "ordinal_correlation_analysis", "data", "proce
                             generate_cache_filename("bootstrap_results", 
                                                    params[c("B", "subsample_size")]))
 
+# Source required bootstrap functions
+source(here("R", "ordinal_correlation_analysis", "1_bivariate_ordcats_correlation", 
+			"1_rmin_rmax_rhat", "0_bootstrapjoint_r_minmax.R"))
+source(here("R", "correlation_bounds_core.R"))
+
 bootstrap_results <- cache_or_compute(
   cache_file = bootstrap_cache_file,
   force_regenerate = params$force_regenerate,
   compute_func = function() {
     cat("Running bootstrap analysis on simulation data...\n")
     
-    # Source required bootstrap functions
-    source(here("R", "ordinal_correlation_analysis", "1_bivariate_ordcats_correlation", 
-               "1_rmin_rmax_rhat", "0_bootstrapjoint_r_minmax.R"))
-    source(here("R", "correlation_bounds_core.R"))
     
     # Select subset of simulation data for computational efficiency
     if (params$subsample_size < length(mc_data)) {
@@ -114,6 +115,11 @@ bootstrap_results <- cache_or_compute(
     return(full_bootstrap_results)
   }
 )
+
+bootstrap_results_cache_file <- here("R", "ordinal_correlation_analysis", "data", "processed",
+					  generate_cache_filename("bootstrap_results", params[c("B")], "rds"))
+saveRDS(bootstrap_results, bootstrap_results_cache_file)
+
 
 cat("✅ Bootstrap estimation ready\n")
 cat("   Bootstrap samples per config:", params$B, "\n")

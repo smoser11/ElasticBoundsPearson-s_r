@@ -23,12 +23,15 @@ cat("===================================\n\n")
 
 params <- list(
   numsims = 1000,              # Number of simulated contingency tables 1000
-  seed = 42,                   # Random seed for reproducibility  
+  seed = 442,                   # Random seed for reproducibility  
   force_regenerate = TRUE,    # Set TRUE to ignore existing cache
   
   # Analysis parameters
   nsim_bounds = 1000,          # Simulations for bounds computation 1000
   confidence_level = 0.95,     # Confidence level for intervals
+  categories_var1 = c(4, 5, 6, 7, 10, 11,13,14),
+  categories_var2 = c(4, 5, 6, 7, 10, 11,13,14),
+  sample_sizes = c(100, 200, 500, 1000, 2000, 5000),
   
   # Progress reporting
   verbose = TRUE,              # Show detailed progress messages
@@ -68,12 +71,16 @@ mc_data <- cache_or_compute(
     set.seed(params$seed)
     
     # Run Monte Carlo simulation
-    sim_result <- run_mc_simulation(numsims = params$numsims)
-    
+    sim_result <- run_mc_simulation(numsims = params$numsims, seed = params$seed, 
+    categories_var1 = params$categories_var1,
+    categories_var2 = params$categories_var2,
+    sample_sizes = params$sample_sizes
+    )
     cat("Generated", length(sim_result), "simulation configurations\n")
     return(sim_result)
   }
 )
+
 
 cat("✅ MC simulation data ready\n")
 cat("   Configurations:", length(mc_data$tables), "\n")
@@ -85,12 +92,7 @@ cat("\n")
 
 # Save summary data
 mc_data_cache_file <- here("R", "ordinal_correlation_analysis", "data", "raw",
-<<<<<<< HEAD
-						   generate_cache_filename("MCsim", 
-=======
-						   generate_cache_filename("mc_data", 
->>>>>>> 1bb81f79d9253c78bb5dd91f1067f3b33fafb71b
-						   						params[c("numsims", "seed")], "rds"))
+					   generate_cache_filename("MCsim", params[c("numsims", "seed")], "rds"))
 saveRDS(mc_data, mc_data_cache_file)
 
 
@@ -251,7 +253,7 @@ dir.create(figures_dir, showWarnings = FALSE, recursive = TRUE)
 
 # Plot 1: Bounds landscape (r_min vs r_max)
 plot1 <- ggplot(mc_summary, aes(x = r_min, y = r_max)) +
-  geom_point(alpha = 0.6, color = "steelblue") +
+  geom_point(alpha = 0.26, color = "steelblue") +
   geom_abline(slope = -1, intercept = 0, linetype = "dashed", color = "red") +
   labs(
     title = "Monte Carlo Simulation: Correlation Bounds Landscape",
@@ -289,7 +291,7 @@ ggsave(plot2_file, plot2, width = 10, height = 6, dpi = 300)
 # Plot 3: Bounds asymmetry distribution
 plot3 <- ggplot(mc_summary, aes(x = bounds_asymmetry)) +
   geom_histogram(bins = 50, fill = "lightgreen", color = "white", alpha = 0.8) +
-  geom_vline(xintercept = 0, linetype = "dashed", color = "red", size = 1) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red", linewidth = 1) +
   geom_vline(xintercept = mean(mc_summary$bounds_asymmetry), 
              linetype = "dashed", color = "blue", size = 1) +
   labs(
@@ -377,3 +379,4 @@ cat("🔄 To rerun sections:\n")
 cat("   - Modify params$force_regenerate = TRUE for fresh computation\n")
 cat("   - Modify params$numsims for different simulation size\n") 
 cat("   - Run individual sections by highlighting code blocks\n\n")
+
