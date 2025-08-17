@@ -30,9 +30,9 @@ generate_random_table <- function(K1, K2, N) {
 
 # Main simulation function
 run_mc_simulation <- function(numsims = 1000, seed = 123, 
-							  categories_var1 = c(4, 5, 6, 7, 10, 11),
-							  categories_var2 = c(4, 5, 6, 7, 10, 11),
-							  sample_sizes = c(100, 500, 1000, 2000, 5000)) {
+							  categories_var1 = c(4, 5, 6, 7, 10, 11,13,14),
+							  categories_var2 = c(4, 5, 6, 7, 10, 11,13,14),
+							  sample_sizes = c(100, 200, 500, 1000, 2000, 5000)) {
 	set.seed(seed)
 	
 	# Use user-provided parameter ranges
