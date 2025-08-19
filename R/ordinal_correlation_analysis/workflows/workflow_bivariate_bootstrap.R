@@ -147,45 +147,47 @@ cat("   Configurations analyzed:", length(bootstrap_results), "\n\n")
 # ================================================================
 # SECTION 3: CONFIDENCE INTERVAL COMPUTATION
 # ================================================================
-
-cat("=== SECTION 3: CONFIDENCE INTERVALS ===\n")
-
-# Extract summary statistics (CIs are already computed in the bootstrap analysis)
-summary_stats <- bootstrap_results$summary_stats
-
-if (is.null(summary_stats) || nrow(summary_stats) == 0) {
-  cat("⚠️  No bootstrap summary statistics found\\n")
-  all_ci_results <- data.frame()
-} else {
-  # Convert existing confidence intervals to the expected format
-  all_ci_results <- summary_stats %>%
-    select(config_id, 
-           r_min_lower = r_min_ci_lower,
-           r_min_upper = r_min_ci_upper,
-           r_max_lower = r_max_ci_lower, 
-           r_max_upper = r_max_ci_upper,
-           r_min_mean = boot_mean_rmin,
-           r_max_mean = boot_mean_rmax) %>%
-    mutate(confidence_level = 0.95)  # Bootstrap function uses 95% CIs
-  
-  # Add other confidence levels if needed (approximation)
-  for (level in setdiff(params$confidence_levels, 0.95)) {
-    additional_ci <- all_ci_results %>%
-      mutate(confidence_level = level)
-    all_ci_results <- rbind(all_ci_results, additional_ci)
-  }
-}
-
-cat("📊 Confidence intervals computed:\n")
-cat("   Configurations with CIs:", length(unique(all_ci_results$config_id)), "\n") 
-cat("   Confidence levels:", paste(unique(all_ci_results$confidence_level), collapse = ", "), "\n")
-cat("\n")
-
-# Save CI results
-ci_cache_file <- here("R", "ordinal_correlation_analysis", "output", "reports",
-                     generate_cache_filename("confidence_intervals", params[c("B")], "rds"))
-saveRDS(all_ci_results, ci_cache_file)
-cat("💾 Confidence intervals saved:", basename(ci_cache_file), "\n\n")
+	
+	cat("=== SECTION 3: CONFIDENCE INTERVALS ===\n")
+	
+	# Extract summary statistics (CIs are already computed in the bootstrap analysis)
+	summary_stats <- bootstrap_results$summary_stats
+	
+	if (is.null(summary_stats) || nrow(summary_stats) == 0) {
+	  cat("⚠️  No bootstrap summary statistics found\\n")
+	  all_ci_results <- data.frame()
+	} else {
+	  # Convert existing confidence intervals to the expected format
+	  all_ci_results <- summary_stats %>%
+	    select(config_id, 
+	           r_min_lower = r_min_ci_lower,
+	           r_min_upper = r_min_ci_upper,
+	           r_max_lower = r_max_ci_lower, 
+	           r_max_upper = r_max_ci_upper,
+	           r_min_mean = boot_mean_rmin,
+	           r_max_mean = boot_mean_rmax) %>%
+	    mutate(confidence_level = 0.95)  # Bootstrap function uses 95% CIs
+	  
+	  # Add other confidence levels if needed (approximation)
+	  for (level in setdiff(params$confidence_levels, 0.95)) {
+	    additional_ci <- all_ci_results %>%
+	      mutate(confidence_level = level)
+	    all_ci_results <- rbind(all_ci_results, additional_ci)
+	  }
+	}
+	
+	cat("📊 Confidence intervals computed:\n")
+	cat("   Configurations with CIs:", length(unique(all_ci_results$config_id)), "\n") 
+	cat("   Confidence levels:", paste(unique(all_ci_results$confidence_level), collapse = ", "), "\n")
+	cat("\n")
+	
+	# Save CI results
+	ci_cache_file <- here("R", "ordinal_correlation_analysis", "output", "reports",
+	                     generate_cache_filename("confidence_intervals", params[c("B")], "rds"))
+	saveRDS(all_ci_results, ci_cache_file)
+	cat("💾 Confidence intervals saved:", basename(ci_cache_file), "\n\n")
+	
+	
 
 # ================================================================
 # SECTION 4: UNCERTAINTY VISUALIZATIONS
