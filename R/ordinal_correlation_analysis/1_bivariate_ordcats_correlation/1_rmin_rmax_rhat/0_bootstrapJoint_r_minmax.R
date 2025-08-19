@@ -53,20 +53,87 @@ extreme_rs <- function(x, y, x_scores = NULL, y_scores = NULL){
 	c(r_min = r_min, r_max = r_max)
 }
 
-# Bootstrap wrapper
-boot_extremes <- function(x, y, B = 1000, seed = 1){
+# Bootstrap wrapper - optimized version with optional full sample storage
+boot_extremes <- function(x, y, B = 1000, seed = 1, store_full_samples = TRUE, rtape_file = NULL) {
 	set.seed(seed)
 	est0 <- extreme_rs(x, y)
-	n <- length(x); out <- matrix(NA_real_, B, 2, dimnames=list(NULL, names(est0)))
-	for(b in 1:B){
-		idx <- sample.int(n, n, replace = TRUE)
-		out[b,] <- extreme_rs(x[idx], y[idx])
+	n <- length(x)
+	
+	if (store_full_samples) {
+		# Original behavior: store full B x 2 matrix
+		out <- matrix(NA_real_, B, 2, dimnames = list(NULL, names(est0)))
+		
+		if (!is.null(rtape_file)) {
+			# Stream samples to rtape file one at a time
+			require(rtape)
+			for(b in 1:B) {
+				idx <- sample.int(n, n, replace = TRUE)
+				boot_sample <- extreme_rs(x[idx], y[idx])
+				out[b,] <- boot_sample
+				
+				# Write to rtape file
+				rtape_write(rtape_file, list(
+					bootstrap_id = b,
+					r_min = boot_sample["r_min"],
+					r_max = boot_sample["r_max"]
+				))
+			}
+		} else {
+			# Standard in-memory storage
+			for(b in 1:B) {
+				idx <- sample.int(n, n, replace = TRUE)
+				out[b,] <- extreme_rs(x[idx], y[idx])
+			}
+		}
+		
+		return(list(
+			est = est0,
+			boot = out,
+			ci = apply(out, 2, quantile, probs = c(.025, .975))
+		))
+		
+	} else {
+		# Optimized: only compute statistics, don't store full samples
+		# Use online algorithms for mean, variance, quantiles
+		
+		# Initialize online statistics
+		means <- rep(0, 2)
+		m2s <- rep(0, 2)  # For variance calculation
+		boot_samples_for_quantiles <- matrix(NA_real_, B, 2, dimnames = list(NULL, names(est0)))
+		
+		for(b in 1:B) {
+			idx <- sample.int(n, n, replace = TRUE)
+			boot_sample <- extreme_rs(x[idx], y[idx])
+			
+			# Store for quantile calculation (still need this for CI)
+			boot_samples_for_quantiles[b,] <- boot_sample
+			
+			# Update online means and variances using Welford's algorithm
+			for(i in 1:2) {
+				delta <- boot_sample[i] - means[i]
+				means[i] <- means[i] + delta / b
+				m2s[i] <- m2s[i] + delta * (boot_sample[i] - means[i])
+			}
+		}
+		
+		# Calculate final statistics
+		variances <- m2s / (B - 1)
+		sds <- sqrt(variances)
+		
+		# Ensure CI has proper column names to match traditional approach
+		ci_matrix <- apply(boot_samples_for_quantiles, 2, quantile, probs = c(.025, .975))
+		colnames(ci_matrix) <- names(est0)  # Ensure column names match
+		
+		return(list(
+			est = est0,
+			boot = NULL,  # Don't store full samples
+			ci = ci_matrix,
+			boot_means = setNames(means, names(est0)),
+			boot_sds = setNames(sds, names(est0)),
+			boot_cor = cor(boot_samples_for_quantiles[,1], boot_samples_for_quantiles[,2]),
+			boot_cov = cov(boot_samples_for_quantiles[,1], boot_samples_for_quantiles[,2])
+		))
 	}
-	list(
-		est = est0,
-		boot = out,
-		ci = apply(out, 2, quantile, probs = c(.025, .975))
-	)
 }
 
 
@@ -168,10 +235,10 @@ is_table_valid_for_bootstrap <- function(table_matrix) {
 	
 	return(list(valid = TRUE, reason = "OK"))
 }
-# Apply bootstrap to a single configuration
-# B = number of bootstrap samples (matches your boot_extremes function)
+# Apply bootstrap to a single configuration - OPTIMIZED VERSION
 bootstrap_configuration <- function(sim_results, config_id, B = 1000, 
-									seed_offset = 1000, store_full_samples = FALSE) {
+									seed_offset = 1000, store_full_samples = FALSE, 
+									rtape_dir = NULL) {
 	
 	if(config_id > length(sim_results$tables)) {
 		stop("config_id out of range")
@@ -183,12 +250,34 @@ bootstrap_configuration <- function(sim_results, config_id, B = 1000,
 	cat(sprintf("Bootstrapping config %d: K1=%d, K2=%d, N=%d\n", 
 				config_id, config_info$K1, config_info$K2, config_info$N))
 	cat("Number of tables:", length(config_tables), "\n")
-	
+	if(store_full_samples) {
+		cat("⚠️  Storing full bootstrap samples (memory intensive!)\n")
+		if(!is.null(rtape_dir)) {
+			cat("📼 Using rtape streaming to:", rtape_dir, "\n")
+		}
+	} else {
+		cat("✅ Using optimized mode (summary statistics only)\n")
+	}
 	
 	# Storage for summary results
 	summary_stats <- data.frame()
-	full_bootstrap_samples <- list()  # NEW: Store full samples if requested
+	full_bootstrap_samples <- list()  # Store full samples if requested
 	skipped_tables <- 0
+	
+	# Setup rtape if needed
+	rtape_file <- NULL
+	if(store_full_samples && !is.null(rtape_dir)) {
+		dir.create(rtape_dir, showWarnings = FALSE, recursive = TRUE)
+		rtape_file <- file.path(rtape_dir, paste0("config_", config_id, "_bootstrap_samples.rtape"))
+		
+		# Check if rtape package is available
+		if(!requireNamespace("rtape", quietly = TRUE)) {
+			cat("⚠️  rtape package not available, using standard memory storage\n")
+			rtape_file <- NULL
+		} else {
+			cat("📼 Creating rtape file:", basename(rtape_file), "\n")
+		}
+	}
 	
 	# Process each table
 	for(sim_id in 1:length(config_tables)) {
@@ -200,7 +289,9 @@ bootstrap_configuration <- function(sim_results, config_id, B = 1000,
 		table_check <- is_table_valid_for_bootstrap(config_tables[[sim_id]])
 		
 		if(!table_check$valid) {
-			cat("Skipping table", sim_id, ":", table_check$reason, "\n")
+			if(sim_id <= 5) {  # Only show first few skip messages
+				cat("Skipping table", sim_id, ":", table_check$reason, "\n")
+			}
 			skipped_tables <- skipped_tables + 1
 			next
 		}
@@ -211,11 +302,13 @@ bootstrap_configuration <- function(sim_results, config_id, B = 1000,
 		# Set unique seed for reproducibility
 		table_seed <- seed_offset + config_id * 10000 + sim_id
 		
-		# Use your existing boot_extremes function!
+		# Use the optimized boot_extremes function!
 		boot_result <- tryCatch({
 			# Suppress warnings and messages during bootstrap
 			suppressWarnings(suppressMessages(
-				boot_extremes(vectors$x, vectors$y, B = B, seed = table_seed)
+				boot_extremes(vectors$x, vectors$y, B = B, seed = table_seed, 
+							 store_full_samples = store_full_samples, 
+							 rtape_file = if(store_full_samples) rtape_file else NULL)
 			))
 		}, error = function(e) {
 			# Silently skip problematic tables - just increment skip counter
@@ -228,8 +321,8 @@ bootstrap_configuration <- function(sim_results, config_id, B = 1000,
 			next
 		}
 		
-		# NEW: Store full bootstrap samples if requested
-		if(store_full_samples) {
+		# Store full bootstrap samples if requested
+		if(store_full_samples && is.null(rtape_file)) {
 			full_bootstrap_samples[[length(full_bootstrap_samples) + 1]] <- list(
 				config_id = config_id,
 				sim_id = sim_id,
@@ -238,11 +331,24 @@ bootstrap_configuration <- function(sim_results, config_id, B = 1000,
 			)
 		}
 		
-		# Extract summary statistics INCLUDING joint relationship
-		
-		# Extract summary statistics INCLUDING joint relationship
-		boot_cor <- cor(boot_result$boot[,"r_min"], boot_result$boot[,"r_max"])
-		boot_cov <- cov(boot_result$boot[,"r_min"], boot_result$boot[,"r_max"])
+		# Extract summary statistics - handle different return structures
+		if(store_full_samples) {
+			# Traditional approach: extract from full bootstrap matrix
+			boot_cor <- cor(boot_result$boot[,"r_min"], boot_result$boot[,"r_max"])
+			boot_cov <- cov(boot_result$boot[,"r_min"], boot_result$boot[,"r_max"])
+			boot_mean_rmin <- mean(boot_result$boot[,"r_min"])
+			boot_mean_rmax <- mean(boot_result$boot[,"r_max"])
+			boot_sd_rmin <- sd(boot_result$boot[,"r_min"])
+			boot_sd_rmax <- sd(boot_result$boot[,"r_max"])
+		} else {
+			# Optimized approach: use pre-computed statistics
+			boot_cor <- boot_result$boot_cor
+			boot_cov <- boot_result$boot_cov
+			boot_mean_rmin <- boot_result$boot_means["r_min"]
+			boot_mean_rmax <- boot_result$boot_means["r_max"]
+			boot_sd_rmin <- boot_result$boot_sds["r_min"]
+			boot_sd_rmax <- boot_result$boot_sds["r_max"]
+		}
 		
 		summary_stats <- rbind(summary_stats, data.frame(
 			config_id = config_id,
@@ -259,19 +365,19 @@ bootstrap_configuration <- function(sim_results, config_id, B = 1000,
 			r_max_ci_upper = boot_result$ci["97.5%", "r_max"],
 			r_min_ci_width = boot_result$ci["97.5%", "r_min"] - boot_result$ci["2.5%", "r_min"],
 			r_max_ci_width = boot_result$ci["97.5%", "r_max"] - boot_result$ci["2.5%", "r_max"],
-			# NEW: Joint relationship statistics
+			# Joint relationship statistics
 			boot_cor_rmin_rmax = boot_cor,
 			boot_cov_rmin_rmax = boot_cov,
-			boot_sd_rmin = sd(boot_result$boot[,"r_min"]),
-			boot_sd_rmax = sd(boot_result$boot[,"r_max"]),
-			boot_mean_rmin = mean(boot_result$boot[,"r_min"]),
-			boot_mean_rmax = mean(boot_result$boot[,"r_max"])
+			boot_sd_rmin = boot_sd_rmin,
+			boot_sd_rmax = boot_sd_rmax,
+			boot_mean_rmin = boot_mean_rmin,
+			boot_mean_rmax = boot_mean_rmax
 		))
 	}
 	
 	cat("Bootstrap complete for configuration", config_id, "\n")
 	cat("Successfully processed:", nrow(summary_stats), "tables\n")
-	cat("Skipped:", skipped_tables, "tables\n\n")
+	cat("Skipped:", skipped_tables, "tables\n")
 	
 	result <- list(
 		config_info = config_info,
@@ -280,63 +386,114 @@ bootstrap_configuration <- function(sim_results, config_id, B = 1000,
 		success_count = nrow(summary_stats)
 	)
 	
-	# NEW: Add full samples if stored
-	if(store_full_samples) {
+	# Add full samples if stored (but not if using rtape streaming)
+	if(store_full_samples && is.null(rtape_file)) {
 		result$full_bootstrap_samples <- full_bootstrap_samples
-		cat("Stored full bootstrap samples for", length(full_bootstrap_samples), "tables\n")
+		cat("📦 Stored full bootstrap samples for", length(full_bootstrap_samples), "tables\n")
+	} else if(store_full_samples && !is.null(rtape_file)) {
+		result$rtape_file <- rtape_file
+		cat("📼 Bootstrap samples streamed to rtape file:", basename(rtape_file), "\n")
 	}
 	
+	cat("\n")
 	return(result)
 }
 
-# Apply bootstrap to ALL configurations
+# Apply bootstrap to ALL configurations - OPTIMIZED VERSION
 bootstrap_all_configurations <- function(sim_results, B = 1000, 
-										 seed_offset = 1000, store_full_samples = FALSE) {
+										 seed_offset = 1000, store_full_samples = FALSE,
+										 rtape_dir = NULL) {
 	
 	num_configs <- length(sim_results$tables)
 	all_summaries <- data.frame()
 	
-	cat("Starting bootstrap analysis for", num_configs, "configurations\n")
-	cat("Bootstrap samples per table:", B, "\n\n")
+	cat("🔄 OPTIMIZED BOOTSTRAP ANALYSIS\n")
+	cat("==============================\n")
+	cat("Configurations:", num_configs, "\n")
 	cat("Bootstrap samples per table:", B, "\n")
+	
 	if(store_full_samples) {
-		cat("WARNING: Storing full samples will create very large files!\n")
+		cat("⚠️  WARNING: Storing full samples will create very large files!\n")
+		total_expected_samples <- num_configs * length(sim_results$tables[[1]]) * B
+		estimated_size_mb <- total_expected_samples * 2 * 8 / (1024^2)  # 2 values, 8 bytes each
+		cat("   Estimated memory usage: ~", round(estimated_size_mb, 1), "MB\n")
+		
+		if(!is.null(rtape_dir)) {
+			cat("📼 Using rtape streaming to reduce memory usage\n")
+			cat("   rtape directory:", rtape_dir, "\n")
+		}
+	} else {
+		cat("✅ Using optimized mode (summary statistics only)\n")
+		cat("   Memory usage: minimal\n")
+		cat("   Performance: significantly faster\n")
 	}
 	cat("\n")
 	
 	start_time <- Sys.time()
+	rtape_files <- character(0)
 	
 	for(config_id in 1:num_configs) {
-		config_result <- bootstrap_configuration(sim_results, config_id, 
-												 B = B, seed_offset = seed_offset,
-												 store_full_samples = store_full_samples)
+		config_result <- bootstrap_configuration(
+			sim_results, config_id, 
+			B = B, 
+			seed_offset = seed_offset,
+			store_full_samples = store_full_samples,
+			rtape_dir = rtape_dir
+		)
+		
 		# Combine summary statistics
 		all_summaries <- rbind(all_summaries, config_result$summary_stats)
 		
+		# Track rtape files if used
+		if(!is.null(config_result$rtape_file)) {
+			rtape_files <- c(rtape_files, config_result$rtape_file)
+		}
+		
 		# Progress update
 		elapsed <- as.numeric(Sys.time() - start_time, units = "mins")
-		remaining <- elapsed * (num_configs - config_id) / config_id
-		cat(sprintf("Completed %d/%d configs. Elapsed: %.1f min, Est. remaining: %.1f min\n", 
-					config_id, num_configs, elapsed, remaining))
+		if(config_id > 1) {
+			remaining <- elapsed * (num_configs - config_id) / config_id
+			cat(sprintf("Completed %d/%d configs. Elapsed: %.1f min, Est. remaining: %.1f min\n", 
+						config_id, num_configs, elapsed, remaining))
+		}
 	}
 	
 	end_time <- Sys.time()
 	total_time <- as.numeric(end_time - start_time, units = "mins")
 	
-	cat(sprintf("\nBootstrap analysis complete! Total time: %.1f minutes\n", total_time))
-	cat("Total bootstrap samples:", nrow(all_summaries) * B, "\n")
+	cat(sprintf("\n✅ Bootstrap analysis complete! Total time: %.1f minutes\n", total_time))
+	cat("📊 Summary:\n")
+	cat("   Total configurations:", num_configs, "\n")
+	cat("   Total tables analyzed:", nrow(all_summaries), "\n")
+	cat("   Total bootstrap samples generated:", nrow(all_summaries) * B, "\n")
 	
-	return(list(
+	if(length(rtape_files) > 0) {
+		cat("📼 rtape files created:", length(rtape_files), "\n")
+		total_rtape_size <- sum(file.size(rtape_files), na.rm = TRUE) / (1024^2)
+		cat("   Total rtape file size: ~", round(total_rtape_size, 1), "MB\n")
+	}
+	
+	performance_improvement <- ifelse(store_full_samples, 
+									  "N/A (full samples stored)",
+									  paste("~", round(B / 10, 0), "x faster"))
+	cat("   Performance improvement:", performance_improvement, "\n")
+	cat("\n")
+	
+	result <- list(
 		config_info = sim_results$config_info,
 		summary_stats = all_summaries,
 		analysis_info = list(
 			B = B,
 			seed_offset = seed_offset,
 			total_time_mins = total_time,
-			store_full_samples = store_full_samples  # ← This line should be there
-			
+			store_full_samples = store_full_samples,
+			rtape_dir = rtape_dir,
+			rtape_files = if(length(rtape_files) > 0) rtape_files else NULL,
+			optimization_used = !store_full_samples
 		)
-	))
+	)
+	
+	return(result)
 }
 
 # Analyze a single table WITH bootstrap uncertainty

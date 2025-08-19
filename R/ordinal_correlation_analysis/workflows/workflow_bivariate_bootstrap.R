@@ -23,25 +23,37 @@ cat("===========================================\n\n")
 # ================================================================
 
 params <- list(
-  B = 1000,                     # Number of bootstrap samples (reduced for testing)
+  B = 1000,                     # Number of bootstrap samples
   confidence_levels = c(0.90, 0.95, 0.99),  # Confidence levels to compute
-  store_full_samples = TRUE,   # Whether to store all bootstrap samples  
-  force_regenerate = FALSE,    # Set TRUE to ignore existing cache
+  store_full_samples = FALSE,   # ✅ OPTIMIZED: Only store summary statistics by default
+  force_regenerate = FALSE,     # Set TRUE to ignore existing cache
+  
+  # NEW: rtape streaming parameters (for when store_full_samples = TRUE)
+  use_rtape_streaming = TRUE,   # Use rtape for streaming large bootstrap samples
+  rtape_dir = here("R", "ordinal_correlation_analysis", "data", "bootstrap_streams"),
   
   # Analysis parameters
-  subsample_size = 500,  #1000,          # Subsample size for computational efficiency (reduced for testing) 100?
-  parallel = TRUE,            # Use parallel processing (if available)
+  subsample_size = 500,         # Subsample size for computational efficiency
+  parallel = TRUE,              # Use parallel processing (if available)
   
   # Progress reporting  
-  verbose = TRUE               # Show detailed progress messages
+  verbose = TRUE                # Show detailed progress messages
 )
 
 cat("📋 Configuration:\n")
 cat("   Bootstrap samples:", params$B, "\n")
 cat("   Confidence levels:", paste(params$confidence_levels, collapse = ", "), "\n")
 cat("   Store full samples:", params$store_full_samples, "\n")
+if(params$store_full_samples && params$use_rtape_streaming) {
+  cat("   rtape streaming:", params$use_rtape_streaming, "\n")
+  cat("   rtape directory:", params$rtape_dir, "\n")
+}
 cat("   Subsample size:", params$subsample_size, "\n")
-cat("   Force regenerate:", params$force_regenerate, "\n\n")
+cat("   Force regenerate:", params$force_regenerate, "\n")
+if(!params$store_full_samples) {
+  cat("   🚀 OPTIMIZATION: Using summary-only mode for faster computation\n")
+}
+cat("\n")
 
 # ================================================================
 # SECTION 1: LOAD REQUIRED DATA
@@ -104,11 +116,18 @@ bootstrap_results <- cache_or_compute(
       cat("Using all", length(mc_subset), "configurations\n")
     }
     
-    # Run bootstrap analysis
+    # Run OPTIMIZED bootstrap analysis
+    rtape_dir <- if(params$store_full_samples && params$use_rtape_streaming) {
+      params$rtape_dir
+    } else {
+      NULL
+    }
+    
     full_bootstrap_results <- bootstrap_all_configurations(
       mc_subset, 
       B = params$B, 
-      store_full_samples = params$store_full_samples
+      store_full_samples = params$store_full_samples,
+      rtape_dir = rtape_dir
     )
     
     cat("Bootstrap analysis completed\n")

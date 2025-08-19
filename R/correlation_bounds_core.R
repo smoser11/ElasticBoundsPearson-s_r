@@ -34,13 +34,32 @@ max_corr_bound <- function(marginalX, marginalY, sample_size = 10000) {
 		if (sum(countsY) != sample_size) stop("Counts for X and Y must be equal.")
 	}
 	
+	# Check for invalid counts that would cause rep() to fail
+	if (any(countsX < 0) || any(countsY < 0)) {
+		stop("Negative counts detected: countsX=", paste(countsX, collapse=","), 
+		     " countsY=", paste(countsY, collapse=","))
+	}
+	if (any(!is.finite(countsX)) || any(!is.finite(countsY))) {
+		stop("Non-finite counts detected: countsX=", paste(countsX, collapse=","), 
+		     " countsY=", paste(countsY, collapse=","))
+	}
+	
+	# Filter out zero counts to avoid issues with rep()
+	valid_x <- countsX > 0
+	valid_y <- countsY > 0
+	
+	if (sum(valid_x) == 0 || sum(valid_y) == 0) {
+		warning("All counts are zero - returning correlation of 0")
+		return(0)
+	}
+	
 	# Define ordinal levels (0, 1, 2, ...)
 	x_levels <- 0:(length(countsX) - 1)
 	y_levels <- 0:(length(countsY) - 1)
 	
-	# Create full sample vectors based on counts
-	x_vec <- rep(x_levels, times = countsX)
-	y_vec <- rep(y_levels, times = countsY)
+	# Create full sample vectors based on counts (only for non-zero counts)
+	x_vec <- rep(x_levels[valid_x], times = countsX[valid_x])
+	y_vec <- rep(y_levels[valid_y], times = countsY[valid_y])
 	
 	# Pair the highest X with the lowest Y (anti-comonotonic pairing)
 	x_sorted <- sort(x_vec, decreasing = TRUE)
@@ -141,13 +160,32 @@ min_corr_bound <- function(marginalX, marginalY, sample_size = 10000) {
     if (sum(countsY) != sample_size) stop("Counts for X and Y must be equal.")
   }
   
+  # Check for invalid counts that would cause rep() to fail
+  if (any(countsX < 0) || any(countsY < 0)) {
+    stop("Negative counts detected: countsX=", paste(countsX, collapse=","), 
+         " countsY=", paste(countsY, collapse=","))
+  }
+  if (any(!is.finite(countsX)) || any(!is.finite(countsY))) {
+    stop("Non-finite counts detected: countsX=", paste(countsX, collapse=","), 
+         " countsY=", paste(countsY, collapse=","))
+  }
+  
+  # Filter out zero counts to avoid issues with rep()
+  valid_x <- countsX > 0
+  valid_y <- countsY > 0
+  
+  if (sum(valid_x) == 0 || sum(valid_y) == 0) {
+    warning("All counts are zero - returning correlation of 0")
+    return(0)
+  }
+  
   # Define ordinal levels (0, 1, 2, ...)
   x_levels <- 0:(length(countsX) - 1)
   y_levels <- 0:(length(countsY) - 1)
   
-  # Create full sample vectors based on counts
-  x_vec <- rep(x_levels, times = countsX)
-  y_vec <- rep(y_levels, times = countsY)
+  # Create full sample vectors based on counts (only for non-zero counts)
+  x_vec <- rep(x_levels[valid_x], times = countsX[valid_x])
+  y_vec <- rep(y_levels[valid_y], times = countsY[valid_y])
   
   # Pair the highest X with the lowest Y (anti-comonotonic pairing)
   x_sorted <- sort(x_vec, decreasing = TRUE)
@@ -186,13 +224,32 @@ simulate_permutation_distribution <- function(marginalX, marginalY, nsim = 1000,
     if (sum(countsY) != sample_size) stop("Counts for X and Y must be equal.")
   }
   
+  # Check for invalid counts that would cause rep() to fail
+  if (any(countsX < 0) || any(countsY < 0)) {
+    stop("Negative counts detected: countsX=", paste(countsX, collapse=","), 
+         " countsY=", paste(countsY, collapse=","))
+  }
+  if (any(!is.finite(countsX)) || any(!is.finite(countsY))) {
+    stop("Non-finite counts detected: countsX=", paste(countsX, collapse=","), 
+         " countsY=", paste(countsY, collapse=","))
+  }
+  
+  # Filter out zero counts to avoid issues with rep()
+  valid_x <- countsX > 0
+  valid_y <- countsY > 0
+  
+  if (sum(valid_x) == 0 || sum(valid_y) == 0) {
+    warning("All counts are zero - returning vector of zeros")
+    return(rep(0, nsim))
+  }
+  
   # Define ordinal levels (0, 1, 2, ...)
   x_levels <- 0:(length(countsX) - 1)
   y_levels <- 0:(length(countsY) - 1)
   
-  # Create sample vectors based on counts
-  x_vec <- rep(x_levels, times = countsX)
-  y_vec <- rep(y_levels, times = countsY)
+  # Create sample vectors based on counts (only for non-zero counts)
+  x_vec <- rep(x_levels[valid_x], times = countsX[valid_x])
+  y_vec <- rep(y_levels[valid_y], times = countsY[valid_y])
   
   # Initialize storage for simulated correlations
   r_vals <- numeric(nsim)
@@ -243,13 +300,32 @@ create_max_corr_pairs <- function(marginalX, marginalY, sample_size = 10000) {
     countsY[i_max] <- countsY[i_max] + diffY
   }
   
+  # Check for invalid counts that would cause rep() to fail
+  if (any(countsX < 0) || any(countsY < 0)) {
+    stop("Negative counts detected: countsX=", paste(countsX, collapse=","), 
+         " countsY=", paste(countsY, collapse=","))
+  }
+  if (any(!is.finite(countsX)) || any(!is.finite(countsY))) {
+    stop("Non-finite counts detected: countsX=", paste(countsX, collapse=","), 
+         " countsY=", paste(countsY, collapse=","))
+  }
+  
+  # Filter out zero counts to avoid issues with rep()
+  valid_x <- countsX > 0
+  valid_y <- countsY > 0
+  
+  if (sum(valid_x) == 0 || sum(valid_y) == 0) {
+    warning("All counts are zero - returning empty data frame")
+    return(data.frame(X = numeric(0), Y = numeric(0)))
+  }
+  
   # Define ordinal levels (0, 1, 2, ...)
   x_levels <- 0:(length(countsX) - 1)
   y_levels <- 0:(length(countsY) - 1)
   
-  # Create sample vectors based on counts
-  x_vec <- rep(x_levels, times = countsX)
-  y_vec <- rep(y_levels, times = countsY)
+  # Create sample vectors based on counts (only for non-zero counts)
+  x_vec <- rep(x_levels[valid_x], times = countsX[valid_x])
+  y_vec <- rep(y_levels[valid_y], times = countsY[valid_y])
   
   # Sort both in the same direction (comonotonic)
   x_sorted <- sort(x_vec, decreasing = TRUE)
@@ -296,13 +372,32 @@ create_min_corr_pairs <- function(marginalX, marginalY, sample_size = 10000) {
     countsY[i_max] <- countsY[i_max] + diffY
   }
   
+  # Check for invalid counts that would cause rep() to fail
+  if (any(countsX < 0) || any(countsY < 0)) {
+    stop("Negative counts detected: countsX=", paste(countsX, collapse=","), 
+         " countsY=", paste(countsY, collapse=","))
+  }
+  if (any(!is.finite(countsX)) || any(!is.finite(countsY))) {
+    stop("Non-finite counts detected: countsX=", paste(countsX, collapse=","), 
+         " countsY=", paste(countsY, collapse=","))
+  }
+  
+  # Filter out zero counts to avoid issues with rep()
+  valid_x <- countsX > 0
+  valid_y <- countsY > 0
+  
+  if (sum(valid_x) == 0 || sum(valid_y) == 0) {
+    warning("All counts are zero - returning empty data frame")
+    return(data.frame(X = numeric(0), Y = numeric(0)))
+  }
+  
   # Define ordinal levels (0, 1, 2, ...)
   x_levels <- 0:(length(countsX) - 1)
   y_levels <- 0:(length(countsY) - 1)
   
-  # Create sample vectors based on counts
-  x_vec <- rep(x_levels, times = countsX)
-  y_vec <- rep(y_levels, times = countsY)
+  # Create sample vectors based on counts (only for non-zero counts)
+  x_vec <- rep(x_levels[valid_x], times = countsX[valid_x])
+  y_vec <- rep(y_levels[valid_y], times = countsY[valid_y])
   
   # Sort in opposite directions (anti-comonotonic)
   x_sorted <- sort(x_vec, decreasing = TRUE)

@@ -5,14 +5,36 @@
 sample_uniform_table <- function(K1, K2, N) {
 	K <- K1 * K2
 	if (K == 1L) return(matrix(N, nrow = K1, ncol = K2))
-	cuts <- sort(sample.int(N + K - 1L, K - 1L))
-	prev <- 0L
-	x <- integer(K)
-	for (i in seq_len(K - 1L)) {
-		x[i] <- cuts[i] - prev - 1L
-		prev <- cuts[i]
+	
+	# Use the standard "stars and bars" method for generating uniform random counts
+	# This ensures all counts are non-negative and sum to N
+	if (K - 1L > 0) {
+		cuts <- sort(sample.int(N + K - 1L, K - 1L))
+		# Add boundary points
+		cuts <- c(0L, cuts, N + K)
+		
+		# Calculate differences to get the counts
+		x <- integer(K)
+		for (i in seq_len(K)) {
+			x[i] <- cuts[i + 1L] - cuts[i] - 1L
+		}
+	} else {
+		x <- N
 	}
-	x[K] <- (N + K - 1L) - prev - 1L
+	
+	# Ensure non-negative counts and correct sum
+	x <- pmax(x, 0L)  # Ensure no negative values
+	
+	# Adjust if sum doesn't match N due to rounding
+	diff <- N - sum(x)
+	if (diff != 0) {
+		# Add/subtract the difference to a random cell
+		cell_to_adjust <- sample(K, 1)
+		x[cell_to_adjust] <- x[cell_to_adjust] + diff
+		# Ensure no negative values after adjustment
+		x[cell_to_adjust] <- max(x[cell_to_adjust], 0L)
+	}
+	
 	matrix(x, nrow = K1, ncol = K2, byrow = TRUE)
 }
 
