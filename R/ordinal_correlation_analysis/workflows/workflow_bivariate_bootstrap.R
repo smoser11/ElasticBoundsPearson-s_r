@@ -23,13 +23,13 @@ cat("===========================================\n\n")
 # ================================================================
 
 params <- list(
-  B = 10000,                     # Number of bootstrap samples (reduced for testing)
+  B = 1000,                     # Number of bootstrap samples (reduced for testing)
   confidence_levels = c(0.90, 0.95, 0.99),  # Confidence levels to compute
   store_full_samples = TRUE,   # Whether to store all bootstrap samples  
   force_regenerate = FALSE,    # Set TRUE to ignore existing cache
   
   # Analysis parameters
-  subsample_size = 1000,          # Subsample size for computational efficiency (reduced for testing) 100?
+  subsample_size = 500,  #1000,          # Subsample size for computational efficiency (reduced for testing) 100?
   parallel = TRUE,            # Use parallel processing (if available)
   
   # Progress reporting  

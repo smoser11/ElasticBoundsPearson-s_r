@@ -23,14 +23,14 @@ cat("===================================\n\n")
 
 params <- list(
   numsims = 1000,              # Number of simulated contingency tables 1000
-  seed = 442,                   # Random seed for reproducibility  
+  seed = 4422,                   # Random seed for reproducibility  
   force_regenerate = TRUE,    # Set TRUE to ignore existing cache
   
   # Analysis parameters
   nsim_bounds = 1000,          # Simulations for bounds computation 1000
   confidence_level = 0.95,     # Confidence level for intervals
-  categories_var1 = c(4, 5, 6, 7, 10, 11,13,14),
-  categories_var2 = c(4, 5, 6, 7, 10, 11,13,14),
+  categories_var1 = c(4, 5, 6, 7, 10, 11,14),
+  categories_var2 = c(4, 5, 6, 7, 10, 11,14 ),
   sample_sizes = c(100, 200, 500, 1000, 2000, 5000),
   
   # Progress reporting
