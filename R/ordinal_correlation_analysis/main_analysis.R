@@ -156,6 +156,8 @@ cat("Research configuration:\n")
 	 
 # 3.1 Main Research Figures
 	 
+	 readRDS(here("R", "ordinal_correlation_analysis", "output", "reports", "complete_analysis_results.rds"))
+	 
 	 # Load visualization functions
 	 source(here("R", "ordinal_correlation_analysis", "1_bivariate_ordcats_correlation", "3_visualization", "bounds_visualization.R"))
 	 

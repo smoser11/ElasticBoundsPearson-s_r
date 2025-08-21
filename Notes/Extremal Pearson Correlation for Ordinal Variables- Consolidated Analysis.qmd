@@ -133,6 +133,10 @@ F^{\text{lower}}_{XY}(i,j) = \max\{F_X(i) + F_Y(j) - 1, 0\}
 ### Lemma (signs of extreme correlations under monotone scoring)
 
 
+::: {#prop-max-product .proposition}
+```{=latex}
+\begin{lemma}
+
 Let $X$ and $Y$ be ordinal variables. Assign numeric scores to categories via **non-decreasing** maps $s_X, s_Y$ that respect the category order (scores may be affine or nonlinear; ties allowed). Define two extreme couplings:
 
 * **Comonotone (upper)**: pair larger scored values of $X$ with larger scored values of $Y$.
@@ -150,15 +154,20 @@ Then:
     
 
 _(If you reverse the scoring of one variable (decreasing map), swap “upper” and “lower”. For Spearman’s $$\rho$$, take the scores to be midranks—monotone by construction—and the same conclusions hold.)_
+\end{lemma}
+```
+:::
 
-* * *
+
+:::{.proof}
+
 
 Proof
------
+
 
 We give parallel proofs in the finite-sample and population settings.
 
-### A) Finite-sample (permutation) setting
+A) Finite-sample (permutation) setting
 
 Let $x_{(1)}\ge\cdots\ge x_{(n)}$ and $y_{(1)}\ge\cdots\ge y_{(n)}$ be the **scored** observations of $X$ and $Y$ sorted in nonincreasing order (monotone scoring ensures sorting by category equals sorting by score). Center them:
 
@@ -196,7 +205,7 @@ S_{\min} := \sum_{i=1}^n x'_i\,y'_{\,n+1-i}.$$
     Conversely, if $\sigma_X=0$ or $\sigma_Y=0$, then one centered sequence is identically zero, so $S_{\max}=S_{\min}=0$ and the correlations are undefined or (in a limiting sense) attain 0. This matches the “only if” direction.
     
 
-### B) Population (FH/quantile) setting
+B) Population (FH/quantile) setting
 
 Let $Q_X, Q_Y : [0,1]\to\mathbb{R}$ be the quantile functions of the **scored** variables. Set
 
@@ -224,6 +233,9 @@ Dividing by $\sigma_X\sigma_Y>0$ yields $r_{\max}\ge 0$ and $r_{\min}\le 0$.
     
 
 This completes the proof. $\square$
+
+:::
+
 
 * * *
 

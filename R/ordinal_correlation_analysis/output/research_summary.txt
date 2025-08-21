@@ -1,0 +1,23 @@
+CORRELATION BOUNDS ANALYSIS: BRITISH ELECTION STUDY 2019
+===============================================================
+
+DATASET OVERVIEW:
+- Variable pairs analyzed: 7503
+- Mean correlation: 0.005 (SD = 0.183)
+- Mean sample size: 2367
+
+KEY FINDINGS:
+1. Theoretical bounds range: [-0.885, 0.885] on average
+2. Bounds asymmetry: 75.5% of pairs show asymmetric bounds
+3. Rescaling effects: 100% of correlations increased in magnitude
+4. Matrix properties: 100% of original matrices are positive semidefinite
+
+IMPLICATIONS:
+- Correlation bounds vary substantially across variable pairs
+- Rescaling provides more interpretable correlation magnitudes
+- Matrix properties are generally preserved under rescaling
+- Results support the use of bounds-aware correlation analysis
+
+Generated: 2025-08-21 18:48:04.7461
+Analysis time: 59.9 minutes
+

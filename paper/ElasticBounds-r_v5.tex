@@ -230,7 +230,7 @@
 \title{Elastic Bounds of Pearson's \(r\): Theoretical and Empirical
 Insights for Ordinal Variables}
 \author{Cees van der Eijk \and Scott Moser}
-\date{16, August 2025}
+\date{21, August 2025}
 \begin{document}
 \maketitle
 
@@ -264,22 +264,61 @@ of variables. We assess the magnitude of these constraints in fictitious
 as well as empirical data and analyse under which conditions they are
 most severe. The article is accompanied by a software tool in R: that
 allows applied researchers to easily assess the extent of the problem in
-their own data. The use of product-moment correlations (also known as
-Pearson correlations) to assess linear relationships between
-ordered-categorical variables --henceforth referred to as orcats-- is
-widespread and widely condoned in empirical studies, in spite of such
-variables not being metric while the product-moment correlation assumes
-that they are. We do not focus on this problem from an obsessive desire
-for methodological purity, were it only because many statistical
-procedures are quite robust for violations of their assumptions {[}fn:
-examples?{]}. Instead, we draw attention to problematic consequences of
-this violation of assumptions that, as far as we know, have been rarely
-recognised in the applied literature although they are well-known in the
-theoretical statistical literature. This is the problem that correlation
+their own data.
+
+The use of product-moment correlations (also known as Pearson
+correlations) to assess linear relationships between ordered-categorical
+variables --henceforth referred to as orcats-- is widespread and widely
+condoned in empirical studies, in spite of such variables not being
+metric while the product-moment correlation assumes that they are. We do
+not focus on this problem from an obsessive desire for methodological
+purity, were it only because many statistical procedures are quite
+robust for violations of their assumptions {[}fn: examples?{]}. Instead,
+we draw attention to problematic consequences of this violation of
+assumptions that, as far as we know, have been rarely recognised in the
+applied literature although they are well-known in the theoretical
+statistical literature. This is the problem that correlation
 coefficients involving orcats are constrained in their range which makes
 them mutually incomparable, leading to problems in hypothesis testing
-and in analytical procedures that use correlations as their input. This
-article proceeds as follows. We start by briefly elaborating the
+and in analytical procedures that use correlations as their input.
+
+Despite long-standing cautions about applying Pearson's correlation
+coefficient \(r\) to ordinal variables (\citealt{Labovitz1970};
+\citealt{Gaito1980}), it remains routine in survey-based social science.
+In political science and sociology alike, researchers frequently
+correlate 4--, 5--, or 7--point items as if they were interval-scaled,
+usually without examining the implications of the marginals. Examples
+include correlations among attitude items in large-scale survey
+batteries (\citealt{AlwinKrosnick1991}), ideology and issue positions on
+mixed-resolution scales (\citealt{BrewerGross2005};
+\citealt{KinderKam2009}), and summary indices that are subsequently
+modeled using correlation-based techniques. Reviews document that such
+practices are pervasive in applied survey analysis
+(\citealt{KreuterValliant2007}). Methodological discussions sometimes
+defend pragmatic use of parametric tools with ordinal data
+(\citealt{Jacoby1999}), but even optimistic views do not address the
+\emph{feasible range} of \(r\) imposed by fixed marginals---an omission
+with direct consequences for substantive interpretation.
+
+Alternatives to Pearson's \(r\)---notably Spearman's \(\rho\), Kendall's
+\(\tau\), and the polychoric correlation---offer different trade-offs
+(\citealt{Spearman1904}; \citealt{Kendall1938}; \citealt{Olsson1979}).
+Rank-based measures ignore the marginals; polychorics assume latent
+bivariate normality. In contrast, we pursue bounds on \(r\) that
+\emph{explicitly} depend on the observed marginals, drawing on
+rearrangement inequalities and the Fréchet--Hoeffding framework
+(\citealt{Frechet1951}; \citealt{Hoeffding1940};
+\citealt{Rueschendorf1981}). This perspective clarifies when the
+attainable range of \(r\) is narrow, when symmetry fails
+(\(r_{\min}\neq -r_{\max}\)), and when the lower bound can be strictly
+positive. It also explains why correlation-based models with ordinal
+indicators (EFA/CFA/SEM) can be distorted when Pearson correlations are
+used (\citealt{FloraCurran2004}; \citealt{GreenEtAl1997}). Our
+contribution situates empirical practice within these theoretical limits
+and provides tools to compute and visualize the bounds given fixed
+marginals.
+
+This article proceeds as follows. We start by briefly elaborating the
 character of ordinal categorical variables (orcats), why they are
 generally not regarded as being metric, and why, in spite of that, they
 are nevertheless very frequently used in statistical procedures that
@@ -513,6 +552,21 @@ Definitions}\label{background-and-definitions}
 \end{itemize}
 
 \section{Theoretical Framework}\label{theoretical-framework}
+
+The problem of extremal correlations under fixed marginals connects
+directly to classical results in probability inequalities. Fréchet's
+work on admissible joint distributions (\citealt{frech51-sur}) and
+Hoeffding's development of covariance bounds (\citealt{hoef40-massta})
+laid the groundwork. Later refinements, such as Rüschendorf's
+demonstration of sharpness of Fréchet bounds (\citealt{rues81-sharpn}),
+clarified when comonotonic and countermonotonic couplings achieve
+extremal values. The rearrangement inequality, and its discrete
+extensions, ensure that matching high values of \(X\) with high values
+of \(Y\) maximizes \(\mathbb{E}[XY]\), while opposite pairings minimize
+it. This perspective is elaborated in comparison and coupling frameworks
+(\citealt{muel02-compa}; \citealt{thor00-coupli}). These results provide
+the theoretical backbone for our derivations of \(r_{\min}\) and
+\(r_{\max}\).
 
 \subsection{Optimal Coupling and Correlation
 Bounds}\label{optimal-coupling-and-correlation-bounds}
@@ -978,6 +1032,146 @@ different numbers of categories and different numbers of cases.
 In this section we further explore the theoretical properties on
 \(r_{min}\) and \(r_{max}\).
 
+\subsubsection{Lemma (signs of extreme correlations under monotone
+scoring)}\label{lemma-signs-of-extreme-correlations-under-monotone-scoring}
+
+\phantomsection\label{prop-max-product}
+\begin{lemma}
+
+Let $X$ and $Y$ be ordinal variables. Assign numeric scores to categories via **non-decreasing** maps $s_X, s_Y$ that respect the category order (scores may be affine or nonlinear; ties allowed). Define two extreme couplings:
+
+* **Comonotone (upper)**: pair larger scored values of $X$ with larger scored values of $Y$.
+    
+* **Antitone (lower)**: pair larger scored values of $X$ with smaller scored values of $Y$.
+    
+
+Let $r_{\max}$ and $r_{\min}$ be the Pearson correlations computed from these couplings, either (i) in the **finite-sample/permutation** sense (sort scored observations in the same vs. opposite order), or (ii) in the **Fréchet–Hoeffding (FH)/population** sense (pair quantiles $Q_X(u)$ with $Q_Y(u)$ vs. $Q_Y(1-u)$).
+
+Then:
+
+1. $r_{\max}\ge 0$ and $r_{\min}\le 0$.
+    
+2. Moreover, $r_{\max}>0$ and $r_{\min}<0$ **iff** both variables have **positive variance** under the chosen scoring (i.e., neither scored variable is almost surely constant).
+    
+
+_(If you reverse the scoring of one variable (decreasing map), swap “upper” and “lower”. For Spearman’s $$\rho$$, take the scores to be midranks—monotone by construction—and the same conclusions hold.)_
+\end{lemma}
+
+\begin{proof}
+Proof
+
+We give parallel proofs in the finite-sample and population settings.
+
+\begin{enumerate}
+\def\labelenumi{\Alph{enumi})}
+\tightlist
+\item
+  Finite-sample (permutation) setting
+\end{enumerate}
+
+Let \(x_{(1)}\ge\cdots\ge x_{(n)}\) and \(y_{(1)}\ge\cdots\ge y_{(n)}\)
+be the \textbf{scored} observations of \(X\) and \(Y\) sorted in
+nonincreasing order (monotone scoring ensures sorting by category equals
+sorting by score). Center them:
+
+\[x'_i := x_{(i)}-\bar x,\qquad y'_i := y_{(i)}-\bar y,\quad  
+\bar x := \tfrac1n\sum_i x_{(i)},\;\bar y := \tfrac1n\sum_i y_{(i)}.\]
+
+Define the two extreme centered sums
+
+\[S_{\max} := \sum_{i=1}^n x'_i\,y'_i,\qquad  
+S_{\min} := \sum_{i=1}^n x'_i\,y'_{\,n+1-i}.\]
+
+\begin{itemize}
+\item
+  \textbf{Signs.}\\
+  Chebyshev's sum inequality (rearrangement for similarly/ oppositely
+  ordered sequences) gives
+
+  \[\frac1n\sum_i x'_i y'_i \;\ge\; \Big(\tfrac1n\sum_i x'_i\Big)\Big(\tfrac1n\sum_i y'_i\Big)=0,  
+    \quad\Rightarrow\; S_{\max}\ge 0,\]
+
+  and, because \(y'_{\,n+1-i}\) is \textbf{nondecreasing} in \(i\),
+
+  \[\frac1n\sum_i x'_i y'_{\,n+1-i} \;\le\; \Big(\tfrac1n\sum_i x'_i\Big)\Big(\tfrac1n\sum_i y'_{\,n+1-i}\Big)=0,  
+    \quad\Rightarrow\; S_{\min}\le 0.\]
+
+  Dividing by \(\sigma_X\sigma_Y>0\) (the standard deviations of the
+  scored variables) yields \(r_{\max}\ge 0\) and \(r_{\min}\le 0\).
+\item
+  \textbf{Strictness \((\Leftrightarrow\) positive variances).}\\
+  Suppose \(\sigma_X>0\) and \(\sigma_Y>0\) (i.e., neither \(\{x'_i\}\)
+  nor \(\{y'_i\}\) is identically zero). The rearrangement inequality
+  says \(S_{\max}\) is the \textbf{maximum} and \(S_{\min}\) the
+  \textbf{minimum} of \(\sum_i x'_i y'_{\pi(i)}\) over all permutations
+  \(\pi\); moreover \(S_{\min}<S_{\max}\). The \textbf{average} over all
+  permutations equals
+
+  \[\frac1{n!}\sum_{\pi}\sum_i x'_i y'_{\pi(i)}  
+    = \sum_i x'_i \Big(\frac1{n!}\sum_{\pi} y'_{\pi(i)}\Big)  
+    = \sum_i x'_i \cdot \frac1n\sum_j y'_j  
+    = 0.\]
+
+  Since the minimum is \(<\) the maximum and the average is \(0\), it
+  follows that \(S_{\min}<0<S_{\max}\). Hence \(r_{\min}<0<r_{\max}\).
+
+  Conversely, if \(\sigma_X=0\) or \(\sigma_Y=0\), then one centered
+  sequence is identically zero, so \(S_{\max}=S_{\min}=0\) and the
+  correlations are undefined or (in a limiting sense) attain 0. This
+  matches the ``only if'' direction.
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\Alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Population (FH/quantile) setting
+\end{enumerate}
+
+Let \(Q_X, Q_Y : [0,1]\to\mathbb{R}\) be the quantile functions of the
+\textbf{scored} variables. Set
+
+\[f(u):=Q_X(u)-\mu_X,\qquad g(u):=Q_Y(u)-\mu_Y,\]
+
+so \(\int_0^1 f=\int_0^1 g=0\). Monotone scoring preserves category
+order, hence \(Q_X, Q_Y\) are nondecreasing; therefore \(f, g\) are
+nondecreasing functions.
+
+\begin{itemize}
+\item
+  \textbf{Upper/comonotone covariance}:
+
+  \[\mathrm{Cov}_{\max}=\int_0^1 f(u)\,g(u)\,du \;\ge\; \Big(\int_0^1 f\Big)\Big(\int_0^1 g\Big)=0\]
+
+  by Chebyshev's \textbf{integral} inequality for similarly ordered
+  functions.
+\item
+  \textbf{Lower/antitone covariance}:
+
+  \[\mathrm{Cov}_{\min}=\int_0^1 f(u)\,g(1-u)\,du \;\le\; \Big(\int_0^1 f\Big)\Big(\int_0^1 g(1-u)\Big)=0,\]
+
+  since \(f\) is nondecreasing and \(g(1-u)\) is \textbf{nonincreasing}.
+\end{itemize}
+
+Dividing by \(\sigma_X\sigma_Y>0\) yields \(r_{\max}\ge 0\) and
+\(r_{\min}\le 0\).
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Strictness.}\\
+  If both variables have positive variance, then \(f\) and \(g\) are not
+  a.e. constant. For nontrivial nondecreasing \(f,g\), Chebyshev's
+  integral inequalities above are \textbf{strict} unless one function is
+  a.e. constant. Hence \(\mathrm{Cov}_{\max}>0\) and
+  \(\mathrm{Cov}_{\min}<0\), giving \(r_{\max}>0\) and \(r_{\min}<0\).
+  Conversely, if either variance is \(0\), both covariances are \(0\).
+\end{itemize}
+
+This completes the proof. \(\square\)
+\end{proof}
+
 \subsection{Asymetry}\label{asymetry}
 
 \textbf{Symmetry and the Role of Ties}
@@ -991,6 +1185,111 @@ In this section we further explore the theoretical properties on
 PROP: If one marginal is \textbf{palindromically symmetric} about its
 center rank, then \(r_{\min} = -r_{\max}\).\\
 \emph{(Cees -- r\_min MAGNITUDE Asymmetry in Pearson Correlation.md)}
+
+Necessary/sufficient symmetry condition (precisely stated)
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Pair-specific equality} \(|r_{\min}|=r_{\max}\) \(\iff\)
+  \(\sum_i x'_i\,(y'_i+y'_{n+1-i})=0\).\\
+  (Can happen by coincidence even if \(Y\) isn't symmetric.)
+\item
+  \textbf{Universal in \(X\)} equality (for \textbf{all} \(X\)):\\
+  \textbf{Necessary and sufficient} that \textbf{one} marginal (say
+  \(Y\)) has
+
+  \begin{enumerate}
+  \def\labelenumi{(\roman{enumi})}
+  \tightlist
+  \item
+    \textbf{palindromic mass symmetry} \(p_Y(k)=p_Y(K_Y-1-k)\) and\\
+  \item
+    \textbf{antisymmetric scoring} \(s_Y(k)+s_Y(K_Y-1-k)=\text{const}\)
+    (true for any affine map of \(0{:}(K_Y-1)\)).\\
+    This condition is \textbf{independent of \(K_X\) vs \(K_Y\)}.
+  \end{enumerate}
+\end{itemize}
+
+\subsubsection{1) setup (permutation extremes for a single
+sample)}\label{setup-permutation-extremes-for-a-single-sample}
+
+Let \(x_{(1)}\ge\cdots\ge x_{(n)}\) and \(y_{(1)}\ge\cdots\ge y_{(n)}\)
+be the sorted sample values (or expanded from counts). Define centered
+sequences
+
+\[x'_i:=x_{(i)}-\bar x,\qquad y'_i:=y_{(i)}-\bar y,\]
+
+and the two permutation extremes
+
+\[S_{\max}=\sum_{i=1}^n x'_i\,y'_i,\qquad  
+S_{\min}=\sum_{i=1}^n x'_i\,y'_{n+1-i},\]
+
+with \(r_{\max}=S_{\max}/(\sigma_X\sigma_Y)\),
+\(r_{\min}=S_{\min}/(\sigma_X\sigma_Y)\).
+
+We always have \(S_{\max}\ge 0\) and \(S_{\min}\le 0\). Magnitude
+symmetry \(|r_{\min}|=r_{\max}\) is equivalent to
+
+\[S_{\max}+S_{\min}=0.\]
+
+\subsubsection{\texorpdfstring{2) \textbf{pair-specific necessary \&
+sufficient
+condition}}{2) pair-specific necessary \& sufficient condition}}\label{pair-specific-necessary-sufficient-condition}
+
+Let
+
+\[z_i := y'_i + y'_{n+1-i}.\]
+
+Then
+
+\[S_{\max}+S_{\min}=\sum_{i=1}^n x'_i\,z_i.\]
+
+Hence, for this \emph{particular} pair \((x,y)\),
+
+\[\boxed{\ |r_{\min}|=r_{\max}\ \Longleftrightarrow\ \sum_i x'_i\,z_i=0\ } \tag{★}\]
+
+(i.e., the centered \(X\) sequence is orthogonal to the
+``palindrome-sum'' vector \(z\)).\\
+This can hold even if \(Y\) is not symmetric---by coincidence of that
+inner product being zero.
+
+\subsubsection{\texorpdfstring{3) \textbf{universal condition
+(independent of
+\(X\))}}{3) universal condition (independent of X)}}\label{universal-condition-independent-of-x}
+
+If you want \(|r_{\min}|=r_{\max}\) to hold for \textbf{every} possible
+\(X\) (every centered, sorted \(x'\)), then (★) must hold for all
+\(x'\). The only way is
+
+\[z_i \equiv 0\quad\text{for all }i,\]
+
+i.e.
+
+\[y'_i + y'_{n+1-i}\equiv 0\ \ \ \forall i.\]
+
+Translating back to categories and scores, a \textbf{necessary and
+sufficient universal condition} is:
+
+\begin{itemize}
+\item
+  \textbf{Palindromic mass symmetry for \(Y\):} \(p_Y(k)=p_Y(K_Y-1-k)\)
+  for all \(k\), and
+\item
+  \textbf{Antisymmetric scoring for \(Y\):} the score map satisfies
+  \(s_Y(k)+s_Y(K_Y-1-k)\) is constant (true for affine scores like
+  \(0,1,\dots,K_Y-1\), and for Spearman midranks under palindromic
+  counts).
+\end{itemize}
+
+Under these, \(z_i\equiv 0\) and thus \(|r_{\min}|=r_{\max}\) for any
+\(X\).
+
+\begin{quote}
+If either mass symmetry or score antisymmetry fails, you can generally
+find an \(X\) for which \(|r_{\min}|\ne r_{\max}\) (often
+\(|r_{\min}|>r_{\max}\) when \(Y\) is skewed).
+\end{quote}
 
 \begin{itemize}
 \tightlist
@@ -1018,26 +1317,32 @@ center rank, then \(r_{\min} = -r_{\max}\).\\
 
 VH 3. \textbf{Symmetry Analysis:}
 
-\begin{verbatim}
-* (3a) Visualize and explore how changes from symmetric to asymmetric marginal distributions influence the joint distributions and, consequently, the correlation. Consider the potential role of entropy in measuring asymmetry.
-    
-\end{verbatim}
+\begin{itemize}
+\tightlist
+\item
+  (3a) Visualize and explore how changes from symmetric to asymmetric
+  marginal distributions influence the joint distributions and,
+  consequently, the correlation. Consider the potential role of entropy
+  in measuring asymmetry.
+\end{itemize}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{3}
+\tightlist
 \item
   \textbf{Investigate when the minimum and maximum correlations are
   asymmetric (\(r_{\text{min}} \neq -r_{\text{max}}\))}:
-
-  \begin{itemize}
-  \item
-    Show why and under what conditions this asymmetry occurs.
-  \item
-    Visually investigate why perfect negative and positive correlations
-    may not be symmetric in magnitude given ordinal marginals.
-  \end{itemize}
 \end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Show why and under what conditions this asymmetry occurs.
+\item
+  Visually investigate why perfect negative and positive correlations
+  may not be symmetric in magnitude given ordinal marginals.
+\end{itemize}
 
 \textbf{Special Cases and Boundary Conditions}
 
@@ -1236,28 +1541,31 @@ Questions}\label{implications-issues-and-questions}
 \item
 \end{itemize}
 
-\subsection{\texorpdfstring{\textbf{Interpretation of `Effect
-Size'}}{Interpretation of `Effect Size'}}\label{interpretation-of-effect-size}
+\subsection{Interpretation of `Effect
+Size'}\label{interpretation-of-effect-size}
 
-\begin{verbatim}
-* Revisiting Cohen’s benchmarks in light of constrained bounds $\leadsto$ Interpretation of 'effect size' (@cohe02-applied)
-    
-* Risk of over- or under-stating association.
-    
-\end{verbatim}
+\begin{itemize}
+\tightlist
+\item
+  Revisiting Cohen's benchmarks in light of constrained bounds
+  \(\leadsto\) Interpretation of `effect size' (Cohen et al.
+  (\citeproc{ref-cohe02-applied}{2002}))
+\item
+  Risk of over- or under-stating association.
+\end{itemize}
 
-\subsection{\texorpdfstring{\textbf{Comparison Across Studies /
-Measures}}{Comparison Across Studies / Measures}}\label{comparison-across-studies-measures}
+\subsection{Comparison Across Studies /
+Measures}\label{comparison-across-studies-measures}
 
-\begin{verbatim}
-* Non-comparable bounds across datasets or variable codings.
-    
-* Need for bound-aware effect size metrics.
-    
-\end{verbatim}
+\begin{itemize}
+\tightlist
+\item
+  Non-comparable bounds across datasets or variable codings.
+\item
+  Need for bound-aware effect size metrics.
+\end{itemize}
 
-\subsection{\texorpdfstring{\textbf{Hypothesis
-Testing}}{Hypothesis Testing}}\label{hypothesis-testing}
+\subsection{Hypothesis Testing}\label{hypothesis-testing}
 
 \begin{itemize}
 \tightlist
@@ -1274,34 +1582,37 @@ Testing}}{Hypothesis Testing}}\label{hypothesis-testing}
   \emph{(Proofs-OrdinalVariables.md)}
 \end{itemize}
 
-\subsection{\texorpdfstring{\textbf{Rescaling}}{Rescaling}}\label{rescaling}
+\subsection{Rescaling}\label{rescaling}
 
 So, what to do? \emph{One} idea: \textbf{linear resclaing} (preserving
 zero)
 
-\begin{verbatim}
-* Adjusted null distributions (via permutation or simulation).
-\end{verbatim}
+\begin{itemize}
+\tightlist
+\item
+  Adjusted null distributions (via permutation or simulation).
+\end{itemize}
 
 \subsection{Variance ``Explained''}\label{variance-explained}
 
 \begin{itemize}
+\tightlist
 \item
   Interpretation of \(r^2\) is ambiguous for at least two reasons:
-
-  \begin{enumerate}
-  \def\labelenumi{\arabic{enumi}.}
-  \tightlist
-  \item
-    ordcats are invariant to monotone transformation (variance is a
-    \emph{canrdinal} property, simply not approriate for ordinal
-    variables)
-  \item
-    is \(r^2_{max}\) the \ldots. maximal `amount' of variance between
-    the two ordcats? How is this quantity to be interpreted? How is
-    \(r^2_{min}\) to be interpreted?
-  \end{enumerate}
 \end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  ordcats are invariant to monotone transformation (variance is a
+  \emph{canrdinal} property, simply not approriate for ordinal
+  variables)
+\item
+  is \(r^2_{max}\) the \ldots. maximal `amount' of variance between the
+  two ordcats? How is this quantity to be interpreted? How is
+  \(r^2_{min}\) to be interpreted?
+\end{enumerate}
 
 \section{Monte Carlo Simulations}\label{sec-MCsim}
 
@@ -1367,6 +1678,7 @@ VH: \((r_{min}, r_{max})\)
 Shapes}\label{effects-of-marginal-shapes}
 
 \begin{itemize}
+\tightlist
 \item
   Shape-based elasticity of correlation bounds\\
 \item
@@ -1470,19 +1782,19 @@ Cambanis et al. (\citeproc{ref-camb76-inequalities}{1976})
 
 Shih \& Huang (\citeproc{ref-shih92-evaluating}{1992})
 
-(\citeproc{ref-alwi91-reliability}{\textbf{alwi91-reliability?}});
-(\citeproc{ref-brew05-values}{\textbf{brew05-values?}});
-(\citeproc{ref-flor04-empirical}{\textbf{flor04-empirical?}});
-(\citeproc{ref-gait80-measurement}{\textbf{gait80-measurement?}});
-(\citeproc{ref-gree97-effect}{\textbf{gree97-effect?}}); Jacoby
-(\citeproc{ref-jaco99-levels}{1999});
-(\citeproc{ref-kend38-new}{\textbf{kend38-new?}});
-(\citeproc{ref-knok02-statistics}{\textbf{knok02-statistics?}});
-(\citeproc{ref-kreu07-survey}{\textbf{kreu07-survey?}});
-(\citeproc{ref-kros97-designing}{\textbf{kros97-designing?}}); Labovitz
-(\citeproc{ref-labo70-assignment}{1970});
-(\citeproc{ref-olss79-maximum}{\textbf{olss79-maximum?}});
-(\citeproc{ref-spea04-proof}{\textbf{spea04-proof?}})
+Alwin \& Krosnick (\citeproc{ref-alwi91-reliability}{1991}); Brewer \&
+Gross (\citeproc{ref-brew05-values}{2005}); Flora \& Curran
+(\citeproc{ref-flor04-empirical}{2004}); Gaito
+(\citeproc{ref-gait80-measurement}{1980}); Green et al.
+(\citeproc{ref-gree97-effect}{1997}); Jacoby
+(\citeproc{ref-jaco99-levels}{1999}); Kendall
+(\citeproc{ref-kend38-new}{1938}); Knoke et al.
+(\citeproc{ref-knok02-statistics}{2002}); Kreuter \& Valliant
+(\citeproc{ref-kreu07-survey}{2007}); Krosnick \& Fabrigar
+(\citeproc{ref-kros97-designing}{1997}); Labovitz
+(\citeproc{ref-labo70-assignment}{1970}); Olsson
+(\citeproc{ref-olss79-maximum}{1979}); Spearman
+(\citeproc{ref-spea04-proof}{1904})
 
 \subsection{Recommendations}\label{recommendations}
 
@@ -1498,16 +1810,13 @@ Shih \& Huang (\citeproc{ref-shih92-evaluating}{1992})
 
 \section{Conclusion}\label{conclusion}
 
+Summarize:
+
 \begin{itemize}
 \item
-  Summarize:
-
-  \begin{itemize}
-  \item
-    Main theoretical findings.
-  \item
-    Key applied consequences.
-  \end{itemize}
+  Main theoretical findings.
+\item
+  Key applied consequences.
 \item
   Summary: Theoretical bounds, symmetry-breaking conditions, and
   implications for applied research
@@ -1581,6 +1890,22 @@ Questions}\label{extensions-and-open-questions}
 
 \subsubsection{Correlation Matricies}\label{correlation-matricies}
 
+The consequences of using Pearson correlations with ordinal data extend
+beyond descriptive association. In factor analysis and SEM, attenuated
+correlations can yield distorted loadings, inflated factor numbers, and
+biased structural coefficients. Empirical studies confirm this risk:
+\citet{flor04-emperical} show that CFA models fitted with Pearson's
+\(r\) among ordinal indicators produce biased estimates compared to
+models using polychoric correlations; \citet{gree97-efffect} demonstrate
+how the number of response categories alters apparent model fit. More
+broadly, psychometric research emphasizes that ignoring the ordinal
+nature of indicators can misrepresent latent structures
+(\citealt{lord68-statis}; \citealt{muth84-generl};
+\citealt{bart11-laten}). For survey-based political science and
+sociology, this means that correlations reported between Likert items
+are not only bounded by their marginals, but may also systematically
+bias downstream modeling.
+
 Since the possible values \(r\) may take on depend on the marginal
 distributions of the two variables being correlated, and since this
 reference interval may -- and often is -- quite different for different
@@ -1647,7 +1972,7 @@ Example:\\
 
 \textbf{SEM and PSD Requirements}
 
-\paragraph{4.1 SEM Machinery}\label{sem-machinery}
+\paragraph{SEM Machinery}\label{sem-machinery}
 
 Observed covariance \(\mathbf{S}\); implied covariance
 \(\boldsymbol\Sigma(\boldsymbol\theta)\) from structural and measurement
@@ -1656,8 +1981,7 @@ requirement.md):contentReference{oaicite:12}}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\paragraph{4.2 Fit Functions and PD
-Needs}\label{fit-functions-and-pd-needs}
+\paragraph{Fit Functions and PD Needs}\label{fit-functions-and-pd-needs}
 
 \begin{itemize}
 \tightlist
@@ -1674,7 +1998,7 @@ Needs}\label{fit-functions-and-pd-needs}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\paragraph{4.3 What Happens if Not PSD}\label{what-happens-if-not-psd}
+\paragraph{What Happens if Not PSD}\label{what-happens-if-not-psd}
 
 \begin{itemize}
 \tightlist
@@ -1689,7 +2013,7 @@ Needs}\label{fit-functions-and-pd-needs}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\paragraph{4.4 Remedies in SEM}\label{remedies-in-sem}
+\paragraph{Remedies in SEM}\label{remedies-in-sem}
 
 \begin{itemize}
 \tightlist
@@ -1748,15 +2072,47 @@ condition number. {[}Discuss condition number here{]}
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-alwi91-reliability}
+Alwin, D. F., \& Krosnick, J. A. (1991). The reliability of survey
+attitude measurement: {The} influence of question and respondent
+attributes. \emph{Sociological Methods \& Research}, \emph{20}(1),
+139--181.
+
+\bibitem[\citeproctext]{ref-brew05-values}
+Brewer, P. R., \& Gross, K. (2005). Values, framing, and citizens'
+thoughts about policy issues: {Effects} on content and quantity.
+\emph{Political Psychology}, \emph{26}(6), 929--948.
+
 \bibitem[\citeproctext]{ref-camb76-inequalities}
 Cambanis, S., Simons, G., \& Stout, W. (1976). Inequalities for {E}
 k({X}, {Y}) when the marginals are fixed. \emph{Zeitschrift Für
 Wahrscheinlichkeitstheorie Und Verwandte Gebiete}, \emph{36}(4, 4),
 285--294. \url{https://doi.org/10.1007/BF00532695}
 
+\bibitem[\citeproctext]{ref-cohe02-applied}
+Cohen, J., Cohen, P., West, S. G., \& Aiken, L. S. (2002). \emph{Applied
+{Multiple Regression}/{Correlation Analysis} for the {Behavioral
+Sciences}} (3 edition). Routledge.
+
+\bibitem[\citeproctext]{ref-flor04-empirical}
+Flora, D. B., \& Curran, P. J. (2004). An empirical evaluation of
+alternative methods of estimation for confirmatory factor analysis with
+ordinal data. \emph{Psychological Methods}, \emph{9}(4), 466--491.
+
 \bibitem[\citeproctext]{ref-frec51-tableaux}
 Fréchet, M. (1951). Sur les tableaux de corrélation dont les marges sont
 données. \emph{Annales de l'Université de Lyon}, \emph{14}, 53--77.
+
+\bibitem[\citeproctext]{ref-gait80-measurement}
+Gaito, J. (1980). Measurement scales and statistics: {Resurgence} of an
+old misconception. \emph{Psychological Bulletin}, \emph{87}(3),
+564--567.
+
+\bibitem[\citeproctext]{ref-gree97-effect}
+Green, S. B., Akey, T. M., Fleming, K. K., Hershberger, S. L., \&
+Marquis, J. G. (1997). Effect of number of scale points on estimates of
+fit in confirmatory factor analysis. \emph{Structural Equation
+Modeling}, \emph{4}(3), 244--260.
 
 \bibitem[\citeproctext]{ref-hard52-inequalities}
 Hardy, G. H., Littlewood, J. E., \& Pólya, G. (1952).
@@ -1768,13 +2124,32 @@ Hoeffding, W. (1940). Masstabinvariante {Korrelationstheorie}.
 Angewandte Mathematik Der Universitat Berlin}, \emph{5}, 181--233.
 
 \bibitem[\citeproctext]{ref-jaco99-levels}
-Jacoby, W. G. (1999). Levels of {Measurement} and {Political Research}:
-{An Optimistic View}. \emph{American Journal of Political Science},
+Jacoby, W. G. (1999). Levels of measurement and political research: {An}
+optimistic view. \emph{American Journal of Political Science},
 \emph{43}(1), 271--301.
 
 \bibitem[\citeproctext]{ref-jaec09-positive}
 Jaeckel, P., \& Kahl, C. (2009). \emph{Positive semi-definite
 correlation matrix completion}.
+
+\bibitem[\citeproctext]{ref-kend38-new}
+Kendall, M. G. (1938). A new measure of rank correlation.
+\emph{Biometrika}, \emph{30}(1/2), 81--93.
+
+\bibitem[\citeproctext]{ref-knok02-statistics}
+Knoke, D., Bohrnstedt, G. W., \& Mee, A. P. (2002). \emph{Statistics for
+social data analysis} (4th ed.). Wadsworth.
+
+\bibitem[\citeproctext]{ref-kreu07-survey}
+Kreuter, F., \& Valliant, R. (2007). A survey on survey statistics:
+{What} is being used in practice? \emph{Journal of Official Statistics},
+\emph{23}(1), 1--21.
+
+\bibitem[\citeproctext]{ref-kros97-designing}
+Krosnick, J. A., \& Fabrigar, L. R. (1997). Designing rating scales for
+effective measurement in surveys. In L. Lyberg, P. Biemer, M. Collins,
+E. de Leeuw, C. Dippo, N. Schwarz, \& D. Trewin (Eds.), \emph{Survey
+measurement and process quality} (pp. 141--164). Wiley.
 
 \bibitem[\citeproctext]{ref-labo70-assignment}
 Labovitz, S. (1970). The assignment of numbers to rank order categories.
@@ -1789,6 +2164,10 @@ of Mathematical Statistics}, \emph{37}(5), 1137--1153.
 Mishra, S. K. (2009). A note on positive semi-definiteness of some
 non-pearsonian correlation matrices. \emph{Available at SSRN 1419362}.
 
+\bibitem[\citeproctext]{ref-olss79-maximum}
+Olsson, U. (1979). Maximum likelihood estimation of the polychoric
+correlation coefficient. \emph{Psychometrika}, \emph{44}(4), 443--460.
+
 \bibitem[\citeproctext]{ref-shan23-impact}
 Shantal, M., Othman, Z., \& Bakar, A. A. (2023). Impact of {Missing
 Data} on {Correlation Coefficient Values}: {Deletion} and {Imputation
@@ -1800,6 +2179,11 @@ and Applied Sciences}, \emph{19}(6, 6), 1052--1067.
 Shih, W. J., \& Huang, W.-M. (1992). Evaluating {Correlation} with
 {Proper Bounds}. \emph{Biometrics}, \emph{48}(4), 1207--1213.
 \url{https://doi.org/10.2307/2532712}
+
+\bibitem[\citeproctext]{ref-spea04-proof}
+Spearman, C. (1904). The proof and measurement of association between
+two things. \emph{The American Journal of Psychology}, \emph{15}(1),
+72--101.
 
 \bibitem[\citeproctext]{ref-tche80-inequalities}
 Tchen, A. H. (1980). Inequalities for {Distributions} with {Given
