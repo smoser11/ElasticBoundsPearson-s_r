@@ -23,10 +23,10 @@ cat("===========================================\n\n")
 # ================================================================
 
 params <- list(
-  B = 1000,                     # Number of bootstrap samples
+  B = 5000,                     # Number of bootstrap samples
   confidence_levels = c(0.90, 0.95, 0.99),  # Confidence levels to compute
-  store_full_samples = FALSE,   # ✅ OPTIMIZED: Only store summary statistics by default
-  force_regenerate = FALSE,     # Set TRUE to ignore existing cache
+  store_full_samples = TRUE,   # ✅ OPTIMIZED: Only store summary statistics by default
+  force_regenerate = TRUE,     # Set TRUE to ignore existing cache
   
   # NEW: rtape streaming parameters (for when store_full_samples = TRUE)
   use_rtape_streaming = TRUE,   # Use rtape for streaming large bootstrap samples
@@ -92,6 +92,7 @@ cat("=== SECTION 2: BOOTSTRAP BOUNDS ESTIMATION ===\n")
 bootstrap_cache_file <- here("R", "ordinal_correlation_analysis", "data", "processed",
                             generate_cache_filename("bootstrap_results", 
                                                    params[c("B", "subsample_size")]))
+
 
 # Source required bootstrap functions
 source(here("R", "ordinal_correlation_analysis", "1_bivariate_ordcats_correlation", 
