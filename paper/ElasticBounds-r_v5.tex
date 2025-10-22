@@ -230,7 +230,7 @@
 \title{Elastic Bounds of Pearson's \(r\): Theoretical and Empirical
 Insights for Ordinal Variables}
 \author{Cees van der Eijk \and Scott Moser}
-\date{21, August 2025}
+\date{22, October 2025}
 \begin{document}
 \maketitle
 
@@ -282,41 +282,9 @@ coefficients involving orcats are constrained in their range which makes
 them mutually incomparable, leading to problems in hypothesis testing
 and in analytical procedures that use correlations as their input.
 
-Despite long-standing cautions about applying Pearson's correlation
-coefficient \(r\) to ordinal variables (\citealt{Labovitz1970};
-\citealt{Gaito1980}), it remains routine in survey-based social science.
-In political science and sociology alike, researchers frequently
-correlate 4--, 5--, or 7--point items as if they were interval-scaled,
-usually without examining the implications of the marginals. Examples
-include correlations among attitude items in large-scale survey
-batteries (\citealt{AlwinKrosnick1991}), ideology and issue positions on
-mixed-resolution scales (\citealt{BrewerGross2005};
-\citealt{KinderKam2009}), and summary indices that are subsequently
-modeled using correlation-based techniques. Reviews document that such
-practices are pervasive in applied survey analysis
-(\citealt{KreuterValliant2007}). Methodological discussions sometimes
-defend pragmatic use of parametric tools with ordinal data
-(\citealt{Jacoby1999}), but even optimistic views do not address the
-\emph{feasible range} of \(r\) imposed by fixed marginals---an omission
-with direct consequences for substantive interpretation.
+Despite long-standing cautions about applying Pearson’s correlation coefficient \(r\) to ordinal variables (\autocite{Labovitz1970}; \autocite{Gaito1980}), it remains routine in survey-based social science. In political science and sociology alike, researchers frequently correlate 4–, 5–, or 7–point items as if they were interval-scaled, usually without examining the implications of the marginals. Examples include correlations among attitude items in large-scale survey batteries (\autocite{AlwinKrosnick1991}), ideology and issue positions on mixed-resolution scales (\autocite{BrewerGross2005}; \autocite{KinderKam2009}), and summary indices that are subsequently modeled using correlation-based techniques. Reviews document that such practices are pervasive in applied survey analysis (\autocite{KreuterValliant2007}). Methodological discussions sometimes defend pragmatic use of parametric tools with ordinal data (\autocite{Jacoby1999}), but even optimistic views do not address the \emph{feasible range} of \(r\) imposed by fixed marginals—an omission with direct consequences for substantive interpretation.
 
-Alternatives to Pearson's \(r\)---notably Spearman's \(\rho\), Kendall's
-\(\tau\), and the polychoric correlation---offer different trade-offs
-(\citealt{Spearman1904}; \citealt{Kendall1938}; \citealt{Olsson1979}).
-Rank-based measures ignore the marginals; polychorics assume latent
-bivariate normality. In contrast, we pursue bounds on \(r\) that
-\emph{explicitly} depend on the observed marginals, drawing on
-rearrangement inequalities and the Fréchet--Hoeffding framework
-(\citealt{Frechet1951}; \citealt{Hoeffding1940};
-\citealt{Rueschendorf1981}). This perspective clarifies when the
-attainable range of \(r\) is narrow, when symmetry fails
-(\(r_{\min}\neq -r_{\max}\)), and when the lower bound can be strictly
-positive. It also explains why correlation-based models with ordinal
-indicators (EFA/CFA/SEM) can be distorted when Pearson correlations are
-used (\citealt{FloraCurran2004}; \citealt{GreenEtAl1997}). Our
-contribution situates empirical practice within these theoretical limits
-and provides tools to compute and visualize the bounds given fixed
-marginals.
+Alternatives to Pearson’s \(r\)—notably Spearman’s \(\rho\), Kendall’s \(\tau\), and the polychoric correlation—offer different trade-offs (\autocite{Spearman1904}; \autocite{Kendall1938}; \autocite{Olsson1979}). Rank-based measures ignore the marginals; polychorics assume latent bivariate normality. In contrast, we pursue bounds on \(r\) that \emph{explicitly} depend on the observed marginals, drawing on rearrangement inequalities and the Fréchet–Hoeffding framework (\autocite{Frechet1951}; \autocite{Hoeffding1940}; \autocite{Rueschendorf1981}). This perspective clarifies when the attainable range of \(r\) is narrow, when symmetry fails (\(r_{\min}\neq -r_{\max}\)), and when the lower bound can be strictly positive. It also explains why correlation-based models with ordinal indicators (EFA/CFA/SEM) can be distorted when Pearson correlations are used (\autocite{FloraCurran2004}; \autocite{GreenEtAl1997}). Our contribution situates empirical practice within these theoretical limits and provides tools to compute and visualize the bounds given fixed marginals.
 
 This article proceeds as follows. We start by briefly elaborating the
 character of ordinal categorical variables (orcats), why they are
@@ -553,20 +521,7 @@ Definitions}\label{background-and-definitions}
 
 \section{Theoretical Framework}\label{theoretical-framework}
 
-The problem of extremal correlations under fixed marginals connects
-directly to classical results in probability inequalities. Fréchet's
-work on admissible joint distributions (\citealt{frech51-sur}) and
-Hoeffding's development of covariance bounds (\citealt{hoef40-massta})
-laid the groundwork. Later refinements, such as Rüschendorf's
-demonstration of sharpness of Fréchet bounds (\citealt{rues81-sharpn}),
-clarified when comonotonic and countermonotonic couplings achieve
-extremal values. The rearrangement inequality, and its discrete
-extensions, ensure that matching high values of \(X\) with high values
-of \(Y\) maximizes \(\mathbb{E}[XY]\), while opposite pairings minimize
-it. This perspective is elaborated in comparison and coupling frameworks
-(\citealt{muel02-compa}; \citealt{thor00-coupli}). These results provide
-the theoretical backbone for our derivations of \(r_{\min}\) and
-\(r_{\max}\).
+The problem of extremal correlations under fixed marginals connects directly to classical results in probability inequalities. Fréchet’s work on admissible joint distributions (\autocite{frech51-sur}) and Hoeffding’s development of covariance bounds (\autocite{hoef40-massta}) laid the groundwork. Later refinements, such as Rüschendorf’s demonstration of sharpness of Fréchet bounds (\autocite{rues81-sharpn}), clarified when comonotonic and countermonotonic couplings achieve extremal values. The rearrangement inequality, and its discrete extensions, ensure that matching high values of \( X \) with high values of \( Y \) maximizes \(\mathbb{E}[XY]\), while opposite pairings minimize it. This perspective is elaborated in comparison and coupling frameworks (\autocite{muel02-compa}; \autocite{thor00-coupli}). These results provide the theoretical backbone for our derivations of \(r_{\min}\) and \(r_{\max}\).
 
 \subsection{Optimal Coupling and Correlation
 Bounds}\label{optimal-coupling-and-correlation-bounds}
@@ -1027,6 +982,185 @@ different numbers of categories and different numbers of cases.
 
 \end{table}
 
+\subsection{Examples}\label{examples}
+
+Below, ``scores \(0{:}(K-1)\)'' means category values
+\([0,1,\dots,K-1]\). ``Affine recode'' means
+\(a+b\times\text{(old score)}\) with \(b>0\). ``Non-affine monotone''
+means strictly increasing but not affine (e.g., convex spacing).
+
+\subsubsection{Notation (permutation extremes, ``Lane
+A'')}\label{notation-permutation-extremes-lane-a}
+
+\begin{itemize}
+\item
+  Build expanded vectors \(x\) and \(y\) from \textbf{counts} and
+  \textbf{scores}.
+\item
+  \(r_{\max}=\mathrm{cor}(\text{sort}(x,\downarrow),\text{sort}(y,\downarrow))\).
+\item
+  \(r_{\min}=\mathrm{cor}(\text{sort}(x,\downarrow),\text{sort}(y,\uparrow))\).
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{A) \textbf{Same number of categories, but
+\(|r_{\min}|\ne r_{\max}\)} (concrete
+numbers)}{A) Same number of categories, but \textbar r\_\{\textbackslash min\}\textbar\textbackslash ne r\_\{\textbackslash max\} (concrete numbers)}}\label{a-same-number-of-categories-but-r_minne-r_max-concrete-numbers}
+
+\textbf{Counts (both \[K=5\]):}
+
+\begin{itemize}
+\item
+  \[X:\ [100,\,200,\,300,\,200,\,200]\]
+\item
+  \(Y:\ [100,\,100,\,100,\,300,\,400]\) (skewed; not palindromic)
+\end{itemize}
+
+\textbf{Scores:} \(0{:}4\) for both.
+
+\begin{itemize}
+\item
+  \[r_{\max}\approx 0.929398758\]
+\item
+  \[r_{\min}\approx -0.881118303\]
+\item
+  \[|r_{\min}| \approx 0.8811 \ne r_{\max}\]
+\end{itemize}
+
+\textbf{Affine recode (10,20,30,40,50) for both:}
+
+\begin{itemize}
+\tightlist
+\item
+  \(r_{\max}, r_{\min}\) \textbf{unchanged} (up to rounding).
+\end{itemize}
+
+\textbf{Non-affine monotone recode for \(Y\):} \([0,1,1.5,3,10]\).
+
+\begin{itemize}
+\item
+  \[r_{\max}\approx 0.930261031\]
+\item
+  \[r_{\min}\approx -0.863250703\]
+\item
+  Values change (Pearson is \textbf{not} invariant to non-affine
+  spacing); magnitudes still unequal.
+\end{itemize}
+
+🧠 \textbf{Why unequal magnitudes?} No palindromic symmetry in \(Y\) ⇒
+the ``palindrome-sum'' pattern in \(y'-\)space isn't zero, so
+\(S_{\max}+S_{\min}\ne 0\).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{B) \textbf{Different numbers of
+categories, yet \(|r_{\min}|=r_{\max}\)} (concrete
+numbers)}{B) Different numbers of categories, yet \textbar r\_\{\textbackslash min\}\textbar=r\_\{\textbackslash max\} (concrete numbers)}}\label{b-different-numbers-of-categories-yet-r_minr_max-concrete-numbers}
+
+\textbf{Counts:}
+
+\begin{itemize}
+\item
+  \(X\) (4 categories): \([100,\,200,\,300,\,400]\)
+\item
+  \(Y\) (5 categories): \([100,\,200,\,400,\,200,\,100]\)
+  (\textbf{palindromic})
+\end{itemize}
+
+\textbf{Scores:} \(X:\ 0{:}3\), \(Y:\ 0{:}4\).
+
+\begin{itemize}
+\item
+  \[r_{\max}\approx 0.912870929\]
+\item
+  \[r_{\min}\approx -0.912870929\]
+\item
+  \(|r_{\min}| = r_{\max}\) (to machine precision)
+\end{itemize}
+
+\textbf{Affine recode (e.g., 10,20,\ldots):}
+
+\begin{itemize}
+\tightlist
+\item
+  Magnitudes remain \textbf{identical}; affine transforms don't change
+  Pearson correlation.
+\end{itemize}
+
+\textbf{Non-affine monotone recode for \(Y\):} \([0,1,1.5,3,10]\).
+
+\begin{itemize}
+\item
+  \[r_{\max}\approx 0.580072921\]
+\item
+  \[r_{\min}\approx -0.842041337\]
+\item
+  \textbf{Magnitudes no longer match} because antisymmetry of the
+  \textbf{scores} about the center is lost, even though the
+  \textbf{counts} are palindromic.
+\end{itemize}
+
+🧠 \textbf{Why equal magnitudes in the affine case?} Palindromic
+\textbf{mass} symmetry in \(Y\) + \textbf{antisymmetric scoring} (any
+affine map of \(0{:}(K_Y-1)\)) ⇒ the palindrome-sum vector
+\(y'_i+y'_{n+1-i}\equiv 0\). Hence \(S_{\max}+S_{\min}=0\) ⇒
+\(|r_{\min}|=r_{\max}\) for \textbf{any} \(X\), irrespective of
+\(K_X\neq K_Y\).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{C) \textbf{Spearman invariance (same data
+as in
+B)}}{C) Spearman invariance (same data as in B)}}\label{c-spearman-invariance-same-data-as-in-b}
+
+Compute ranks (with average ties) \textbf{once} for \(x\) and \(y\),
+then form extremes by sorting those rank vectors.
+
+\begin{itemize}
+\item
+  With \(Y\) scored \(0{:}4\):\\
+  \(r_{\max}^{\text{Spearman}}\approx 0.920837215,\ \ r_{\min}^{\text{Spearman}}\approx -0.920837215\).
+\item
+  With \(Y\) scored non-affinely \([0,1,1.5,3,10]\):\\
+  \textbf{identical} Spearman extremes: \(0.920837215\) and
+  \(-0.920837215\).
+\end{itemize}
+
+✅ \textbf{Spearman is invariant} to any strictly monotone recode
+because ranks depend only on order, not spacing.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{what changes and what doesn't (Pearson vs
+Spearman)}\label{what-changes-and-what-doesnt-pearson-vs-spearman}
+
+\begin{itemize}
+\item
+  \textbf{Pearson:}
+
+  \begin{itemize}
+  \item
+    \textbf{Affine} recodes \(a+b\cdot\text{score}\) (with \(b>0\))
+    leave \(r_{\max}, r_{\min}\), and any \(|r_{\min}|=r_{\max}\)
+    conclusions \textbf{unchanged}.
+  \item
+    \textbf{Non-affine monotone} recodes can change
+    \(r_{\max}, r_{\min}\) and can break \(|r_{\min}|=r_{\max}\) even
+    with palindromic counts.
+  \end{itemize}
+\item
+  \textbf{Spearman:}
+
+  \begin{itemize}
+  \item
+    Any strictly monotone recode leaves extremes \textbf{unchanged}.
+  \item
+    Palindromic counts in \(Y\) (with the usual symmetric rank scheme)
+    give \(|r_{\min}|=r_{\max}\).
+  \end{itemize}
+\end{itemize}
+
 \subsection{Population Bounds}\label{population-bounds}
 
 In this section we further explore the theoretical properties on
@@ -1040,9 +1174,8 @@ scoring)}\label{lemma-signs-of-extreme-correlations-under-monotone-scoring}
 
 Let $X$ and $Y$ be ordinal variables. Assign numeric scores to categories via **non-decreasing** maps $s_X, s_Y$ that respect the category order (scores may be affine or nonlinear; ties allowed). Define two extreme couplings:
 
-* **Comonotone (upper)**: pair larger scored values of $X$ with larger scored values of $Y$.
-    
-* **Antitone (lower)**: pair larger scored values of $X$ with smaller scored values of $Y$.
+- **Comonotone (upper)**: pair larger scored values of $X$ with larger scored values of $Y$.
+- **Antitone (lower)**: pair larger scored values of $X$ with smaller scored values of $Y$.
     
 
 Let $r_{\max}$ and $r_{\min}$ be the Pearson correlations computed from these couplings, either (i) in the **finite-sample/permutation** sense (sort scored observations in the same vs. opposite order), or (ii) in the **Fréchet–Hoeffding (FH)/population** sense (pair quantiles $Q_X(u)$ with $Q_Y(u)$ vs. $Q_Y(1-u)$).
@@ -1900,8 +2033,8 @@ models using polychoric correlations; \citet{gree97-efffect} demonstrate
 how the number of response categories alters apparent model fit. More
 broadly, psychometric research emphasizes that ignoring the ordinal
 nature of indicators can misrepresent latent structures
-(\citealt{lord68-statis}; \citealt{muth84-generl};
-\citealt{bart11-laten}). For survey-based political science and
+(\autocite{lord68-statis}; \autocite{muth84-generl};
+\autocite{bart11-laten}). For survey-based political science and
 sociology, this means that correlations reported between Likert items
 are not only bounded by their marginals, but may also systematically
 bias downstream modeling.
