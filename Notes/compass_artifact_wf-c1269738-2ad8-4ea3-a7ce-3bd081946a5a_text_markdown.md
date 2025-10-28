@@ -44,7 +44,7 @@ The theoretical landscape has been further enriched by **partial identification 
 
 **Contemporary R project organization** emphasizes modular structure with separate directories for R code (organized by analysis phases), data (raw/processed separation), output (figures/tables/reports), and reproducible environments using renv. **Package management** through modern tools like pak and groundhog ensures reproducibility across development environments.
 
-**Documentation standards** require roxygen2 for function documentation, pkgdown for website generation, and Quarto/R Markdown for analysis reporting. The **modern tidyverse workflow** integrates easystats/correlation with ggcorrplot and bullseye for comprehensive analysis pipelines.
+**Documentation standards** require `roxygen2` for function documentation, pkgdown for website generation, and Quarto/R Markdown for analysis reporting. The **modern tidyverse workflow** integrates easystats/correlation with `ggcorrplot` and `bullseye`` for comprehensive analysis pipelines.
 
 ## Research frontiers and implementation priorities
 
