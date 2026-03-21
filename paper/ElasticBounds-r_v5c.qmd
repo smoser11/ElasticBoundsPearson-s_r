@@ -10,8 +10,8 @@ date-format: "DD, MMMM YYYY"
 bibliography: references.bib
 csl: apa.csl
 citeproc: true
-filters:
-  - citefield.lua #https://github.com/bcdavasconcelos/cite-field
+# filters:
+#   - citefield.lua #https://github.com/bcdavasconcelos/cite-field
 reference-section-title: ""
 cite-method: citeproc
 fontsize: 12pt
@@ -24,7 +24,7 @@ format:
   pdf:
     keep-tex: true
     documentclass: article
-    #pdf-engine: xelatex
+    pdf-engine: xelatex
     #cite-method: biblatex
     number-sections: true
     toc: true
@@ -65,7 +65,7 @@ format:
            {\hfill$\blacksquare$\par}
         % \usepackage{algorithm}
         % \usepackage{algorithmic}
-        \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+        % \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
   html:
     toc: true
     embed-resources: true
@@ -220,7 +220,7 @@ Consequences of constrained correlations in applied research
 # Theoretical Framework
 
 
-The problem of extremal correlations under fixed marginals connects directly to classical results in probability inequalities. Fréchet’s work on admissible joint distributions ([@frec51-tableaux]) and Hoeffding’s development of covariance bounds ([@hoef40-masstabinvariante]) laid the groundwork. Later refinements, such as Rüschendorf’s demonstration of sharpness of Fréchet bounds ([@rusc81-sharpness]), clarified when comonotonic and countermonotonic couplings achieve extremal values. The rearrangement inequality, and its discrete extensions, ensure that matching high values of \( X \) with high values of \( Y \) maximizes \(\mathbb{E}[XY]\), while opposite pairings minimize it. This perspective is elaborated in comparison and coupling frameworks ([@muel02-compa]; [@thor00-coupli]). These results provide the theoretical backbone for our derivations of \(r_{\min}\) and \(r_{\max}\).
+The problem of extremal correlations under fixed marginals connects directly to classical results in probability inequalities. Fréchet’s work on admissible joint distributions ([@frec51-tableaux]) and Hoeffding’s development of covariance bounds ([@hoef40-masstabinvariante]) laid the groundwork. Later refinements, such as Rüschendorf’s demonstration of sharpness of Fréchet bounds ([@rusc81-sharpness]), clarified when comonotonic and countermonotonic couplings achieve extremal values. The rearrangement inequality, and its discrete extensions, ensure that matching high values of \( X \) with high values of \( Y \) maximizes \(\mathbb{E}[XY]\), while opposite pairings minimize it. This perspective is elaborated in comparison and coupling frameworks ([@mull02-comparison]; [@thor00-coupling]). These results provide the theoretical backbone for our derivations of \(r_{\min}\) and \(r_{\max}\).
 
 
 ## Optimal Coupling and Correlation Bounds
@@ -669,7 +669,7 @@ Below, “scores $0{:}(K-1)$” means category values $[0,1,\dots,K-1]$. “Affi
 * Values change (Pearson is **not** invariant to non-affine spacing); magnitudes still unequal.
     
 
-🧠 **Why unequal magnitudes?** No palindromic symmetry in $Y$ ⇒ the “palindrome-sum” pattern in $y'-$space isn’t zero, so $S_{\max}+S_{\min}\ne 0$.
+**Why unequal magnitudes?** No palindromic symmetry in $Y$ ⇒ the “palindrome-sum” pattern in $y’-$space isn’t zero, so $S_{\max}+S_{\min}\ne 0$.
 
 * * *
 
@@ -705,7 +705,7 @@ Below, “scores $0{:}(K-1)$” means category values $[0,1,\dots,K-1]$. “Affi
 * **Magnitudes no longer match** because antisymmetry of the **scores** about the center is lost, even though the **counts** are palindromic.
     
 
-🧠 **Why equal magnitudes in the affine case?** Palindromic **mass** symmetry in $Y$ + **antisymmetric scoring** (any affine map of $0{:}(K_Y-1)$) ⇒ the palindrome-sum vector $y'_i+y'_{n+1-i}\equiv 0$. Hence $S_{\max}+S_{\min}=0$ ⇒ $|r_{\min}|=r_{\max}$ for **any** $X$, irrespective of $K_X\neq K_Y$.
+**Why equal magnitudes in the affine case?** Palindromic **mass** symmetry in $Y$ + **antisymmetric scoring** (any affine map of $0{:}(K_Y-1)$) ⇒ the palindrome-sum vector $y'_i+y'_{n+1-i}\equiv 0$. Hence $S_{\max}+S_{\min}=0$ ⇒ $|r_{\min}|=r_{\max}$ for **any** $X$, irrespective of $K_X\neq K_Y$.
 
 * * *
 
@@ -1241,7 +1241,7 @@ Recommendations for interpreting Pearson's $r$ in applied contexts
 
 ### Correlation Matricies
 
-The consequences of using Pearson correlations with ordinal data extend beyond descriptive association. In factor analysis and SEM, attenuated correlations can yield distorted loadings, inflated factor numbers, and biased structural coefficients. Empirical studies confirm this risk: [@flor04-empirical] show that CFA models fitted with Pearson’s \( r \) among ordinal indicators produce biased estimates compared to models using polychoric correlations; [@gree97-effect] demonstrate how the number of response categories alters apparent model fit. More broadly, psychometric research emphasizes that ignoring the ordinal nature of indicators can misrepresent latent structures ([@lord52-theory]; [@muth84-generl]; [@bart11-latent]). For survey-based political science and sociology, this means that correlations reported between Likert items are not only bounded by their marginals, but may also systematically bias downstream modeling.
+The consequences of using Pearson correlations with ordinal data extend beyond descriptive association. In factor analysis and SEM, attenuated correlations can yield distorted loadings, inflated factor numbers, and biased structural coefficients. Empirical studies confirm this risk: [@flor04-empirical] show that CFA models fitted with Pearson’s \( r \) among ordinal indicators produce biased estimates compared to models using polychoric correlations; [@gree97-effect] demonstrate how the number of response categories alters apparent model fit. More broadly, psychometric research emphasizes that ignoring the ordinal nature of indicators can misrepresent latent structures ([@lord52-theory]; [@muth84-general]; [@bart11-latent]). For survey-based political science and sociology, this means that correlations reported between Likert items are not only bounded by their marginals, but may also systematically bias downstream modeling.
 
 Since the possible values $r$ may take on depend on the marginal distributions of the two variables being correlated, and since this reference interval may -- and often is -- quite different for different pairs of variables, interpreting and working with correlation matricies (alternatively variance-covariance marticies) must be paid speacial attention.  Such matricies form the basis for a number of statistical techniques, from regression to  Factor Analysis or Structual Equation Modeling (CITES).  In this section we present preliminary results exploring the implications of our findings above for PCA, FA, SEM.
 

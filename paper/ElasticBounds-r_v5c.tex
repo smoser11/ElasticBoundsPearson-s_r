@@ -165,7 +165,7 @@
    {\hfill$\blacksquare$\par}
 % \usepackage{algorithm}
 % \usepackage{algorithmic}
-\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+% \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -231,7 +231,7 @@
 \title{Elastic Bounds of Pearson's \(r\): Theoretical and Empirical
 Insights for Ordinal Variables}
 \author{Cees van der Eijk \and Scott Moser}
-\date{28, October 2025}
+\date{21, March 2026}
 \begin{document}
 \maketitle
 
@@ -560,7 +560,24 @@ Definitions}\label{background-and-definitions}
 
 \section{Theoretical Framework}\label{theoretical-framework}
 
-The problem of extremal correlations under fixed marginals connects directly to classical results in probability inequalities. Fréchet’s work on admissible joint distributions ([@frec51-tableaux]) and Hoeffding’s development of covariance bounds ([@hoef40-masstabinvariante]) laid the groundwork. Later refinements, such as Rüschendorf’s demonstration of sharpness of Fréchet bounds ([@rusc81-sharpness]), clarified when comonotonic and countermonotonic couplings achieve extremal values. The rearrangement inequality, and its discrete extensions, ensure that matching high values of \( X \) with high values of \( Y \) maximizes \(\mathbb{E}[XY]\), while opposite pairings minimize it. This perspective is elaborated in comparison and coupling frameworks ([@muel02-compa]; [@thor00-coupli]). These results provide the theoretical backbone for our derivations of \(r_{\min}\) and \(r_{\max}\).
+The problem of extremal correlations under fixed marginals connects
+directly to classical results in probability inequalities. Fréchet's
+work on admissible joint distributions
+((\citeproc{ref-frec51-tableaux}{Fréchet, 1951})) and Hoeffding's
+development of covariance bounds
+((\citeproc{ref-hoef40-masstabinvariante}{Hoeffding, 1940})) laid the
+groundwork. Later refinements, such as Rüschendorf's demonstration of
+sharpness of Fréchet bounds
+((\citeproc{ref-rusc81-sharpness}{Rüschendorf, 1981})), clarified when
+comonotonic and countermonotonic couplings achieve extremal values. The
+rearrangement inequality, and its discrete extensions, ensure that
+matching high values of \(X\) with high values of \(Y\) maximizes
+\(\mathbb{E}[XY]\), while opposite pairings minimize it. This
+perspective is elaborated in comparison and coupling frameworks
+((\citeproc{ref-mull02-comparison}{Müller \& Stoyan, 2002});
+(\citeproc{ref-thor00-coupling}{Thorisson, 2000})). These results
+provide the theoretical backbone for our derivations of \(r_{\min}\) and
+\(r_{\max}\).
 
 \subsection{Optimal Coupling and Correlation
 Bounds}\label{optimal-coupling-and-correlation-bounds}
@@ -1087,8 +1104,8 @@ numbers)}{A) Same number of categories, but \textbar r\_\{\textbackslash min\}\t
   spacing); magnitudes still unequal.
 \end{itemize}
 
-🧠 \textbf{Why unequal magnitudes?} No palindromic symmetry in \(Y\) ⇒
-the ``palindrome-sum'' pattern in \(y'-\)space isn't zero, so
+\textbf{Why unequal magnitudes?} No palindromic symmetry in \(Y\) ⇒ the
+``palindrome-sum'' pattern in \(y’-\)space isn't zero, so
 \(S_{\max}+S_{\min}\ne 0\).
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
@@ -1140,7 +1157,7 @@ numbers)}{B) Different numbers of categories, yet \textbar r\_\{\textbackslash m
   \textbf{counts} are palindromic.
 \end{itemize}
 
-🧠 \textbf{Why equal magnitudes in the affine case?} Palindromic
+\textbf{Why equal magnitudes in the affine case?} Palindromic
 \textbf{mass} symmetry in \(Y\) + \textbf{antisymmetric scoring} (any
 affine map of \(0{:}(K_Y-1)\)) ⇒ the palindrome-sum vector
 \(y'_i+y'_{n+1-i}\equiv 0\). Hence \(S_{\max}+S_{\min}=0\) ⇒
@@ -1915,7 +1932,7 @@ Data}\label{comparing-typical-data-bes-with-simulated-data}
 
 Full citation:
 
-Cambanis et al. (\citeproc{ref-camb76-inequalities}{1976})
+{Cambanis et al. (\citeproc{ref-camb76-inequalities}{1976})}
 
 Grether, D. M. (1976). On the Use of Ordinal Data in Correlation
 Analysis. American Sociological Review, 41(5), 908--912.
@@ -2074,7 +2091,7 @@ number of response categories alters apparent model fit. More broadly,
 psychometric research emphasizes that ignoring the ordinal nature of
 indicators can misrepresent latent structures
 ((\citeproc{ref-lord52-theory}{Lord, 1952});
-(\citeproc{ref-muth84-generl}{\textbf{muth84-generl?}});
+(\citeproc{ref-muth84-general}{Muthén, 1984});
 (\citeproc{ref-bart11-latent}{Bartholomew et al., 2011})). For
 survey-based political science and sociology, this means that
 correlations reported between Likert items are not only bounded by their
@@ -2347,6 +2364,16 @@ Society.
 Mishra, S. K. (2009). A note on positive semi-definiteness of some
 non-pearsonian correlation matrices. \emph{Available at SSRN 1419362}.
 
+\bibitem[\citeproctext]{ref-mull02-comparison}
+Müller, A., \& Stoyan, D. (2002). \emph{Comparison {Methods} for
+{Stochastic Models} and {Risks}}. Wiley.
+
+\bibitem[\citeproctext]{ref-muth84-general}
+Muthén, B. (1984). A general structural equation model with dichotomous,
+ordered categorical, and continuous latent variable indicators.
+\emph{Psychometrika}, \emph{49}(1), 115--132.
+\url{https://doi.org/10.1007/BF02294210}
+
 \bibitem[\citeproctext]{ref-olss79-maximum}
 Olsson, U. (1979). Maximum likelihood estimation of the polychoric
 correlation coefficient. \emph{Psychometrika}, \emph{44}(4), 443--460.
@@ -2376,6 +2403,10 @@ two things. \emph{The American Journal of Psychology}, \emph{15}(1),
 \bibitem[\citeproctext]{ref-tche80-inequalities}
 Tchen, A. H. (1980). Inequalities for {Distributions} with {Given
 Marginals}. \emph{The Annals of Probability}, \emph{8}(4), 814--827.
+
+\bibitem[\citeproctext]{ref-thor00-coupling}
+Thorisson, H. (2000). \emph{Coupling, stationarity, and regeneration}.
+Springer-Verlag.
 
 \bibitem[\citeproctext]{ref-whit76-bivariate}
 Whitt, W. (1976). Bivariate {Distributions} with {Given Marginals}.
