@@ -62,9 +62,9 @@ format:
         \renewenvironment{proof}
            {\par\noindent\textbf{Proof.}\ }
            {\hfill$\blacksquare$\par}
-        % \usepackage{algorithm}
-        % \usepackage{algorithmic}
-        % \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+        <!-- \usepackage{algorithm} -->
+        <!-- \usepackage{algorithmic} -->
+        <!-- \usepackage[ruled,vlined,linesnumbered]{algorithm2e} -->
   html:
     toc: true
     embed-resources: true
@@ -1251,7 +1251,7 @@ First, some preliminaries.  It is well known that any correlation matrix (using 
 - **Mathematically**: Eigen-decomposition works for any symmetric $\mathbf{S}$, PSD or not.
 - **Interpretively**: Negative eigenvalues break the “variance explained” story (variance cannot be negative).
 - **Software behavior**: Most PCA routines check PD/PSD; failure can cause warnings or dropped components.
-*(PCA and FA PSD requirement.md)*
+*(PCA and FA PSD requirement.md):contentReference[oaicite:6]{index=6}*
 
 **If Input is Symmetric but not PSD:**
  
@@ -1264,20 +1264,20 @@ is indefinite (one negative eigenvalue).
 - PCA math still runs; eigenvalues/vectors computed.
 - Interpretation fails: $\sqrt{\lambda_j}$ imaginary for $\lambda_j<0$.
 - Some software refuses input; others run but return nonsensical variance metrics.
-*(PCA and FA PSD requirement.md)*
+*(PCA and FA PSD requirement.md):contentReference[oaicite:7]{index=7}*
 
 **PSD/PD Needs in FA:**
 
 - **ML FA**: Requires $\mathbf{S}$ be PSD; $\log \det \mathbf{S}$ undefined if indefinite.
 - **Principal-axis / Image FA**: Also break with negative eigenvalues (square roots fail).
-*(PCA and FA PSD requirement.md)*
+*(PCA and FA PSD requirement.md):contentReference[oaicite:10]{index=10}*
 
 
 **SEM and PSD Requirements**
 
 ####  SEM Machinery
 Observed covariance $\mathbf{S}$; implied covariance $\boldsymbol\Sigma(\boldsymbol\theta)$ from structural and measurement models.
-*(PCA and FA PSD requirement.md)*
+*(PCA and FA PSD requirement.md):contentReference[oaicite:12]{index=12}*
 
 ---
 
@@ -1285,7 +1285,7 @@ Observed covariance $\mathbf{S}$; implied covariance $\boldsymbol\Sigma(\boldsym
 - **ML / GLS**: Require both $\mathbf{S}$ and $\boldsymbol\Sigma(\theta)$ PD.
 - **WLS/DWLS**: Need PD indirectly (weight matrix invertible).
 - **ULS**: Can start from indefinite $\mathbf{S}$, but test statistics again require PD.
-*(PCA and FA PSD requirement.md)*
+*(PCA and FA PSD requirement.md):contentReference[oaicite:13]{index=13}*
 
 ---
 
@@ -1293,7 +1293,7 @@ Observed covariance $\mathbf{S}$; implied covariance $\boldsymbol\Sigma(\boldsym
 - Software errors out (“matrix is not positive definite”).
 - Log-determinant undefined; inversion fails.
 - Even if bypassed, optimisation steps hit complex/NaN values.
-*(PCA and FA PSD requirement.md)*
+*(PCA and FA PSD requirement.md):contentReference[oaicite:14]{index=14}*
 
 ---
 
@@ -1302,17 +1302,17 @@ Observed covariance $\mathbf{S}$; implied covariance $\boldsymbol\Sigma(\boldsym
 - Ridge adjustment.
 - Analyse raw data.
 - Check rounding issues.
-*(PCA and FA PSD requirement.md)*
+*(PCA and FA PSD requirement.md):contentReference[oaicite:15]{index=15}*
 
 ---
 
 **Core Lessons Across PCA, FA, SEM**
 
-1. **Theoretical PSD**: Covariance matrices from real data are PSD by definition.
-2. **Numerical Issues**: Sampling noise, rounding, or listwise deletion can yield small negative eigenvalues.
-3. **PCA**: Can compute from indefinite matrix but interpretation breaks.
-4. **FA and SEM**: Require PD input; will not run on indefinite matrices.
-5. **Repairs**: Adjust to nearest PSD, ridge, or recompute from raw data.
+1. **Theoretical PSD**: Covariance matrices from real data are PSD by definition:contentReference[oaicite:16]{index=16}.
+2. **Numerical Issues**: Sampling noise, rounding, or listwise deletion can yield small negative eigenvalues:contentReference[oaicite:17]{index=17}.
+3. **PCA**: Can compute from indefinite matrix but interpretation breaks:contentReference[oaicite:18]{index=18}.
+4. **FA and SEM**: Require PD input; will not run on indefinite matrices:contentReference[oaicite:19]{index=19}.
+5. **Repairs**: Adjust to nearest PSD, ridge, or recompute from raw data:contentReference[oaicite:20]{index=20}.
 
 
 
