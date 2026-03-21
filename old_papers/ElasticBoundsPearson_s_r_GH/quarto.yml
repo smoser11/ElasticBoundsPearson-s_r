@@ -1,0 +1,48 @@
+project:
+  type: manuscript
+
+format:
+  pdf:
+    pdf-engine: pdflatex
+    keep-tex: true
+    toc: true
+    number-sections: true
+    theorem-environments:
+      - name: theorem
+        title: Theorem
+      - name: proposition
+        title: Proposition
+      - name: corollary
+        title: Corollary
+      - name: example
+        title: Example
+      - name: algorithm
+        title: Algorithm
+      - name: proof
+        title: Proof
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    reference-location: margin
+    citation-location: margin
+
+  docx:
+    toc: true
+    number-sections: true
+    reference-location: margin
+    citation-location: margin
+    fig-cap-location: bottom
+    tbl-cap-location: top
+
+  html:
+    toc: true
+    number-sections: true
+    fig-cap-location: bottom
+    tbl-cap-location: top
+
+# Bibliography and citation style
+bibliography: references.bib
+csl: apa.csl
+
+# Optional if you want to set default author/title globally
+metadata-files:
+  - _metadata.yml
