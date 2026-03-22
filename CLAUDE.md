@@ -22,12 +22,12 @@ source("R/ordinal_correlation_analysis/1_bivariate_ordcats_correlation/bivariate
 bivariate_results <- run_bivariate_analysis(bes_data, config)
 ```
 
-### Legacy Functions (Still Functional)
+### Core Functions
 ```r
-# Source core functions from legacy structure
-source("R/correlation_bounds_core.R")
-source("R/correlation-bounds-visualization.R") 
-source("R/correlation_bounds_examples.R")
+# Source core function libraries
+source("R/core/correlation_bounds_core.R")
+source("R/core/correlation_bounds_visualization.R")
+source("R/core/correlation_bounds_bes.R")
 
 # Run comprehensive examples
 results <- run_all_examples()
@@ -37,18 +37,14 @@ basic_results <- basic_demonstration()
 range_results <- range_comparison_demonstration()
 
 # Analyze real data (BES2019)
-source("R/correlation_bounds_bes_example.R")
+source("R/examples/correlation_bounds_bes_example.R")
 ```
 
 ### Document Generation
 ```bash
 # Render latest manuscript version (from project root)
-quarto render paper/ElasticBounds-r_v4b.qmd
-quarto render paper/ElasticBounds-r_v4b.qmd --to pdf
-quarto render paper/ElasticBounds-r_v4b.qmd --to docx
-
-# Render specific versions
-quarto render paper/ElasticBounds-r_v3b.qmd --to pdf
+quarto render paper/ElasticBounds-r_v6a.qmd --to pdf
+quarto render paper/ElasticBounds-r_v6a.qmd --to docx
 ```
 
 ### Required R Packages
@@ -87,36 +83,45 @@ The codebase has been reorganized into a sophisticated modular architecture unde
 - **Processed datasets**: `data/processed/` (bootstrap results, BES correlations)
 - **Generated outputs**: `output/` (figures, reports, tables)
 
-### Legacy Functions (Still Functional)
+### Core Function Libraries (`R/core/`)
 
-#### Core Mathematical Functions (`R/correlation_bounds_core.R`)
+#### Core Mathematical Functions (`R/core/correlation_bounds_core.R`)
 - `max_corr_bound()` - Computes maximum correlation using comonotonic coupling (Fréchet–Hoeffding upper bound)
-- `min_corr_bound()` - Computes minimum correlation using anti-comonotonic coupling  
+- `min_corr_bound()` - Computes minimum correlation using anti-comonotonic coupling
 - `simulate_permutation_r()` - Generates permutation distributions under null hypothesis
 - `analyze_all_corr_bounds()` - Comprehensive analysis function for datasets
 
-#### Visualization System (`R/correlation-bounds-visualization.R`)
+#### Visualization System (`R/core/correlation_bounds_visualization.R`)
 - `plot_permutation_distribution()` - Shows empirical distributions with theoretical bounds
 - `plot_bounds_summary()` - Summary plots comparing bounds and confidence intervals
 - `plot_range_comparison()` - Comparison plots across scenarios
 - `plot_significance_comparison()` - Compares different significance testing approaches
 
-#### Example Framework (`R/correlation_bounds_examples.R`)
-- `basic_demonstration()` - Explores uniform vs extreme distributions
-- `range_comparison_demonstration()` - Compares theoretical vs empirical ranges
-- `run_all_examples()` - Executes comprehensive example suite
-
-#### Applied Analysis (`R/correlation_bounds_bes.R`)
+#### Applied Analysis (`R/core/correlation_bounds_bes.R`)
 - Functions for analyzing British Election Study (BES) 2019 data
 - Real-world validation of theoretical bounds with survey data
+
+#### Matrix Tests (`R/core/correlation_matrix_test.R`)
+- Functions to test correlation matrix properties (symmetry, PSD, invertibility, condition numbers)
+
+### Examples and Demos (`R/examples/`)
+- `correlation_bounds_examples.R` - Explores uniform vs extreme distributions, range comparisons
+- `correlation_bounds_bes_example.R` - Worked BES 2019 example with bounds analysis
+- `correlation_bounds_demo.R` - Comprehensive demonstration including matrix testing
+- `correlation_matrix_example.R` - Example usage of correlation matrix testing functions
+- `correlation_bounds_simulation.R` - Simulation study of matrix properties with ordinal data
 
 ## Development Patterns
 
 ### File Organization
 - **New modular structure**: `R/ordinal_correlation_analysis/` contains reorganized production code
-- **Legacy functions**: Root of `R/` directory contains original working implementations
-- **Experimental work**: `R/scratchWork/` for development versions and prototypes
-- **Academic output**: `paper/` directory for Quarto manuscripts (latest: ElasticBounds-r_v4b.qmd)
+- **Core function libraries**: `R/core/` contains reusable function definitions (bounds, visualization, BES, matrix)
+- **Examples and demos**: `R/examples/` contains worked examples, demo scripts, and simulation scripts
+- **Experimental work**: `R/scratch/` for development versions and prototypes
+- **Test scripts**: `scripts/tests/` for validation and path-resolution tests
+- **Demo scripts**: `scripts/demos/` for demonstrations and working examples
+- **Documentation notes**: `docs/` for reorganization notes and auxiliary documentation
+- **Academic output**: `paper/` directory for Quarto manuscripts (latest: ElasticBounds-r_v6a.qmd)
 - **Research documentation**: `Notes/` and `Meetings/` for mathematical proofs and research discussions
 
 ### Mathematical Framework
@@ -167,7 +172,7 @@ source("R/ordinal_correlation_analysis/utilities/helper_functions.R")
 ### For Validation and Comparison
 ```r
 # Use legacy functions to validate new implementations
-source("R/correlation_bounds_core.R")
+source("R/core/correlation_bounds_core.R")
 legacy_result <- max_corr_bound(marginals)
 
 # Compare with new modular implementation

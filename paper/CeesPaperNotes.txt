@@ -1,0 +1,31 @@
+I'm looking at paper, I'm figuring out paper of the final elastic boundaries, underscore
+R, underscore B, for the, this is version 4B, elastic bound, versus R, for the, for instance,
+all the variables.
+So, a few notes, just in general, you need to include user functions for offices testing
+and other variables, and a deletion of our own units in, say, a grand package.
+At some point, I want to include necessary and special conditions for running the RMA
+that is equal to RMAx.
+Moving to the organization of the paper, in the 4D version, table of contents, I have several
+elements, including adding a section 2.3 asymmetry in the section 2 theoretical framework.
+In section 2.3, I want to add a subsection, 2.3.1, estimation and joint uncertainty,
+and then include a visualization here.
+We need to include a visualization in section 3.1, possible metrics of the screen.
+For all images, we need to
+claim what we say, to include a visualization in section 3 or asymmetry.
+Section 5 is currently titled monthly primary simulations, particularly the visualization
+of RMA by RMAx.
+Section 6, as I have a note to include, is section 6.5, which is a discussion
+comparing the visualizations of RMAx and RMAx from section 5, with what it looks like in section 0.1.9
+in space 9, discussion and implications.
+Section 7 inclusions, expand extensions, and introduce correlation matrices.
+It's well known that any correlation matrix in symmetric and positive
+should try some great deliverables, not really going to be
+make linear transformations in makers S.
+This has implications for PCA, vector universes, and spectral equation.
+Present these little preliminary results, show the expected linear distribution for all pairs,
+and if we make this consistent, we can get a minimum of S prime, but here we ask,
+is S prime guaranteed to be possible, so we'll grab in it.
+Question mark, invertible question mark, we can look at some MCM's, some multi-partial results.
+Have a note that looks like condition, linearity is clearly makes invertibility of correlation
+if it becomes worse, means that the condition will be right.
+That is all.
