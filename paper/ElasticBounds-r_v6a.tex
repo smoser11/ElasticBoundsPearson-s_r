@@ -231,7 +231,7 @@
 \title{Elastic Bounds of Pearson's \(r\): Theoretical and Empirical
 Insights for Ordinal Variables}
 \author{Cees van der Eijk \and Scott Moser}
-\date{22, March 2026}
+\date{23, March 2026}
 \begin{document}
 \maketitle
 
@@ -1814,120 +1814,397 @@ mass at the midpoint category).
 
 \section{Monte Carlo Validation}\label{sec-MCsim}
 
-To investigate factors that affect the bounds of attainable values of r
-and thus the strength of constraints on r exerted by marginal
-distributions we use two different sets of data. Our first dataset is
-simulation generated and covers in principle all possible combinations
-of marginal distributions for two orcats with given numbers of
-categories and given n.~We simulate orcats containing, respectively, 4,
-5, 6, 7, 10 and 11 categories, these being by far the most common in
-empirical data deriving from survey studies. For each of these we
-generate a large number of variables, each with its own simulated
-univariate distribution, and thus also its own form (modality, symmetry,
-etc.), mean, variance, skew and kurtosis as follows. {[}insert
-description, detailing n, how many univariate distributions we generate
-for each number of categories; how to populate the categories, whether
-we impose distributional characteristics such as normality, modality,
-skew etc. Btw: my preference would be to impose as little as possible,
-and derive characteristics such as mean, variance, skew, kurtosis from
-the distributions generated. {]} We subsequently randomly select pairs
-of simulated variables and determine for each rmin, rmax, C1 and C2.
-From the resulting simulated pairs of orcats we delete the cases in
-which one, or both of the variables have zero variance. This results in
-a dataset with n= xxx {[}insert very large number{]} that forms the
-basis of subsequent analyses. Further details are specified in Appendix
-3. This simulated dataset constitutes, within the bounds of granularity
-of the procedure, a random sample all possible combinations of
-univariate distributions of pairs of orcats, and can therefore be used
-as an adequate basis for investigating functional relationships between
-sundry properties of pairs of orcats and the range of attainable values
-of r for those pairs. Although this simulated dataset randomly
-represents all possible combinations of univariate distributions of
-pairs of orcats, it cannot be considered to be a random sample of pairs
-of orcats that applied researchers would encounter in actual, empirical
-data such as derived from, e.g., mass surveys. This is because, when
-designing survey questions, researchers tend to avoid formulations that
-they expect to yield little variance in the responses. Therefore, we use
-a second dataset to investigate constraints on the attainable range of
-values of r, that is derived from the British Election Study 2019.
-{[}fn: insert details about BES2019{]}. In this study we identified xxx
-orcats, which define 7503 pairs, for each of which we calculated
-pair-wise distributional characteristics including rmin, rmax, C1 and
-C2. Further details on this dataset are provided in Appendix 4.
-Obviously, the orcats in BES2019 are not a random sample from the
-contents of all socio-political mass surveys in Britain in 2019, let
-alone of those in wider areas such as the developed western world, or in
-other years. But the BES can sensibly be regarded as typical for such
-studies, which include (national) election studies, general social
-surveys, and many public opinion and marketing surveys. As such,
-findings based on this dataset derived from the BES can sensibly be
-regarded as typical for what applied researchers in other countries will
-encounter in their survey data. These two datasets will be used to
-address, in the subsequent sections, questions with regard to: -
-Distributions of rmin, rmax and measures of overall constraint of r by
-marginals - Factors affecting rmin, rmax and overall constraint of r -
-Consequences of constrained correlations in applied research, including
-for descriptive purposes and hypothesis testing - Possibilities for
-reducing undesired consequences of constrained correlations
+To investigate factors that affect the bounds of attainable values of
+\(r\) and thus the strength of constraints exerted by marginal
+distributions, we construct a large simulation that spans the space of
+possible marginal shapes for orcats with 4, 5, 6, 7, 10, and 11
+categories --- the most common category counts in survey research. For
+each combination of category counts \((K_1, K_2)\) we draw 2,000 pairs
+of marginal distributions independently and at random from the uniform
+Dirichlet distribution, \(\text{Dirichlet}(\mathbf{1})\). This prior is
+maximally uninformative over the simplex: it assigns equal probability
+to all marginal shapes, from nearly uniform to highly concentrated,
+without imposing any assumptions about unimodality, skewness, or
+location. The simulation therefore constitutes a near-exhaustive census
+of possible orcat pair configurations for the category counts studied.
+For each of the \(6 \times 6 = 36\) category-count combinations we
+generate 2,000 pairs, yielding a simulation dataset of 72,000 orcat
+pairs in total. Pairs in which either variable has zero variance are
+excluded (none arose in practice). For each pair we compute
+\(r_{\min}\), \(r_{\max}\), \(C_1\), \(C_2\), and the constraint metrics
+defined in Section~\ref{sec-metrics}. Further details of the simulation
+procedure are provided in Appendix C.
 
-VH: \((r_{min}, r_{max})\)
+This simulated dataset constitutes, within the limits of granularity
+imposed by the discrete category structure, a random sample from the
+full space of possible marginal distribution pairs for each
+\((K_1, K_2)\) combination. It is therefore well suited to investigating
+the functional relationships between marginal shape and the attainable
+range of \(r\). It is not, however, a random sample from the pairs of
+orcats that applied researchers encounter in practice: survey designers
+systematically avoid items that produce near-zero variance in
+respondents' answers. The British Election Study 2019 data analysed in
+Section~\ref{sec-bes} provides the empirical complement, characterising
+constraint severity in a real, large-scale survey instrument.
 
-\subsection{Effects of Marginal
-Shapes}\label{effects-of-marginal-shapes}
+\subsection{Effect of Number of Categories on Constraint
+Severity}\label{effect-of-number-of-categories-on-constraint-severity}
 
-\begin{itemize}
-\tightlist
-\item
-  Shape-based elasticity of correlation bounds\\
-\item
-  Skewness and modality heavily influence the attainable range of \(r\).
-\item
-  Marginals with extreme concentration (e.g., most responses in one or
-  two categories) sharply restrict the possible correlation range.
-\end{itemize}
+The most direct driver of how tightly the attainable range of \(r\) is
+constrained is the number of categories \(K\).
+Figure~\ref{fig-mc-c1-by-k} shows the distribution of \(C_1\) separately
+for each of the six \(K \times K\) configurations, where \(K\) is the
+same for both variables in a pair.
 
-\subsection{Symmetry Breaking in Correlation
-Bounds}\label{symmetry-breaking-in-correlation-bounds}
+\begin{figure}[H]
 
-\begin{itemize}
-\item
-  When and why \(r_{\min} \neq -r_{\max}\)
-\item
-  Empirical indicators of bound asymmetry
-\item
-  When given marginal distributions are sufficiently asymmetric, the min
-  and max bounds of \(r\) are not symmetric about zero.
-\item
-  The shape of the null distribution of \(r\) can be strongly skewed,
-  especially in cases with unequal marginals.
-\end{itemize}
+\centering{
 
-When we talk about ``asymmetry'' in this context, we're referring to how
-different the distribution of \(Y\) is from the distribution of \(X\).
-Since \(X\) is kept uniform, any deviation of \(Y\) from uniformity
-creates asymmetry between the distributions.
+\includegraphics[width=0.95\linewidth,height=\textheight,keepaspectratio]{../output/figures/04_mc_C1_by_K_density.pdf}
 
-The \emph{total variation distance} (TV) quantifies this asymmetry:
+}
 
-\begin{itemize}
-\tightlist
-\item
-  It measures how different Y is from being symmetric around its
-  midpoint
-\item
-  When TV = 0: \(Y\) is symmetric (like \(X\))
-\item
-  When TV is large: \(Y\) is highly asymmetric compared to \(X\)
-\end{itemize}
+\caption{\label{fig-mc-c1-by-k}Distribution of constraint severity
+(\(C_1\)) across 2,000 simulated orcat pairs for each number of
+categories \(K\), where both variables in a pair share the same \(K\).
+Vertical dashed line at \(C_1 = 1\) marks the unconstrained reference.
+Marginal distributions are drawn independently from
+\(\text{Dirichlet}(\mathbf{1})\), which is uninformative over the
+simplex.}
+
+\end{figure}%
+
+The pattern is unambiguous. For \(K = 4\), the distribution of \(C_1\)
+is broad and left-skewed, with substantial density below 0.6 and a mode
+around 0.75: four-category orcats face a wide range of constraint
+severity, and many configurations are severely constrained. As \(K\)
+increases from 4 to 11, the distributions shift progressively rightward
+and become more tightly concentrated near \(C_1 = 1\). By \(K = 11\),
+most pairs have \(C_1 > 0.90\) and the distribution has a sharp peak
+near 0.95.
+
+The mechanism is straightforward. With only four categories and 1,000
+observations, a single skewed draw from the Dirichlet can place a large
+fraction of mass in one or two categories, severely restricting what
+joint distributions are possible and consequently what correlation
+values are attainable. With eleven categories, random draws from the
+Dirichlet are more dispersed on average --- the law of large numbers for
+the simplex means that the effective concentration of any one category
+is smaller --- and the resulting marginals allow a wider range of joint
+distributions.
+
+This finding has a direct practical implication: survey batteries that
+mix 4-point and 11-point items are mixing pairs whose attainable
+correlation ranges differ systematically and substantially. Two pairs
+each with an observed \(r = 0.40\) are not comparable if one involves
+4-category items and the other 11-category items.
+
+\subsection{Entropy as a Predictor of Constraint
+Severity}\label{entropy-as-a-predictor-of-constraint-severity}
+
+The number of categories is a coarse summary of constraint risk.
+Section~\ref{sec-metrics} introduced Shannon entropy
+\(\bar{H}(X, Y) = \bigl(H(p_X) + H(p_Y)\bigr)/2\) as a finer,
+pair-specific measure of marginal concentration.
+Figure~\ref{fig-mc-entropy-c1} shows the relationship between
+\(\bar{H}\) and \(C_1\) across the full simulation.
+
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics[width=0.95\linewidth,height=\textheight,keepaspectratio]{../output/figures/05a_mc_entropy_vs_C1.pdf}
+
+}
+
+\caption{\label{fig-mc-entropy-c1}Scatterplot of mean Shannon entropy
+\(\bar{H}(X,Y)\) against constraint severity \(C_1\) for 5,000 randomly
+sampled simulation pairs (coloured by maximum category count \(K\)). The
+solid black curve is a loess smooth fitted to all 72,000 pairs.}
+
+\end{figure}%
+
+The relationship is strongly positive and concave. At low entropy
+(\(\bar{H} \lesssim 0.8\)), both variables are highly concentrated ---
+most probability mass sits in one or two categories --- and \(C_1\) can
+fall as low as 0.2. At high entropy (\(\bar{H} \gtrsim 1.8\)), the
+marginals are nearly uniform and \(C_1\) approaches 1. The concavity
+reflects diminishing returns: moving from moderate to high entropy
+produces progressively smaller gains in the attainable range.
+
+The colour coding by \(K\) reveals why the number of categories matters:
+higher \(K\) unlocks higher entropy values (the maximum entropy of a
+\(K\)-category uniform distribution is \(\log K\), which grows with
+\(K\)), so the right-hand portion of the horizontal axis is populated
+mainly by high-\(K\) pairs. But within any \(K\) value, entropy still
+varies substantially depending on the specific marginal shape drawn, and
+it is this within-\(K\) variation that entropy captures over and above
+the coarser \(K\)-count predictor.
+
+\subsection{Bound Asymmetry: Direction Is Not
+Predictable}\label{bound-asymmetry-direction-is-not-predictable}
+
+The theoretical results in Section~\ref{sec-theory} establish precisely
+when \(|r_{\min}| > r_{\max}\) (the strict asymmetry corollary), and the
+condition involves the interaction of both marginals through the inner
+product \(\sum_i x'_i z_i\). One might expect that variables with more
+concentrated or skewed marginals would systematically exhibit
+\(|r_{\min}| > r_{\max}\). The simulation shows this expectation is only
+weakly supported.
+
+Across 72,000 simulated pairs, 36,125 (50.2\%) have
+\(|r_{\min}| > r_{\max}\) and 35,875 (49.8\%) have
+\(r_{\max} > |r_{\min}|\): the split is almost exactly equal. Examining
+the relationship between \(\bar{H}\) and asymmetry
+\(|r_{\min}| - r_{\max}\) reveals a very slight positive tendency at low
+entropy (concentrated marginals are marginally more likely to produce
+\(|r_{\min}| > r_{\max}\)), but the loess smooth barely departs from
+zero across the entire entropy range and the scatter is enormous.
+Shannon entropy, total variation distance, and the other single-variable
+metrics in Section~\ref{sec-metrics} all have negligible predictive
+power for the \emph{direction} of asymmetry.
+
+This is not a failure of the theory. The sign of
+\(S_{\max} + S_{\min} = \sum_i x'_i z_i\) depends on the full joint
+structure of how both sorted marginals interact --- it cannot be reduced
+to univariate summary statistics of each marginal separately. The
+practical upshot is that bound asymmetry is pair-specific and must be
+computed directly rather than inferred from marginal summaries: there is
+no shortcut. The prevalence of asymmetry --- roughly half of all pairs
+--- confirms that assuming \(|r_{\min}| = r_{\max}\) is, on average,
+wrong for half of any given collection of orcat pairs.
+
+While the \emph{direction} of asymmetry is unpredictable, its
+\emph{magnitude} is not. Figure~\ref{fig-mc-abs-asymmetry-K} shows the
+distribution of \(\bigl||r_{\min}| - r_{\max}\bigr|\) for \(K \times K\)
+pairs across the six category counts.
+
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics[width=0.95\linewidth,height=\textheight,keepaspectratio]{../output/figures/13_mc_abs_asymmetry_by_K_density.pdf}
+
+}
+
+\caption{\label{fig-mc-abs-asymmetry-K}Distribution of bound asymmetry
+magnitude \(\bigl||r_{\min}| - r_{\max}\bigr|\) for simulated
+\(K \times K\) orcat pairs (both variables sharing the same \(K\)),
+across the six category counts. All distributions are right-skewed with
+a mode near zero, but the right tail shrinks systematically as \(K\)
+increases.}
+
+\end{figure}%
+
+The distributions shift systematically leftward as \(K\) increases. At
+\(K = 4\), the median asymmetry magnitude is 0.079 and the distribution
+has a heavy right tail extending to 0.6: a typical pair of 4-category
+orcats exhibits bounds differing in magnitude by around 8 correlation
+units, with some pairs differing by far more. At \(K = 11\), the median
+falls to 0.027 and the right tail is negligible. The full progression
+--- medians of 0.079, 0.062, 0.051, 0.044, 0.028, and 0.027 for
+\(K = 4, 5, 6, 7, 10, 11\) respectively --- is strictly monotone
+decreasing.
+
+The practical implication complements the direction finding. An analyst
+who assumes \(|r_{\min}| = r_{\max}\) for a pair of 4-category orcats
+is, on average, wrong by about 0.08 in magnitude --- not trivial for an
+effect-size comparison or a hypothesis test calibrated to bounds. For
+11-category items the error is smaller, around 0.03 on average. Neither
+is zero, but the severity of the approximation error depends strongly on
+the scale resolution of the items involved.
 
 \section{Empirical Illustration: BES 2019}\label{sec-bes}
 
-We do not claim this data is representative of data-sets of ordinal
-variables used by social scientists. Rather, we view it as
-\emph{typical} in that it is a real-world example possessing many of the
-features that would raise issues\ldots{}
+The British Election Study 2019 (BES 2019) is a large-scale
+post-election survey of British voters, designed to measure political
+attitudes, values, party identification, electoral behaviour, and
+socio-demographic characteristics. {[}fn: Details of the BES 2019
+methodology, questionnaire, and data access are available at
+www.britishelectionstudy.com. The wave used here is the post-election
+face-to-face survey.{]} It contains a large number of orcats --- items
+measured on ordered scales with between 4 and 11 categories --- that are
+routinely correlated and factor-analysed in published research. We
+identified all orcats in the BES 2019 with between 4 and 11 categories
+and at least minimal variance, yielding a total of 7,503 variable pairs.
+For each pair we computed \(r_{\min}\), \(r_{\max}\), \(C_1\), \(C_2\),
+and the asymmetry measure \(|r_{\min}| - r_{\max}\) from the observed
+marginal frequencies using the comonotonic and anti-comonotonic
+constructions of Section~\ref{sec-theory}. We do not claim that the BES
+is a random sample of all survey datasets used in social science, but we
+do regard it as typical: it is a large, methodologically sophisticated
+survey containing the variety of item formats, response distributions,
+and category counts that applied researchers encounter routinely.
 
-VH: \((r_{min}, r_{max})\) And compare with MC simulated data
+\subsection{The Attainable Bounds Across All Variable
+Pairs}\label{the-attainable-bounds-across-all-variable-pairs}
+
+Figure~\ref{fig-bes-cloud} displays the full joint distribution of
+\(r_{\min}\) and \(r_{\max}\) across all 7,503 BES pairs. Each point is
+one variable pair; the dashed line marks \(r_{\max} = -r_{\min}\) (i.e.,
+perfect symmetry of bounds).
+
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics[width=0.95\linewidth,height=\textheight,keepaspectratio]{../output/figures/01_bes_rmin_rmax_cloud.pdf}
+
+}
+
+\caption{\label{fig-bes-cloud}Attainable bounds \((r_{\min}, r_{\max})\)
+for all 7,503 variable pairs in the BES 2019. Each point is one pair.
+The dashed diagonal marks perfect symmetry of bounds
+(\(r_{\max} = |r_{\min}|\)); points above this line have
+\(r_{\max} > |r_{\min}|\) and points below have
+\(|r_{\min}| > r_{\max}\). Both axes are restricted to their feasible
+ranges: \(r_{\min} \in [-1, 0]\), \(r_{\max} \in [0, 1]\).}
+
+\end{figure}%
+
+Three features of this figure deserve attention.
+
+First, no pair in the BES has bounds reaching \([-1, +1]\). The most
+tightly constrained pairs have \(r_{\max} \approx 0.26\) and
+\(r_{\min} \approx -0.32\), representing an attainable range roughly
+one-third the width of \([-1, +1]\). The least constrained pairs reach
+close to but do not attain \(r_{\max} = 1\) or \(r_{\min} = -1\). Every
+single pair in a large and representative survey dataset operates on a
+different, sub-maximal reference interval.
+
+Second, the bulk of the cloud lies in the upper-left region --- high
+\(r_{\max}\) (around 0.85--0.99) paired with highly negative
+\(r_{\min}\) (around \(-0.85\) to \(-0.99\)). This reflects the fact
+that BES items tend to have moderate to high variance (survey designers
+avoid degenerate items), which in turn produces marginals with
+substantial entropy and thus less-constrained bounds. The mean \(C_1\)
+in the BES is 0.885, meaning that the typical variable pair covers about
+88.5\% of the theoretical \([-1, +1]\) range.
+
+Third, there is a pronounced horizontal spur extending from the main
+cloud toward the right: a set of pairs where \(r_{\max}\) remains high
+(around 0.85--0.95) but \(r_{\min}\) is considerably less negative,
+ranging from \(-0.7\) down to \(-0.3\). Examining these 205 spur pairs
+(2.7\% of all BES pairs) reveals a distinctive profile: both variables
+have strong positive skewness (median skewness 1.13 for the first
+variable, 0.92 for the second) and both have high total variation
+distance between their marginal distribution and its reversal (median TV
+0.76 and 0.66 respectively), compared to the main cloud (median TV 0.39
+and 0.34, median skewness near zero). The mechanism follows directly
+from the theoretical framework. When both marginals concentrate mass at
+the low end of the scale, the comonotonic coupling pairs these abundant
+low values together, achieving a strong positive correlation and a high
+\(r_{\max}\). The anti-comonotonic coupling, however, must pair the
+sparse high-value observations of \(X\) against those of \(Y\); since
+both distributions are thin at the upper end, the absolute negative
+covariance this pairing can generate is limited, resulting in a
+\(r_{\min}\) that is much less negative than \(r_{\max}\) is positive.
+The spur is therefore a signature of joint positive skewness: both
+marginals skewed in the same direction simultaneously inflates
+\(r_{\max}\) relative to \(|r_{\min}|\). Consistent with this, all 205
+spur pairs satisfy \(r_{\max} > |r_{\min}|\) --- the asymmetry is
+exclusively in one direction --- whereas among main-cloud pairs the
+direction split is nearly 50/50.
+
+\subsection{Bound Asymmetry in the
+BES}\label{bound-asymmetry-in-the-bes}
+
+Figure~\ref{fig-bes-asymmetry} shows the distribution of bound
+asymmetry, \(|r_{\min}| - r_{\max}\), across all BES pairs.
+
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics[width=0.95\linewidth,height=\textheight,keepaspectratio]{../output/figures/07_bes_asymmetry_histogram.pdf}
+
+}
+
+\caption{\label{fig-bes-asymmetry}Distribution of bound asymmetry,
+\(|r_{\min}| - r_{\max}\), across 7,503 BES 2019 variable pairs.
+Positive values indicate \(|r_{\min}| > r_{\max}\); negative values
+indicate \(r_{\max} > |r_{\min}|\). The vertical red dashed line marks
+exact symmetry at zero.}
+
+\end{figure}%
+
+The distribution is nearly symmetric about zero: 3,726 pairs (49.7\%)
+have \(|r_{\min}| > r_{\max}\) and 3,777 pairs (50.3\%) have
+\(r_{\max} > |r_{\min}|\). The split is essentially a coin flip,
+confirming the simulation finding of Section~\ref{sec-MCsim}: the
+\emph{direction} of bound asymmetry cannot be predicted from univariate
+marginal summaries.
+
+The \emph{magnitude} of asymmetry is more informative. The distribution
+has a sharp peak at zero --- most pairs are nearly symmetric --- but the
+tails extend to \(\pm 0.4\), meaning that for some pairs the difference
+between \(|r_{\min}|\) and \(r_{\max}\) is as large as 0.4 correlation
+units. For such pairs, an analysis that assumes symmetric bounds (i.e.,
+treats \(r_{\min} = -r_{\max}\)) would be wrong by a large margin. The
+BES example introduced in Section~\ref{sec-theory} --- where
+\(r_{\max} = 0.850\) and \(r_{\min} = -0.899\), an asymmetry of 0.049
+--- is representative of the more common modest asymmetries, while the
+tails of Figure~\ref{fig-bes-asymmetry} contain pairs where the issue is
+substantially more severe.
+
+Since asymmetry cuts both ways with equal frequency, one cannot presume
+that the standard assumption \(r_{\min} \approx -r_{\max}\) introduces a
+systematic bias in any particular direction. Rather, it introduces
+\emph{noise}: for any given pair, the applied researcher who does not
+compute the bounds cannot know whether the true attainable interval is
+\([-0.85, 0.85]\), \([-0.90, 0.85]\), or \([-0.80, 0.85]\) --- and the
+difference matters for both effect-size interpretation and hypothesis
+testing.
+
+\subsection{Comparing BES Constraint Severity to the
+Simulation}\label{comparing-bes-constraint-severity-to-the-simulation}
+
+Figure~\ref{fig-c1-comparison} overlays the \(C_1\) distributions from
+the MC simulation and the BES, allowing a direct comparison between the
+full theoretical space of orcat pairs and those encountered in an actual
+survey.
+
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics[width=0.95\linewidth,height=\textheight,keepaspectratio]{../output/figures/06_C1_bes_vs_mc.pdf}
+
+}
+
+\caption{\label{fig-c1-comparison}Distribution of constraint severity
+(\(C_1\)) in the BES 2019 (red/orange) and in the MC simulation (blue).
+The simulation draws from all possible marginal shapes for
+\(K \in \{4,5,6,7,10,11\}\); the BES contains the marginal shapes
+actually observed in a large-scale political survey. The dashed vertical
+line at \(C_1 = 1\) marks the unconstrained reference.}
+
+\end{figure}%
+
+Two findings stand out.
+
+First, the BES distribution is shifted right relative to the simulation,
+with its mode around \(C_1 = 0.91\) compared to \(C_1 \approx 0.88\) in
+the simulation. This is expected: the simulation draws from the full
+Dirichlet simplex, including highly concentrated marginals that survey
+researchers would avoid, while the BES reflects the distribution of
+marginals that actually arise when questions are carefully designed to
+elicit variance. Applied researchers are therefore less likely to
+encounter the most severe constraints shown in the left tail of the
+simulation distribution, but those constraints are not absent from the
+BES either --- the lower tail of the BES \(C_1\) distribution extends
+below 0.55.
+
+Second, despite the offset, both distributions have essentially the same
+shape and span a similar range. This suggests that the simulation
+provides a reasonable model of the space of constraints that applied
+researchers face, with the important caveat that very severe constraint
+(\(C_1 < 0.6\)) is somewhat more common in the theoretical space than in
+practice. For the purposes of understanding what typically drives
+constraint in surveys, the BES and the simulation tell a consistent
+story: constraint is pervasive, its severity varies considerably, and it
+is primarily driven by the number of categories and the entropy of the
+marginal distributions.
 
 \section{Implications for Applied Research}\label{sec-implications}
 
@@ -1954,7 +2231,7 @@ Size}\label{interpretation-of-effect-size}
   Need for bound-aware effect size metrics.
 \end{itemize}
 
-\subsection{Hypothesis Testing}\label{hypothesis-testing}
+\subsection{Hypothesis Testing}\label{sec-implications-hyp}
 
 \begin{itemize}
 \tightlist
@@ -1973,14 +2250,76 @@ Size}\label{interpretation-of-effect-size}
 
 \subsection{Rescaling}\label{rescaling}
 
-So, what to do? \emph{One} idea: \textbf{linear rescaling} (preserving
-zero)
+The most direct response to the comparability problem is to rescale each
+observed correlation into the \([-1, +1]\) interval by expressing it as
+a proportion of its attainable range. A natural linear rescaling that
+maps \(r_{\min}\) to \(-1\), \(r_{\max}\) to \(+1\), and preserves the
+sign of zero is:
 
-\begin{itemize}
-\tightlist
-\item
-  Adjusted null distributions (via permutation or simulation).
-\end{itemize}
+\[
+r^* = \frac{r_{\text{obs}} - r_{\min}}{r_{\max} - r_{\min}} \times 2 - 1.
+\]
+
+This transformation places every variable pair on the same \([-1, +1]\)
+reference interval, making correlations from pairs with different
+numbers of categories and different marginal distributions directly
+comparable.
+
+Figure~\ref{fig-bes-rescaling} shows the relationship between
+\(r_{\text{obs}}\) and \(r^*\) across all 7,503 BES pairs.
+
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics[width=0.95\linewidth,height=\textheight,keepaspectratio]{../output/figures/08a_bes_r_vs_rescaled.pdf}
+
+}
+
+\caption{\label{fig-bes-rescaling}Observed Pearson correlation
+\(r_{\text{obs}}\) versus bound-rescaled correlation \(r^*\) for all
+7,503 BES 2019 variable pairs. The dashed diagonal marks no rescaling
+effect (\(r^* = r_{\text{obs}}\)). Points above the diagonal have been
+amplified by rescaling; points below have been attenuated.}
+
+\end{figure}%
+
+Two findings from Figure~\ref{fig-bes-rescaling} are important for
+applied practice.
+
+First, for most BES pairs the rescaling adjustment is modest: the cloud
+of points lies close to the diagonal, reflecting the fact that the
+typical BES pair has \(C_1 \approx 0.885\) and relatively symmetric
+bounds, so the transformation compresses or expands the scale only
+slightly. This should not be taken as evidence that computing bounds is
+unnecessary --- the \emph{direction} of adjustment varies across pairs,
+and for the pairs with \(C_1 < 0.7\) or large bound asymmetry the
+adjustment can be substantial (exceeding 0.15 in absolute terms for some
+pairs).
+
+Second, and more fundamentally, the \emph{rank ordering} of correlations
+changes after rescaling. Two pairs with the same observed \(r\) can have
+very different \(r^*\) values if their attainable ranges differ.
+Consider a pair \((A, B)\) with \(r_{\text{obs}} = 0.35\) and
+\(r_{\max}^{AB} = 0.45\) (near its theoretical ceiling) versus a pair
+\((C, D)\) with \(r_{\text{obs}} = 0.35\) and \(r_{\max}^{CD} = 0.85\)
+(far from its ceiling): after rescaling, \(r^*_{AB} \approx 0.78\) while
+\(r^*_{CD} \approx 0.12\). The first pair is effectively a strong
+association given the constraints; the second is a weak one. This
+reversal --- visible in the scatter of Figure~\ref{fig-bes-rescaling}
+around the diagonal --- is the core practical problem that examining
+bounds addresses.
+
+Rescaling to \(r^*\) does not resolve every difficulty. It assumes that
+the attainable range \([r_{\min}, r_{\max}]\) can be treated as the
+appropriate reference interval for the specific pair, which is correct
+but does not address the fact that \(r^*\) itself still depends on the
+arbitrary choice of consecutive-integer scoring for the categories (see
+Section~\ref{sec-background}). It also does not address the asymmetry
+problem directly: when \(|r_{\min}| \neq r_{\max}\), the rescaled zero
+is not the same as \(r_{\text{obs}} = 0\). Adjusted null distributions
+via permutation testing (Section~\ref{sec-implications-hyp}) provide a
+complementary approach that avoids these artefacts.
 
 \subsection{Variance Explained}\label{variance-explained}
 

@@ -1,1 +1,136 @@
 I'm looking at a print out paper of the file elastic_balance_r_b_4b. So this is version 4b. Elastic balance for persons r, b, r, or n, for instance, for all variables. So, a few notes, just in general, you need to include user functions for hypothesis testing, conference intervals, and addition of bar number units in the standard frame package. At some point, I want to include necessary and sufficient conditions for running the to the bar min is equal to bar max. Moving to the organization of the paper, in the 4D version table of contents, I have several notes including adding section 2.3, asymmetry in the section 2 theoretical framework. In section 2.3, I wanted to add a subsection of 2.3.1, estimation and joint uncertainty and included visualization here. We need to include a visualization in section 3.1, possible metrics of the screen. For all images, we need to explain what we'll say. We need to include a visualization in section 3 for asymmetry. Section 5 is currently titled Monthly Corner Simulations, particularly the visualization of R-min by R-max. Section 6, I have a note to include in 6.5, section 6.5, which is a discussion comparing the visualization of R-min and R-max from section 5 with what it looks like is section 0.1.9, space nine, discussion and implications. Section seven, inclusions, expand extensions, and introduce correlation matrices. It's well known that any correlation matrix is symmetric and positive. So I happen to try some great building models. guarantee to be possible so we'll grab in it question mark convertible question mark we can look at some MCM's some Monte Carlo results have a note that looks like condition linear is really makes invertibility of correlation make it worse needs to be condition that is all
+
+
+
+---
+
+
+                                                                               
+⏺ All figures generated. Let me look at the key ones:                           
+                                                                              
+  Read 1 file (ctrl+o to expand)                                                
+                                                            
+⏺ Very informative. The cloud is concentrated in the high-r_max /               
+  very-negative-r_min region, but with a notable horizontal "spur" extending    
+  right where r_max stays high (~0.9) but r_min becomes less negative (–0.4 to  
+  –0.7). Let me look at more plots:                                             
+                                                                                
+  Read 4 files (ctrl+o to expand)                                               
+                                                                                
+⏺ These are revealing. Figure 5a is strong — entropy predicts C1 with a clean   
+  concave relationship. Figure 5b is surprising: entropy is a poor predictor of
+  asymmetry direction. The loess barely departs from zero. Asymmetry is         
+  essentially unpredictable from entropy alone — it's idiosyncratic to the
+  specific pair. That's an important empirical finding.                         
+                                                                                
+  Let me see the remaining figures:                                             
+                                                                                
+  Read 2 files (ctrl+o to expand)                           
+                                                  
+⏺ Now I have a clear picture from all the data. Let me give you a frank
+  assessment of what the analyses are showing.                                
+                                                                              
+  ---            
+  What the data are actually telling us                                         
+                                                                                
+  Finding 1: Asymmetry is a coin flip                                           
+                                                                                
+  Figure 7 is the most surprising result: the BES asymmetry distribution is     
+  perfectly symmetric around zero — 50.0% of pairs each way. The same is true in
+   the MC simulation (50.2%). This is not "asymmetry is caused by skewed        
+  marginals." It's that the direction of asymmetry is essentially unpredictable
+  from univariate marginal properties. The Corollary proves the condition for
+  |r_min| > r_max, but empirically it cuts 50/50 in both random and real data.
+
+  Implication for the paper: The asymmetry corollary should be framed as a      
+  characterisation result ("here is what determines which side the asymmetry
+  falls"), not as "skewed marginals produce |r_min| > r_max." The empirical     
+  sections need to say this honestly.                       
+
+  ---
+  Finding 2: Entropy strongly predicts constraint severity but not asymmetry 
+  direction                                                                     
+           
+  Figure 5a shows a clean, monotone, concave relationship: higher H̄ → higher C₁.
+   This is a strong, publishable result that should go directly into §4/§5.     
+  Figure 5b shows entropy tells you almost nothing about which direction the
+  asymmetry goes — the cloud is symmetric around zero at every entropy level.   
+  These are two distinct phenomena that need to be discussed separately.
+
+  ---                                                                           
+  Finding 3: More categories = substantially less constraint (Figure 4)
+                                                                                
+  The MC density plot by K is visually the clearest result in the whole
+  analysis. At K=4, the C₁ distribution is spread from 0.2 to 1.0 with a peak   
+  around 0.7. At K=11, almost everything is above 0.9. This is an important
+  practical message: a 4-category Likert scale is systematically more           
+  constrained than an 11-category scale, and pairs mixing different K values are
+   inconsistently constrained.
+
+  ---
+  Finding 4: Rescaling has modest practical effect in BES (Figure 8a)
+                                                                                
+  The r_obs vs r* scatter sits very tightly around the diagonal. Rescaling
+  adjusts most BES correlations by a small amount. This doesn't mean the bounds 
+  are uninformative — it means that given these BES marginals, the observed
+  correlations are far from their theoretical limits, so the rescaling          
+  adjustment is small. The practical case for rescaling needs to rest on
+  comparability across pairs, not on magnitude of adjustment — because the
+  adjustments are pair-specific and vary in sign (Figure 5b: asymmetry cuts both
+   ways).
+
+  ---
+  Finding 5: The BES cloud has a distinctive "spur" structure (Figure 1)
+                                                                                
+  Most pairs cluster near (r_min ≈ −0.95, r_max ≈ 0.95), but there is a
+  horizontal spur extending to r_min ≈ −0.3 while r_max stays near 0.9. This    
+  means some variables have a high maximum but a much weaker lower bound — their
+   anti-comonotonic pairing simply cannot achieve a very negative correlation.  
+  This is the structure worth examining more closely: what types of variables
+  produce the spur?
+
+  ---
+  What I think should change from the proposed figure list
+                                                                                
+  ┌──────────────────────────┬──────────────────────────────────────────────┐
+  │    Original proposal     │           Status after seeing data           │   
+  ├──────────────────────────┼──────────────────────────────────────────────┤
+  │ Fig 1: Elastic bounds    │ Still needed — synthesize idea. Can use real │   
+  │ concept (illustrative)   │  BES examples instead of hand-crafted        │
+  ├──────────────────────────┼──────────────────────────────────────────────┤   
+  │ Fig 2: Marginal shape →  │ Lower priority — the MC figure (K density)   │
+  │ bounds (synthetic)       │ is more convincing                           │   
+  ├──────────────────────────┼──────────────────────────────────────────────┤
+  │ Fig 3: Asymmetry         │ Keep, but reframe. The 50/50 split should be │   
+  │ mechanism + BES          │  acknowledged                                │   
+  ├──────────────────────────┼──────────────────────────────────────────────┤
+  │ Fig 4: C₁ distribution   │ Essential — clearest finding                 │   
+  │ by K                     │                                              │   
+  ├──────────────────────────┼──────────────────────────────────────────────┤
+  │ Fig 5: Entropy vs C₁ and │ Essential for C₁; entropy vs asymmetry is a  │   
+  │  asymmetry               │ null result — worth one sentence but not a   │
+  │                          │ standalone figure                            │   
+  ├──────────────────────────┼──────────────────────────────────────────────┤
+  │ Fig 6: BES (r_min,       │ Essential — the spur structure is worth      │
+  │ r_max) cloud             │ reporting                                    │   
+  ├──────────────────────────┼──────────────────────────────────────────────┤
+  │ Fig 7: C₁ BES vs MC      │ Include as panels within §5/§6 — the         │   
+  │                          │ distributions are similar enough to merge    │   
+  ├──────────────────────────┼──────────────────────────────────────────────┤
+  │ Fig 8: Hypothesis        │ Still needed, not yet produced               │   
+  │ testing divergence       │                                              │   
+  ├──────────────────────────┼──────────────────────────────────────────────┤
+  │                          │ Present the scatter (already done), but      │   
+  │ Fig 9: Rescaling         │ reframe the narrative around comparability,  │   
+  │                          │ not magnitude                                │
+  └──────────────────────────┴──────────────────────────────────────────────┘   
+                                                            
+  Two additional analyses that now look important and weren't in the original   
+  list:
+                                                                                
+  1. The spur structure: What drives the horizontal spur in Figure 1? Is it     
+  specific K combinations, or specific marginal shapes? Identifying the spur
+  pairs would strengthen the paper's empirical section.                         
+  2. Asymmetry magnitude vs K: Even if direction is 50/50, does magnitude of
+  |r_min| - r_max vary with K or entropy? A plot of |asymmetry| vs entropy might
+   show something even if direction does not.
