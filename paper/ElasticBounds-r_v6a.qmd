@@ -1199,6 +1199,23 @@ The sign of $S_{\max} + S_{\min} = \sum_i x'_i z_i$ depends on the full joint st
 The practical upshot is that bound asymmetry is pair-specific and must be computed directly rather than inferred from marginal summaries: there is no shortcut.
 The prevalence of asymmetry — roughly half of all pairs — confirms that assuming $|r_{\min}| = r_{\max}$ is, on average, wrong for half of any given collection of orcat pairs.
 
+While the *direction* of asymmetry is unpredictable, its *magnitude* is not.
+@fig-mc-abs-asymmetry-K shows the distribution of $\bigl||r_{\min}| - r_{\max}\bigr|$ for $K \times K$ pairs across the six category counts.
+
+```{r fig-mc-abs-asymmetry-K, echo=FALSE, fig.cap="Distribution of bound asymmetry magnitude $\\bigl||r_{\\min}| - r_{\\max}\\bigr|$ for simulated $K \\times K$ orcat pairs (both variables sharing the same $K$), across the six category counts. All distributions are right-skewed with a mode near zero, but the right tail shrinks systematically as $K$ increases.", out.width="95%", fig.pos="H"}
+knitr::include_graphics("../output/figures/13_mc_abs_asymmetry_by_K_density.pdf")
+```
+
+The distributions shift systematically leftward as $K$ increases.
+At $K = 4$, the median asymmetry magnitude is 0.079 and the distribution has a heavy right tail extending to 0.6: a typical pair of 4-category orcats exhibits bounds differing in magnitude by around 8 correlation units, with some pairs differing by far more.
+At $K = 11$, the median falls to 0.027 and the right tail is negligible.
+The full progression — medians of 0.079, 0.062, 0.051, 0.044, 0.028, and 0.027 for $K = 4, 5, 6, 7, 10, 11$ respectively — is strictly monotone decreasing.
+
+The practical implication complements the direction finding.
+An analyst who assumes $|r_{\min}| = r_{\max}$ for a pair of 4-category orcats is, on average, wrong by about 0.08 in magnitude — not trivial for an effect-size comparison or a hypothesis test calibrated to bounds.
+For 11-category items the error is smaller, around 0.03 on average.
+Neither is zero, but the severity of the approximation error depends strongly on the scale resolution of the items involved.
+
 
 # Empirical Illustration: BES 2019 {#sec-bes}
 
@@ -1230,8 +1247,12 @@ This reflects the fact that BES items tend to have moderate to high variance (su
 The mean $C_1$ in the BES is 0.885, meaning that the typical variable pair covers about 88.5\% of the theoretical $[-1, +1]$ range.
 
 Third, there is a pronounced horizontal spur extending from the main cloud toward the right: a set of pairs where $r_{\max}$ remains high (around 0.85–0.95) but $r_{\min}$ is considerably less negative, ranging from $-0.7$ down to $-0.3$.
-These are pairs where the comonotonic coupling can achieve a strong positive correlation, but the anti-comonotonic coupling is limited — the marginals are such that pairing in opposite order cannot generate a very negative correlation.
-In most cases, these pairs involve one variable with a markedly skewed marginal distribution.
+Examining these 205 spur pairs (2.7% of all BES pairs) reveals a distinctive profile: both variables have strong positive skewness (median skewness 1.13 for the first variable, 0.92 for the second) and both have high total variation distance between their marginal distribution and its reversal (median TV 0.76 and 0.66 respectively), compared to the main cloud (median TV 0.39 and 0.34, median skewness near zero).
+The mechanism follows directly from the theoretical framework.
+When both marginals concentrate mass at the low end of the scale, the comonotonic coupling pairs these abundant low values together, achieving a strong positive correlation and a high $r_{\max}$.
+The anti-comonotonic coupling, however, must pair the sparse high-value observations of $X$ against those of $Y$; since both distributions are thin at the upper end, the absolute negative covariance this pairing can generate is limited, resulting in a $r_{\min}$ that is much less negative than $r_{\max}$ is positive.
+The spur is therefore a signature of joint positive skewness: both marginals skewed in the same direction simultaneously inflates $r_{\max}$ relative to $|r_{\min}|$.
+Consistent with this, all 205 spur pairs satisfy $r_{\max} > |r_{\min}|$ — the asymmetry is exclusively in one direction — whereas among main-cloud pairs the direction split is nearly 50/50.
 
 ## Bound Asymmetry in the BES
 
