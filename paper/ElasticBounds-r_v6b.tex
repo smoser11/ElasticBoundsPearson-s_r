@@ -204,7 +204,7 @@
 \title{Elastic Bounds of Pearson's \(r\): Theoretical and Empirical
 Insights for Ordinal Variables}
 \author{Cees van der Eijk \and Scott Moser}
-\date{23, April 2026}
+\date{24, April 2026}
 \begin{document}
 \maketitle
 
@@ -534,11 +534,10 @@ proper bounded context.
 \subsection{Background and
 Definitions}\label{background-and-definitions}
 
-\textbf{Notation.} Let \(X\) take values \(x_1 < x_2 < \dots < x_{K_X}\)
-with marginal probability distribution
-\(p_X = (p_{X,1}, \dots, p_{X,K_X})\), and let \(Y\) take values
-\(y_1 < y_2 < \dots < y_{K_Y}\) with marginal probability distribution
-\(p_Y = (p_{Y,1}, \dots, p_{Y,K_Y})\), where
+Notation. Let \(X\) take values \(x_1 < x_2 < \dots < x_{K_X}\) with
+marginal probability distribution \(p_X = (p_{X,1}, \dots, p_{X,K_X})\),
+and let \(Y\) take values \(y_1 < y_2 < \dots < y_{K_Y}\) with marginal
+probability distribution \(p_Y = (p_{Y,1}, \dots, p_{Y,K_Y})\), where
 \(\sum_i p_{X,i} = \sum_j p_{Y,j} = 1\). In survey research, categories
 are typically scored with consecutive integers beginning at 0 or 1. Any
 monotone transformation of these scores is equally valid under
@@ -556,8 +555,8 @@ depend only on the marginal distributions, maximising or minimising
 \(r_{XY}\) over all joint distributions consistent with fixed marginals
 reduces to maximising or minimising \(E[XY]\).
 
-\textbf{Existing alternatives.} Several measures have been proposed to
-address the limitations of Pearson's \(r\) with ordinal data. Spearman's
+Existing alternatives. Several measures have been proposed to address
+the limitations of Pearson's \(r\) with ordinal data. Spearman's
 \(\rho\) \autocite{spea04-proof} replaces raw values with ranks and is
 thus insensitive to the specific marginal distributions; it discards
 information about inter-category spacing. Polychoric correlation
@@ -571,10 +570,10 @@ uses them to characterise the feasible range of Pearson's \(r\) --- a
 quantity that is directly relevant to applied researchers who report and
 compare Pearson correlations.
 
-\textbf{Coupling and rearrangement.} The key insight is that fixing
-\(p_X\) and \(p_Y\) places hard constraints on the set of admissible
-joint distributions, and therefore on the attainable values of
-\(r_{XY}\). The Fréchet--Hoeffding bounds
+Coupling and rearrangement. The key insight is that fixing \(p_X\) and
+\(p_Y\) places hard constraints on the set of admissible joint
+distributions, and therefore on the attainable values of \(r_{XY}\). The
+Fréchet--Hoeffding bounds
 \autocite{frec51-tableaux,hoef40-masstabinvariante} characterise the
 extremal joint distributions with given marginals. In the discrete
 setting, the constructive tool is the rearrangement inequality of
@@ -695,14 +694,14 @@ In words, given fixed marginals, we have shown:
 
 \begin{itemize}
 \item
-  \textbf{Maximum correlation} \(r_{\text{max}}\) is achieved by
-  comonotonic (e.g.~sorting values of \(X\) and \(Y\) from largest to
-  smallest independently and pairing) arrangement:
+  Maximum correlation \(r_{\text{max}}\) is achieved by comonotonic
+  (e.g.~sorting values of \(X\) and \(Y\) from largest to smallest
+  independently and pairing) arrangement:
 
   \[P_{\text{max}}(X=x_{[i]}, Y=y_{[i]}) \quad\text{in either descending or ascending order.}\]
 \item
-  \textbf{Minimum correlation} \(r_{\text{min}}\) is achieved by
-  anti-comonotonic arrangement:
+  Minimum correlation \(r_{\text{min}}\) is achieved by anti-comonotonic
+  arrangement:
 
   \[P_{\text{min}}(X=x_{[i]}, Y=y_{[n+1-i]}) \quad\text{pairing descending X with ascending Y, or viceversa.}\]
 \end{itemize}
@@ -829,30 +828,29 @@ This explicit equation applies Whitt's rearrangement theorem ,
 (\textcite{whit76-bivariate})
 \end{proof}
 
-\textbf{Discussion}
+Discussion
 
 We want to construct a joint distribution table \(M\) such that:
 
 \begin{itemize}
 \item
-  The \textbf{row sums} match the marginal counts for \(X\):
+  The row sums match the marginal counts for \(X\):
   \(\sum_j M_{i,j} = n_X(i)\)
 \item
-  The \textbf{column sums} match the marginal counts for \(Y\):
+  The column sums match the marginal counts for \(Y\):
   \(\sum_i M_{i,j} = n_Y(j)\)
 \end{itemize}
 
-To do this, we go \textbf{greedily}, pairing the highest available \(X\)
-values with the \textbf{smallest available} \(Y\) values, one cell at a
-time.
+To do this, we go greedily, pairing the highest available \(X\) values
+with the smallest available \(Y\) values, one cell at a time.
 
-To avoid \textbf{exceeding} the available marginal totals in \(Y\), we
-must track how much of \(n_Y(j)\) is \textbf{still unassigned} at each
-step --- and that's what \(n_Y'(j)\) represents.\\
+To avoid exceeding the available marginal totals in \(Y\), we must track
+how much of \(n_Y(j)\) is still unassigned at each step --- and that's
+what \(n_Y'(j)\) represents.\\
 After assigning \(M_{i,j}\) units to the cell \((i,j)\), we subtract
 that amount from the remaining pool of level \(y_j\) values, like this:
-\(n_Y'(j) \leftarrow n_Y'(j) - M_{i,j}\)This ensures we don't
-\textbf{overfill} any column of the matrix.
+\(n_Y'(j) \leftarrow n_Y'(j) - M_{i,j}\)This ensures we don't overfill
+any column of the matrix.
 
 To maximize the expectation \(E[XY]\), the rearrangement inequality
 states we must pair values of \(X\) and \(Y\) from smallest-to-smallest,
@@ -877,14 +875,14 @@ Sorted \(Y\)-values (ascending order for max, descending for min):
 
 The maximum and minimum expectations are simply:
 
-\textbf{Maximum expectation} (pair element-by-element):
+Maximum expectation (pair element-by-element):
 
 \[E[XY]_{\text{max}} = \frac{1}{N}\sum_{k=1}^{N} X_{\text{sorted}}(k)\cdot Y_{\text{sorted(max)}}(k)\]
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Minimum expectation}:
+  Minimum expectation:
 \end{itemize}
 
 \[E[XY]_{\text{min}} = \frac{1}{N}\sum_{k=1}^{N} X_{\text{sorted}}(k)\cdot Y_{\text{sorted(min)}}(k)\]
@@ -900,23 +898,23 @@ Inequalities, which we note but leave for future research.\footnote{Fréchet--Ho
   alignment is always feasible, while the lower bound alignment
   frequently encounters structural obstacles.
 
-  In the discrete ordinal setting, \(r_{\max}\) is \textbf{always}
-  attained by the FH upper (comonotonic) construction.\\
+  In the discrete ordinal setting, \(r_{\max}\) is always attained by
+  the FH upper (comonotonic) construction.\\
   \emph{(BFbounds.md; Proofs-OrdinalVariables.md; Ordinal Variables and
   Correlation.md)}
 
-  The FH lower (countermonotonic) construction may be
-  \textbf{unattainable} in discrete settings; \(r_{\min}\) is then the
-  best feasible opposite-order arrangement.\\
+  The FH lower (countermonotonic) construction may be unattainable in
+  discrete settings; \(r_{\min}\) is then the best feasible
+  opposite-order arrangement.\\
   \emph{(BFbounds.md; Proofs-OrdinalVariables.md; Ordinal Variables and
   Correlation.md)}
 
-  \textbf{Upper bound} (positive alignment):
+  Upper bound (positive alignment):
 
   \begin{itemize}
   \item
     Sorting \(X\) and \(Y\) separately in descending order, then pairing
-    largest-to-largest, smallest-to-smallest, \textbf{always works}.
+    largest-to-largest, smallest-to-smallest, always works.
   \item
     You never run out of ``matching'' observations because the
     descending order for both variables naturally aligns category sizes.
@@ -924,7 +922,7 @@ Inequalities, which we note but leave for future research.\footnote{Fréchet--Ho
     without difficulty.
   \end{itemize}
 
-  \textbf{Lower bound} (negative alignment):
+  Lower bound (negative alignment):
 
   \begin{itemize}
   \item
@@ -1074,8 +1072,7 @@ A'')}\label{notation-permutation-extremes-lane-a}
 
 \begin{itemize}
 \item
-  Build expanded vectors \(x\) and \(y\) from \textbf{counts} and
-  \textbf{scores}.
+  Build expanded vectors \(x\) and \(y\) from counts and scores.
 \item
   \(r_{\max}=\mathrm{cor}(\text{sort}(x,\downarrow),\text{sort}(y,\downarrow))\).
 \item
@@ -1084,11 +1081,11 @@ A'')}\label{notation-permutation-extremes-lane-a}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsubsection{\texorpdfstring{A) \textbf{Same number of categories, but
-\(|r_{\min}|\ne r_{\max}\)} (concrete
+\subsubsection{\texorpdfstring{A) Same number of categories, but
+\(|r_{\min}|\ne r_{\max}\) (concrete
 numbers)}{A) Same number of categories, but \textbar r\_\{\textbackslash min\}\textbar\textbackslash ne r\_\{\textbackslash max\} (concrete numbers)}}\label{a-same-number-of-categories-but-r_minne-r_max-concrete-numbers}
 
-\textbf{Counts (both \[K=5\]):}
+Counts (both \[K=5\]):
 
 \begin{itemize}
 \item
@@ -1097,7 +1094,7 @@ numbers)}{A) Same number of categories, but \textbar r\_\{\textbackslash min\}\t
   \(Y:\ [100,\,100,\,100,\,300,\,400]\) (skewed; not palindromic)
 \end{itemize}
 
-\textbf{Scores:} \(0{:}4\) for both.
+Scores: \(0{:}4\) for both.
 
 \begin{itemize}
 \item
@@ -1108,15 +1105,15 @@ numbers)}{A) Same number of categories, but \textbar r\_\{\textbackslash min\}\t
   \[|r_{\min}| \approx 0.8811 \ne r_{\max}\]
 \end{itemize}
 
-\textbf{Affine recode (10,20,30,40,50) for both:}
+Affine recode (10,20,30,40,50) for both:
 
 \begin{itemize}
 \tightlist
 \item
-  \(r_{\max}, r_{\min}\) \textbf{unchanged} (up to rounding).
+  \(r_{\max}, r_{\min}\) unchanged (up to rounding).
 \end{itemize}
 
-\textbf{Non-affine monotone recode for \(Y\):} \([0,1,1.5,3,10]\).
+Non-affine monotone recode for \(Y\): \([0,1,1.5,3,10]\).
 
 \begin{itemize}
 \item
@@ -1124,31 +1121,30 @@ numbers)}{A) Same number of categories, but \textbar r\_\{\textbackslash min\}\t
 \item
   \[r_{\min}\approx -0.863250703\]
 \item
-  Values change (Pearson is \textbf{not} invariant to non-affine
-  spacing); magnitudes still unequal.
+  Values change (Pearson is not invariant to non-affine spacing);
+  magnitudes still unequal.
 \end{itemize}
 
-\textbf{Why unequal magnitudes?} No palindromic symmetry in \(Y\) ⇒ the
+Why unequal magnitudes? No palindromic symmetry in \(Y\) ⇒ the
 ``palindrome-sum'' pattern in \(y’-\)space isn't zero, so
 \(S_{\max}+S_{\min}\ne 0\).
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsubsection{\texorpdfstring{B) \textbf{Different numbers of
-categories, yet \(|r_{\min}|=r_{\max}\)} (concrete
+\subsubsection{\texorpdfstring{B) Different numbers of categories, yet
+\(|r_{\min}|=r_{\max}\) (concrete
 numbers)}{B) Different numbers of categories, yet \textbar r\_\{\textbackslash min\}\textbar=r\_\{\textbackslash max\} (concrete numbers)}}\label{b-different-numbers-of-categories-yet-r_minr_max-concrete-numbers}
 
-\textbf{Counts:}
+Counts:
 
 \begin{itemize}
 \item
   \(X\) (4 categories): \([100,\,200,\,300,\,400]\)
 \item
-  \(Y\) (5 categories): \([100,\,200,\,400,\,200,\,100]\)
-  (\textbf{palindromic})
+  \(Y\) (5 categories): \([100,\,200,\,400,\,200,\,100]\) (palindromic)
 \end{itemize}
 
-\textbf{Scores:} \(X:\ 0{:}3\), \(Y:\ 0{:}4\).
+Scores: \(X:\ 0{:}3\), \(Y:\ 0{:}4\).
 
 \begin{itemize}
 \item
@@ -1159,16 +1155,16 @@ numbers)}{B) Different numbers of categories, yet \textbar r\_\{\textbackslash m
   \(|r_{\min}| = r_{\max}\) (to machine precision)
 \end{itemize}
 
-\textbf{Affine recode (e.g., 10,20,\ldots):}
+Affine recode (e.g., 10,20,\ldots):
 
 \begin{itemize}
 \tightlist
 \item
-  Magnitudes remain \textbf{identical}; affine transforms don't change
-  Pearson correlation.
+  Magnitudes remain identical; affine transforms don't change Pearson
+  correlation.
 \end{itemize}
 
-\textbf{Non-affine monotone recode for \(Y\):} \([0,1,1.5,3,10]\).
+Non-affine monotone recode for \(Y\): \([0,1,1.5,3,10]\).
 
 \begin{itemize}
 \item
@@ -1176,26 +1172,23 @@ numbers)}{B) Different numbers of categories, yet \textbar r\_\{\textbackslash m
 \item
   \[r_{\min}\approx -0.842041337\]
 \item
-  \textbf{Magnitudes no longer match} because antisymmetry of the
-  \textbf{scores} about the center is lost, even though the
-  \textbf{counts} are palindromic.
+  Magnitudes no longer match because antisymmetry of the scores about
+  the center is lost, even though the counts are palindromic.
 \end{itemize}
 
-\textbf{Why equal magnitudes in the affine case?} Palindromic
-\textbf{mass} symmetry in \(Y\) + \textbf{antisymmetric scoring} (any
-affine map of \(0{:}(K_Y-1)\)) ⇒ the palindrome-sum vector
-\(y'_i+y'_{n+1-i}\equiv 0\). Hence \(S_{\max}+S_{\min}=0\) ⇒
-\(|r_{\min}|=r_{\max}\) for \textbf{any} \(X\), irrespective of
-\(K_X\neq K_Y\).
+Why equal magnitudes in the affine case? Palindromic mass symmetry in
+\(Y\) + antisymmetric scoring (any affine map of \(0{:}(K_Y-1)\)) ⇒ the
+palindrome-sum vector \(y'_i+y'_{n+1-i}\equiv 0\). Hence
+\(S_{\max}+S_{\min}=0\) ⇒ \(|r_{\min}|=r_{\max}\) for any \(X\),
+irrespective of \(K_X\neq K_Y\).
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsubsection{\texorpdfstring{C) \textbf{Spearman invariance (same data
-as in
-B)}}{C) Spearman invariance (same data as in B)}}\label{c-spearman-invariance-same-data-as-in-b}
+\subsubsection{C) Spearman invariance (same data as in
+B)}\label{c-spearman-invariance-same-data-as-in-b}
 
-Compute ranks (with average ties) \textbf{once} for \(x\) and \(y\),
-then form extremes by sorting those rank vectors.
+Compute ranks (with average ties) once for \(x\) and \(y\), then form
+extremes by sorting those rank vectors.
 
 \begin{itemize}
 \item
@@ -1203,36 +1196,34 @@ then form extremes by sorting those rank vectors.
   \(r_{\max}^{\text{Spearman}}\approx 0.920837215,\ \ r_{\min}^{\text{Spearman}}\approx -0.920837215\).
 \item
   With \(Y\) scored non-affinely \([0,1,1.5,3,10]\):\\
-  \textbf{identical} Spearman extremes: \(0.920837215\) and
-  \(-0.920837215\).
+  identical Spearman extremes: \(0.920837215\) and \(-0.920837215\).
 \end{itemize}
 
-✅ \textbf{Spearman is invariant} to any strictly monotone recode
-because ranks depend only on order, not spacing.
+✅ Spearman is invariant to any strictly monotone recode because ranks
+depend only on order, not spacing.
 
 \subsubsection{What Changes and What Doesn't (Pearson
 vs.~Spearman)}\label{what-changes-and-what-doesnt-pearson-vs.-spearman}
 
 \begin{itemize}
 \item
-  \textbf{Pearson:}
+  Pearson:
 
   \begin{itemize}
   \item
-    \textbf{Affine} recodes \(a+b\cdot\text{score}\) (with \(b>0\))
-    leave \(r_{\max}, r_{\min}\), and any \(|r_{\min}|=r_{\max}\)
-    conclusions \textbf{unchanged}.
+    Affine recodes \(a+b\cdot\text{score}\) (with \(b>0\)) leave
+    \(r_{\max}, r_{\min}\), and any \(|r_{\min}|=r_{\max}\) conclusions
+    unchanged.
   \item
-    \textbf{Non-affine monotone} recodes can change
-    \(r_{\max}, r_{\min}\) and can break \(|r_{\min}|=r_{\max}\) even
-    with palindromic counts.
+    Non-affine monotone recodes can change \(r_{\max}, r_{\min}\) and
+    can break \(|r_{\min}|=r_{\max}\) even with palindromic counts.
   \end{itemize}
 \item
-  \textbf{Spearman:}
+  Spearman:
 
   \begin{itemize}
   \item
-    Any strictly monotone recode leaves extremes \textbf{unchanged}.
+    Any strictly monotone recode leaves extremes unchanged.
   \item
     Palindromic counts in \(Y\) (with the usual symmetric rank scheme)
     give \(|r_{\min}|=r_{\max}\).
@@ -1250,19 +1241,19 @@ scoring)}\label{lemma-signs-of-extreme-correlations-under-monotone-scoring}
 \phantomsection\label{prop-max-product}
 \begin{lemma}
 
-Let $X$ and $Y$ be ordinal variables. Assign numeric scores to categories via **non-decreasing** maps $s_X, s_Y$ that respect the category order (scores may be affine or nonlinear; ties allowed). Define two extreme couplings:
+Let $X$ and $Y$ be ordinal variables. Assign numeric scores to categories via non-decreasing maps $s_X, s_Y$ that respect the category order (scores may be affine or nonlinear; ties allowed). Define two extreme couplings:
 
-- **Comonotone (upper)**: pair larger scored values of $X$ with larger scored values of $Y$.
-- **Antitone (lower)**: pair larger scored values of $X$ with smaller scored values of $Y$.
+- Comonotone (upper): pair larger scored values of $X$ with larger scored values of $Y$.
+- Antitone (lower): pair larger scored values of $X$ with smaller scored values of $Y$.
     
 
-Let $r_{\max}$ and $r_{\min}$ be the Pearson correlations computed from these couplings, either (i) in the **finite-sample/permutation** sense (sort scored observations in the same vs. opposite order), or (ii) in the **Fréchet–Hoeffding (FH)/population** sense (pair quantiles $Q_X(u)$ with $Q_Y(u)$ vs. $Q_Y(1-u)$).
+Let $r_{\max}$ and $r_{\min}$ be the Pearson correlations computed from these couplings, either (i) in the finite-sample/permutation sense (sort scored observations in the same vs. opposite order), or (ii) in the Fréchet–Hoeffding (FH)/population sense (pair quantiles $Q_X(u)$ with $Q_Y(u)$ vs. $Q_Y(1-u)$).
 
 Then:
 
 1. $r_{\max}\ge 0$ and $r_{\min}\le 0$.
     
-2. Moreover, $r_{\max}>0$ and $r_{\min}<0$ **iff** both variables have **positive variance** under the chosen scoring (i.e., neither scored variable is almost surely constant).
+2. Moreover, $r_{\max}>0$ and $r_{\min}<0$ iff both variables have positive variance under the chosen scoring (i.e., neither scored variable is almost surely constant).
     
 
 \textit{(If you reverse the scoring of one variable (decreasing map), swap "upper" and "lower". For Spearman's $\rho$, take the scores to be midranks---monotone by construction---and the same conclusions hold.)}
@@ -1281,9 +1272,9 @@ We give parallel proofs in the finite-sample and population settings.
 \end{enumerate}
 
 Let \(x_{(1)}\ge\cdots\ge x_{(n)}\) and \(y_{(1)}\ge\cdots\ge y_{(n)}\)
-be the \textbf{scored} observations of \(X\) and \(Y\) sorted in
-nonincreasing order (monotone scoring ensures sorting by category equals
-sorting by score). Center them:
+be the scored observations of \(X\) and \(Y\) sorted in nonincreasing
+order (monotone scoring ensures sorting by category equals sorting by
+score). Center them:
 
 \[x'_i := x_{(i)}-\bar x,\qquad y'_i := y_{(i)}-\bar y,\quad  
 \bar x := \tfrac1n\sum_i x_{(i)},\;\bar y := \tfrac1n\sum_i y_{(i)}.\]
@@ -1295,14 +1286,14 @@ S_{\min} := \sum_{i=1}^n x'_i\,y'_{\,n+1-i}.\]
 
 \begin{itemize}
 \item
-  \textbf{Signs.}\\
+  Signs.\\
   Chebyshev's sum inequality (rearrangement for similarly/ oppositely
   ordered sequences) gives
 
   \[\frac1n\sum_i x'_i y'_i \;\ge\; \Big(\tfrac1n\sum_i x'_i\Big)\Big(\tfrac1n\sum_i y'_i\Big)=0,  
     \quad\Rightarrow\; S_{\max}\ge 0,\]
 
-  and, because \(y'_{\,n+1-i}\) is \textbf{nondecreasing} in \(i\),
+  and, because \(y'_{\,n+1-i}\) is nondecreasing in \(i\),
 
   \[\frac1n\sum_i x'_i y'_{\,n+1-i} \;\le\; \Big(\tfrac1n\sum_i x'_i\Big)\Big(\tfrac1n\sum_i y'_{\,n+1-i}\Big)=0,  
     \quad\Rightarrow\; S_{\min}\le 0.\]
@@ -1310,13 +1301,12 @@ S_{\min} := \sum_{i=1}^n x'_i\,y'_{\,n+1-i}.\]
   Dividing by \(\sigma_X\sigma_Y>0\) (the standard deviations of the
   scored variables) yields \(r_{\max}\ge 0\) and \(r_{\min}\le 0\).
 \item
-  \textbf{Strictness \((\Leftrightarrow\) positive variances).}\\
+  Strictness \((\Leftrightarrow\) positive variances).\\
   Suppose \(\sigma_X>0\) and \(\sigma_Y>0\) (i.e., neither \(\{x'_i\}\)
   nor \(\{y'_i\}\) is identically zero). The rearrangement inequality
-  says \(S_{\max}\) is the \textbf{maximum} and \(S_{\min}\) the
-  \textbf{minimum} of \(\sum_i x'_i y'_{\pi(i)}\) over all permutations
-  \(\pi\); moreover \(S_{\min}<S_{\max}\). The \textbf{average} over all
-  permutations equals
+  says \(S_{\max}\) is the maximum and \(S_{\min}\) the minimum of
+  \(\sum_i x'_i y'_{\pi(i)}\) over all permutations \(\pi\); moreover
+  \(S_{\min}<S_{\max}\). The average over all permutations equals
 
   \[\frac1{n!}\sum_{\pi}\sum_i x'_i y'_{\pi(i)}  
     = \sum_i x'_i \Big(\frac1{n!}\sum_{\pi} y'_{\pi(i)}\Big)  
@@ -1341,7 +1331,7 @@ S_{\min} := \sum_{i=1}^n x'_i\,y'_{\,n+1-i}.\]
 \end{enumerate}
 
 Let \(Q_X, Q_Y : [0,1]\to\mathbb{R}\) be the quantile functions of the
-\textbf{scored} variables. Set
+scored variables. Set
 
 \[f(u):=Q_X(u)-\mu_X,\qquad g(u):=Q_Y(u)-\mu_Y,\]
 
@@ -1351,18 +1341,17 @@ nondecreasing functions.
 
 \begin{itemize}
 \item
-  \textbf{Upper/comonotone covariance}:
+  Upper/comonotone covariance:
 
   \[\mathrm{Cov}_{\max}=\int_0^1 f(u)\,g(u)\,du \;\ge\; \Big(\int_0^1 f\Big)\Big(\int_0^1 g\Big)=0\]
 
-  by Chebyshev's \textbf{integral} inequality for similarly ordered
-  functions.
+  by Chebyshev's integral inequality for similarly ordered functions.
 \item
-  \textbf{Lower/antitone covariance}:
+  Lower/antitone covariance:
 
   \[\mathrm{Cov}_{\min}=\int_0^1 f(u)\,g(1-u)\,du \;\le\; \Big(\int_0^1 f\Big)\Big(\int_0^1 g(1-u)\Big)=0,\]
 
-  since \(f\) is nondecreasing and \(g(1-u)\) is \textbf{nonincreasing}.
+  since \(f\) is nondecreasing and \(g(1-u)\) is nonincreasing.
 \end{itemize}
 
 Dividing by \(\sigma_X\sigma_Y>0\) yields \(r_{\max}\ge 0\) and
@@ -1371,11 +1360,11 @@ Dividing by \(\sigma_X\sigma_Y>0\) yields \(r_{\max}\ge 0\) and
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Strictness.}\\
+  Strictness.\\
   If both variables have positive variance, then \(f\) and \(g\) are not
   a.e. constant. For nontrivial nondecreasing \(f,g\), Chebyshev's
-  integral inequalities above are \textbf{strict} unless one function is
-  a.e. constant. Hence \(\mathrm{Cov}_{\max}>0\) and
+  integral inequalities above are strict unless one function is a.e.
+  constant. Hence \(\mathrm{Cov}_{\max}>0\) and
   \(\mathrm{Cov}_{\min}<0\), giving \(r_{\max}>0\) and \(r_{\min}<0\).
   Conversely, if either variance is \(0\), both covariances are \(0\).
 \end{itemize}
@@ -1385,7 +1374,7 @@ This completes the proof. \(\square\)
 
 \subsection{Asymetry}\label{asymetry}
 
-\textbf{Symmetry and the Role of Ties}
+Symmetry and the Role of Ties
 
 \begin{itemize}
 \tightlist
@@ -1393,8 +1382,8 @@ This completes the proof. \(\square\)
   Conditions under which \(r_{\min} = -r_{\max}\)
 \end{itemize}
 
-PROP: If one marginal is \textbf{palindromically symmetric} about its
-center rank, then \(r_{\min} = -r_{\max}\).\\
+PROP: If one marginal is palindromically symmetric about its center
+rank, then \(r_{\min} = -r_{\max}\).\\
 \emph{(Cees -- r\_min MAGNITUDE Asymmetry in Pearson Correlation.md)}
 
 Necessary/sufficient symmetry condition (precisely stated)
@@ -1402,23 +1391,22 @@ Necessary/sufficient symmetry condition (precisely stated)
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Pair-specific equality} \(|r_{\min}|=r_{\max}\) \(\iff\)
+  Pair-specific equality \(|r_{\min}|=r_{\max}\) \(\iff\)
   \(\sum_i x'_i\,(y'_i+y'_{n+1-i})=0\).\\
   (Can happen by coincidence even if \(Y\) isn't symmetric.)
 \item
-  \textbf{Universal in \(X\)} equality (for \textbf{all} \(X\)):\\
-  \textbf{Necessary and sufficient} that \textbf{one} marginal (say
-  \(Y\)) has
+  Universal in \(X\) equality (for all \(X\)):\\
+  Necessary and sufficient that one marginal (say \(Y\)) has
 
   \begin{enumerate}
   \def\labelenumi{(\roman{enumi})}
   \tightlist
   \item
-    \textbf{palindromic mass symmetry} \(p_Y(k)=p_Y(K_Y-1-k)\) and\\
+    palindromic mass symmetry \(p_Y(k)=p_Y(K_Y-1-k)\) and\\
   \item
-    \textbf{antisymmetric scoring} \(s_Y(k)+s_Y(K_Y-1-k)=\text{const}\)
-    (true for any affine map of \(0{:}(K_Y-1)\)).\\
-    This condition is \textbf{independent of \(K_X\) vs \(K_Y\)}.
+    antisymmetric scoring \(s_Y(k)+s_Y(K_Y-1-k)=\text{const}\) (true for
+    any affine map of \(0{:}(K_Y-1)\)).\\
+    This condition is independent of \(K_X\) vs \(K_Y\).
   \end{enumerate}
 \end{itemize}
 
@@ -1444,9 +1432,8 @@ symmetry \(|r_{\min}|=r_{\max}\) is equivalent to
 
 \[S_{\max}+S_{\min}=0.\]
 
-\subsubsection{\texorpdfstring{2) \textbf{pair-specific necessary \&
-sufficient
-condition}}{2) pair-specific necessary \& sufficient condition}}\label{pair-specific-necessary-sufficient-condition}
+\subsubsection{2) pair-specific necessary \& sufficient
+condition}\label{pair-specific-necessary-sufficient-condition}
 
 Let
 
@@ -1465,12 +1452,11 @@ Hence, for this \emph{particular} pair \((x,y)\),
 This can hold even if \(Y\) is not symmetric---by coincidence of that
 inner product being zero.
 
-\subsubsection{\texorpdfstring{3) \textbf{universal condition
-(independent of
-\(X\))}}{3) universal condition (independent of X)}}\label{universal-condition-independent-of-x}
+\subsubsection{\texorpdfstring{3) universal condition (independent of
+\(X\))}{3) universal condition (independent of X)}}\label{universal-condition-independent-of-x}
 
-If you want \(|r_{\min}|=r_{\max}\) to hold for \textbf{every} possible
-\(X\) (every centered, sorted \(x'\)), then
+If you want \(|r_{\min}|=r_{\max}\) to hold for every possible \(X\)
+(every centered, sorted \(x'\)), then
 Equation~\ref{eq-symmetry-condition} must hold for all \(x'\). The only
 way is
 
@@ -1480,15 +1466,15 @@ i.e.
 
 \[y'_i + y'_{n+1-i}\equiv 0\ \ \ \forall i.\]
 
-Translating back to categories and scores, a \textbf{necessary and
-sufficient universal condition} is:
+Translating back to categories and scores, a necessary and sufficient
+universal condition is:
 
 \begin{itemize}
 \item
-  \textbf{Palindromic mass symmetry for \(Y\):} \(p_Y(k)=p_Y(K_Y-1-k)\)
-  for all \(k\), and
+  Palindromic mass symmetry for \(Y\): \(p_Y(k)=p_Y(K_Y-1-k)\) for all
+  \(k\), and
 \item
-  \textbf{Antisymmetric scoring for \(Y\):} the score map satisfies
+  Antisymmetric scoring for \(Y\): the score map satisfies
   \(s_Y(k)+s_Y(K_Y-1-k)\) is constant (true for affine scores like
   \(0,1,\dots,K_Y-1\), and for Spearman midranks under palindromic
   counts).
@@ -1514,11 +1500,11 @@ find an \(X\) for which \(|r_{\min}|\ne r_{\max}\) (often
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  \textbf{\(r_{\max}\) = FH upper (comonotonic), always attainable} in
-  discrete ordinal settings.
+  \(r_{\max}\) = FH upper (comonotonic), always attainable in discrete
+  ordinal settings.
 \item
-  \textbf{\(r_{\min}\)} may \textbf{not} equal FH lower in discrete
-  settings; use best feasible opposite-order arrangement.
+  \(r_{\min}\) may not equal FH lower in discrete settings; use best
+  feasible opposite-order arrangement.
 \item
   No universal bound on relative magnitudes: \(|r_{\min}|\) may be less
   than, equal to, or greater than \(r_{\max}\).
@@ -1676,9 +1662,9 @@ Asymmetry}\label{overlap-based-measures-of-asymmetry}
 
 In addition to Total Variation (TV) distance, other metrics can quantify
 the structural dissimilarity between a marginal distribution and its
-reverse. One natural approach is to assess the degree of
-\textbf{overlap} between the original distribution \(p\) and its reverse
-\(p^{\mathrm{rev}}\), defined by reversing the order of the categories.
+reverse. One natural approach is to assess the degree of overlap between
+the original distribution \(p\) and its reverse \(p^{\mathrm{rev}}\),
+defined by reversing the order of the categories.
 
 We consider three complementary measures of overlap and their
 complements:
@@ -1696,7 +1682,7 @@ maximum absolute discrepancy between the two distributions:
 \paragraph{(ii) Bhattacharyya Coefficient (BC) and its
 Complement}\label{ii-bhattacharyya-coefficient-bc-and-its-complement}
 
-The \textbf{Bhattacharyya Coefficient} provides a geometric measure of
+The Bhattacharyya Coefficient provides a geometric measure of
 similarity:
 
 \[
@@ -1711,7 +1697,7 @@ between 0 and 1, with 0 indicating perfect symmetry.
 \paragraph{(iii) Overlap Coefficient
 (OVL)}\label{iii-overlap-coefficient-ovl}
 
-The \textbf{Overlap Coefficient}, sometimes referred to as the
+The Overlap Coefficient, sometimes referred to as the
 Szymkiewicz--Simpson coefficient, captures the shared probability mass:
 
 \[
@@ -2463,22 +2449,22 @@ First, some preliminaries. It is well known that any correlation matrix
 for the same set of respondents), \(S\), is positive semi-definite and
 symmetric. Hence, \(S\) is invertible. However, \ldots{}
 
-\textbf{Why PSD Matters for PCA:}
+Why PSD Matters for PCA:
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Mathematically}: Eigen-decomposition works for any symmetric
+  Mathematically: Eigen-decomposition works for any symmetric
   \(\mathbf{S}\), PSD or not.
 \item
-  \textbf{Interpretively}: Negative eigenvalues break the ``variance
-  explained'' story (variance cannot be negative).
+  Interpretively: Negative eigenvalues break the ``variance explained''
+  story (variance cannot be negative).
 \item
-  \textbf{Software behavior}: Most PCA routines check PD/PSD; failure
-  can cause warnings or dropped components.
+  Software behavior: Most PCA routines check PD/PSD; failure can cause
+  warnings or dropped components.
 \end{itemize}
 
-\textbf{If Input is Symmetric but not PSD:}
+If Input is Symmetric but not PSD:
 
 Example: \[
 \mathbf{A} = \begin{bmatrix} 1 & 2 \\ 2 & 1 \end{bmatrix},\quad \lambda = (3,-1),
@@ -2496,19 +2482,19 @@ Example: \[
   variance metrics.
 \end{itemize}
 
-\textbf{PSD/PD Needs in FA:}
+PSD/PD Needs in FA:
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{ML FA}: Requires \(\mathbf{S}\) be PSD;
-  \(\log \det \mathbf{S}\) undefined if indefinite.
+  ML FA: Requires \(\mathbf{S}\) be PSD; \(\log \det \mathbf{S}\)
+  undefined if indefinite.
 \item
-  \textbf{Principal-axis / Image FA}: Also break with negative
-  eigenvalues (square roots fail).
+  Principal-axis / Image FA: Also break with negative eigenvalues
+  (square roots fail).
 \end{itemize}
 
-\textbf{SEM and PSD Requirements}
+SEM and PSD Requirements
 
 \subsubsection{SEM Machinery}\label{sem-machinery}
 
@@ -2522,13 +2508,13 @@ Needs}\label{fit-functions-and-pd-needs}
 \begin{itemize}
 \tightlist
 \item
-  \textbf{ML / GLS}: Require both \(\mathbf{S}\) and
+  ML / GLS: Require both \(\mathbf{S}\) and
   \(\boldsymbol\Sigma(\theta)\) PD.
 \item
-  \textbf{WLS/DWLS}: Need PD indirectly (weight matrix invertible).
+  WLS/DWLS: Need PD indirectly (weight matrix invertible).
 \item
-  \textbf{ULS}: Can start from indefinite \(\mathbf{S}\), but test
-  statistics again require PD.
+  ULS: Can start from indefinite \(\mathbf{S}\), but test statistics
+  again require PD.
 \end{itemize}
 
 \subsubsection{What Happens if Not PSD}\label{what-happens-if-not-psd}
@@ -2557,26 +2543,23 @@ Needs}\label{fit-functions-and-pd-needs}
   Check rounding issues.
 \end{itemize}
 
-\textbf{Core Lessons Across PCA, FA, SEM}
+Core Lessons Across PCA, FA, SEM
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  \textbf{Theoretical PSD}: Covariance matrices from real data are PSD
-  by definition.
+  Theoretical PSD: Covariance matrices from real data are PSD by
+  definition.
 \item
-  \textbf{Numerical Issues}: Sampling noise, rounding, or listwise
-  deletion can yield small negative eigenvalues.
+  Numerical Issues: Sampling noise, rounding, or listwise deletion can
+  yield small negative eigenvalues.
 \item
-  \textbf{PCA}: Can compute from indefinite matrix but interpretation
-  breaks.
+  PCA: Can compute from indefinite matrix but interpretation breaks.
 \item
-  \textbf{FA and SEM}: Require PD input; will not run on indefinite
-  matrices.
+  FA and SEM: Require PD input; will not run on indefinite matrices.
 \item
-  \textbf{Repairs}: Adjust to nearest PSD, ridge, or recompute from raw
-  data.
+  Repairs: Adjust to nearest PSD, ridge, or recompute from raw data.
 \end{enumerate}
 
 So, we consider linearly re-scaling the estimated \(r\) for each pair of
@@ -2743,7 +2726,7 @@ Proofs}\label{appendix-a-mathematical-proofs}
 
 \subsection{Proof A.1}\label{proof-max-product}
 
-\textbf{Proof of \textcite{prop-max-product}.}
+Proof of \textcite{prop-max-product}.
 
 \emph{{[}Proof to be written. The argument is given in full in the body
 of Section~\ref{sec-theory}; this appendix will present a
@@ -2751,7 +2734,7 @@ self-contained, condensed version.{]}}
 
 \subsection{Proof A.2}\label{proof-cor-min}
 
-\textbf{Proof of the Corollary (\textcite{corr-min}).}
+Proof of the Corollary (\textcite{corr-min}).
 
 \emph{{[}Proof to be written. The greedy algorithm for constructing
 \(M_{i,j}\) and \(R_{i,j}\) is described in the body of

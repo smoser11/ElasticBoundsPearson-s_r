@@ -108,10 +108,6 @@
 \addbibresource{references.bib}
 
 
-\usepackage[usenames,dvipsnames]{xcolor}
-% Do NOT load biblatex here.
-% (Optional) Language mapping recommended for APA:
-\DeclareLanguageMapping{english}{english-apa}
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -125,20 +121,23 @@
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
 % Definitions and Corollaries (upright)
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{corollary}{Corollary}
 \newtheorem{example}{Example}
-\newtheorem{lemma}{Lemma}
 % \newtheorem{algorithm}[theorem]{Algorithm}
 % Optional: formatting for the proof environment
 \renewenvironment{proof}
    {\par\noindent\textbf{Proof.}\ }
    {\hfill$\blacksquare$\par}
-
-
-\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+% \usepackage{algorithm}
+% \usepackage{algorithmic}
+% \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+% cleveref must load after hyperref; \AtEndPreamble defers it safely
+\usepackage{etoolbox}
+\AtEndPreamble{\usepackage[capitalise, nameinlink, noabbrev]{cleveref}}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -194,17 +193,17 @@
   pdftitle={Elastic Bounds of Pearson's r: Theoretical and Empirical Insights for Ordinal Variables},
   pdfauthor={Cees van der Eijk; Scott Moser},
   colorlinks=true,
-  linkcolor={OliveGreen},
-  filecolor={red},
-  citecolor={Maroon},
-  urlcolor={blue},
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={RoyalBlue},
+  urlcolor={BrickRed},
   pdfcreator={LaTeX via pandoc}}
 
 
 \title{Elastic Bounds of Pearson's \(r\): Theoretical and Empirical
 Insights for Ordinal Variables}
 \author{Cees van der Eijk \and Scott Moser}
-\date{23, April 2026}
+\date{16, April 2026}
 \begin{document}
 \maketitle
 
@@ -290,23 +289,23 @@ Our contribution situates empirical practice within these theoretical
 limits and provides tools to compute and visualize the bounds given
 fixed marginals.
 
-This article proceeds as follows. Section~\ref{sec-background}
+This article proceeds as follows. \Cref{sec-background}
 introduces orcats, explains why Pearson's \(r\) is used despite
 violating the interval-level assumption, and formally defines the
 notation and key concepts --- including existing alternatives and the
-coupling framework that underlies our bounds. Section~\ref{sec-theory}
+coupling framework that underlies our bounds. \Cref{sec-theory}
 derives the theoretical results: the main proposition establishing
 \(r_{\min}\) and \(r_{\max}\) via comonotonic and anti-comonotonic
 coupling, the conditions under which \(|r_{\min}| = r_{\max}\)
 (symmetry) and \(|r_{\min}| > r_{\max}\) (asymmetry), and results on the
-signs of extreme correlations. Section~\ref{sec-metrics} introduces
+signs of extreme correlations. \Cref{sec-metrics} introduces
 metrics of constraint --- scalar summaries of how severely marginal
 distributions restrict the attainable range of \(r\).
-Section~\ref{sec-MCsim} presents Monte Carlo validation across orcat
+\Cref{sec-MCsim} presents Monte Carlo validation across orcat
 pairs with 4 to 11 categories, characterising how marginal shape drives
-constraint. Section~\ref{sec-bes} illustrates the findings using 7,503
+constraint. \Cref{sec-bes} illustrates the findings using 7,503
 variable pairs from the British Election Study 2019.
-Section~\ref{sec-implications} draws out applied consequences for
+\Cref{sec-implications} draws out applied consequences for
 effect-size interpretation, cross-study comparability, hypothesis
 testing, rescaling, and the use of correlation matrices in PCA, FA, and
 SEM. The article concludes with a discussion and directions for future
@@ -583,7 +582,7 @@ products is maximised when both sequences are sorted in the same order
 (comonotonic arrangement) and minimised when sorted in opposite orders
 (anti-comonotonic arrangement). These constructions yield \(r_{\max}\)
 and \(r_{\min}\) respectively, and are formalised in
-Section~\ref{sec-theory}.
+\Cref{sec-theory}.
 
 \section{Theoretical Results}\label{sec-theory}
 
@@ -1725,7 +1724,7 @@ These measures differ in their interpretive emphasis: - TV focuses on
 the total discrepancy. - BC captures geometric congruence. - OVL
 captures the total shared area between the distributions.
 
-In our simulation study (Section~\ref{sec-MCsim}), we compute all three
+In our simulation study (\Cref{sec-MCsim}), we compute all three
 diagnostics to illustrate how marginal asymmetry correlates with
 asymmetry in achievable Pearson correlation bounds.
 
@@ -1751,7 +1750,7 @@ H(p) = -\sum_{i=1}^{K} p_i \log p_i,
 \(H = \log K\) when \(p\) is uniform and minimised at \(H = 0\) when all
 mass falls on a single category. As entropy decreases, the distribution
 becomes more concentrated, and --- as the asymmetry results in
-Section~\ref{sec-theory} show --- concentrated (skewed) marginals are
+\Cref{sec-theory} show --- concentrated (skewed) marginals are
 associated both with more severe constraint on \(r\) and with greater
 bound asymmetry \(|r_{\min}| - r_{\max}|\).
 
@@ -1761,8 +1760,8 @@ entropy: \[
 \] Low \(\bar{H}\) (concentrated marginals) predicts small \(C_1\)
 (narrow attainable range) and larger
 \(\bigl||r_{\min}| - r_{\max}\bigr|\) (greater bound asymmetry). This
-relationship is examined empirically in Section~\ref{sec-MCsim} and
-Section~\ref{sec-bes}.
+relationship is examined empirically in \Cref{sec-MCsim} and
+\Cref{sec-bes}.
 
 The entropy measure complements rather than replaces TV, BC, and OVL:
 where the overlap measures diagnose \emph{whether} a given distribution
@@ -1792,7 +1791,7 @@ generate 2,000 pairs, yielding a simulation dataset of 72,000 orcat
 pairs in total. Pairs in which either variable has zero variance are
 excluded (none arose in practice). For each pair we compute
 \(r_{\min}\), \(r_{\max}\), \(C_1\), \(C_2\), and the constraint metrics
-defined in Section~\ref{sec-metrics}. Further details of the simulation
+defined in \Cref{sec-metrics}. Further details of the simulation
 procedure are provided in Appendix C.
 
 This simulated dataset constitutes, within the limits of granularity
@@ -1804,7 +1803,7 @@ range of \(r\). It is not, however, a random sample from the pairs of
 orcats that applied researchers encounter in practice: survey designers
 systematically avoid items that produce near-zero variance in
 respondents' answers. The British Election Study 2019 data analysed in
-Section~\ref{sec-bes} provides the empirical complement, characterising
+\Cref{sec-bes} provides the empirical complement, characterising
 constraint severity in a real, large-scale survey instrument.
 
 \subsection{Effect of Number of Categories on Constraint
@@ -1863,7 +1862,7 @@ each with an observed \(r = 0.40\) are not comparable if one involves
 Severity}\label{entropy-as-a-predictor-of-constraint-severity}
 
 The number of categories is a coarse summary of constraint risk.
-Section~\ref{sec-metrics} introduced Shannon entropy
+\Cref{sec-metrics} introduced Shannon entropy
 \(\bar{H}(X, Y) = \bigl(H(p_X) + H(p_Y)\bigr)/2\) as a finer,
 pair-specific measure of marginal concentration.
 Figure~\ref{fig-mc-entropy-c1} shows the relationship between
@@ -1904,7 +1903,7 @@ the coarser \(K\)-count predictor.
 \subsection{Bound Asymmetry: Direction Is Not
 Predictable}\label{bound-asymmetry-direction-is-not-predictable}
 
-The theoretical results in Section~\ref{sec-theory} establish precisely
+The theoretical results in \Cref{sec-theory} establish precisely
 when \(|r_{\min}| > r_{\max}\) (the strict asymmetry corollary), and the
 condition involves the interaction of both marginals through the inner
 product \(\sum_i x'_i z_i\). One might expect that variables with more
@@ -1921,7 +1920,7 @@ entropy (concentrated marginals are marginally more likely to produce
 \(|r_{\min}| > r_{\max}\)), but the loess smooth barely departs from
 zero across the entire entropy range and the scatter is enormous.
 Shannon entropy, total variation distance, and the other single-variable
-metrics in Section~\ref{sec-metrics} all have negligible predictive
+metrics in \Cref{sec-metrics} all have negligible predictive
 power for the \emph{direction} of asymmetry.
 
 This is not a failure of the theory. The sign of
@@ -1990,7 +1989,7 @@ and at least minimal variance, yielding a total of 7,503 variable pairs.
 For each pair we computed \(r_{\min}\), \(r_{\max}\), \(C_1\), \(C_2\),
 and the asymmetry measure \(|r_{\min}| - r_{\max}\) from the observed
 marginal frequencies using the comonotonic and anti-comonotonic
-constructions of Section~\ref{sec-theory}. We do not claim that the BES
+constructions of \Cref{sec-theory}. We do not claim that the BES
 is a random sample of all survey datasets used in social science, but we
 do regard it as typical: it is a large, methodologically sophisticated
 survey containing the variety of item formats, response distributions,
@@ -2091,7 +2090,7 @@ exact symmetry at zero.}
 The distribution is nearly symmetric about zero: 3,726 pairs (49.7\%)
 have \(|r_{\min}| > r_{\max}\) and 3,777 pairs (50.3\%) have
 \(r_{\max} > |r_{\min}|\). The split is essentially a coin flip,
-confirming the simulation finding of Section~\ref{sec-MCsim}: the
+confirming the simulation finding of \Cref{sec-MCsim}: the
 \emph{direction} of bound asymmetry cannot be predicted from univariate
 marginal summaries.
 
@@ -2101,7 +2100,7 @@ tails extend to \(\pm 0.4\), meaning that for some pairs the difference
 between \(|r_{\min}|\) and \(r_{\max}\) is as large as 0.4 correlation
 units. For such pairs, an analysis that assumes symmetric bounds (i.e.,
 treats \(r_{\min} = -r_{\max}\)) would be wrong by a large margin. The
-BES example introduced in Section~\ref{sec-theory} --- where
+BES example introduced in \Cref{sec-theory} --- where
 \(r_{\max} = 0.850\) and \(r_{\min} = -0.899\), an asymmetry of 0.049
 --- is representative of the more common modest asymmetries, while the
 tails of Figure~\ref{fig-bes-asymmetry} contain pairs where the issue is
@@ -2215,7 +2214,7 @@ threshold shifts: a pair with \(r_{\max} = 0.88\) requires an observed
 \(r \approx 0.44\) to achieve the same proportional position as Cohen's
 0.50 in the unconstrained case. For the most constrained pairs --- those
 in the lower quartile of \(C_1\) --- the distortion is far more severe.
-The rescaled correlation \(r^*\) (Section~\ref{sec-implications-resc})
+The rescaled correlation \(r^*\) (\Cref{sec-implications-resc})
 resolves this directly: by expressing \(r_{\text{obs}}\) as a proportion
 of the pair-specific attainable range, Cohen-style benchmarks applied to
 \(r^*\) recover their intended meaning.
@@ -2246,95 +2245,20 @@ supply.
 
 \subsection{Hypothesis Testing}\label{sec-implications-hyp}
 
-The standard test of \(H_0\colon \rho = 0\) for Pearson's \(r\) relies
-on the \(t\)-statistic \(t = r\sqrt{n-2}/\sqrt{1-r^2}\), which under the
-null follows a \(t\)-distribution with \(n-2\) degrees of freedom when
-the variables are jointly normal and, by continuous-data theory, \(r\)
-is free to range over \((-1,1)\). For two orcat variables the second
-condition fails: the marginal distributions place an iron constraint on
-the set of correlations that can arise in any arrangement of the data,
-confining \(r\) to the interval \([r_{\min}, r_{\max}]\). Applying the
-conventional \(t\)-test therefore attributes significance to variation
-that is, in part, the inevitable consequence of the marginal
-distributions rather than of any genuine dependence in the joint
-distribution.
-
-A natural alternative is a permutation (randomisation) test that
-respects the marginal constraint. Under \(H_0\colon \rho = 0\) the
-appropriate reference distribution is obtained by independently
-permuting one of the two variables while holding the marginals fixed,
-computing \(r\) for each permuted data set, and repeating many times.
-The resulting permutation null distribution is centred near zero --- its
-exact centre depends weakly on the category scores --- and is entirely
-contained within \([r_{\min}, r_{\max}]\). A \(p\)-value is then
-computed as the proportion of permuted \(r\)-values that are at least as
-extreme as the observed \(r_{\text{obs}}\) in absolute value. Because
-the reference distribution respects the constraints, the permutation
-test is valid unconditionally on the marginal distributions.
-
-The key practical insight is not merely that the permutation \(p\)-value
-can differ from the \(t\)-test \(p\)-value --- though it can --- but
-that the permutation distribution renders transparent where
-\(r_{\text{obs}}\) falls within the pair-specific attainable range. Two
-variable pairs that share the same \(r_{\text{obs}}\) and the same
-\(t\)-test \(p\)-value can occupy very different positions within their
-respective \([r_{\min}, r_{\max}]\) intervals, and this positional
-information is invisible to the conventional test.
-
-Figure~\ref{fig-permutation-null} illustrates the contrast with two
-synthetic variable pairs of identical sample size (\(n = 1{,}000\)),
-both yielding statistically significant correlations by the standard
-\(t\)-test. Pair\textasciitilde A consists of two 4-category orcats with
-heavily concentrated, opposing marginals (\(r_{\min} = -1.00\),
-\(r_{\max} = 0.33\), \(C_1 = 0.66\)). The observed correlation is
-\(r_{\text{obs}} = 0.17\), which equals 52\% of the pair's theoretical
-maximum: the association accounts for a substantial fraction of what the
-marginals allow. Pair\textasciitilde B consists of two 7-category orcats
-with near-uniform marginals (\(r_{\min} = -0.99\), \(r_{\max} = 1.00\),
-\(C_1 = 0.99\)). Its observed correlation is \(r_{\text{obs}} = 0.13\),
-which is only 12.7\% of the theoretical maximum: the association is
-barely above what would arise by chance given the marginals. Despite
-their superficial similarity as ``significant correlations around
-0.15'', the two pairs convey qualitatively different information --- a
-distinction that the permutation null distributions make immediately
-visible.
-
-\begin{figure}[H]
-
-\centering{
-
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../output/figures/15_permutation_null_comparison.pdf}
-
-}
-
-\caption{\label{fig-permutation-null}Permutation null distributions for
-two contrasting variable pairs, both with \(n=1{,}000\) and similar
-\(r_{\text{obs}}\) values. Pair\textasciitilde A (left) has
-concentrated, opposing marginals (\(C_1 = 0.66\)); Pair\textasciitilde B
-(right) has near-uniform marginals (\(C_1 = 0.99\)). Vertical lines mark
-\(r_{\min}\) (blue dashed), \(r_{\max}\) (orange dashed), and
-\(r_{\text{obs}}\) (black solid). Although both pairs yield a nominally
-significant \(t\)-test, \(r_{\text{obs}}\) occupies 52\% of the
-attainable range for Pair\textasciitilde A but only 13\% for
-Pair\textasciitilde B.}
-
-\end{figure}%
-
-A further subtlety concerns the \emph{shape} of the permutation null
-distribution under asymmetric bounds. When \(|r_{\min}| \neq r_{\max}\)
-the distribution is not symmetric around zero, and using a two-sided
-critical region of equal tail probability on \([-1,1]\) --- as the
-\(t\)-test implicitly does --- can produce distorted
-type\textasciitilde I error rates. The permutation test is immune to
-this distortion because its critical region is derived directly from the
-empirical null distribution, whatever shape that takes.
-
-In summary, permutation-based inference is the natural complement to
-bound-awareness in the exploratory phase: it does not require any
-distributional assumption beyond the fixed marginals, it automatically
-adapts to the pair-specific attainable range, and it makes visible the
-position of \(r_{\text{obs}}\) within that range --- information that is
-entirely suppressed by the conventional \(t\)-test.
+\begin{itemize}
+\tightlist
+\item
+  t-test can mislead: Example from BES: (i) t-test sig; perm test not;
+  (ii) visa versa
+\item
+  Why p-values based on {[}--1, 1{]} bounds may mislead \(\leadsto\)
+  need for adjusted null distributions
+\item
+  \textbf{Permutation distribution:} Generate full vectors from
+  marginals, independently permute \(X\) and \(Y\), compute \(r\),
+  repeat. Produces null distribution centered at 0.
+  \emph{(Proofs-OrdinalVariables.md)}
+\end{itemize}
 
 \subsection{Rescaling}\label{sec-implications-resc}
 
@@ -2403,10 +2327,10 @@ the attainable range \([r_{\min}, r_{\max}]\) can be treated as the
 appropriate reference interval for the specific pair, which is correct
 but does not address the fact that \(r^*\) itself still depends on the
 arbitrary choice of consecutive-integer scoring for the categories (see
-Section~\ref{sec-background}). It also does not address the asymmetry
+\Cref{sec-background}). It also does not address the asymmetry
 problem directly: when \(|r_{\min}| \neq r_{\max}\), the rescaled zero
 is not the same as \(r_{\text{obs}} = 0\). Adjusted null distributions
-via permutation testing (Section~\ref{sec-implications-hyp}) provide a
+via permutation testing (\Cref{sec-implications-hyp}) provide a
 complementary approach that avoids these artefacts.
 
 \subsection{Variance Explained}\label{variance-explained}
@@ -2724,7 +2648,7 @@ Questions}\label{extensions-and-open-questions}
   `Correction' strategies \(\leadsto\) \emph{rescaling}
 \item
   Generalizations to higher dimensions \(\leadsto\) see
-  Section~\ref{sec-matrices} above for implications for correlation
+  \Cref{sec-matrices} above for implications for correlation
   matrices, FA, and SEM
 \end{itemize}
 
@@ -2746,7 +2670,7 @@ Proofs}\label{appendix-a-mathematical-proofs}
 \textbf{Proof of \textcite{prop-max-product}.}
 
 \emph{{[}Proof to be written. The argument is given in full in the body
-of Section~\ref{sec-theory}; this appendix will present a
+of \Cref{sec-theory}; this appendix will present a
 self-contained, condensed version.{]}}
 
 \subsection{Proof A.2}\label{proof-cor-min}
@@ -2755,7 +2679,7 @@ self-contained, condensed version.{]}}
 
 \emph{{[}Proof to be written. The greedy algorithm for constructing
 \(M_{i,j}\) and \(R_{i,j}\) is described in the body of
-Section~\ref{sec-theory}; this appendix will provide a formal
+\Cref{sec-theory}; this appendix will provide a formal
 verification that the construction satisfies the marginal constraints
 and achieves the claimed extremal expectations.{]}}
 

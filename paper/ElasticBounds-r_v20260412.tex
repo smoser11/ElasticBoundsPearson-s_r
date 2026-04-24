@@ -93,6 +93,39 @@
 \makeatother
 
 
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 
 
@@ -104,14 +137,8 @@
 
 
  
-\usepackage[style=apa,]{biblatex}
-\addbibresource{references.bib}
 
 
-\usepackage[usenames,dvipsnames]{xcolor}
-% Do NOT load biblatex here.
-% (Optional) Language mapping recommended for APA:
-\DeclareLanguageMapping{english}{english-apa}
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -125,20 +152,20 @@
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
 % Definitions and Corollaries (upright)
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{corollary}{Corollary}
 \newtheorem{example}{Example}
-\newtheorem{lemma}{Lemma}
 % \newtheorem{algorithm}[theorem]{Algorithm}
 % Optional: formatting for the proof environment
 \renewenvironment{proof}
    {\par\noindent\textbf{Proof.}\ }
    {\hfill$\blacksquare$\par}
-
-
-\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+% \usepackage{algorithm}
+% \usepackage{algorithmic}
+% \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -194,7 +221,7 @@
   pdftitle={Elastic Bounds of Pearson's r: Theoretical and Empirical Insights for Ordinal Variables},
   pdfauthor={Cees van der Eijk; Scott Moser},
   colorlinks=true,
-  linkcolor={OliveGreen},
+  linkcolor={BrickRed},
   filecolor={red},
   citecolor={Maroon},
   urlcolor={blue},
@@ -204,7 +231,7 @@
 \title{Elastic Bounds of Pearson's \(r\): Theoretical and Empirical
 Insights for Ordinal Variables}
 \author{Cees van der Eijk \and Scott Moser}
-\date{23, April 2026}
+\date{12, April 2026}
 \begin{document}
 \maketitle
 
@@ -257,38 +284,45 @@ and in analytical procedures that use correlations as their input.
 
 Despite long-standing cautions about applying Pearson's correlation
 coefficient \(r\) to ordinal variables
-\autocite{labo70-assignment,gait80-measurement}, it remains routine in
+(\citeproc{ref-gait80-measurement}{Gaito, 1980};
+\citeproc{ref-labo70-assignment}{Labovitz, 1970}), it remains routine in
 survey-based social science. In political science and sociology alike,
 researchers frequently correlate 4--, 5--, or 7--point items as if they
 were interval-scaled, usually without examining the implications of the
 marginals. Examples include correlations among attitude items in
-large-scale survey batteries \autocite{alwi91-reliability}, ideology and
-issue positions on mixed-resolution scales
-\autocite{brew05-values,kind09-us}, and summary indices that are
-subsequently modeled using correlation-based techniques. Reviews
+large-scale survey batteries (\citeproc{ref-alwi91-reliability}{Alwin \&
+Krosnick, 1991}), ideology and issue positions on mixed-resolution
+scales (\citeproc{ref-brew05-values}{Brewer \& Gross, 2005};
+\citeproc{ref-kind09-us}{Kinder \& Kam, 2009}), and summary indices that
+are subsequently modeled using correlation-based techniques. Reviews
 document that such practices are pervasive in applied survey analysis
-\autocite{kreu07-survey}. Methodological discussions sometimes defend
-pragmatic use of parametric tools with ordinal data
-\autocite{jaco99-levels}, but even optimistic views do not address the
-\emph{feasible range} of \(r\) imposed by fixed marginals---an omission
-with direct consequences for substantive interpretation.
+(\citeproc{ref-kreu07-survey}{Kreuter \& Valliant, 2007}).
+Methodological discussions sometimes defend pragmatic use of parametric
+tools with ordinal data (\citeproc{ref-jaco99-levels}{Jacoby, 1999}),
+but even optimistic views do not address the \emph{feasible range} of
+\(r\) imposed by fixed marginals---an omission with direct consequences
+for substantive interpretation.
 
 Alternatives to Pearson's \(r\)---notably Spearman's \(\rho\), Kendall's
 \(\tau\), and the polychoric correlation---offer different trade-offs
-\autocite{spea04-proof,kend38-new,olss79-maximum}. Rank-based measures
-ignore the marginals; polychorics assume latent bivariate normality. In
+(\citeproc{ref-kend38-new}{Kendall, 1938};
+\citeproc{ref-olss79-maximum}{Olsson, 1979};
+\citeproc{ref-spea04-proof}{Spearman, 1904}). Rank-based measures ignore
+the marginals; polychorics assume latent bivariate normality. In
 contrast, we pursue bounds on \(r\) that \emph{explicitly} depend on the
 observed marginals, drawing on rearrangement inequalities and the
-Fréchet--Hoeffding framework
-\autocite{frec51-tableaux,hoef40-masstabinvariante,rusc81-sharpness}.
-This perspective clarifies when the attainable range of \(r\) is narrow,
-when symmetry fails (\(r_{\min}\neq -r_{\max}\)), and when the lower
-bound can be strictly positive. It also explains why correlation-based
-models with ordinal indicators (EFA/CFA/SEM) can be distorted when
-Pearson correlations are used \autocite{flor04-empirical,gree97-effect}.
-Our contribution situates empirical practice within these theoretical
-limits and provides tools to compute and visualize the bounds given
-fixed marginals.
+Fréchet--Hoeffding framework (\citeproc{ref-frec51-tableaux}{Fréchet,
+1951}; \citeproc{ref-hoef40-masstabinvariante}{Hoeffding, 1940};
+\citeproc{ref-rusc81-sharpness}{Rüschendorf, 1981}). This perspective
+clarifies when the attainable range of \(r\) is narrow, when symmetry
+fails (\(r_{\min}\neq -r_{\max}\)), and when the lower bound can be
+strictly positive. It also explains why correlation-based models with
+ordinal indicators (EFA/CFA/SEM) can be distorted when Pearson
+correlations are used (\citeproc{ref-flor04-empirical}{Flora \& Curran,
+2004}; \citeproc{ref-gree97-effect}{Green et al., 1997}). Our
+contribution situates empirical practice within these theoretical limits
+and provides tools to compute and visualize the bounds given fixed
+marginals.
 
 This article proceeds as follows. Section~\ref{sec-background}
 introduces orcats, explains why Pearson's \(r\) is used despite
@@ -504,14 +538,15 @@ correlations between orcats are interpreted and compared in applied
 research.
 
 First, qualitative benchmarks for correlation strength --- most
-famously, \textcite{cohe02-applied}'s suggestions of \(r \approx 0.10\)
-(weak), \(0.30\) (moderate), and \(0.50\) (strong) --- presuppose that
-the attainable range is \([-1, +1]\). When the actual range for a given
-pair of variables is, say, \([-0.65, +0.72]\), an observed \(r = 0.40\)
-lies considerably closer to the maximum than it would appear under
-Cohen's scheme. The benchmark is inapplicable, and applied conclusions
-about effect strength are distorted in a direction and by a magnitude
-that varies unpredictably across variable pairs.
+famously, Cohen et al. (\citeproc{ref-cohe02-applied}{2002})'s
+suggestions of \(r \approx 0.10\) (weak), \(0.30\) (moderate), and
+\(0.50\) (strong) --- presuppose that the attainable range is
+\([-1, +1]\). When the actual range for a given pair of variables is,
+say, \([-0.65, +0.72]\), an observed \(r = 0.40\) lies considerably
+closer to the maximum than it would appear under Cohen's scheme. The
+benchmark is inapplicable, and applied conclusions about effect strength
+are distorted in a direction and by a magnitude that varies
+unpredictably across variable pairs.
 
 Second, and more fundamentally, every pair of orcats has its own unique
 attainable interval \([r_{\min}, r_{\max}]\), which means that
@@ -558,49 +593,54 @@ reduces to maximising or minimising \(E[XY]\).
 
 \textbf{Existing alternatives.} Several measures have been proposed to
 address the limitations of Pearson's \(r\) with ordinal data. Spearman's
-\(\rho\) \autocite{spea04-proof} replaces raw values with ranks and is
-thus insensitive to the specific marginal distributions; it discards
-information about inter-category spacing. Polychoric correlation
-\autocite{olss79-maximum} assumes that \(X\) and \(Y\) are
-discretisations of a latent bivariate normal distribution and estimates
-the latent correlation under that assumption. Polyserial correlation
-\autocite{olss79-maximum} extends this to the case where one variable is
-continuous. All three alternatives abstract away from the observed
-marginals. In contrast, our approach retains the observed marginals and
-uses them to characterise the feasible range of Pearson's \(r\) --- a
-quantity that is directly relevant to applied researchers who report and
-compare Pearson correlations.
+\(\rho\) (\citeproc{ref-spea04-proof}{Spearman, 1904}) replaces raw
+values with ranks and is thus insensitive to the specific marginal
+distributions; it discards information about inter-category spacing.
+Polychoric correlation (\citeproc{ref-olss79-maximum}{Olsson, 1979})
+assumes that \(X\) and \(Y\) are discretisations of a latent bivariate
+normal distribution and estimates the latent correlation under that
+assumption. Polyserial correlation
+(\citeproc{ref-olss79-maximum}{Olsson, 1979}) extends this to the case
+where one variable is continuous. All three alternatives abstract away
+from the observed marginals. In contrast, our approach retains the
+observed marginals and uses them to characterise the feasible range of
+Pearson's \(r\) --- a quantity that is directly relevant to applied
+researchers who report and compare Pearson correlations.
 
 \textbf{Coupling and rearrangement.} The key insight is that fixing
 \(p_X\) and \(p_Y\) places hard constraints on the set of admissible
 joint distributions, and therefore on the attainable values of
 \(r_{XY}\). The Fréchet--Hoeffding bounds
-\autocite{frec51-tableaux,hoef40-masstabinvariante} characterise the
-extremal joint distributions with given marginals. In the discrete
-setting, the constructive tool is the rearrangement inequality of
-\textcite{hard52-inequalities}: for two finite sequences, their sum of
-products is maximised when both sequences are sorted in the same order
-(comonotonic arrangement) and minimised when sorted in opposite orders
-(anti-comonotonic arrangement). These constructions yield \(r_{\max}\)
-and \(r_{\min}\) respectively, and are formalised in
-Section~\ref{sec-theory}.
+(\citeproc{ref-frec51-tableaux}{Fréchet, 1951};
+\citeproc{ref-hoef40-masstabinvariante}{Hoeffding, 1940}) characterise
+the extremal joint distributions with given marginals. In the discrete
+setting, the constructive tool is the rearrangement inequality of Hardy
+et al. (\citeproc{ref-hard52-inequalities}{1952}): for two finite
+sequences, their sum of products is maximised when both sequences are
+sorted in the same order (comonotonic arrangement) and minimised when
+sorted in opposite orders (anti-comonotonic arrangement). These
+constructions yield \(r_{\max}\) and \(r_{\min}\) respectively, and are
+formalised in Section~\ref{sec-theory}.
 
 \section{Theoretical Results}\label{sec-theory}
 
 The problem of extremal correlations under fixed marginals connects
 directly to classical results in probability inequalities. Fréchet's
-work on admissible joint distributions (\autocite{frec51-tableaux}) and
-Hoeffding's development of covariance bounds
-(\autocite{hoef40-masstabinvariante}) laid the groundwork. Later
-refinements, such as Rüschendorf's demonstration of sharpness of Fréchet
-bounds (\autocite{rusc81-sharpness}), clarified when comonotonic and
-countermonotonic couplings achieve extremal values. The rearrangement
-inequality, and its discrete extensions, ensure that matching high
-values of \(X\) with high values of \(Y\) maximizes \(\mathbb{E}[XY]\),
-while opposite pairings minimize it. This perspective is elaborated in
-comparison and coupling frameworks
-\autocite{mull02-comparison,thor00-coupling}. These results provide the
-theoretical backbone for our derivations of \(r_{\min}\) and
+work on admissible joint distributions
+((\citeproc{ref-frec51-tableaux}{Fréchet, 1951})) and Hoeffding's
+development of covariance bounds
+((\citeproc{ref-hoef40-masstabinvariante}{Hoeffding, 1940})) laid the
+groundwork. Later refinements, such as Rüschendorf's demonstration of
+sharpness of Fréchet bounds
+((\citeproc{ref-rusc81-sharpness}{Rüschendorf, 1981})), clarified when
+comonotonic and countermonotonic couplings achieve extremal values. The
+rearrangement inequality, and its discrete extensions, ensure that
+matching high values of \(X\) with high values of \(Y\) maximizes
+\(\mathbb{E}[XY]\), while opposite pairings minimize it. This
+perspective is elaborated in comparison and coupling frameworks
+(\citeproc{ref-mull02-comparison}{Müller \& Stoyan, 2002};
+\citeproc{ref-thor00-coupling}{Thorisson, 2000}). These results provide
+the theoretical backbone for our derivations of \(r_{\min}\) and
 \(r_{\max}\).
 
 \subsection{Optimal Coupling and Correlation
@@ -641,7 +681,7 @@ maximize or minimize the expectation \(E[XY]\):
 \[E[XY] = \sum_{i=1}^{K_X}\sum_{j=1}^{K_Y} x_i y_j P(X = x_i, Y = y_j).\]
 
 This proof relies on a rearrangement inequality of
-\autocite{hard52-inequalities} (Theorem 368):
+(\citeproc{ref-hard52-inequalities}{Hardy et al., 1952}) (Theorem 368):
 
 For real sequences \(a_1 \leq a_2 \leq \dots \leq a_n\) and
 \(b_1 \leq b_2 \leq \dots \leq b_n\), and for any permutation \(\pi\) of
@@ -679,9 +719,9 @@ and move downward:
   observations are paired.
 \item
   By the Hardy--Littlewood--Pólya Rearrangement Inequality
-  \autocite{hard52-inequalities}, this explicitly constructed pairing
-  yields the maximum possible sum of products, hence maximizing
-  \(E[XY]\).
+  (\citeproc{ref-hard52-inequalities}{Hardy et al., 1952}), this
+  explicitly constructed pairing yields the maximum possible sum of
+  products, hence maximizing \(E[XY]\).
 \end{itemize}
 
 Likewise, to minimize \(E[XY]\) pair the largest \(X\)-categories with
@@ -824,9 +864,9 @@ Then explicitly the minimal expectation is:
 
 \[E[XY]_{\text{min}}=\frac{1}{N}\sum_{i=1}^{K_X}\sum_{j=1}^{K_Y} x_i y_j R_{i,j}\]
 
-This explicit equation applies Whitt's rearrangement theorem ,
-\textcite{whit76-bivariate} , ensuring proper maximal pairing of ranks.
-(\textcite{whit76-bivariate})
+This explicit equation applies Whitt's rearrangement theorem , Whitt
+(\citeproc{ref-whit76-bivariate}{1976}) , ensuring proper maximal
+pairing of ranks. (Whitt (\citeproc{ref-whit76-bivariate}{1976}))
 \end{proof}
 
 \textbf{Discussion}
@@ -1084,9 +1124,9 @@ A'')}\label{notation-permutation-extremes-lane-a}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsubsection{\texorpdfstring{A) \textbf{Same number of categories, but
+\subsubsection{\texorpdfstring{\textbf{Same number of categories, but
 \(|r_{\min}|\ne r_{\max}\)} (concrete
-numbers)}{A) Same number of categories, but \textbar r\_\{\textbackslash min\}\textbar\textbackslash ne r\_\{\textbackslash max\} (concrete numbers)}}\label{a-same-number-of-categories-but-r_minne-r_max-concrete-numbers}
+numbers)}{Same number of categories, but \textbar r\_\{\textbackslash min\}\textbar\textbackslash ne r\_\{\textbackslash max\} (concrete numbers)}}\label{same-number-of-categories-but-r_minne-r_max-concrete-numbers}
 
 \textbf{Counts (both \[K=5\]):}
 
@@ -1134,9 +1174,9 @@ numbers)}{A) Same number of categories, but \textbar r\_\{\textbackslash min\}\t
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsubsection{\texorpdfstring{B) \textbf{Different numbers of
-categories, yet \(|r_{\min}|=r_{\max}\)} (concrete
-numbers)}{B) Different numbers of categories, yet \textbar r\_\{\textbackslash min\}\textbar=r\_\{\textbackslash max\} (concrete numbers)}}\label{b-different-numbers-of-categories-yet-r_minr_max-concrete-numbers}
+\subsubsection{\texorpdfstring{\textbf{Different numbers of categories,
+yet \(|r_{\min}|=r_{\max}\)} (concrete
+numbers)}{Different numbers of categories, yet \textbar r\_\{\textbackslash min\}\textbar=r\_\{\textbackslash max\} (concrete numbers)}}\label{different-numbers-of-categories-yet-r_minr_max-concrete-numbers}
 
 \textbf{Counts:}
 
@@ -1190,9 +1230,9 @@ affine map of \(0{:}(K_Y-1)\)) ⇒ the palindrome-sum vector
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsubsection{\texorpdfstring{C) \textbf{Spearman invariance (same data
-as in
-B)}}{C) Spearman invariance (same data as in B)}}\label{c-spearman-invariance-same-data-as-in-b}
+\subsubsection{\texorpdfstring{\textbf{Spearman invariance (same data as
+in
+B)}}{Spearman invariance (same data as in B)}}\label{spearman-invariance-same-data-as-in-b}
 
 Compute ranks (with average ties) \textbf{once} for \(x\) and \(y\),
 then form extremes by sorting those rank vectors.
@@ -1422,7 +1462,7 @@ Necessary/sufficient symmetry condition (precisely stated)
   \end{enumerate}
 \end{itemize}
 
-\subsubsection{1) setup (permutation extremes for a single
+\subsubsection{Setup (permutation extremes for a single
 sample)}\label{setup-permutation-extremes-for-a-single-sample}
 
 Let \(x_{(1)}\ge\cdots\ge x_{(n)}\) and \(y_{(1)}\ge\cdots\ge y_{(n)}\)
@@ -1444,9 +1484,8 @@ symmetry \(|r_{\min}|=r_{\max}\) is equivalent to
 
 \[S_{\max}+S_{\min}=0.\]
 
-\subsubsection{\texorpdfstring{2) \textbf{pair-specific necessary \&
-sufficient
-condition}}{2) pair-specific necessary \& sufficient condition}}\label{pair-specific-necessary-sufficient-condition}
+\subsubsection{Pair-specific necessary \& sufficient
+condition}\label{pair-specific-necessary-sufficient-condition}
 
 Let
 
@@ -1465,9 +1504,8 @@ Hence, for this \emph{particular} pair \((x,y)\),
 This can hold even if \(Y\) is not symmetric---by coincidence of that
 inner product being zero.
 
-\subsubsection{\texorpdfstring{3) \textbf{universal condition
-(independent of
-\(X\))}}{3) universal condition (independent of X)}}\label{universal-condition-independent-of-x}
+\subsubsection{\texorpdfstring{Universal condition (independent of
+\(X\))}{Universal condition (independent of X)}}\label{universal-condition-independent-of-x}
 
 If you want \(|r_{\min}|=r_{\max}\) to hold for \textbf{every} possible
 \(X\) (every centered, sorted \(x'\)), then
@@ -1671,8 +1709,8 @@ using more encompassing sets of data.
 \subsection{Possible ``Metrics of
 Constraint''}\label{possible-metrics-of-constraint}
 
-\subsubsection{Overlap-Based Measures of
-Asymmetry}\label{overlap-based-measures-of-asymmetry}
+\subsubsection{Overlap-based measures of
+asymmetry}\label{overlap-based-measures-of-asymmetry}
 
 In addition to Total Variation (TV) distance, other metrics can quantify
 the structural dissimilarity between a marginal distribution and its
@@ -1683,8 +1721,8 @@ reverse. One natural approach is to assess the degree of
 We consider three complementary measures of overlap and their
 complements:
 
-\paragraph{(i) Total Variation (TV)
-Distance}\label{i-total-variation-tv-distance}
+\paragraph{(i) Total variation (TV)
+distance}\label{i-total-variation-tv-distance}
 
 The TV distance, already introduced in Section 5.5, quantifies the
 maximum absolute discrepancy between the two distributions:
@@ -1693,8 +1731,8 @@ maximum absolute discrepancy between the two distributions:
 \text{TV}(p, p^{\mathrm{rev}}) = \frac{1}{2} \sum_{i=1}^{K} \left| p_i - p_{K+1 - i} \right|.
 \]
 
-\paragraph{(ii) Bhattacharyya Coefficient (BC) and its
-Complement}\label{ii-bhattacharyya-coefficient-bc-and-its-complement}
+\paragraph{(ii) Bhattacharyya coefficient (BC) and its
+complement}\label{ii-bhattacharyya-coefficient-bc-and-its-complement}
 
 The \textbf{Bhattacharyya Coefficient} provides a geometric measure of
 similarity:
@@ -1708,7 +1746,7 @@ divergence-like measure that reflects geometric differences between the
 original and reversed distributions. While not a metric, it is bounded
 between 0 and 1, with 0 indicating perfect symmetry.
 
-\paragraph{(iii) Overlap Coefficient
+\paragraph{(iii) Overlap coefficient
 (OVL)}\label{iii-overlap-coefficient-ovl}
 
 The \textbf{Overlap Coefficient}, sometimes referred to as the
@@ -1735,7 +1773,7 @@ jointly provides a robust triangulation of symmetry breaking, especially
 in applied contexts where ordinal variables are discretized from latent
 traits or ratings.
 
-\paragraph{(iv) Shannon Entropy}\label{iv-shannon-entropy}
+\paragraph{(iv) Shannon entropy}\label{iv-shannon-entropy}
 
 The three overlap-based measures above each compare \(p\) against its
 reversal \(p^{\mathrm{rev}}\), diagnosing whether a distribution is
@@ -2184,10 +2222,10 @@ can be diagnosed and, in many cases, corrected.
 \subsection{Interpretation of Effect
 Size}\label{interpretation-of-effect-size}
 
-The benchmarks for correlation effect size proposed by
-\textcite{cohe02-applied} --- small (\(r \approx 0.10\)), moderate
-(\(r \approx 0.30\)), and large (\(r \approx 0.50\)) --- have become
-standard reference points in the social sciences. Their implicit
+The benchmarks for correlation effect size proposed by Cohen et al.
+(\citeproc{ref-cohe02-applied}{2002}) --- small (\(r \approx 0.10\)),
+moderate (\(r \approx 0.30\)), and large (\(r \approx 0.50\)) --- have
+become standard reference points in the social sciences. Their implicit
 premise, however, is that the correlation coefficient operates on its
 full theoretical range \([-1, +1]\): a ``large'' effect of \(r = 0.50\)
 is large precisely because it represents half of the maximum achievable
@@ -2222,6 +2260,27 @@ of the pair-specific attainable range, Cohen-style benchmarks applied to
 
 \subsection{Comparison Across Studies}\label{comparison-across-studies}
 
+The comparability problem extends beyond single-study effect size
+interpretation to any research design that places correlations from
+different variable pairs, studies, samples, or time points in relation
+to one another. Cumulative social science --- through meta-analysis,
+cross-national comparison, and longitudinal trend analysis --- rests on
+the assumption that reported correlations are commensurable. Elastic
+bounds undermine this assumption.
+
+The most immediate source of non-comparability is variation in the
+number of response categories. The Monte Carlo results of
+Section~\ref{sec-MCsim} show that \(C_1\) increases systematically with
+\(K\): pairs involving variables with more categories tend to have
+broader attainable ranges and thus less constrained correlations. A
+study measuring an association on 5-point scales will, on average,
+report a smaller correlation than a study measuring the same association
+on 7-point scales --- not because the underlying relationship is weaker,
+but because the attainable range is narrower. Any meta-analysis that
+pools raw \(r\) values across studies differing in scale length will
+conflate measurement constraints with substantive variation in effect
+magnitude.
+
 Non-comparability also arises from differences in marginal
 distributions, even when category counts are held fixed. Survey items
 that appear identical may elicit different response distributions across
@@ -2246,95 +2305,20 @@ supply.
 
 \subsection{Hypothesis Testing}\label{sec-implications-hyp}
 
-The standard test of \(H_0\colon \rho = 0\) for Pearson's \(r\) relies
-on the \(t\)-statistic \(t = r\sqrt{n-2}/\sqrt{1-r^2}\), which under the
-null follows a \(t\)-distribution with \(n-2\) degrees of freedom when
-the variables are jointly normal and, by continuous-data theory, \(r\)
-is free to range over \((-1,1)\). For two orcat variables the second
-condition fails: the marginal distributions place an iron constraint on
-the set of correlations that can arise in any arrangement of the data,
-confining \(r\) to the interval \([r_{\min}, r_{\max}]\). Applying the
-conventional \(t\)-test therefore attributes significance to variation
-that is, in part, the inevitable consequence of the marginal
-distributions rather than of any genuine dependence in the joint
-distribution.
-
-A natural alternative is a permutation (randomisation) test that
-respects the marginal constraint. Under \(H_0\colon \rho = 0\) the
-appropriate reference distribution is obtained by independently
-permuting one of the two variables while holding the marginals fixed,
-computing \(r\) for each permuted data set, and repeating many times.
-The resulting permutation null distribution is centred near zero --- its
-exact centre depends weakly on the category scores --- and is entirely
-contained within \([r_{\min}, r_{\max}]\). A \(p\)-value is then
-computed as the proportion of permuted \(r\)-values that are at least as
-extreme as the observed \(r_{\text{obs}}\) in absolute value. Because
-the reference distribution respects the constraints, the permutation
-test is valid unconditionally on the marginal distributions.
-
-The key practical insight is not merely that the permutation \(p\)-value
-can differ from the \(t\)-test \(p\)-value --- though it can --- but
-that the permutation distribution renders transparent where
-\(r_{\text{obs}}\) falls within the pair-specific attainable range. Two
-variable pairs that share the same \(r_{\text{obs}}\) and the same
-\(t\)-test \(p\)-value can occupy very different positions within their
-respective \([r_{\min}, r_{\max}]\) intervals, and this positional
-information is invisible to the conventional test.
-
-Figure~\ref{fig-permutation-null} illustrates the contrast with two
-synthetic variable pairs of identical sample size (\(n = 1{,}000\)),
-both yielding statistically significant correlations by the standard
-\(t\)-test. Pair\textasciitilde A consists of two 4-category orcats with
-heavily concentrated, opposing marginals (\(r_{\min} = -1.00\),
-\(r_{\max} = 0.33\), \(C_1 = 0.66\)). The observed correlation is
-\(r_{\text{obs}} = 0.17\), which equals 52\% of the pair's theoretical
-maximum: the association accounts for a substantial fraction of what the
-marginals allow. Pair\textasciitilde B consists of two 7-category orcats
-with near-uniform marginals (\(r_{\min} = -0.99\), \(r_{\max} = 1.00\),
-\(C_1 = 0.99\)). Its observed correlation is \(r_{\text{obs}} = 0.13\),
-which is only 12.7\% of the theoretical maximum: the association is
-barely above what would arise by chance given the marginals. Despite
-their superficial similarity as ``significant correlations around
-0.15'', the two pairs convey qualitatively different information --- a
-distinction that the permutation null distributions make immediately
-visible.
-
-\begin{figure}[H]
-
-\centering{
-
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../output/figures/15_permutation_null_comparison.pdf}
-
-}
-
-\caption{\label{fig-permutation-null}Permutation null distributions for
-two contrasting variable pairs, both with \(n=1{,}000\) and similar
-\(r_{\text{obs}}\) values. Pair\textasciitilde A (left) has
-concentrated, opposing marginals (\(C_1 = 0.66\)); Pair\textasciitilde B
-(right) has near-uniform marginals (\(C_1 = 0.99\)). Vertical lines mark
-\(r_{\min}\) (blue dashed), \(r_{\max}\) (orange dashed), and
-\(r_{\text{obs}}\) (black solid). Although both pairs yield a nominally
-significant \(t\)-test, \(r_{\text{obs}}\) occupies 52\% of the
-attainable range for Pair\textasciitilde A but only 13\% for
-Pair\textasciitilde B.}
-
-\end{figure}%
-
-A further subtlety concerns the \emph{shape} of the permutation null
-distribution under asymmetric bounds. When \(|r_{\min}| \neq r_{\max}\)
-the distribution is not symmetric around zero, and using a two-sided
-critical region of equal tail probability on \([-1,1]\) --- as the
-\(t\)-test implicitly does --- can produce distorted
-type\textasciitilde I error rates. The permutation test is immune to
-this distortion because its critical region is derived directly from the
-empirical null distribution, whatever shape that takes.
-
-In summary, permutation-based inference is the natural complement to
-bound-awareness in the exploratory phase: it does not require any
-distributional assumption beyond the fixed marginals, it automatically
-adapts to the pair-specific attainable range, and it makes visible the
-position of \(r_{\text{obs}}\) within that range --- information that is
-entirely suppressed by the conventional \(t\)-test.
+\begin{itemize}
+\tightlist
+\item
+  t-test can mislead: Example from BES: (i) t-test sig; perm test not;
+  (ii) visa versa
+\item
+  Why p-values based on {[}--1, 1{]} bounds may mislead \(\leadsto\)
+  need for adjusted null distributions
+\item
+  \textbf{Permutation distribution:} Generate full vectors from
+  marginals, independently permute \(X\) and \(Y\), compute \(r\),
+  repeat. Produces null distribution centered at 0.
+  \emph{(Proofs-OrdinalVariables.md)}
+\end{itemize}
 
 \subsection{Rescaling}\label{sec-implications-resc}
 
@@ -2437,16 +2421,19 @@ The consequences of using Pearson correlations with ordinal data extend
 beyond descriptive association. In factor analysis and SEM, attenuated
 correlations can yield distorted loadings, inflated factor numbers, and
 biased structural coefficients. Empirical studies confirm this risk:
-\autocite{flor04-empirical} show that CFA models fitted with Pearson's
-\(r\) among ordinal indicators produce biased estimates compared to
-models using polychoric correlations; \autocite{gree97-effect}
-demonstrate how the number of response categories alters apparent model
-fit. More broadly, psychometric research emphasizes that ignoring the
-ordinal nature of indicators can misrepresent latent structures
-\autocite{lord52-theory,muth84-general,bart11-latent}. For survey-based
-political science and sociology, this means that correlations reported
-between Likert items are not only bounded by their marginals, but may
-also systematically bias downstream modeling.
+(\citeproc{ref-flor04-empirical}{Flora \& Curran, 2004}) show that CFA
+models fitted with Pearson's \(r\) among ordinal indicators produce
+biased estimates compared to models using polychoric correlations;
+(\citeproc{ref-gree97-effect}{Green et al., 1997}) demonstrate how the
+number of response categories alters apparent model fit. More broadly,
+psychometric research emphasizes that ignoring the ordinal nature of
+indicators can misrepresent latent structures
+(\citeproc{ref-bart11-latent}{Bartholomew et al., 2011};
+\citeproc{ref-lord52-theory}{Lord, 1952};
+\citeproc{ref-muth84-general}{Muthén, 1984}). For survey-based political
+science and sociology, this means that correlations reported between
+Likert items are not only bounded by their marginals, but may also
+systematically bias downstream modeling.
 
 Since the possible values \(r\) may take on depend on the marginal
 distributions of the two variables being correlated, and since this
@@ -2603,7 +2590,7 @@ Data}\label{comparing-typical-data-bes-with-simulated-data}
 
 Full citation:
 
-{\textcite{camb76-inequalities}}
+{Cambanis et al. (\citeproc{ref-camb76-inequalities}{1976})}
 
 Grether, D. M. (1976). On the Use of Ordinal Data in Correlation
 Analysis. American Sociological Review, 41(5), 908--912.
@@ -2628,27 +2615,33 @@ Robitzsch, A. (2022). On the Bias in Confirmatory Factor Analysis When
 Treating Discrete Variables as Ordinal Instead of Continuous. Axioms,
 11(4), Article 4. https://doi.org/10.3390/axioms11040162
 
-\textcite{frec51-tableaux}
+Fréchet (\citeproc{ref-frec51-tableaux}{1951})
 
-\textcite{whit76-bivariate}
+Whitt (\citeproc{ref-whit76-bivariate}{1976})
 
-\textcite{hoef40-masstabinvariante}
+Hoeffding (\citeproc{ref-hoef40-masstabinvariante}{1940})
 
-\textcite{lehm66-concepts}
+Lehmann (\citeproc{ref-lehm66-concepts}{1966})
 
-\textcite{tche80-inequalities}
+Tchen (\citeproc{ref-tche80-inequalities}{1980})
 
-\textcite{camb76-inequalities}
+Cambanis et al. (\citeproc{ref-camb76-inequalities}{1976})
 
-\textcite{shih92-evaluating}
+Shih \& Huang (\citeproc{ref-shih92-evaluating}{1992})
 
-\textcite{alwi91-reliability}; \textcite{brew05-values};
-\textcite{flor04-empirical}; \textcite{gait80-measurement};
-\textcite{gree97-effect}; \textcite{jaco99-levels};
-\textcite{kend38-new}; \textcite{knok02-statistics};
-\textcite{kreu07-survey}; \textcite{kros97-designing};
-\textcite{labo70-assignment}; \textcite{olss79-maximum};
-\textcite{spea04-proof}
+Alwin \& Krosnick (\citeproc{ref-alwi91-reliability}{1991}); Brewer \&
+Gross (\citeproc{ref-brew05-values}{2005}); Flora \& Curran
+(\citeproc{ref-flor04-empirical}{2004}); Gaito
+(\citeproc{ref-gait80-measurement}{1980}); Green et al.
+(\citeproc{ref-gree97-effect}{1997}); Jacoby
+(\citeproc{ref-jaco99-levels}{1999}); Kendall
+(\citeproc{ref-kend38-new}{1938}); Knoke et al.
+(\citeproc{ref-knok02-statistics}{2002}); Kreuter \& Valliant
+(\citeproc{ref-kreu07-survey}{2007}); Krosnick \& Fabrigar
+(\citeproc{ref-kros97-designing}{1997}); Labovitz
+(\citeproc{ref-labo70-assignment}{1970}); Olsson
+(\citeproc{ref-olss79-maximum}{1979}); Spearman
+(\citeproc{ref-spea04-proof}{1904})
 
 \subsection{Recommendations}\label{recommendations}
 
@@ -2732,7 +2725,148 @@ Questions}\label{extensions-and-open-questions}
 
 \section{References}\label{references}
 
-\printbibliography[heading=none]
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-alwi91-reliability}
+Alwin, D. F., \& Krosnick, J. A. (1991). The reliability of survey
+attitude measurement: {The} influence of question and respondent
+attributes. \emph{Sociological Methods \& Research}, \emph{20}(1),
+139--181.
+
+\bibitem[\citeproctext]{ref-bart11-latent}
+Bartholomew, D. J., Knott, M., \& Moustaki, I. (2011). \emph{Latent
+{Variable Models} and {Factor Analysis}: {A Unified Approach}} (3rd
+ed.). Wiley.
+
+\bibitem[\citeproctext]{ref-brew05-values}
+Brewer, P. R., \& Gross, K. (2005). Values, framing, and citizens'
+thoughts about policy issues: {Effects} on content and quantity.
+\emph{Political Psychology}, \emph{26}(6), 929--948.
+
+\bibitem[\citeproctext]{ref-camb76-inequalities}
+Cambanis, S., Simons, G., \& Stout, W. (1976). Inequalities for {E}
+k({X}, {Y}) when the marginals are fixed. \emph{Zeitschrift Für
+Wahrscheinlichkeitstheorie Und Verwandte Gebiete}, \emph{36}(4, 4),
+285--294. \url{https://doi.org/10.1007/BF00532695}
+
+\bibitem[\citeproctext]{ref-cohe02-applied}
+Cohen, J., Cohen, P., West, S. G., \& Aiken, L. S. (2002). \emph{Applied
+{Multiple Regression}/{Correlation Analysis} for the {Behavioral
+Sciences}} (3 edition). Routledge.
+
+\bibitem[\citeproctext]{ref-flor04-empirical}
+Flora, D. B., \& Curran, P. J. (2004). An empirical evaluation of
+alternative methods of estimation for confirmatory factor analysis with
+ordinal data. \emph{Psychological Methods}, \emph{9}(4), 466--491.
+
+\bibitem[\citeproctext]{ref-frec51-tableaux}
+Fréchet, M. (1951). Sur les tableaux de corrélation dont les marges sont
+données. \emph{Annales de l'Université de Lyon}, \emph{14}, 53--77.
+
+\bibitem[\citeproctext]{ref-gait80-measurement}
+Gaito, J. (1980). Measurement scales and statistics: {Resurgence} of an
+old misconception. \emph{Psychological Bulletin}, \emph{87}(3),
+564--567.
+
+\bibitem[\citeproctext]{ref-gree97-effect}
+Green, S. B., Akey, T. M., Fleming, K. K., Hershberger, S. L., \&
+Marquis, J. G. (1997). Effect of number of scale points on estimates of
+fit in confirmatory factor analysis. \emph{Structural Equation
+Modeling}, \emph{4}(3), 244--260.
+
+\bibitem[\citeproctext]{ref-hard52-inequalities}
+Hardy, G. H., Littlewood, J. E., \& Pólya, G. (1952).
+\emph{Inequalities}. Cambridge University Press.
+
+\bibitem[\citeproctext]{ref-hoef40-masstabinvariante}
+Hoeffding, W. (1940). Masstabinvariante {Korrelationstheorie}.
+\emph{Schriften Des Mathematischen Instituts Und Instituts Fur
+Angewandte Mathematik Der Universitat Berlin}, \emph{5}, 181--233.
+
+\bibitem[\citeproctext]{ref-jaco99-levels}
+Jacoby, W. G. (1999). Levels of measurement and political research: {An}
+optimistic view. \emph{American Journal of Political Science},
+\emph{43}(1), 271--301.
+
+\bibitem[\citeproctext]{ref-kend38-new}
+Kendall, M. G. (1938). A new measure of rank correlation.
+\emph{Biometrika}, \emph{30}(1/2), 81--93.
+
+\bibitem[\citeproctext]{ref-kind09-us}
+Kinder, D. R., \& Kam, C. D. (2009). \emph{Us {Against Them}:
+{Ethnocentric Foundations} of {American Opinion}}. University of Chicago
+Press.
+
+\bibitem[\citeproctext]{ref-knok02-statistics}
+Knoke, D., Bohrnstedt, G. W., \& Mee, A. P. (2002). \emph{Statistics for
+social data analysis} (4th ed.). Wadsworth.
+
+\bibitem[\citeproctext]{ref-kreu07-survey}
+Kreuter, F., \& Valliant, R. (2007). A survey on survey statistics:
+{What} is being used in practice? \emph{Journal of Official Statistics},
+\emph{23}(1), 1--21.
+
+\bibitem[\citeproctext]{ref-kros97-designing}
+Krosnick, J. A., \& Fabrigar, L. R. (1997). Designing rating scales for
+effective measurement in surveys. In L. Lyberg, P. Biemer, M. Collins,
+E. de Leeuw, C. Dippo, N. Schwarz, \& D. Trewin (Eds.), \emph{Survey
+measurement and process quality} (pp. 141--164). Wiley.
+
+\bibitem[\citeproctext]{ref-labo70-assignment}
+Labovitz, S. (1970). The assignment of numbers to rank order categories.
+\emph{American Sociological Review}, \emph{35}(3), 515--524.
+\url{https://doi.org/10.2307/2092993}
+
+\bibitem[\citeproctext]{ref-lehm66-concepts}
+Lehmann, E. L. (1966). Some {Concepts} of {Dependence}. \emph{The Annals
+of Mathematical Statistics}, \emph{37}(5), 1137--1153.
+
+\bibitem[\citeproctext]{ref-lord52-theory}
+Lord, F. (1952). \emph{A {Theory} of {Test Scores}}. Psychometric
+Society.
+
+\bibitem[\citeproctext]{ref-mull02-comparison}
+Müller, A., \& Stoyan, D. (2002). \emph{Comparison {Methods} for
+{Stochastic Models} and {Risks}}. Wiley.
+
+\bibitem[\citeproctext]{ref-muth84-general}
+Muthén, B. (1984). A general structural equation model with dichotomous,
+ordered categorical, and continuous latent variable indicators.
+\emph{Psychometrika}, \emph{49}(1), 115--132.
+\url{https://doi.org/10.1007/BF02294210}
+
+\bibitem[\citeproctext]{ref-olss79-maximum}
+Olsson, U. (1979). Maximum likelihood estimation of the polychoric
+correlation coefficient. \emph{Psychometrika}, \emph{44}(4), 443--460.
+
+\bibitem[\citeproctext]{ref-rusc81-sharpness}
+Rüschendorf, L. (1981). Sharpness of {Fréchet} bounds. \emph{Zeitschrift
+Für Wahrscheinlichkeitstheorie Und Verwandte Gebiete}, \emph{57},
+293--302.
+
+\bibitem[\citeproctext]{ref-shih92-evaluating}
+Shih, W. J., \& Huang, W.-M. (1992). Evaluating {Correlation} with
+{Proper Bounds}. \emph{Biometrics}, \emph{48}(4), 1207--1213.
+\url{https://doi.org/10.2307/2532712}
+
+\bibitem[\citeproctext]{ref-spea04-proof}
+Spearman, C. (1904). The proof and measurement of association between
+two things. \emph{The American Journal of Psychology}, \emph{15}(1),
+72--101.
+
+\bibitem[\citeproctext]{ref-tche80-inequalities}
+Tchen, A. H. (1980). Inequalities for {Distributions} with {Given
+Marginals}. \emph{The Annals of Probability}, \emph{8}(4), 814--827.
+
+\bibitem[\citeproctext]{ref-thor00-coupling}
+Thorisson, H. (2000). \emph{Coupling, stationarity, and regeneration}.
+Springer-Verlag.
+
+\bibitem[\citeproctext]{ref-whit76-bivariate}
+Whitt, W. (1976). Bivariate {Distributions} with {Given Marginals}.
+\emph{The Annals of Statistics}, \emph{4}(6), 1280--1289.
+
+\end{CSLReferences}
 
 \newpage
 
@@ -2743,7 +2877,8 @@ Proofs}\label{appendix-a-mathematical-proofs}
 
 \subsection{Proof A.1}\label{proof-max-product}
 
-\textbf{Proof of \textcite{prop-max-product}.}
+\textbf{Proof of
+(\citeproc{ref-prop-max-product}{\textbf{prop-max-product?}}).}
 
 \emph{{[}Proof to be written. The argument is given in full in the body
 of Section~\ref{sec-theory}; this appendix will present a
@@ -2751,7 +2886,8 @@ self-contained, condensed version.{]}}
 
 \subsection{Proof A.2}\label{proof-cor-min}
 
-\textbf{Proof of the Corollary (\textcite{corr-min}).}
+\textbf{Proof of the Corollary
+((\citeproc{ref-corr-min}{\textbf{corr-min?}})).}
 
 \emph{{[}Proof to be written. The greedy algorithm for constructing
 \(M_{i,j}\) and \(R_{i,j}\) is described in the body of
@@ -2778,7 +2914,6 @@ Simulations}\label{appendix-c-additional-tables-and-simulations}
 \item
   Supplementary empirical examples, simulation results
 \end{itemize}
-
 
 
 

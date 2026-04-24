@@ -9,10 +9,11 @@ date: today
 date-format: "DD, MMMM YYYY"
 bibliography: references.bib
 csl: apa.csl
+citeproc: true
 # filters:
 #   - citefield.lua #https://github.com/bcdavasconcelos/cite-field
 reference-section-title: ""
-number-sections: true
+cite-method: citeproc
 fontsize: 12pt
 geometry: margin=1in
 subparagraph: true
@@ -24,27 +25,21 @@ format:
     keep-tex: true
     documentclass: article
     pdf-engine: xelatex
-    cite-method: biblatex
-    biblio-style: apa
+    #cite-method: biblatex
+    number-sections: true
     toc: true
     toc-depth: 3
     colorlinks: true
-    linkcolor: OliveGreen
+    linkcolor: BrickRed
     citecolor: Maroon
     filecolor: red
     urlcolor: blue
     link-citations: true
     fig-pos: "H"
-    filters:
-      - cleveref_sections.lua
     pandoc:
-      from: markdown+tex_math_dollars+tex_math_single_backslash
+      from: markdown+tex_math_dollars+tex_math_single_backslash    
     include-in-header:
       text: |
-        \usepackage[usenames,dvipsnames]{xcolor}
-        % Do NOT load biblatex here.
-        % (Optional) Language mapping recommended for APA:
-        \DeclareLanguageMapping{english}{english-apa}
         \usepackage{amsthm}
         \usepackage{amsmath}
         \usepackage{amsfonts}
@@ -58,27 +53,26 @@ format:
         \theoremstyle{plain}
         \newtheorem{theorem}{Theorem}[section]
         \newtheorem{proposition}[theorem]{Proposition}
+        \newtheorem{lemma}[theorem]{Lemma}
         % Definitions and Corollaries (upright)
         \theoremstyle{definition}
         \newtheorem{definition}{Definition}
         \newtheorem{corollary}{Corollary}
         \newtheorem{example}{Example}
-        \newtheorem{lemma}{Lemma}
         % \newtheorem{algorithm}[theorem]{Algorithm}
         % Optional: formatting for the proof environment
         \renewenvironment{proof}
            {\par\noindent\textbf{Proof.}\ }
            {\hfill$\blacksquare$\par}
-        <!-- \usepackage{algorithm} -->
-        <!-- \usepackage{algorithmic} -->
-        \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+        % \usepackage{algorithm}
+        % \usepackage{algorithmic}
+        % \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
   html:
     toc: true
     embed-resources: true
     theme: cosmo
   docx:
-    toc: true
-    toc-depth: 3
+    number-sections: true
     highlight-style: github
 editor:
   markdown:
@@ -682,7 +676,7 @@ Below, “scores $0{:}(K-1)$” means category values $[0,1,\dots,K-1]$. “Affi
 
 * * *
 
-### A) **Same number of categories, but $|r_{\min}|\ne r_{\max}$** (concrete numbers)
+###  **Same number of categories, but $|r_{\min}|\ne r_{\max}$** (concrete numbers)
 
 **Counts (both $$K=5$$):**
 
@@ -718,7 +712,7 @@ Below, “scores $0{:}(K-1)$” means category values $[0,1,\dots,K-1]$. “Affi
 
 * * *
 
-### B) **Different numbers of categories, yet $|r_{\min}|=r_{\max}$** (concrete numbers)
+###  **Different numbers of categories, yet $|r_{\min}|=r_{\max}$** (concrete numbers)
 
 **Counts:**
 
@@ -754,7 +748,7 @@ Below, “scores $0{:}(K-1)$” means category values $[0,1,\dots,K-1]$. “Affi
 
 * * *
 
-### C) **Spearman invariance (same data as in B)**
+###  **Spearman invariance (same data as in B)**
 
 Compute ranks (with average ties) **once** for $x$ and $y$, then form extremes by sorting those rank vectors.
 
@@ -915,7 +909,7 @@ Necessary/sufficient symmetry condition (precisely stated)
     This condition is **independent of $K_X$ vs $K_Y$**.
     
 
-### 1) setup (permutation extremes for a single sample)
+###  Setup (permutation extremes for a single sample)
 
 Let $x_{(1)}\ge\cdots\ge x_{(n)}$ and $y_{(1)}\ge\cdots\ge y_{(n)}$ be the sorted sample values (or expanded from counts). Define centered sequences
 
@@ -932,7 +926,7 @@ We always have $S_{\max}\ge 0$ and $S_{\min}\le 0$. Magnitude symmetry $|r_{\min
 
 $$S_{\max}+S_{\min}=0.$$
 
-### 2) **pair-specific necessary & sufficient condition**
+### Pair-specific necessary & sufficient condition
 
 Let
 
@@ -949,7 +943,7 @@ $$\boxed{\ |r_{\min}|=r_{\max}\ \Longleftrightarrow\ \sum_i x'_i\,z_i=0\ }$$ {#e
 (i.e., the centered $X$ sequence is orthogonal to the “palindrome-sum” vector $z$).  
 This can hold even if $Y$ is not symmetric—by coincidence of that inner product being zero.
 
-### 3) **universal condition (independent of $X$)**
+### Universal condition (independent of $X$)
 
 If you want $|r_{\min}|=r_{\max}$ to hold for **every** possible $X$ (every centered, sorted $x'$), then @eq-symmetry-condition must hold for all $x'$. The only way is
 
@@ -1068,20 +1062,20 @@ For the examples in Table 2, the values C2 are, respectively, 0.701; 0.755; 0.71
 ## Possible "Metrics of Constraint"
 
 
-###  Overlap-Based Measures of Asymmetry
+###  Overlap-based measures of asymmetry
 
 In addition to Total Variation (TV) distance, other metrics can quantify the structural dissimilarity between a marginal distribution and its reverse. One natural approach is to assess the degree of **overlap** between the original distribution $p$ and its reverse $p^{\mathrm{rev}}$, defined by reversing the order of the categories.
 
 We consider three complementary measures of overlap and their complements:
 
-#### (i) Total Variation (TV) Distance
+#### (i) Total variation (TV) distance
 The TV distance, already introduced in Section 5.5, quantifies the maximum absolute discrepancy between the two distributions:
 
 \[
 \text{TV}(p, p^{\mathrm{rev}}) = \frac{1}{2} \sum_{i=1}^{K} \left| p_i - p_{K+1 - i} \right|.
 \]
 
-#### (ii) Bhattacharyya Coefficient (BC) and its Complement
+#### (ii) Bhattacharyya coefficient (BC) and its complement
 The **Bhattacharyya Coefficient** provides a geometric measure of similarity:
 
 \[
@@ -1090,7 +1084,7 @@ The **Bhattacharyya Coefficient** provides a geometric measure of similarity:
 
 Its complement, \( 1 - \text{BC} \), can be interpreted as a divergence-like measure that reflects geometric differences between the original and reversed distributions. While not a metric, it is bounded between 0 and 1, with 0 indicating perfect symmetry.
 
-#### (iii) Overlap Coefficient (OVL)
+#### (iii) Overlap coefficient (OVL)
 The **Overlap Coefficient**, sometimes referred to as the Szymkiewicz–Simpson coefficient, captures the shared probability mass:
 
 \[
@@ -1108,7 +1102,7 @@ In our simulation study (@sec-MCsim), we compute all three diagnostics to illust
 
 Empirically, we find that all three metrics provide consistent, interpretable diagnostics of distributional asymmetry. Using them jointly provides a robust triangulation of symmetry breaking, especially in applied contexts where ordinal variables are discretized from latent traits or ratings.
 
-#### (iv) Shannon Entropy
+#### (iv) Shannon entropy
 
 The three overlap-based measures above each compare $p$ against its reversal $p^{\mathrm{rev}}$, diagnosing whether a distribution is *internally palindromic*.
 A complementary perspective asks not whether a distribution is symmetric with respect to its own reversal, but how *concentrated* it is overall.
@@ -1327,6 +1321,15 @@ The rescaled correlation $r^*$ (@sec-implications-resc) resolves this directly: 
 
 ## Comparison Across Studies
 
+The comparability problem extends beyond single-study effect size interpretation to any research design that places correlations from different variable pairs, studies, samples, or time points in relation to one another.
+Cumulative social science — through meta-analysis, cross-national comparison, and longitudinal trend analysis — rests on the assumption that reported correlations are commensurable.
+Elastic bounds undermine this assumption.
+
+The most immediate source of non-comparability is variation in the number of response categories.
+The Monte Carlo results of @sec-MCsim show that $C_1$ increases systematically with $K$: pairs involving variables with more categories tend to have broader attainable ranges and thus less constrained correlations.
+A study measuring an association on 5-point scales will, on average, report a smaller correlation than a study measuring the same association on 7-point scales — not because the underlying relationship is weaker, but because the attainable range is narrower.
+Any meta-analysis that pools raw $r$ values across studies differing in scale length will conflate measurement constraints with substantive variation in effect magnitude.
+
 Non-comparability also arises from differences in marginal distributions, even when category counts are held fixed.
 Survey items that appear identical may elicit different response distributions across populations, time points, or question wordings.
 Left-right self-placement, for instance, is characteristically more peaked in some countries than others; the resulting difference in marginal distributions shifts both $r_{\min}$ and $r_{\max}$, altering the attainable range even when the substantive association is unchanged.
@@ -1339,35 +1342,9 @@ Bound-aware comparison — reporting $r$ alongside $(r_{\min}, r_{\max})$, or re
 
 ## Hypothesis Testing {#sec-implications-hyp}
 
-The standard test of $H_0\colon \rho = 0$ for Pearson's $r$ relies on the $t$-statistic $t = r\sqrt{n-2}/\sqrt{1-r^2}$, which under the null follows a $t$-distribution with $n-2$ degrees of freedom when the variables are jointly normal and, by continuous-data theory, $r$ is free to range over $(-1,1)$.
-For two orcat variables the second condition fails: the marginal distributions place an iron constraint on the set of correlations that can arise in any arrangement of the data, confining $r$ to the interval $[r_{\min}, r_{\max}]$.
-Applying the conventional $t$-test therefore attributes significance to variation that is, in part, the inevitable consequence of the marginal distributions rather than of any genuine dependence in the joint distribution.
-
-A natural alternative is a permutation (randomisation) test that respects the marginal constraint.
-Under $H_0\colon \rho = 0$ the appropriate reference distribution is obtained by independently permuting one of the two variables while holding the marginals fixed, computing $r$ for each permuted data set, and repeating many times.
-The resulting permutation null distribution is centred near zero — its exact centre depends weakly on the category scores — and is entirely contained within $[r_{\min}, r_{\max}]$.
-A $p$-value is then computed as the proportion of permuted $r$-values that are at least as extreme as the observed $r_{\text{obs}}$ in absolute value.
-Because the reference distribution respects the constraints, the permutation test is valid unconditionally on the marginal distributions.
-
-The key practical insight is not merely that the permutation $p$-value can differ from the $t$-test $p$-value — though it can — but that the permutation distribution renders transparent where $r_{\text{obs}}$ falls within the pair-specific attainable range.
-Two variable pairs that share the same $r_{\text{obs}}$ and the same $t$-test $p$-value can occupy very different positions within their respective $[r_{\min}, r_{\max}]$ intervals, and this positional information is invisible to the conventional test.
-
-@fig-permutation-null illustrates the contrast with two synthetic variable pairs of identical sample size ($n = 1{,}000$), both yielding statistically significant correlations by the standard $t$-test.
-Pair~A consists of two 4-category orcats with heavily concentrated, opposing marginals ($r_{\min} = -1.00$, $r_{\max} = 0.33$, $C_1 = 0.66$).
-The observed correlation is $r_{\text{obs}} = 0.17$, which equals 52\% of the pair's theoretical maximum: the association accounts for a substantial fraction of what the marginals allow.
-Pair~B consists of two 7-category orcats with near-uniform marginals ($r_{\min} = -0.99$, $r_{\max} = 1.00$, $C_1 = 0.99$).
-Its observed correlation is $r_{\text{obs}} = 0.13$, which is only 12.7\% of the theoretical maximum: the association is barely above what would arise by chance given the marginals.
-Despite their superficial similarity as "significant correlations around 0.15", the two pairs convey qualitatively different information — a distinction that the permutation null distributions make immediately visible.
-
-```{r fig-permutation-null, echo=FALSE, fig.cap="Permutation null distributions for two contrasting variable pairs, both with $n=1{,}000$ and similar $r_{\\text{obs}}$ values. Pair~A (left) has concentrated, opposing marginals ($C_1 = 0.66$); Pair~B (right) has near-uniform marginals ($C_1 = 0.99$). Vertical lines mark $r_{\\min}$ (blue dashed), $r_{\\max}$ (orange dashed), and $r_{\\text{obs}}$ (black solid). Although both pairs yield a nominally significant $t$-test, $r_{\\text{obs}}$ occupies 52\\% of the attainable range for Pair~A but only 13\\% for Pair~B.", out.width="100%", fig.pos="H"}
-knitr::include_graphics("../output/figures/15_permutation_null_comparison.pdf")
-```
-
-A further subtlety concerns the *shape* of the permutation null distribution under asymmetric bounds.
-When $|r_{\min}| \neq r_{\max}$ the distribution is not symmetric around zero, and using a two-sided critical region of equal tail probability on $[-1,1]$ — as the $t$-test implicitly does — can produce distorted type~I error rates.
-The permutation test is immune to this distortion because its critical region is derived directly from the empirical null distribution, whatever shape that takes.
-
-In summary, permutation-based inference is the natural complement to bound-awareness in the exploratory phase: it does not require any distributional assumption beyond the fixed marginals, it automatically adapts to the pair-specific attainable range, and it makes visible the position of $r_{\text{obs}}$ within that range — information that is entirely suppressed by the conventional $t$-test.
+- t-test can mislead: Example from BES: (i) t-test sig; perm test not; (ii) visa versa
+- Why p-values based on [–1, 1] bounds may mislead $\leadsto$ need for adjusted null distributions
+- **Permutation distribution:** Generate full vectors from marginals, independently permute \(X\) and \(Y\), compute \(r\), repeat. Produces null distribution centered at 0.   *(Proofs-OrdinalVariables.md)*
 
 ## Rescaling {#sec-implications-resc}
 
