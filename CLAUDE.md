@@ -8,147 +8,97 @@ This is a statistical research project exploring **theoretical bounds on Pearson
 
 ## Common Commands
 
-### New Modular Architecture (Preferred)
+### Run the full pipeline
 ```r
-# Run complete analysis pipeline using new structure
-source("R/ordinal_correlation_analysis/main_analysis.R")
-
-# Load BES data and run comprehensive analysis
-bes_data <- load_bes_data()  # From utilities/data_loading.R
-results <- run_complete_analysis(bes_data)
-
-# Run specific modules
-source("R/ordinal_correlation_analysis/1_bivariate_ordcats_correlation/bivariate_main.R")
-bivariate_results <- run_bivariate_analysis(bes_data, config)
+# From the project root (where ElasticBoundsPearson-s_r.Rproj lives):
+source("R/00_run_pipeline.R")
 ```
-
-### Core Functions
-```r
-# Source core function libraries
-source("R/core/correlation_bounds_core.R")
-source("R/core/correlation_bounds_visualization.R")
-source("R/core/correlation_bounds_bes.R")
-
-# Run comprehensive examples
-results <- run_all_examples()
-
-# Run specific demonstrations
-basic_results <- basic_demonstration()
-range_results <- range_comparison_demonstration()
-
-# Analyze real data (BES2019)
-source("R/examples/correlation_bounds_bes_example.R")
-```
-
-### Document Generation
 ```bash
-# Render latest manuscript version (from project root)
-quarto render paper/ElasticBounds-r_v6a.qmd --to pdf
-quarto render paper/ElasticBounds-r_v6a.qmd --to docx
+# Equivalently, from a shell at the project root:
+Rscript R/00_run_pipeline.R
 ```
+This runs `R/01_bes_compute_bounds.R` through `R/05_hypothesis_testing.R` in order and regenerates everything in `output/data/` and `output/figures/` that the manuscript pulls in.
+
+### Run a single pipeline stage
+Each numbered script in `R/` is self-contained (each redefines whatever helper functions it needs rather than sourcing a shared library), so any stage can be run on its own:
+```r
+source("R/02_mc_simulation.R")       # just the Monte Carlo simulation
+source("R/05_hypothesis_testing.R")  # just the permutation-test figure
+```
+
+### Render the manuscript
+```bash
+# From the project root
+quarto render paper/ElasticBounds-r_v6b.qmd --to pdf
+quarto render paper/ElasticBounds-r_v6b.qmd --to docx
+```
+The manuscript does not execute R code inline — it pulls in pre-generated figures from `output/figures/*.pdf` via `knitr::include_graphics()`. Run `R/00_run_pipeline.R` first (or after changing any analysis script) so the figures are current before rendering.
 
 ### Required R Packages
 ```r
-install.packages(c("ggplot2", "dplyr", "tidyr", "gridExtra", 
-                   "Matrix", "matrixcalc", "MASS", "readstata13"))
+install.packages(c("haven", "dplyr", "tidyr", "ggplot2", "patchwork"))
 ```
 
 ## Code Architecture
 
-### New Modular Structure (Primary)
+### The pipeline (`R/`)
 
-The codebase has been reorganized into a sophisticated modular architecture under `R/ordinal_correlation_analysis/`:
+The live, current analysis pipeline is a flat set of numbered scripts directly under `R/`. Numbering reflects execution order; each stage reads/writes the top-level `output/` directory.
 
-#### 1. Bivariate Analysis (`1_bivariate_ordcats_correlation/`)
-- **Core bounds computation**: `1_rmin_rmax_rhat/1_monte_carlo_simulation/core_bounds_functions.R`
-- **Real-world validation**: `1_rmin_rmax_rhat/2_bes_illustrative_example/bes_data_analysis.R`
-- **Bootstrap uncertainty**: `1_rmin_rmax_rhat/bootstrapJoint_r_minmax.R`
-- **Asymmetry analysis**: `2_asymmetry_analysis/asymmetry_measures.R`
-- **Visualization**: `3_visualization/bounds_visualization.R`
-- **Module coordinator**: `bivariate_main.R`
+| Script | Purpose | Reads | Writes |
+|---|---|---|---|
+| `00_run_pipeline.R` | Master script — sources 01 through 05 in order | — | — |
+| `01_bes_compute_bounds.R` | Computes r_min, r_max, and constraint metrics (C1, C2, entropy, TV, Bhattacharyya, overlap, asymmetry, skew) for all 7,503 BES 2019 variable pairs | `R/data/raw/bes2019_pairs.dta` | `output/data/bes_bounds.rds` |
+| `02_mc_simulation.R` | Monte Carlo simulation over random Dirichlet marginals for K ∈ {4,5,6,7,10,11}, computing the same bound/constraint metrics | — | `output/data/mc_bounds.rds` |
+| `03_exploratory_plots.R` | Core exploratory figures (r_min/r_max cloud, C1 distributions, rescaling comparisons) | `output/data/*.rds` | `output/figures/01_*.pdf`–`09_*.pdf` |
+| `04_additional_analyses.R` | "Spur" structure analysis + asymmetry-magnitude-vs-K analysis | `output/data/*.rds` | `output/figures/10_*.pdf`–`14_*.pdf` |
+| `05_hypothesis_testing.R` | Permutation-test vs. t-test comparison figure for the manuscript's Hypothesis Testing section | — | `output/figures/15_*.pdf` |
 
-#### 2. Correlation Matrices (`2_correlation_matrices/`)
-- **Matrix diagnostics**: `1_matrix_properties/` (condition numbers, PSD validation, invertibility)
-- **Matrix construction**: `2_matrix_construction/random_trials.R`
-- **Module coordinator**: `matrices_main.R`
+Note: prose in the "Reads" / "Writes" columns omits the implicit project-root working directory; all paths in these scripts are relative to the repo root (run via `Rscript` from the root, or in an R session opened at the `.Rproj`).
 
-#### 3. Rescaling Methods (`3_fixes_and_rescaling/`)
-- **Simple rescaling**: `1_simple_rescaling/linear_rescaling.R`
-- **Advanced methods**: `2_advanced_rescaling/` (future extensions)
-- **Module coordinator**: `rescaling_main.R`
+### In-development modules (not yet wired into the pipeline)
 
-#### 4. Utilities and Data Management
-- **Data loading**: `utilities/data_loading.R`
-- **Helper functions**: `utilities/helper_functions.R`
-- **Processed datasets**: `data/processed/` (bootstrap results, BES correlations)
-- **Generated outputs**: `output/` (figures, reports, tables)
+| Script | Purpose |
+|---|---|
+| `02a_mc_sampling_uniform_crosstab.R` | Uniform sampling of J×K cross-tab tables with fixed total N (stars-and-bars method) |
+| `02b_mc_sampling_crosstab_given_r.R` | Builds on 02a: samples J×K tables conditioned on a target Pearson's r via simulated annealing + Metropolis swap moves |
 
-### Core Function Libraries (`R/core/`)
+These implement the "K×J cell-allocation-with-replacement" algorithm for the expanded Monte Carlo design (square + rectangular pairs, K = 3–11). They are standalone and not yet called by `02_mc_simulation.R` or the master pipeline — run them directly with `source("R/02a_mc_sampling_uniform_crosstab.R")` etc. once ready to integrate.
 
-#### Core Mathematical Functions (`R/core/correlation_bounds_core.R`)
-- `max_corr_bound()` - Computes maximum correlation using comonotonic coupling (Fréchet–Hoeffding upper bound)
-- `min_corr_bound()` - Computes minimum correlation using anti-comonotonic coupling
-- `simulate_permutation_r()` - Generates permutation distributions under null hypothesis
-- `analyze_all_corr_bounds()` - Comprehensive analysis function for datasets
+### Data (`R/data/raw/`)
+- `bes2019_pairs.dta` — British Election Study 2019 pairwise variable data, the only data dependency the live pipeline needs.
 
-#### Visualization System (`R/core/correlation_bounds_visualization.R`)
-- `plot_permutation_distribution()` - Shows empirical distributions with theoretical bounds
-- `plot_bounds_summary()` - Summary plots comparing bounds and confidence intervals
-- `plot_range_comparison()` - Comparison plots across scenarios
-- `plot_significance_comparison()` - Compares different significance testing approaches
+### Archived / superseded code (`R/_archive/`)
+Everything below was explored at some point but is **not** part of the live pipeline. Kept for reference/history, not for use in new work:
+- `core/` — an earlier reusable function library (`correlation_bounds_core.R`, `correlation_bounds_visualization.R`, `correlation_bounds_bes.R`, `correlation_matrix_test.R`). The numbered pipeline scripts redefine the bound functions they need inline rather than sourcing this.
+- `ordinal_correlation_analysis/` — a deep nested modular architecture (begun, never finished — large parts of it reference files that were never written). Superseded by the flat numbered pipeline above.
+- `examples_legacy/` — older worked-example/demo scripts, plus one early draft of the crosstab-given-r sampler (the current version lives at `R/02b_mc_sampling_crosstab_given_r.R`).
+- `scratch/` — informal dev/prototype scripts.
+- `scripts_demos/`, `scripts_tests/` — leftovers from an earlier `here()`-path-conversion effort.
+- `WHAT_EACH_FILE_DOES.md`, `r_code_reorganization_notes.md`, `correlation-bounds-readme.md` — superseded planning/orientation docs from earlier reorganizations.
 
-#### Applied Analysis (`R/core/correlation_bounds_bes.R`)
-- Functions for analyzing British Election Study (BES) 2019 data
-- Real-world validation of theoretical bounds with survey data
+### Output (`output/`)
+- `output/data/*.rds` — computed bounds data frames (BES + Monte Carlo)
+- `output/figures/*.pdf` — all manuscript figures, numbered to match the section/script that produces them
 
-#### Matrix Tests (`R/core/correlation_matrix_test.R`)
-- Functions to test correlation matrix properties (symmetry, PSD, invertibility, condition numbers)
-
-### Examples and Demos (`R/examples/`)
-- `correlation_bounds_examples.R` - Explores uniform vs extreme distributions, range comparisons
-- `correlation_bounds_bes_example.R` - Worked BES 2019 example with bounds analysis
-- `correlation_bounds_demo.R` - Comprehensive demonstration including matrix testing
-- `correlation_matrix_example.R` - Example usage of correlation matrix testing functions
-- `correlation_bounds_simulation.R` - Simulation study of matrix properties with ordinal data
-
-## Development Patterns
-
-### File Organization
-- **New modular structure**: `R/ordinal_correlation_analysis/` contains reorganized production code
-- **Core function libraries**: `R/core/` contains reusable function definitions (bounds, visualization, BES, matrix)
-- **Examples and demos**: `R/examples/` contains worked examples, demo scripts, and simulation scripts
-- **Experimental work**: `R/scratch/` for development versions and prototypes
-- **Test scripts**: `scripts/tests/` for validation and path-resolution tests
-- **Demo scripts**: `scripts/demos/` for demonstrations and working examples
-- **Documentation notes**: `docs/` for reorganization notes and auxiliary documentation
-- **Academic output**: `paper/` directory for Quarto manuscripts (latest: ElasticBounds-r_v6a.qmd)
-- **Research documentation**: `Notes/` and `Meetings/` for mathematical proofs and research discussions
-
-### Mathematical Framework
+## Mathematical Framework
 The project implements Fréchet–Hoeffding bounds adapted for categorical variables:
 - **Comonotonic coupling**: Both variables sorted in same direction (maximum correlation)
 - **Anti-comonotonic coupling**: Variables sorted in opposite directions (minimum correlation)
 - **Permutation inference**: Random permutation preserves marginals for null hypothesis testing
 
-### Data Structures
+## Data Structures
 Functions typically work with:
 - Marginal distributions as probability vectors or count vectors
-- Results returned as lists with `$summary` and `$simulations` components
-- Visualization functions expect data frames with specific column naming conventions
+- Results returned as data frames with one row per variable pair (BES) or per simulated pair (Monte Carlo)
+- Constraint-severity metrics: C1 = (|r_min| + r_max)/2, C2 = (r_min² + r_max²)/2
+- Marginal-shape measures: Shannon entropy, total variation distance vs. reversed marginal, Bhattacharyya coefficient, overlap coefficient
 
-### Significance Testing Innovation
+## Significance Testing Innovation
 The project explores how theoretical bounds affect statistical inference by comparing:
 - Traditional t-tests for correlation significance
 - Permutation-based randomization tests that respect marginal constraints
 - How bounds influence interpretation of "significant" correlations
-
-### Architecture Transition
-The project is transitioning from legacy functions to a new modular architecture:
-- **Current state**: Both architectures coexist and are functional
-- **Legacy code**: Fully working, well-tested, documented in research papers
-- **New modular code**: Enhanced organization, improved maintainability, extended functionality
-- **Data flow**: New structure processes data through `main_analysis.R` → module coordinators → specific analyses
-- **Recommendation**: Use new modular structure for new development; legacy functions remain available for validation
 
 ## Manuscript Generation
 
@@ -157,36 +107,7 @@ The project uses Quarto for academic manuscript generation with:
 - Bibliography management with APA style (`apa.csl`)
 - Multiple output formats (PDF, DOCX, HTML) configured in `quarto.yml`
 - Version control of manuscripts with descriptive commit messages
-
-## Working with Both Architectures
-
-### For New Development
-```r
-# Use the modular architecture for new features
-source("R/ordinal_correlation_analysis/main_analysis.R")
-
-# Access specific modules as needed
-source("R/ordinal_correlation_analysis/utilities/helper_functions.R")
-```
-
-### For Validation and Comparison
-```r
-# Use legacy functions to validate new implementations
-source("R/core/correlation_bounds_core.R")
-legacy_result <- max_corr_bound(marginals)
-
-# Compare with new modular implementation
-source("R/ordinal_correlation_analysis/1_bivariate_ordcats_correlation/1_rmin_rmax_rhat/1_monte_carlo_simulation/core_bounds_functions.R")
-new_result <- compute_max_bound(marginals)
-
-# Verify consistency
-all.equal(legacy_result, new_result)
-```
-
-### Data Locations
-- **Raw data**: `R/ordinal_correlation_analysis/data/raw/MCsim.rds`
-- **Processed BES data**: `R/ordinal_correlation_analysis/data/processed/`
-- **Bootstrap results**: `R/ordinal_correlation_analysis/data/processed/bootstrap_results_sim.rds`
+- The current/live manuscript is `paper/ElasticBounds-r_v6b.qmd`; the `paper/` directory contains many earlier versioned drafts (v1–v6a and variants) kept for history
 
 ## Key Research Questions
 
@@ -195,4 +116,4 @@ all.equal(legacy_result, new_result)
 3. How do these constraints affect statistical significance testing?
 4. What are the implications for survey research and categorical data analysis?
 
-This codebase represents sophisticated statistical research combining rigorous mathematical theory with practical applications in survey data analysis. The dual architecture provides both stability (legacy code) and extensibility (modular structure) for ongoing research development.
+This codebase represents statistical research combining rigorous mathematical theory with practical applications in survey data analysis. The live pipeline (`R/00_run_pipeline.R` plus the numbered scripts in `R/`) is intentionally flat and self-contained so each stage can be read, run, and edited independently.

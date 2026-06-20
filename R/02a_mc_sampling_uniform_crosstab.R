@@ -21,6 +21,11 @@
 # tables. The part sizes (= cell counts) are read off as the gaps between
 # consecutive bars.
 # =============================================================================
+#
+# See also: R/02b_mc_sampling_crosstab_given_r.R, which builds on this module
+# to sample tables conditioned on a TARGET Pearson's r (not just uniform over
+# all tables of a given size).
+# =============================================================================
 
 sample_uniform_crosstab <- function(N, J, K) {
   m <- J * K

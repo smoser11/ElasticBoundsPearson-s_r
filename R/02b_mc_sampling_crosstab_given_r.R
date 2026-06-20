@@ -1,6 +1,15 @@
 # =============================================================================
 # Uniform sampling of J x K cross-tab tables, CONDITIONED on Pearson's r
-# (total N fixed, row/column margins free) -- builds on sample_uniform_crosstab.R
+# (total N fixed, row/column margins free) -- builds on
+# R/02a_mc_sampling_uniform_crosstab.R
+# =============================================================================
+#
+# NOTE: this file consolidates what were previously two drafts
+# (sample_uniform_crosstab_given_r.R and a "_loop" follow-up) into one module.
+# This version is the superset: it includes everything from the first draft
+# plus sample_crosstab_r_sweep() for sweeping across a grid of r0 targets.
+# The earlier single-target-only draft is kept for reference at
+# R/_archive/examples_legacy/sample_uniform_crosstab_given_r_EARLY_DRAFT.R.
 # =============================================================================
 #
 # WHY THIS NEEDS MORE THAN REJECTION SAMPLING:
@@ -156,11 +165,13 @@ sample_crosstab_r_sweep <- function(N, J, K, r0_grid, eps,
 # =============================================================================
 # Demo / sanity check
 # =============================================================================
-# (Requires sample_uniform_crosstab() from sample_uniform_crosstab.R to be
-#  loaded first, e.g. source("sample_uniform_crosstab.R"))
+# Requires sample_uniform_crosstab() from R/02a_mc_sampling_uniform_crosstab.R
+# to be loaded first. Run this script with the working directory set to the
+# project root (e.g. Rscript R/02b_mc_sampling_crosstab_given_r.R from repo root,
+# or source() it from an R session started in the project).
 #
 
-source("sample_uniform_crosstab.R")
+source("R/02a_mc_sampling_uniform_crosstab.R")
 set.seed(1)
 draws <- sample_uniform_crosstab_given_r(
   N = 60, J = 4, K = 4, r0 = 0.6, eps = 0.01,

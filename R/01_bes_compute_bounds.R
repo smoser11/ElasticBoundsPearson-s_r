@@ -101,7 +101,7 @@ get_counts <- function(row, var_prefix, n_cats) {
 # Load BES data
 # ---------------------------------------------------------------------------
 cat("Loading BES data...\n")
-bes_path <- "R/ordinal_correlation_analysis/data/processed/correlation and other data about pairs of BES2019 variables.dta"
+bes_path <- "R/data/raw/bes2019_pairs.dta"
 bes <- read_dta(bes_path)
 cat("Loaded", nrow(bes), "pairs\n")
 
