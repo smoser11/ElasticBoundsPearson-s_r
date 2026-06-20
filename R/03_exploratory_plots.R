@@ -25,41 +25,64 @@ save_fig <- function(p, name, w=7, h=5) {
 
 # ===========================================================================
 # 1. BES: distribution of (r_min, r_max) — scatter cloud
+#
+# TRANSFORM NOTE: r_min in [-1,0) and r_max in (0,1] both pile up hard against
+# their Frechet-Hoeffding extreme (r_min near -1, r_max near +1 for ~7,000 of
+# the 7,503 pairs) -- a linear scale buries almost the whole dataset in one
+# corner. Empirically (1-r_max) and (1+r_min) are bounded strictly away from
+# zero (min ~0.005, confirmed via output/data/bes_bounds.rds), so log10 of
+# each "distance to its own extreme" is well-defined for every pair and
+# spreads that corner out instead of overplotting it. The symmetry condition
+# |r_min| = r_max becomes (1+r_min) = (1-r_max) algebraically, so the dashed
+# diagonal is still the line y=x in this distance space -- it just flips which
+# side counts as "more constrained" (see subtitle).
 # ===========================================================================
 p1 <- bes %>%
-  mutate(K_pair = factor(paste0(K1, "×", K2))) %>%
-  ggplot(aes(x = r_min, y = r_max)) +
-  geom_point(alpha = 0.15, size = 0.6, colour = "steelblue") +
-  geom_abline(intercept = 0, slope = -1, linetype = "dashed", colour = "grey40",
+  mutate(
+    K_pair   = factor(paste0(K1, "×", K2)),
+    dist_min = 1 + r_min,   # distance of r_min from the lower extreme (-1)
+    dist_max = 1 - r_max    # distance of r_max from the upper extreme (+1)
+  ) %>%
+  ggplot(aes(x = dist_min, y = dist_max)) +
+  geom_point(alpha = 0.2, size = 0.6, colour = "steelblue") +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", colour = "grey40",
               linewidth = 0.5) +
-  geom_hline(yintercept = 0, colour = "grey70", linewidth = 0.3) +
-  geom_vline(xintercept = 0, colour = "grey70", linewidth = 0.3) +
-  scale_x_continuous(limits = c(-1, 0), breaks = seq(-1, 0, 0.2)) +
-  scale_y_continuous(limits = c(0, 1),  breaks = seq(0, 1, 0.2)) +
+  scale_x_log10(breaks = c(0.005, 0.01, 0.03, 0.1, 0.3, 0.7)) +
+  scale_y_log10(breaks = c(0.005, 0.01, 0.03, 0.1, 0.3, 0.7)) +
   labs(
     title = "BES 2019: Attainable bounds for all 7,503 variable pairs",
-    subtitle = "Dashed line = symmetry (|r_min| = r_max); points below = |r_min| > r_max",
-    x = expression(r[min]),
-    y = expression(r[max])
+    subtitle = paste(
+      "Log scale = distance from each FH extreme (most pairs hug the boundary,",
+      "so linear axes overplot that corner). Dashed = symmetry (|r_min|=r_max);",
+      "points above = |r_min| > r_max (r_min sits closer to its bound)"
+    ),
+    x = expression(1 + r[min] ~ "  (log scale)"),
+    y = expression(1 - r[max] ~ "  (log scale)")
   )
 save_fig(p1, "01_bes_rmin_rmax_cloud")
 
 # ===========================================================================
 # 2. BES: cloud coloured by K_max
+# Same log-distance-to-bound transform as Figure 1 (see note above).
 # ===========================================================================
 p2 <- bes %>%
-  mutate(K_max_f = factor(K_max)) %>%
-  ggplot(aes(x = r_min, y = r_max, colour = K_max_f)) +
-  geom_point(alpha = 0.25, size = 0.7) +
-  geom_abline(intercept = 0, slope = -1, linetype = "dashed", colour = "grey30",
+  mutate(
+    K_max_f  = factor(K_max),
+    dist_min = 1 + r_min,
+    dist_max = 1 - r_max
+  ) %>%
+  ggplot(aes(x = dist_min, y = dist_max, colour = K_max_f)) +
+  geom_point(alpha = 0.3, size = 0.7) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", colour = "grey30",
               linewidth = 0.5) +
   scale_colour_manual(values = K_cols, name = "K (max)") +
-  scale_x_continuous(limits = c(-1, 0), breaks = seq(-1, 0, 0.2)) +
-  scale_y_continuous(limits = c(0, 1),  breaks = seq(0, 1, 0.2)) +
+  scale_x_log10(breaks = c(0.005, 0.01, 0.03, 0.1, 0.3, 0.7)) +
+  scale_y_log10(breaks = c(0.005, 0.01, 0.03, 0.1, 0.3, 0.7)) +
   labs(
     title = "BES 2019: Bounds coloured by maximum number of categories",
-    x = expression(r[min]),
-    y = expression(r[max])
+    subtitle = "Log scale = distance from each FH extreme bound (see Fig 1)",
+    x = expression(1 + r[min] ~ "  (log scale)"),
+    y = expression(1 - r[max] ~ "  (log scale)")
   )
 save_fig(p2, "02_bes_rmin_rmax_by_K")
 

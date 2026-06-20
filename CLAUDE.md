@@ -36,8 +36,10 @@ The manuscript does not execute R code inline — it pulls in pre-generated figu
 
 ### Required R Packages
 ```r
-install.packages(c("haven", "dplyr", "tidyr", "ggplot2", "patchwork"))
+install.packages(c("haven", "dplyr", "tidyr", "ggplot2", "patchwork", "scales"))
 ```
+(`scales` ships as a transitive dependency of `ggplot2` but is called directly —
+`scales::pseudo_log_trans()` — in `03_exploratory_plots.R`/`04_additional_analyses.R`.)
 
 ## Code Architecture
 
@@ -80,6 +82,23 @@ Everything below was explored at some point but is **not** part of the live pipe
 ### Output (`output/`)
 - `output/data/*.rds` — computed bounds data frames (BES + Monte Carlo)
 - `output/figures/*.pdf` — all manuscript figures, numbered to match the section/script that produces them
+
+### Visualization conventions
+Several quantities in this project are bounded (r_min ∈ [-1,0), r_max ∈ (0,1], abs_asym ≥ 0) and pile up
+hard against those bounds, so a plain linear axis often overplots the most interesting region. When adding
+or editing a figure, check the actual distribution first and pick a transform that fits how the variable
+is bounded, rather than defaulting to a raw linear scale:
+- **Variables strictly bounded away from a hard limit** (e.g. r_min is never exactly -1, r_max is never
+  exactly 1 in the BES/MC data) → log-transform the *distance to the bound* (`1 + r_min`, `1 - r_max`), as
+  in Figures 1-2 of `03_exploratory_plots.R`. A plain `log10()` is safe here because the distance is always
+  strictly positive.
+- **Variables that can legitimately equal their bound** (e.g. abs_asym can be exactly 0) → do not use a
+  plain log (undefined/-Inf at 0); use `scales::pseudo_log_trans()` instead, as in Figure 13 of
+  `04_additional_analyses.R`. It behaves linearly near 0 and logarithmically beyond a chosen `sigma`, so it
+  compresses a long right tail without blowing up at the boundary.
+- Always update the subtitle/axis labels to say what's plotted (e.g. "distance from bound, log scale") —
+  don't silently change a figure's axes without explaining the new geometry, since e.g. a symmetry
+  reference line's "above/below" interpretation can flip under one of these transforms.
 
 ## Mathematical Framework
 The project implements Fréchet–Hoeffding bounds adapted for categorical variables:

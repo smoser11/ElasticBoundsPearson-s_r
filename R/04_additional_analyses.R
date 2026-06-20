@@ -215,6 +215,15 @@ p_asym_K_bes <- bes_abs %>%
 save_fig(p_asym_K_bes, "12_bes_abs_asymmetry_by_K")
 
 # ----- Figure B2: |asymmetry| by K — MC density -----
+# TRANSFORM NOTE: abs_asym is heavily right-skewed (median ~0.045, max ~0.77)
+# and -- unlike r_min/r_max in Figures 1-2 -- it can legitimately equal 0 (one
+# exact 0 and ~100 near-zero floating-point cases out of 72,000 MC draws,
+# where the sampled marginals happen to be almost perfectly symmetric). A
+# literal log10(abs_asym) is undefined at 0 and would send those near-zero
+# draws to roughly -15 on the log axis, wrecking the KDE bandwidth for
+# everyone else. scales::pseudo_log_trans() is the standard fix: linear near
+# zero, logarithmic once abs_asym exceeds sigma, so it still compresses the
+# long right tail without blowing up at the boundary.
 K_cols_v <- c("4"="#E41A1C", "5"="#FF7F00", "6"="#D4C700",
               "7"="#4DAF4A", "10"="#377EB8", "11"="#984EA3")
 
@@ -223,13 +232,18 @@ p_asym_K_mc <- mc_abs %>%
   geom_density(alpha = 0.3, linewidth = 0.6) +
   scale_fill_manual(values = K_cols_v, name = "K") +
   scale_colour_manual(values = K_cols_v, name = "K") +
+  scale_x_continuous(
+    trans  = scales::pseudo_log_trans(sigma = 0.001, base = 10),
+    breaks = c(0, 0.001, 0.01, 0.1, 0.5)
+  ) +
   labs(
     title = "MC simulation: Bound asymmetry magnitude by K",
     subtitle = expression(paste(
       "Distribution of |", r[min], "| - ", r[max],
-      " for K×K pairs (same K both variables)"
+      " for K×K pairs (same K both variables); pseudo-log x-axis",
+      " (linear near 0, log beyond)"
     )),
-    x = expression("|"*"|"*r[min]*"|"*" - "*r[max]*"|"),
+    x = expression("|"*"|"*r[min]*"|"*" - "*r[max]*"|" ~ "  (pseudo-log scale)"),
     y = "Density"
   )
 save_fig(p_asym_K_mc, "13_mc_abs_asymmetry_by_K_density")
