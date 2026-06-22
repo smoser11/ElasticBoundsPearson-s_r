@@ -219,6 +219,34 @@ mc_abs %>%
             .groups="drop") %>%
   print()
 
+# MC: full K1 x K2 x N_obs grid -- not just the K1==K2 "square pairs" subset
+# used above/in Figure 13. Now that 02_mc_simulation.R sweeps N_obs and
+# records each draw's empirical Pearson's r (r_obs) alongside r_min/r_max,
+# condition the |asymmetry| breakdown on all three of K1, K2, and N_obs, and
+# report r_obs descriptive stats (mean, median, sd) for the same groups.
+# This is a separate summary table -- it doesn't touch mc_abs, bes_abs, or
+# any figure above/below.
+cat("\nMC |asymmetry| and r_obs by K1, K2, N_obs (full grid):\n")
+mc_grid <- mc %>%
+  filter(!is.na(asymmetry), !is.na(r_obs)) %>%
+  mutate(abs_asym = abs(asymmetry))
+
+mc_grid_summary <- mc_grid %>%
+  group_by(K1, K2, N_obs) %>%
+  summarise(
+    n          = n(),
+    med_asym   = round(median(abs_asym), 3),
+    q25_asym   = round(quantile(abs_asym, 0.25), 3),
+    q75_asym   = round(quantile(abs_asym, 0.75), 3),
+    mean_r_obs = round(mean(r_obs), 3),
+    med_r_obs  = round(median(r_obs), 3),
+    sd_r_obs   = round(sd(r_obs), 3),
+    .groups = "drop"
+  ) %>%
+  arrange(K1, K2, N_obs)
+
+print(as.data.frame(mc_grid_summary))
+
 # ----- Figure B1: |asymmetry| by K — BES boxplot -----
 # TRANSFORM NOTE: same abs_asym variable, same right-skew-against-zero shape
 # as Figure 13 below (BES min ~1e-6, median ~0.028, max ~0.62, 24% of pairs

@@ -24,10 +24,23 @@
 #                              for the manuscript's Hypothesis Testing section.
 #                              -> output/figures/15_*.pdf
 #
-# All five scripts are also self-contained and can be run individually
+#   06_correlation_adjustment.R  Kendall's tau-b bounds (tau_min/tau_max) for
+#                              all BES pairs; five candidate "adjustments" to
+#                              r_obs (U1, tight-linear, split/Warrens, U3,
+#                              raw), grounded in Warrens (2013)'s correction-
+#                              for-chance / correction-for-maximum-value
+#                              framework; synthetic + real-BES-data PSD
+#                              (invertibility) sweeps for both Pearson r and
+#                              Kendall's tau correlation matrices under each
+#                              adjustment.
+#                              -> output/data/bes_tau_bounds.rds,
+#                                 output/data/adjustment_psd_synthetic.rds,
+#                                 output/data/adjustment_psd_bes_real.rds
+#
+# All six scripts are also self-contained and can be run individually
 # (each one redefines whatever helper functions it needs, by design, so you
 # can read/run/edit any single stage without chasing dependencies across
-# files). Running this master script just runs all five in the right order
+# files). Running this master script just runs all six in the right order
 # and regenerates everything the manuscript (paper/ElasticBounds-r_v6b.qmd)
 # pulls in via knitr::include_graphics().
 #
@@ -62,7 +75,8 @@ pipeline_steps <- c(
   "R/02_mc_simulation.R",
   "R/03_exploratory_plots.R",
   "R/04_additional_analyses.R",
-  "R/05_hypothesis_testing.R"
+  "R/05_hypothesis_testing.R",
+  "R/06_correlation_adjustment.R"
 )
 
 dir.create("output/data",    recursive = TRUE, showWarnings = FALSE)
@@ -87,6 +101,9 @@ for (step in pipeline_steps) {
 total_time <- round(difftime(Sys.time(), pipeline_start, units = "secs"), 1)
 cat("=============================================================\n")
 cat(" Pipeline complete in", total_time, "sec\n")
-cat(" Data:    output/data/bes_bounds.rds, output/data/mc_bounds.rds\n")
+cat(" Data:    output/data/bes_bounds.rds, output/data/mc_bounds.rds,\n")
+cat("          output/data/bes_tau_bounds.rds,\n")
+cat("          output/data/adjustment_psd_synthetic.rds,\n")
+cat("          output/data/adjustment_psd_bes_real.rds\n")
 cat(" Figures: output/figures/*.pdf (", length(list.files("output/figures", pattern = "\\.pdf$")), "files)\n")
 cat("=============================================================\n")
