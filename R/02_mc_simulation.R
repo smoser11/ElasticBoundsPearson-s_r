@@ -69,7 +69,7 @@ random_marginal <- function(K, N = 1000) {
 # ---------------------------------------------------------------------------
 set.seed(2025)
 
-K_values <- c(4, 5, 6, 7, 10, 11)
+K_values <- c(3, 4, 5, 6, 7, 9, 10, 11)
 N_per_K <- 2000    # number of pairs per K combination (K1, K2)
 N_obs    <- 1000   # sample size for expanding marginals
 

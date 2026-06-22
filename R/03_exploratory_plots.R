@@ -52,9 +52,11 @@ p1 <- bes %>%
   labs(
     title = "BES 2019: Attainable bounds for all 7,503 variable pairs",
     subtitle = paste(
-      "Log scale = distance from each FH extreme (most pairs hug the boundary,",
-      "so linear axes overplot that corner). Dashed = symmetry (|r_min|=r_max);",
-      "points above = |r_min| > r_max (r_min sits closer to its bound)"
+      "Log scale = distance from each FH extreme (most pairs hug",
+      "the boundary, so linear axes overplot that corner).",
+      "Dashed = symmetry (|r_min|=r_max); points above =",
+      "|r_min| > r_max (r_min sits closer to its bound)",
+      sep = "\n"
     ),
     x = expression(1 + r[min] ~ "  (log scale)"),
     y = expression(1 - r[max] ~ "  (log scale)")
@@ -266,7 +268,11 @@ p8a <- bes_pos %>%
   geom_vline(xintercept = 0, colour = "grey70", linewidth = 0.3) +
   labs(
     title = "BES 2019: Observed r vs rescaled r*",
-    subtitle = "r* = (r_obs - r_min)/(r_max - r_min) × 2 - 1; dashed = no rescaling effect",
+    subtitle = paste(
+      "r* = (r_obs - r_min)/(r_max - r_min) × 2 - 1;",
+      "dashed = no rescaling effect",
+      sep = "\n"
+    ),
     x = expression(r[obs]),
     y = expression(r^"*"~"(rescaled to [-1,1])")
   )

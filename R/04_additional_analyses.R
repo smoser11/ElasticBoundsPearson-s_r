@@ -88,15 +88,33 @@ print(
 )
 
 # ----- Figure A1: cloud with regions highlighted -----
+# TRANSFORM NOTE: this is the same (r_min, r_max) cloud as Figures 1-2, so it
+# has the same problem -- on a linear scale the ~7,000 "main cloud" pairs that
+# hug both FH extremes are crushed into one overplotted corner, which is
+# exactly the region the spur (red) needs to be visually separated from. Apply
+# the identical log10(distance-to-bound) transform used in Figs 1-2: x = 1 +
+# r_min, y = 1 - r_max. The region classification itself is computed upstream
+# on the raw r_min/r_max thresholds (r_max > 0.75, r_min > -0.70) and is
+# unchanged here -- only the plotting coordinates differ -- and because the
+# transform is monotonic per axis, those thresholds still draw as a straight
+# vertical/horizontal split (just relocated to dist_min = 0.30 and dist_max =
+# 0.25). The symmetry diagonal |r_min| = r_max again becomes the plain line
+# y = x in distance space (see Fig 1 note), so spur pairs -- close to their
+# r_max bound but comparatively far from their r_min bound -- now show up as
+# a distinct band in the lower-right rather than smearing into the main cloud.
 p_spur1 <- bes_classified %>%
-  ggplot(aes(x = r_min, y = r_max, colour = region)) +
+  mutate(
+    dist_min = 1 + r_min,   # distance of r_min from the lower extreme (-1)
+    dist_max = 1 - r_max    # distance of r_max from the upper extreme (+1)
+  ) %>%
+  ggplot(aes(x = dist_min, y = dist_max, colour = region)) +
   geom_point(data = . %>% filter(region == "Main cloud"),
              alpha = 0.15, size = 0.5) +
   geom_point(data = . %>% filter(region == "Low r_max"),
              alpha = 0.25, size = 0.6) +
   geom_point(data = . %>% filter(region == "Spur (high r_max, weak r_min)"),
              alpha = 0.5, size = 0.8) +
-  geom_abline(intercept = 0, slope = -1, linetype = "dashed", colour = "grey40",
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", colour = "grey40",
               linewidth = 0.5) +
   scale_colour_manual(
     values = c("Main cloud" = "steelblue",
@@ -104,13 +122,18 @@ p_spur1 <- bes_classified %>%
                "Low r_max" = "grey60"),
     name = NULL
   ) +
-  scale_x_continuous(limits = c(-1, 0), breaks = seq(-1, 0, 0.2)) +
-  scale_y_continuous(limits = c(0, 1),  breaks = seq(0, 1, 0.2)) +
+  scale_x_log10(breaks = c(0.005, 0.01, 0.03, 0.1, 0.3, 0.7)) +
+  scale_y_log10(breaks = c(0.005, 0.01, 0.03, 0.1, 0.3, 0.7)) +
   labs(
     title = "BES 2019: Identifying the 'spur' region",
-    subtitle = "Red = spur (high r_max but weak r_min); blue = main cloud",
-    x = expression(r[min]),
-    y = expression(r[max])
+    subtitle = paste(
+      "Log scale = distance from each FH extreme (see Fig 1);",
+      "red = spur (close to r_max bound, far from r_min bound);",
+      "blue = main cloud",
+      sep = "\n"
+    ),
+    x = expression(1 + r[min] ~ "  (log scale)"),
+    y = expression(1 - r[max] ~ "  (log scale)")
   ) +
   theme(legend.position = "bottom")
 save_fig(p_spur1, "10_bes_spur_highlighted")
@@ -197,6 +220,12 @@ mc_abs %>%
   print()
 
 # ----- Figure B1: |asymmetry| by K — BES boxplot -----
+# TRANSFORM NOTE: same abs_asym variable, same right-skew-against-zero shape
+# as Figure 13 below (BES min ~1e-6, median ~0.028, max ~0.62, 24% of pairs
+# < 0.01) -- on a linear y-axis the violins are squashed teardrops with
+# almost all the visible shape sitting in the bottom few pixels. Apply the
+# identical scales::pseudo_log_trans() fix used for the MC version in Fig 13
+# so the low-asymmetry detail (most of the data) isn't buried.
 K_cols <- c("4"="#E41A1C", "5"="#FF7F00", "6"="#D4C700",
             "7"="#4DAF4A", "10"="#377EB8", "11"="#984EA3")
 
@@ -205,12 +234,19 @@ p_asym_K_bes <- bes_abs %>%
   ggplot(aes(x = K_min_f, y = abs_asym, fill = K_min_f)) +
   geom_violin(alpha = 0.6, linewidth = 0.4, draw_quantiles = 0.5) +
   scale_fill_manual(values = K_cols, guide = "none") +
+  scale_y_continuous(
+    trans  = scales::pseudo_log_trans(sigma = 0.001, base = 10),
+    breaks = c(0, 0.001, 0.01, 0.1, 0.5)
+  ) +
   labs(
     title = "BES 2019: Bound asymmetry magnitude by K",
-    subtitle = expression(paste("Each panel: distribution of |", r[min], "| - ", r[max],
-                                " by minimum number of categories")),
+    subtitle = paste(
+      "Distribution of ||r_min| - r_max| by minimum number of",
+      "categories; pseudo-log y-axis (linear near 0, log beyond)",
+      sep = "\n"
+    ),
     x = "Minimum K in pair",
-    y = expression("|"*r[min]*"| - "*r[max]*"| (magnitude)")
+    y = expression("|"*"|"*r[min]*"|"*" - "*r[max]*"|" ~ "  (pseudo-log scale)")
   )
 save_fig(p_asym_K_bes, "12_bes_abs_asymmetry_by_K")
 
@@ -238,28 +274,41 @@ p_asym_K_mc <- mc_abs %>%
   ) +
   labs(
     title = "MC simulation: Bound asymmetry magnitude by K",
-    subtitle = expression(paste(
-      "Distribution of |", r[min], "| - ", r[max],
-      " for K×K pairs (same K both variables); pseudo-log x-axis",
-      " (linear near 0, log beyond)"
-    )),
+    subtitle = paste(
+      "Distribution of ||r_min| - r_max| for K×K pairs (same K",
+      "both variables); pseudo-log x-axis (linear near 0, log beyond)",
+      sep = "\n"
+    ),
     x = expression("|"*"|"*r[min]*"|"*" - "*r[max]*"|" ~ "  (pseudo-log scale)"),
     y = "Density"
   )
 save_fig(p_asym_K_mc, "13_mc_abs_asymmetry_by_K_density")
 
 # ----- Figure B3: |asymmetry| vs entropy, faceted by K (BES) -----
+# TRANSFORM NOTE: same abs_asym boundary-at-zero issue as Figs 12-13 -- on a
+# linear y-axis nearly all 7,503 points are crushed into a thin band near 0,
+# which is exactly the region the loess trend needs to resolve. Same
+# scales::pseudo_log_trans() fix.
 p_asym_entropy <- bes_abs %>%
   mutate(K_max_f = factor(K_max)) %>%
   ggplot(aes(x = H_mean, y = abs_asym)) +
   geom_point(aes(colour = K_max_f), alpha = 0.2, size = 0.6) +
   geom_smooth(method = "loess", se = FALSE, colour = "black", linewidth = 0.9) +
   scale_colour_manual(values = K_cols, name = "K (max)") +
+  scale_y_continuous(
+    trans  = scales::pseudo_log_trans(sigma = 0.001, base = 10),
+    breaks = c(0, 0.001, 0.01, 0.1, 0.5)
+  ) +
   labs(
     title = "BES 2019: Entropy vs asymmetry magnitude",
-    subtitle = "Higher entropy (less concentrated) corresponds to smaller asymmetry magnitude",
+    subtitle = paste(
+      "Higher entropy (less concentrated) corresponds to",
+      "smaller asymmetry magnitude; pseudo-log y-axis",
+      "(linear near 0, log beyond)",
+      sep = "\n"
+    ),
     x = expression(bar(H)(X,Y)),
-    y = expression("|"*"|"*r[min]*"|"*" - "*r[max]*"|")
+    y = expression("|"*"|"*r[min]*"|"*" - "*r[max]*"|" ~ "  (pseudo-log scale)")
   )
 save_fig(p_asym_entropy, "14_bes_entropy_vs_abs_asymmetry")
 

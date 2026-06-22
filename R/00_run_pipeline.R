@@ -8,7 +8,7 @@
 #                              -> output/data/bes_bounds.rds
 #
 #   02_mc_simulation.R         Monte Carlo simulation over random marginal
-#                              distributions (K = 4,5,6,7,10,11), computing the
+#                              distributions (K = 3,4,5,6,7,10,11), computing the
 #                              same bound/constraint metrics.
 #                              -> output/data/mc_bounds.rds
 #
