@@ -17,7 +17,7 @@ source("R/00_run_pipeline.R")
 # Equivalently, from a shell at the project root:
 Rscript R/00_run_pipeline.R
 ```
-This runs `R/01_bes_compute_bounds.R` through `R/05_hypothesis_testing.R` in order and regenerates everything in `output/data/` and `output/figures/` that the manuscript pulls in.
+This runs `R/01_bes_compute_bounds.R` through `R/07_permutation_zscore.R` in order and regenerates everything in `output/data/` and `output/figures/` that the manuscript pulls in.
 
 ### Run a single pipeline stage
 Each numbered script in `R/` is self-contained (each redefines whatever helper functions it needs rather than sourcing a shared library), so any stage can be run on its own:
@@ -55,6 +55,8 @@ The live, current analysis pipeline is a flat set of numbered scripts directly u
 | `03_exploratory_plots.R` | Core exploratory figures (r_min/r_max cloud, C1 distributions, rescaling comparisons) | `output/data/*.rds` | `output/figures/01_*.pdf`–`09_*.pdf` |
 | `04_additional_analyses.R` | "Spur" structure analysis + asymmetry-magnitude-vs-K analysis | `output/data/*.rds` | `output/figures/10_*.pdf`–`14_*.pdf` |
 | `05_hypothesis_testing.R` | Permutation-test vs. t-test comparison figure for the manuscript's Hypothesis Testing section | — | `output/figures/15_*.pdf` |
+| `06_correlation_adjustment.R` | Kendall's tau-b bounds (tau_min/tau_max) for all BES pairs; five candidate adjustments to r_obs (raw, U1_conservative, tight_linear, split_warrens, U3) per Warrens (2013)'s correction-for-chance/correction-for-maximum-value framework; synthetic + real-BES-data PSD (invertibility) sweeps for Pearson r and Kendall's tau matrices under each adjustment | `R/data/raw/bes2019_pairs.dta` | `output/data/bes_tau_bounds.rds`, `output/data/adjustment_psd_synthetic.rds`, `output/data/adjustment_psd_bes_real.rds` |
+| `07_permutation_zscore.R` | Permutation-null z-scores for all BES pairs: `z_raw` (closed-form, r_obs standardized by the exact 1/sqrt(N-1) permutation-null sd — shape-invariant, depends only on N) and `z_split` (simulated, mean-centered z-score on split_warrens — folds the bound-tightness correction and the sampling-noise correction into one statistic) | `R/data/raw/bes2019_pairs.dta` | `output/data/bes_perm_zscores.rds` |
 
 Note: prose in the "Reads" / "Writes" columns omits the implicit project-root working directory; all paths in these scripts are relative to the repo root (run via `Rscript` from the root, or in an R session opened at the `.Rproj`).
 
