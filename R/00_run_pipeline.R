@@ -37,10 +37,18 @@
 #                                 output/data/adjustment_psd_synthetic.rds,
 #                                 output/data/adjustment_psd_bes_real.rds
 #
-# All six scripts are also self-contained and can be run individually
+#   07_permutation_zscore.R    Permutation-null z-scores for every real BES
+#                              pair: z_raw (closed-form, r_obs standardized by
+#                              the exact 1/sqrt(N-1) permutation-null sd) and
+#                              z_split (simulated, mean-centered z-score on
+#                              split_warrens, folding the bound-tightness and
+#                              sampling-noise corrections into one statistic).
+#                              -> output/data/bes_perm_zscores.rds
+#
+# All seven scripts are also self-contained and can be run individually
 # (each one redefines whatever helper functions it needs, by design, so you
 # can read/run/edit any single stage without chasing dependencies across
-# files). Running this master script just runs all six in the right order
+# files). Running this master script just runs all seven in the right order
 # and regenerates everything the manuscript (paper/ElasticBounds-r_v6b.qmd)
 # pulls in via knitr::include_graphics().
 #
@@ -76,7 +84,8 @@ pipeline_steps <- c(
   "R/03_exploratory_plots.R",
   "R/04_additional_analyses.R",
   "R/05_hypothesis_testing.R",
-  "R/06_correlation_adjustment.R"
+  "R/06_correlation_adjustment.R",
+  "R/07_permutation_zscore.R"
 )
 
 dir.create("output/data",    recursive = TRUE, showWarnings = FALSE)
@@ -104,6 +113,7 @@ cat(" Pipeline complete in", total_time, "sec\n")
 cat(" Data:    output/data/bes_bounds.rds, output/data/mc_bounds.rds,\n")
 cat("          output/data/bes_tau_bounds.rds,\n")
 cat("          output/data/adjustment_psd_synthetic.rds,\n")
-cat("          output/data/adjustment_psd_bes_real.rds\n")
+cat("          output/data/adjustment_psd_bes_real.rds,\n")
+cat("          output/data/bes_perm_zscores.rds\n")
 cat(" Figures: output/figures/*.pdf (", length(list.files("output/figures", pattern = "\\.pdf$")), "files)\n")
 cat("=============================================================\n")

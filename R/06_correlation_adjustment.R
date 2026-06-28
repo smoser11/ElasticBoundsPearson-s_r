@@ -38,6 +38,27 @@
 #   synthesis." Educational and Psychological Measurement, 51, 821-828) to
 #   general J x K tables.
 #
+#   PROVENANCE NOTE: this asymmetric (sign-split) normalization is not new
+#   with Warrens (2013) -- it appears, fully formed, 21 years earlier in
+#   Shih, W.J., & Huang, W.-M. (1992). "Evaluating Correlation with Proper
+#   Bounds." Biometrics, 48(4), 1207-1213 [bib key: shih92-evaluating;
+#   already present in paper/references.bib and listed (uncommented-on) in
+#   the manuscript's FH-bounds reference dump]. Their real-data example
+#   (p. 1211) divides two observed correlations (.23, .29) by their shared
+#   attainable maximum (.88), reporting .26 and .33 "if one would interpret
+#   the coefficients in the [-1,1] scale" -- i.e. r_obs / r_max for r_obs>=0.
+#   Both examples happen to be positive, so the paper's own worked numbers
+#   never exercise the r_obs<0 branch, but Shih & Huang were aware the
+#   denominator would have to flip: they note on p. 1210 that "the maximum
+#   and minimum correlations are not necessarily symmetric with respect to
+#   0." split_warrens below is, formula for formula, their proposal --
+#   verified against their numbers: 0.23/0.88 = 0.2614 (.26) and
+#   0.29/0.88 = 0.3295 (.33), both exact matches. No separate transform or
+#   PSD/invertibility sweep entry is added for this -- the split_warrens
+#   results throughout this script (including the PSD sweeps in Parts 6-7)
+#   already answer the invertibility question for the Shih & Huang
+#   procedure, since the two are numerically identical, not just similar.
+#
 #   By Theorem 9, U1 (=r/(r_max-r_min)), U3 (=2r/(r_max-r_min)), and the
 #   "tight" linear rescaling (=2(r-r_min)/(r_max-r_min) - 1) are all linear
 #   transforms of r with marginal-dependent (lambda, mu), so once chance- and
@@ -238,6 +259,9 @@ tau_obs_pair <- function(x_vec, y_vec, K_x, K_y) {
 t_raw   <- function(x, lo, hi) x
 t_u1    <- function(x, lo, hi) x / (hi - lo)
 t_tight <- function(x, lo, hi) 2 * (x - lo) / (hi - lo) - 1
+# Warrens (2013)'s sign-preserving correction-for-maximum-value; independently
+# proposed (same formula) by Shih & Huang (1992, Biometrics 48(4):1207-1213,
+# bib key shih92-evaluating) -- see header note for the worked-example check.
 t_split <- function(x, lo, hi) ifelse(x >= 0, x / hi, x / abs(lo))
 t_u3    <- function(x, lo, hi) 2 * x / (hi - lo)
 

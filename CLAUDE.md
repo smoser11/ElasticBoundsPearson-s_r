@@ -66,6 +66,7 @@ Note: prose in the "Reads" / "Writes" columns omits the implicit project-root wo
 |---|---|
 | `02a_mc_sampling_uniform_crosstab.R` | Uniform sampling of J×K cross-tab tables with fixed total N (stars-and-bars method) |
 | `02b_mc_sampling_crosstab_given_r.R` | Builds on 02a: samples J×K tables conditioned on a target Pearson's r via simulated annealing + Metropolis swap moves |
+| `02c_mc_sampling_margin_fixed_polytope.R` | Margin-fixed (not just N-fixed) uniform sampling over the feasible polytope, via a 2x2 corner-swap Metropolis chain with a variable-magnitude ("bigger swap step") proposal; provides `percentile_in_polytope()` and a polytope-mean/sd-based `polytope_zscore()` — the "Version B" companion to `07_permutation_zscore.R`'s closed-form `z_raw`. Includes built-in validation against exact enumeration and a real-BES-pairs demo. |
 
 These implement the "K×J cell-allocation-with-replacement" algorithm for the expanded Monte Carlo design (square + rectangular pairs, K = 3–11). They are standalone and not yet called by `02_mc_simulation.R` or the master pipeline — run them directly with `source("R/02a_mc_sampling_uniform_crosstab.R")` etc. once ready to integrate.
 
