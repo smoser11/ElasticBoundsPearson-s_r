@@ -1,7 +1,0 @@
-{
-  "pandoc-citer.bibliography": "references.bib",
-  "pandoc-citer.quickPick": true,
-  "pandoc-citer.format": "pandoc",
-  "pandoc-citer.citationStyle": "[@citekey]"
-}
-  
