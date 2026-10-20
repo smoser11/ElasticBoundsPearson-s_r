@@ -68,6 +68,15 @@ Note: prose in the "Reads" / "Writes" columns omits the implicit project-root wo
 | `02b_mc_sampling_crosstab_given_r.R` | Builds on 02a: samples J×K tables conditioned on a target Pearson's r via simulated annealing + Metropolis swap moves |
 | `02c_mc_sampling_margin_fixed_polytope.R` | Margin-fixed (not just N-fixed) uniform sampling over the feasible polytope, via a 2x2 corner-swap Metropolis chain with a variable-magnitude ("bigger swap step") proposal; provides `percentile_in_polytope()` and a polytope-mean/sd-based `polytope_zscore()` — the "Version B" companion to `07_permutation_zscore.R`'s closed-form `z_raw`. Includes built-in validation against exact enumeration and a real-BES-pairs demo. |
 
+ANES trend re-analysis (needs the ANES Cumulative Data File, which ANES terms do not allow us to redistribute: download it from electionstudies.org into `data/ANES/`, which is gitignored):
+
+| Script | Purpose |
+|---|---|
+| `08_anes_pairs_bounds.R` | Year-by-item-pair correlations for the Baldassarri & Gelman (2008) / Kozlowski & Murphy (2021) ANES items (their recodes, face-to-face sample), with exact r_min/r_max per pair-year. Writes `output/data/anes_pairs_bounds.rds` and `output/data/anes_item_marginals.rds`. |
+| `09_anes_alignment_decomposition.R` | Splits trends in issue alignment and issue partisanship into "bounds moving" vs "position within bounds" (r = r* × r_max). Writes `output/data/anes_alignment_decomposition.rds` and Figures 16-17. |
+
+Kozlowski & Murphy's replication code is included as a git submodule at `replication/reproduce_partisans_ssr` (clone with `--recurse-submodules`). It has no licence, so it is referenced rather than copied.
+
 These implement the "K×J cell-allocation-with-replacement" algorithm for the expanded Monte Carlo design (square + rectangular pairs, K = 3–11). They are standalone and not yet called by `02_mc_simulation.R` or the master pipeline — run them directly with `source("R/02a_mc_sampling_uniform_crosstab.R")` etc. once ready to integrate.
 
 ### Data (`R/data/raw/`)

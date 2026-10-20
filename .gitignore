@@ -14,3 +14,7 @@
 # Do NOT ignore paper.tex or paper.docx
 .quarto.yml
 /Meetings
+# Full-text PDFs (publisher copyright) - kept locally, not pushed to the public repo
+/literature
+# ANES data (terms of use prohibit redistribution) - kept locally
+/data/ANES
