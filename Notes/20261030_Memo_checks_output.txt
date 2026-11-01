@@ -1,0 +1,194 @@
+
+==============================
+ 1. BES: how far correlations are from their ceilings (memo 4.1) 
+==============================
+pairs: 7503
+median |r| = 0.106
+median r_max = 0.902
+median |r*| (r over the bound on its own side) = 0.119
+share of pairs with |r*| > .5 = 0.021
+
+==============================
+ 2. Wasserstein formulas for r_max and r_min, all BES pairs (memo 7.1) 
+==============================
+max |r_max(formula) - r_max(R/01 sorting)| = 1.64e-13
+max |r_min(formula) - r_min(R/01 sorting)| = 1.69e-13
+cor(|r_min| - r_max, -s1*s2) = 0.937
+sign agreement: 0.831 overall; 0.962 where |s1*s2| > .1
+two identical items p = (.6,.3,.1): r_max = 1.000, r_min = -0.556
+
+==============================
+ 3. Shojima (2025) examples and the ordering point (memo 3, row 3) 
+==============================
+Table 3 (3x5): r_max = 0.858 (Shojima p. 513: .858); r_min = -0.845 (p. 518: -.845)
+Table 1 (2x3): r_max = 0.795, r_min = -0.767 (Shojima p. 509: .795, -.767)
+NWCR table, scores 1,2,3: r = 0.858 (equals the maximum)
+Same NWCR table, item-A scores 1,3,2: r = -0.017; true maximum with these scores = 0.878
+(Appendix 5's argument never uses the order of the scores, so if it were complete it would
+ prove the NWCR optimal here too.)
+
+==============================
+ 4. ANES: replication checks (memo 4.2) 
+==============================
+pair-years: 8395; surveys: 20 (1972-2024); bound violations: 0
+number of categories per item (items x K):
+
+ 2  3  4  5  7 
+ 3 16  4 15 11 
+B&G Table 1A model, r_wgcna, t zeroed at 1980: intercept 0.127, slope 0.031 per decade (373 pair-years, 47 issues)
+B&G Table 1A model, r_wgcna, t zeroed at 1988: intercept 0.152, slope 0.031 per decade (373 pair-years, 47 issues)
+B&G Table 1A model, r_w, t zeroed at 1980: intercept 0.124, slope 0.040 per decade (373 pair-years, 47 issues)
+B&G Table 1A model, r_w, t zeroed at 1988: intercept 0.157, slope 0.040 per decade (373 pair-years, 47 issues)
+2016 levels, K&M weighting (compare K&M Fig. 3, p. 7):
+              group     r
+             <char> <num>
+1:         Economic  0.39
+2:     Civil rights  0.37
+3:            Moral  0.26
+4:         Security  0.19
+5:     Cross-domain  0.23
+6: Issue x party ID  0.35
+7: Issue x ideology  0.42
+
+==============================
+ 5. ANES: trend decomposition (memo 4.3 table) 
+==============================
+               group    period trend_r bounds within trend_rmax
+              <char>    <char>   <num>  <num>  <num>      <num>
+ 1:         Economic 1972-2016   0.025  0.000  0.023     -0.001
+ 2:         Economic 2004-2016   0.044 -0.004  0.047     -0.009
+ 3:     Civil rights 1972-2016   0.014  0.002  0.012      0.006
+ 4:     Civil rights 2004-2016   0.006  0.002  0.002      0.005
+ 5:            Moral 1972-2016   0.004 -0.007  0.010     -0.023
+ 6:            Moral 2004-2016  -0.019 -0.016 -0.005     -0.049
+ 7:         Security 1972-2016   0.045  0.000  0.033     -0.007
+ 8:         Security 2004-2016   0.051  0.000  0.029     -0.043
+ 9:     Cross-domain 1972-2016   0.018 -0.001  0.019     -0.004
+10:     Cross-domain 2004-2016   0.038 -0.003  0.036     -0.015
+11: Issue x party ID 1972-2016   0.047  0.001  0.046      0.003
+12: Issue x party ID 2004-2016   0.055 -0.003  0.056     -0.011
+13: Issue x ideology 1972-2016   0.037  0.001  0.037      0.004
+14: Issue x ideology 2004-2016   0.052 -0.003  0.054     -0.008
+
+strong party identifiers (codes 1 and 7):
+    year strong
+   <int>  <num>
+1:  1972   0.25
+2:  2004   0.33
+3:  2016   0.34
+
+ gays_adoptkids (share in category 1, i.e. in favour):
+    year  prop
+   <int> <num>
+1:  1992  0.27
+2:  2000  0.44
+3:  2004  0.48
+4:  2008  0.52
+5:  2012  0.66
+6:  2016  0.76
+7:  2024  0.75
+
+ gayer_military (share in category 1, i.e. in favour):
+    year  prop
+   <int> <num>
+1:  1992  0.58
+2:  1996  0.69
+3:  2000  0.75
+4:  2004  0.81
+5:  2008  0.79
+6:  2012  0.88
+
+wave-to-wave changes in individual pairs: 6895
+mechanical part: median |.| = 0.003, 90th pct = 0.016, share of var(dr) = 0.034, share > .05 = 0.0073
+between-wave total-variation distance of item marginals: median 0.061
+share of pair-years (1972-2016) with r < 0: 0.071
+      grp share_negative
+   <char>          <num>
+1:  cross          0.101
+2:  moral          0.000
+3:   civr          0.005
+4:   frgn          0.489
+5:   econ          0.000
+
+==============================
+ 6. Factor-analysis pilot, R/10 (memo 4.4) 
+==============================
+one-factor data sets: 2880; two-factor: 480; spurious 2nd factor in 0.115
+Key: <pattern, lambda>
+             pattern lambda     2     3     5     7
+              <char>  <num> <num> <num> <num> <num>
+ 1:    opposite_mild    0.5  0.00  0.00     0     0
+ 2:    opposite_mild    0.7  0.00  0.00     0     0
+ 3:    opposite_mild    0.9  1.00  1.00     0     0
+ 4:  opposite_strong    0.5  0.03  0.00     0     0
+ 5:  opposite_strong    0.7  1.00  0.00     0     0
+ 6:  opposite_strong    0.9  1.00  0.85     0     0
+ 7: opposite_vstrong    0.5  0.42  0.00     0     0
+ 8: opposite_vstrong    0.7  1.00  0.00     0     0
+ 9: opposite_vstrong    0.9  1.00  0.00     0     1
+10:        same_mild    0.5  0.00  0.00     0     0
+11:        same_mild    0.7  0.00  0.00     0     0
+12:        same_mild    0.9  0.00  0.00     0     0
+13:      same_strong    0.5  0.00  0.00     0     0
+14:      same_strong    0.7  0.00  0.00     0     0
+15:      same_strong    0.9  0.00  0.00     0     0
+16:        symmetric    0.5  0.00  0.00     0     0
+17:        symmetric    0.7  0.00  0.00     0     0
+18:        symmetric    0.9  0.00  0.00     0     0
+AUC D1_eig2_ceiling = 0.957
+AUC opp_skew_index = 0.940
+AUC max_abs_skew = 0.887
+AUC number of categories = 0.759
+AUC of R_max 2nd eigenvalue within loading levels: 0.985 1 0.998 
+alignment with R_max 2nd component: spurious median |cos| 1.00 (n=332), real 0.26 (n=480), AUC 1.000
+BES items v25-v36 (66 pairs): eigenvalues of R: 2.79, 1.95, 1.02; of R_max: 10.82, 0.33, 0.26
+
+==============================
+ 7. Invertibility (PSD) checks, R/06 (memo 7.4) 
+==============================
+adversarial synthetic, Pearson (failure %):
+        transform   n  fail_pct
+1             raw 300  0.000000
+2             raw 300  0.000000
+3 U1_conservative 300  0.000000
+4    tight_linear 300 19.333333
+5   split_warrens 300 10.333333
+6              U3 300  7.666667
+mild synthetic, Pearson (failure %):
+        transform   n  fail_pct
+1             raw 300 0.0000000
+2             raw 300 0.0000000
+3 U1_conservative 300 0.0000000
+4    tight_linear 300 0.3333333
+5   split_warrens 300 0.0000000
+6              U3 300 0.0000000
+BES random_k8 (failure %):
+        transform   n fail_pct
+1             raw 300        0
+2             raw 300        0
+3 U1_conservative 300        0
+4    tight_linear 300        0
+5   split_warrens 300        0
+6              U3 300        0
+BES greedy_k8 (failure %):
+        transform   n fail_pct
+1             raw 150        0
+2             raw 150        0
+3 U1_conservative 150        0
+4    tight_linear 150        0
+5   split_warrens 150        0
+6              U3 150        0
+BES greedy_k12 (failure %):
+        transform   n fail_pct
+1             raw 150        0
+2             raw 150        0
+3 U1_conservative 150        0
+4    tight_linear 150        0
+5   split_warrens 150        0
+6              U3 150        0
+
+==============================
+ 8. Margin standardization keeps odds ratios but changes r (memo 7.7) 
+==============================
+original table: r = 0.604; after giving it lopsided, opposite-skewed margins: r = 0.195
+max change in any local log odds ratio = 2.2e-15
