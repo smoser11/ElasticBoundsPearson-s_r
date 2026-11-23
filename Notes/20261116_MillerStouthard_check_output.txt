@@ -1,0 +1,15 @@
+Printed tables (counts rebuilt from rounded percentages):
+Catholics 1970 (Table V, provincial)                    confessional share 0.339 | r 0.409 | r_min -0.892 | r_max 0.620 | r/r_max 0.659
+Catholics 1972 (Table XI, parliamentary)                confessional share 0.425 | r 0.423 | r_min -0.836 | r_max 0.709 | r/r_max 0.596
+
+Attachment distribution, Always ... No pref (shares):
+  1970: 0.441 0.166 0.11 0.067 0.086 0.131 
+  1972: 0.468 0.166 0.107 0.071 0.08 0.108 
+  total-variation distance between the two: 0.032
+
+1970 -> 1972 change in r: 0.014 = bounds moving 0.056 + position within bounds -0.042
+
+Counterfactuals: keep each level's confessional rate, change the attachment distribution
+(Miller & Stouthard's second type of change, pp. 227-229):
+Catholic 1970 rates, 1972 Catholic attachment           confessional share 0.352 | r 0.394 | r_min -0.889 | r_max 0.608 | r/r_max 0.649
+Catholic 1970 rates, 1970 Dutch Reformed attachment     confessional share 0.199 | r 0.442 | r_min -0.587 | r_max 0.751 | r/r_max 0.588

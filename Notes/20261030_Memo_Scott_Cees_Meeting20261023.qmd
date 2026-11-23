@@ -1,0 +1,454 @@
+---
+title: "Elastic Bounds: our meeting of 23 October, and homework"
+author: "Scott Moser"
+date: "2026-10-30"
+date-format: "D MMMM YYYY"
+bibliography: 20261030_Memo_references.bib
+csl: ../apa.csl
+link-citations: true
+format:
+  pdf:
+    pdf-engine: xelatex
+    number-sections: true
+    geometry: margin=1in
+    colorlinks: true
+    fontsize: 11pt
+  docx:
+    number-sections: true
+---
+
+**To:** Cees van der Eijk\
+**From:** Scott Moser
+
+Dear Cees,
+
+As promised, here is my summary of our meeting on Friday 23 October, and our homework. It has seven parts:
+
+1. a summary;
+2. what we discussed and agreed;
+3. the smaller points we said could become footnotes;
+4. what the ANES and factor-analysis work I mentioned actually did;
+5. homework, and the decisions we need to take next time;
+6. what is left from earlier rounds;
+7. post-meeting notes: points that came up when I went back over the recording, my own notes and the code. We didn't discuss these, but each bears on a decision or on your homework.
+
+**How I support claims.** Every number in this memo is recomputed by the script `Notes/20261030_Memo_checks.R`; its output is in `Notes/20261030_Memo_checks_output.txt`, and "(checks §n)" points to the relevant section. Claims about published work give the page or table I read. Claims about what we said give the approximate minute in the recording of 23 October ("rec. min. n"). Works I cite but have not read yet are marked "not yet read".
+
+**Earlier documents** are referred to by date:
+
+- **Earlier meetings:** 18 June and 7 July 2026.
+- **Your documents:** your email of 6 April 2026; your memo, draft section on the determinants of shrinkage, and variable list of 9 September 2026.
+- **Mine:** my email of 21 March 2026, and my memo on novelty of 15 October 2026 (revised 20 October).
+
+# Summary {#sec-summary}
+
+- **We accept that most of the theory is in print** [@shoj25-maximal; @fowl26-reassessing], as is the 1978–79 *AJPS* debate on whether skewed marginals distort measured constraint [@bish78-change; @nie79-revisiting; @sull79-more; @bish79-questions]. We read this as confirming our thinking rather than sinking the project. We'll carry on, but not as a ten-year project (rec. min. 14, 31, 107–108).
+- **The core empirical task is to find cases where the marginals differ a lot between groups**, either within one survey or over time. You called this a necessary condition: if the marginals barely differ, there is no mechanical effect to find (rec. min. 64).
+- **We have two possible framings** (rec. min. 72–73):
+  - (A) *mechanical versus substantive effects*: how much of a difference in $r$ between groups, or over time, is due to the marginals;
+  - (B) *a paper for practitioners*.
+
+  The choice can wait until we have tried a first case.
+- **You suggested analysing $r_{\min}$ and $r_{\max}$ separately** rather than combining them in C1, because of the asymmetry (rec. min. 28–32). I agree. @sec-drivers explains why the theory predicts different drivers.
+- **My ANES re-analysis already contains one example of framing A.** In moral issues, 2004–2016, most of the measured decline in alignment is the ceiling falling (checks §5). Everywhere else the mechanical part is tiny. The reason (@sec-facts) also tells us how to choose cases.
+- **The 1979 debate itself pointed to a remedy we can use.** Bishop et al. suggested standardising tables to common marginals, or using odds ratios [@bish79-questions, p. 188, n. 2]. Related decomposition methods are in @sec-literature.
+- **Eight decisions for our next meeting** are listed in @sec-decisions.
+
+# What we discussed and agreed {#sec-discussed}
+
+## Prior work
+
+My memo of 15 October reinforced the doubt you set out in your email of 6 April: at a high level we don't have a large amount that is new (rec. min. 14). We agreed that the closest papers are very recent, so we couldn't have known them, and that they validate our approach (rec. min. 15, 80). Shojima's paper was published online on 4 August 2024 [@shoj25-maximal, p. 505]. The literature is "not non-existent", but applied researchers don't notice it (rec. min. 31).
+
+You liked Shojima's paper. You found his simulations limited and his treatment of empty categories unsatisfying (rec. min. 16–20; @sec-footnotes). I added that it leaves several loose ends (rec. min. 18).
+
+You explained that the 1978–79 *AJPS* debate on constraint "petered out", with big names on both sides (rec. min. 44–46). Everyone accepted that the ANES changes in question wording and format affected naive measures of constraint. Nobody could say how much real change remained.
+
+The published exchange bears this out:
+
+- @bish78-change [p. 253] note that changes in wording and format "can significantly affect not only the marginal distributions of survey items but also the magnitude of association between items".
+- @nie79-revisiting (not yet read) argued, as their critics summarise it, that the pre-1964 items' marginals had "become skewed, thus attenuating the correlations among them" [@sull79-more, p. 176]. They called such distributions "degenerate" [@sull79-more, p. 177; @bish79-questions, p. 187].
+
+## Framing A: mechanical versus substantive effects
+
+The question is how much of a difference in a correlation, between groups or over time, comes from the marginals being different rather than the association being different. In your words: "are things working differently, or is it just that the material on which it works is different?" (rec. min. 43). Put another way: is $\beta$ changing, or are the levels of $X$ changing? Our mathematical results would then be smaller contributions, framed partly as comments on the recent literature (rec. min. 53–58, 65).
+
+You named two precedents (rec. min. 37–42):
+
+- **Stouthard** (Dutch political sociologist; *Acta Politica*, 1970s). He separated changes in the marginals of religious variables from the effect of religion on party choice. He did this by asking what we would find if the conditional relationship stayed the same and only the margins changed. @sec-literature reports what I found when I looked for this article.
+- **The declining $R^2$ of social-structure models of the vote** in *Electoral Change* [@fran92-electoral; not yet read], to which you contributed. That decline might partly be forced by changes in the marginals of the predictors. This is your description from the meeting; could you give me the chapter and page?
+
+We agreed that a replication which only debunks has limited appeal. It is most useful if it leads to a new, positive insight (rec. min. 33–34).
+
+## Where to look: groups whose marginals differ
+
+You are wary of trend studies. A convincing trend needs at least four roughly evenly spaced waves, plus a lot of work finding and cleaning data (rec. min. 47–49, 108). You proposed starting with comparisons between groups in a single cross-section, and then noting the corollary for trend studies (rec. min. 47–52). Examples you gave:
+
+- men vs women;
+- north vs south;
+- young vs old;
+- elites vs masses;
+- levels of political sophistication (often measured by knowledge or attention to news), or interest.
+
+The marginals must differ substantially between the groups (rec. min. 64).
+
+Candidate data with large differences in the marginals (rec. min. 58–64):
+
+- **The Dutch Parliamentary Election Study 1986 panel.** You were a principal investigator. Chernobyl happened during the campaign, so the nuclear-energy items were repeated in wave 2. About 80% of wave 1 was interviewed before Chernobyl and about 20% after, before the parties had repositioned. I'm not yet convinced it is the right or most timely illustration, but I take the point: we need situations where the marginals change a lot.
+- BES waves before and after the Brexit referendum.
+- Eurobarometer items on Russia and Europe before and after the 2022 invasion of Ukraine, if such items exist.
+- **The 1964 change in ANES question format.** In the meeting I mentioned the "over-time data" in @sull78-ideological. I misremembered that paper: it is a split-ballot experiment in the Twin Cities in 1976, and Vietnam appears only as background [@sull78-ideological, pp. 234, 239 and n. 4]. The relevant case is the format change itself. It produced "a much better balanced set of marginals than had been the case with the traditional 5-point Likert forms" [@bish79-questions, p. 188]. So it meets your necessary condition.
+
+My quick check of @bald08-partisans found their ceilings flat over the years (checks §5). We agreed their data change too slowly to be a good test bed (rec. min. 62).
+
+## Framing B: a paper for practitioners
+
+This would be for a survey-methodology journal or *Political Behavior* (rec. min. 65–67). It would:
+
+- open with a few recent articles that use $r$ as if there were no problem;
+- summarise the literature that is known but ignored;
+- set out what survey researchers should and shouldn't do;
+- illustrate with one or two examples.
+
+The remedy would be the rescaling Shojima proposes: divide by $r_{\max}$ for positive $r$ and by $|r_{\min}|$ for negative $r$ [@shoj25-maximal, p. 522]. He presents it as following Cureton's [-@cure59-note] correction of $\phi$ (not yet read), and leaves its properties "for future study". @shih92-evaluating [p. 1211] already divided two positive correlations by their attainable maximum (.23 and .29 by .88). They noted that the bounds "are not necessarily symmetric with respect to 0" (p. 1210). We would back the remedy with evidence that rescaled correlation matrices remain usable (@sec-invert). @fowl26-reassessing shows that such venues exist.
+
+You summed up the two options as: "(A) mechanical versus causal effects, for different times and for different groups; (B) a paper for practitioners: all that is known but ignored in the usual uses of $r$" (rec. min. 72–73).
+
+## One measure or two bounds?
+
+You re-ran the beta regressions from your 9 September memo separately for the upper and lower bound. The average marginal effects, and even which predictors are significant, differ. So you asked whether combining them into C1 is justified; and if it isn't, why the drivers differ (rec. min. 28–32). You returned to this later: the asymmetry of the bounds is "not elegant", but it is very relevant (rec. min. 74). I suggested we try both. @sec-drivers takes this further.
+
+## Invertibility and factor analysis
+
+At our meeting on 7 July you asked whether rescaling damages a correlation matrix. I was disappointed that it makes little difference to whether the matrix stays usable, because that leaves us no "fix" to sell. I thought the factor-analysis/SEM angle might be too much for this paper (rec. min. 67–69).
+
+You argued for a narrower scope. Whether the corrected matrix stays invertible is "incredibly important": if it does, "there is no strong argument against" correcting, and that is a simple remedy we can offer. That would give practitioners reassurance as well as a warning (rec. min. 69–70). @sec-invert corrects the numbers I quoted.
+
+# Smaller points (candidate footnotes) {#sec-footnotes}
+
+| # | Point and support | Raised by | Proposed handling |
+|--|------------------------|------|--------------------|
+| 1 | Shojima finds the bounds as a transportation (linear-programming) problem [@shoj25-maximal, §2.1, pp. 510–511], solved by the northwest-corner rule (§3.1, pp. 512–513). That table is the "diagonal" sorting you started this project with (rec. min. 15–16). His examples give the same bounds as our sorting: .858 / −.845 for his Table 3 (pp. 513, 518), and .795 / −.767 for his Table 1 (pp. 508–509) (checks §3). | Both | Say so when we cite him. |
+| 2 | He calls the solution "degenerate" when a category is empty. He says the procedure and proof "remain valid ... with minor modifications" (§4.3, p. 517). You found this unsatisfying (rec. min. 16–17). | Cees | Footnote. My reading: degeneracy describes the linear programme's solution (fewer filled cells than usual), not the bounds. In the sorting approach an empty category simply drops out. |
+| 3 | He fixes the category scores at $1,\dots,R$ (p. 506) and allows only constant shifts (p. 507), so his conclusion holds. But his proof (Appendix 5, p. 526) shows only that the northwest-corner solution satisfies complementary slackness, which any such solution does. It does not show that the dual solution is feasible, which is what makes the solution optimal. That argument never uses the order of the scores. With item-A scores 1, 3, 2, the same table gives $r = -.017$ against a true maximum of $.878$ (checks §3). | Scott | Footnote. Our rearrangement-inequality proof shows where the ordering is needed. |
+| 4 | His simulations use only binomial marginals (§5, pp. 518–519). | Cees (rec. min. 20) | One sentence when we describe our simulations over random (Dirichlet) marginals. |
+| 5 | He notes that "a situation similar arises when computing Cramer's V and $\chi^2$ statistics" (p. 522). | Cees (rec. min. 20–21) | One sentence under extensions; not pursued. |
+| 6 | He works with joint proportions $p_{rc}$ (p. 507), not counts. Does that matter, especially for missing data? With "don't know" answers, proportions may implicitly assume the missing cases are distributed like the valid ones, whereas in our approach they simply drop out. | Both (rec. min. 21–23) | You'll check. My reading is in @sec-missing. |
+| 7 | Working with proportions is close to thinking about continuous latent variables. If that makes a real difference compared with discrete tables, it deserves a note (rec. min. 23, 74). | Scott | Fold into the footnote restricting our scope to ordered categorical variables. @moss23-partial show that the latent correlation is only partly identified even when the latent marginals are known (abstract, p. 241; Theorem 1, p. 244; Fig. 1, p. 245). |
+| 8 | "Why not polychoric correlations?" will be a referee question (rec. min. 25–27). Polychorics assume underlying normal distributions [@eijk15-risky, p. 4]. They are estimated, and the algorithms sometimes fail to converge or give non-positive-definite matrices [@eijk15-risky, p. 14; @shoj25-maximal, p. 522]. | Scott / Cees | Short paragraph or footnote. |
+| 9 | There are many possible rescalings. The split one is "not elegant", but neither is the asymmetry of the bounds that motivates it (rec. min. 73–74). | Scott / Cees | Present the split rescaling as the natural consequence of asymmetric bounds (@sec-drivers), and say briefly why we don't use the others. |
+| 10 | "Mechanical" is not the same as spurious correlation, or variables trending together over time (rec. min. 42–43). | Scott (question), Cees | One sentence defining "mechanical" when we introduce framing A. |
+
+# What `R/08`, `R/09` and `R/10` did {#sec-scripts}
+
+These scripts are on a separate branch of our GitHub repository (`anes-trend-decomposition`) and are not yet part of the main pipeline. The ANES data are not in the repository, because ANES terms don't allow redistribution; anyone re-running the scripts downloads the ANES Cumulative Data File themselves. I ran them between 15 and 20 October, after the memo of 15 October proposed an ANES pilot.
+
+## Two facts that frame all three {#sec-facts}
+
+**Bounds rarely bind in attitude data.** Across the 7,503 BES pairs (checks §1):
+
+- median $|r|$ = .11;
+- median $r_{\max}$ = .90;
+- the median share of the attainable bound actually used, $|r^*|$, is .12. Here $r^* = r / r_{\max}$ for positive $r$ and $r / |r_{\min}|$ for negative $r$;
+- only 2.1% of pairs use more than half their bound.
+
+**A change in $r$ splits exactly into two parts.** For a positive correlation, $r = r^* \times r_{\max}$. Between two groups or two waves this gives
+
+$$
+\Delta r \;=\; \underbrace{\bar r^{*}\,\Delta r_{\max}}_{\text{bounds moving (mechanical)}} \;+\; \underbrace{\bar r_{\max}\,\Delta r^{*}}_{\text{position within the bounds}},
+$$
+
+where the bars denote the average of the two groups or waves. This is an algebraic identity: expand both sides. It has the same form as the demographers' split of a difference between two rates into a rate part and a composition part, usually credited to @kita55-components (not yet read).
+
+So the mechanical part is the *product* of two quantities: how much of the ceiling is used, and how far the ceiling moves. Both are usually small in survey data, so the mechanical part is usually small. The practical rule for choosing cases follows: **we need item pairs that are strongly associated *and* whose marginals differ a lot between the groups.**
+
+## `R/08`: ANES correlations and their exact bounds, year by year {#sec-r08}
+
+**Question.** Can we reproduce the correlations in @bald08-partisans and @kozl21-issue, and compute the exact $r_{\min}$ and $r_{\max}$ for every item pair in every year?
+
+**What I did.**
+
+- Used the ANES Cumulative Data File (February 2026 release), face-to-face respondents and face-to-face weights, as Kozlowski & Murphy do [@kozl21-issue, p. 4].
+- Followed their item selection and recodes exactly, taken from their published code. That gives 47 issue items, plus party identification and ideology.
+- Computed the weighted Pearson $r$ for every pair in every year, together with its exact bounds from that year's weighted marginals.
+- The result is 8,395 pair-years across 20 surveys, 1972–2024. Items have 2, 3, 4, 5 or 7 categories (checks §4). The analysis uses 1972–2016: there was no face-to-face survey in 2002 or 2020, and the 2024 sample is small.
+
+**Checks.**
+
+- No correlation falls outside its bounds (checks §4).
+- Our 2016 levels match the end points of Kozlowski & Murphy's Fig. 3 [p. 7] to within about .01, reading their figure by eye. Ours are economic .39, civil rights .37, moral .26, security .19, cross-domain .23 (checks §4). They report no numbers for these.
+- **Baldassarri & Gelman's issue × party-ID model.** They report an intercept of .17 and a slope of .05 per decade, from 383 observations on 47 issues [@bald08-partisans, Table 1, p. 425]. They fit varying-intercept, varying-slope models (eq. 1, p. 425).
+  - Their time origin is inconsistent: the table note says time is "zeroed at 1980", while footnote 12 on the same page says "centered in 1988".
+  - We have 373 pair-years on the same 47 issues. With the standard weighted correlation and time centred at 1988, we get .157 and .040. With Kozlowski & Murphy's weighting we get .152 and .031. Centring at 1980 gives intercepts of .12–.13 (checks §4).
+  - So our replication is close but not exact, and depends on choices they don't fully report.
+- One technical choice: Kozlowski & Murphy's weighting formula differs from the standard weighted correlation. I use the standard version, because the bounds have to come from the same weighted marginals as the correlation they bound.
+
+## `R/09`: splitting the trends into "bounds moving" and "position within the bounds" {#sec-r09}
+
+**Question.** How much of the reported trends in issue alignment [@kozl21-issue] and issue partisanship [@bald08-partisans] comes from the bounds moving?
+
+**What I did.**
+
+- Grouped the pairs as Kozlowski & Murphy do: within-domain, cross-domain, issue × party ID, issue × ideology.
+- For each group, estimated the trend per decade in $r$, $r_{\max}$ and $r^*$ with mixed models. These have a random intercept and slope for each item pair, so changes in which items were asked don't create spurious change.
+- Applied the split above to the trends.
+
+**Results** (change in correlation per decade; checks §5):
+
+| Group | 1972–2016: trend in $r$ | bounds moving | within bounds | 2004–2016: trend in $r$ | bounds moving | within bounds |
+|----------|------|------|------|------|------|------|
+| Issue × party ID | .047 | .001 | .046 | .055 | −.003 | .056 |
+| Issue × ideology | .037 | .001 | .037 | .052 | −.003 | .054 |
+| Economic | .025 | .000 | .023 | .044 | −.004 | .047 |
+| Civil rights | .014 | .002 | .012 | .006 | .002 | .002 |
+| Cross-domain | .018 | −.001 | .019 | .038 | −.003 | .036 |
+| Security | .045 | .000 | .033 | .051 | .000 | .029 |
+| **Moral** | **.004** | **−.007** | **.010** | **−.019** | **−.016** | **−.005** |
+
+The two parts don't add up exactly to the total, because each comes from its own model.
+
+**What this shows** (all numbers from checks §5).
+
+- **Rising issue partisanship is not mechanical.** The bounds part is about 1% of the trend.
+  - The party-ID marginal did change: strong identifiers rose from 25% in 1972 to 33% in 2004.
+  - But the issue × party-ID ceilings barely moved.
+  - The same holds for economic, civil-rights and cross-domain alignment.
+- **Moral issues are the exception.**
+  - The ceiling fell by .023 per decade over 1972–2016, and by .049 per decade over 2004–2016.
+  - The cause is that opinion on gay rights became lopsided, mostly on two-category items. Support for gay adoption rose from 27% in 1992 to 76% in 2016, and support for gays in the military from 58% in 1992 to 88% in 2012.
+  - For 2004–2016, the measured decline in moral alignment is −.019 per decade. Of that, −.016 (about 85%) is the falling ceiling.
+  - Over 1972–2016, without the falling ceiling, moral alignment would have risen by about .010 per decade rather than .004.
+- **Kozlowski & Murphy read the flat moral trend substantively.** They write of "relatively little growth in issue alignment within the moral domain", and say this "contrasts with ... narratives that emphasize a 'culture war'" [@kozl21-issue, p. 5; also p. 2].
+- **Across all 6,895 wave-to-wave changes in individual pairs, the mechanical part is small.**
+  - Its median is .003, and 90% of changes are below .016.
+  - It accounts for 3.4% of the variance of the changes in $r$, and exceeds .05 in 0.7% of cases.
+  - Item marginals move little between waves: the median total-variation distance is .06.
+
+**Caveats.**
+
+- I used $r_{\max}$ for every pair. For the 7% of pair-years with a negative correlation, the relevant bound is $r_{\min}$; this needs fixing (checks §5).
+  - There are no negative correlations in the moral domain, so the moral result is unaffected.
+  - About half the security pairs are negative, so the security row is unreliable.
+- A wave-by-wave version of the split is fragile before 2004, because consecutive waves sometimes share only one item pair.
+
+**Why it matters for us.**
+
+1. It is a ready-made example of framing A, and it meets your necessary condition: the marginals changed a lot.
+2. It contradicts a published substantive reading. That makes it a positive finding, not only a debunking one.
+3. It confirms your caution. Where marginals barely move, which is most of the ANES, there is nothing to find.
+4. It is an over-time comparison, which you are wary of. But the data work is done, and the published replication code makes it checkable.
+
+## `R/10`: can the item frequencies alone predict spurious factors? (pilot) {#sec-r10}
+
+**Question.** Factor analysis of Pearson correlations can produce "factors discriminating between left and right skewed items (known as difficulty factors)", especially "when skew varies strongly between items" [@eijk15-risky, p. 4]. You raised this on 7 July. Can we tell from the item frequencies alone when this will happen, and whether a second factor that appears is spurious?
+
+**The tool: the ceiling matrix $R_{\max}$.** This is the matrix of $r_{\max}$ for every pair of items. It is the correlation matrix that perfectly one-dimensional data with the observed frequencies would produce, so it needs nothing but the frequencies.
+
+**What I did.**
+
+- Simulated data with one true factor: 10 items, $n$ = 1,000, with 2, 3, 5 or 7 categories and loadings of .5, .7 or .9.
+- Used six skew patterns: symmetric; all items skewed the same way (mild or strong); items skewed in opposite directions (mild, strong or very strong).
+- Ran 40 replications of each combination (2,880 data sets), plus 480 data sets with two true factors.
+- Counted factors with parallel analysis on the Pearson correlations [@horn65-rationale], using the 95th percentile of the random-data eigenvalues.
+
+**Results** (checks §6).
+
+- **A spurious second factor appeared in 11.5% of the one-factor data sets.** This happened only when items were skewed in *opposite* directions, had few categories (2–3, or 7 with long tails) and had high loadings (.7 or more). It never happened with symmetric items or items all skewed the same way.
+- **How well each measure predicts a spurious factor** (AUC: 0.5 is useless, 1 is perfect):
+
+  | Measure | AUC |
+  |---|---|
+  | Second eigenvalue of $R_{\max}$ | .96 (.985–1.00 within each loading level) |
+  | An index of opposite-direction skew | .94 |
+  | Largest absolute skew | .89 |
+  | Number of categories | .76 |
+
+- **Telling spurious from real second factors.** Spurious second factors line up with the second component of $R_{\max}$ (median absolute cosine 1.00, $n$ = 332); real ones don't (.26, $n$ = 480).
+  - Caveat: the real factors were built so that they don't coincide with skew direction. If a real dimension *does* coincide with skew direction, the two can't be told apart.
+- **BES items v25–v36**, the 12 agree–disagree value items `f01_1`–`f01_12`:
+  - The observed correlation matrix has eigenvalues 2.79, 1.95, 1.02.
+  - Its ceiling matrix has 10.82, 0.33, 0.26.
+  - So these marginals do not by themselves create a second factor.
+  - I believe these are the Evans–Heath–Lalljee left–right and libertarian–authoritarian items; could you confirm?
+
+**Why it matters for us.** It connects our bounds to your difficulty-factor point, and gives practitioners a simple check: compute $R_{\max}$ from the frequencies and look at its second eigenvalue. But it is a pilot, with one generating model and Pearson-based parallel analysis only. Decision D6.
+
+# Homework {#sec-homework}
+
+## Scott
+
+1. Send this memo.
+2. Read the works marked "not yet read" in @sec-literature, starting with @mill75-confessional and the social-mobility papers. Also cover the concept and measurement of constraint, including the dissertation you mentioned.
+3. Re-read @shoj25-maximal on proportions and missing data, and re-read @fowl26-reassessing.
+4. Screen candidate comparisons with the rule in @sec-choosing once we have respondent-level data. Start with BES before and after the referendum, and with groups defined by political interest or sex.
+5. If we agree on D3: write up the ANES moral-issue result as a short example, fixing the treatment of negative correlations and checking its robustness.
+6. Still open from before (needed under either framing):
+   - narrow the Hypothesis Testing section to the small-sample claim;
+   - fix the two errors in the Asymmetry section (both set out in my memo of 15 October);
+   - cite @shoj25-maximal prominently.
+7. Not this project: send you the short outline of the grant idea, for your comments.
+
+## Cees
+
+1. Your own summary of the meeting from your notes, and a sketch of the two options if that is what you meant by "make these two things" (rec. min. 106).
+2. **Which Stouthard article did you mean?** The one I found [@stou71-verkiezingen] does not seem to be it (@sec-literature). A short summary of his procedure from you would help most.
+3. Check the missing-data point (@sec-missing).
+4. Candidate comparisons and data:
+   - the 1986 Dutch panel (fieldwork dates and availability);
+   - cross-sections by sex, region, age or sophistication;
+   - Eurobarometer.
+5. The chapter and page for the declining $R^2$ in *Electoral Change* [@fran92-electoral].
+6. The reference for the dissertation on constraint (by Stefano Camettari's wife; spelling from the recording, rec. min. 77–78).
+7. Respondent-level BES data and your Stata set-up, and confirmation of the variable list of 9 September (@sec-data). Also, are v25–v36 the Evans–Heath–Lalljee scales?
+
+## Decisions for our next meeting {#sec-decisions}
+
+| | Decision |
+|--|----------------------|
+| D1 | Framing A, framing B, or both (A for *Political Analysis*/*PSRM* if a case works; B for a survey-methodology journal or *Political Behavior*). |
+| D2 | Analyse the two bounds separately; the role of the beta-regression section of 9 September. |
+| D3 | Use the ANES moral-issue result as the first example? |
+| D4 | Adopt the case-selection screen (strong association *and* large differences in the marginals). |
+| D5 | Which remedy framing B recommends, and how to state the invertibility evidence. |
+| D6 | The factor-analysis diagnostic: appendix, practitioner tool, or set aside. |
+| D7 | How to define the "substantive" part in framing A: the share of the ceiling used ($r^*$), or margin-free association (odds ratios after standardising the marginals). See @sec-literature. |
+| D8 | Date of our next meeting. |
+
+# Earlier homework: where things stand {#sec-earlier}
+
+| Item | Set on | Who | Status |
+|--------------|-----|---|-----------|
+| Two illustrative examples (0.6 vs 0.5 rank reversal; factor analysis based on @eijk15-risky) | 18 June | Scott | Not done. The factor-analysis example depends on D6. |
+| Hypothesis Testing narrowed; Asymmetry section fixed; Shojima cited | 15 Oct memo | Scott | Not done; homework item 6. |
+| Comparison of the two ways of simulating random tables (cells first vs margins first) | 7 July | Scott | On hold; probably not needed under either framing. |
+| ANES pilot (`R/08`, `R/09`) | 15 Oct memo | Scott | Done (@sec-r08, @sec-r09); not yet merged into the main pipeline. |
+| Factor-analysis pilot (`R/10`) | 20 Oct | Scott | Done (@sec-r10); depends on D6. |
+| Introduction and literature review; precedent for asymmetric stretching; footnote on the ordinal scope [@moss23-partial] | 18 June | Cees | Open. The introduction now depends on D1. |
+| Corrections to the draft section of 9 September (BES 2024 should be 2019; naming of C1; footnote 3) | 15 Oct memo | Cees | Not discussed on 23 October. Depends on D2. |
+
+# Post-meeting notes {#sec-after}
+
+We didn't discuss the points in this section on 23 October. I include them because each one either needs a joint decision (@sec-decisions) or bears on your homework.
+
+## Why $r_{\max}$ and $r_{\min}$ have different drivers {#sec-drivers}
+
+*Why this is here:* it answers the question you raised on 23 October and bears on decision D2.
+
+Write $Z_X$ and $Z_Y$ for the two standardized items and $-Z_Y$ for $Y$ flipped end to end. Then
+
+$$
+r_{\max} = 1 - \tfrac12 W_2^2(Z_X, Z_Y), \qquad r_{\min} = -1 + \tfrac12 W_2^2(Z_X, -Z_Y),
+$$
+
+where $W_2$ is the (2-)Wasserstein distance between two distributions.
+
+- **Why it holds:** for standardized variables $E[(Z_X - Z_Y)^2] = 2 - 2r$, and $W_2^2$ is the smallest value of that expectation over all joint distributions with the given marginals.
+- **Check on our data:** across all 7,503 BES pairs, the formulas match the bounds computed by sorting in `R/01` to within $2 \times 10^{-13}$ (checks §2).
+
+In words:
+
+- $r_{\max}$ falls when the two items have *different* shapes.
+- $r_{\min}$ moves towards zero when $X$ differs from the *mirror image* of $Y$, which happens when the two items have *similar* shapes, e.g. skewed the same way.
+- Two identical items with $p = (.6, .3, .1)$ have $r_{\max} = 1$ but $r_{\min} = -.556$ (checks §2).
+
+So skew in the same direction hurts $r_{\min}$, and skew in opposite directions hurts $r_{\max}$.
+
+- **In BES:** $|r_{\min}| - r_{\max}$ correlates .94 with minus the product of the two items' skews. The sign of the asymmetry matches the sign of that product in 83% of pairs, and in 96% where the product exceeds .1 in absolute value (checks §2).
+- **What this means for C1:** it averages two quantities that respond in *opposite* ways to the direction of skew. That explains why coefficients become unstable or change sign when the bounds are combined.
+
+**Proposal.** Follow your suggestion: analyse and report $r_{\max}$ and $|r_{\min}|$ separately, and use C1 only as a one-number summary. The split rescaling is the natural companion, because it uses only the bound on the side of $r$'s sign.
+
+**Decision needed (D2).** Does the beta-regression section stay, as a description of the two bounds separately, or move to an appendix? The formulas give the bounds exactly, so the regressions describe them rather than explain them.
+
+## The ANES moral-issue result as our first example of framing A {#sec-moral}
+
+*Why this is here:* it is a worked example of exactly what you proposed on 23 October, and we didn't discuss it.
+
+See @sec-r09. **Decision needed (D3):** do we use it as the first illustration, paired with one cross-section example?
+
+## How to choose cases {#sec-choosing}
+
+*Why this is here:* it affects which data sets are worth chasing (decision D4).
+
+Because the mechanical part equals $\bar r^* \times \Delta r_{\max}$ (@sec-facts), a large change in the marginals is necessary but not sufficient: the items must also be strongly associated. In BES-type data $|r^*|$ is typically about .12 (checks §1), so even a large shift in the ceiling produces only a small mechanical change in $r$.
+
+Before we invest in a data set, we should check two things:
+
+- that the items are strongly associated, for example liking a party and the probability of voting for it;
+- that the groups' marginals differ a lot. Possible examples are low- vs high-interest respondents if the former pile up at the midpoint, and nuclear attitudes before and after Chernobyl.
+
+**Decision needed (D4):** adopt this screen. It is quick to compute once we have the respondent-level data.
+
+## Invertibility: correcting what I said {#sec-invert}
+
+*Why this is here:* I misstated the numbers in the meeting (rec. min. 67–68), and framing B's remedy depends on getting them right (decision D5).
+
+In the meeting I said uncorrected correlation matrices fail in "less than 10%" of cases. That was wrong. In our checks [`R/06`; checks §7]:
+
+- **Uncorrected Pearson matrices never failed.**
+- **Rescaled matrices failed only in deliberately adversarial simulated settings** (6–8 items, latent correlations .3–.85, $n$ = 40–300; 300 matrices):
+  - split rescaling: 10.3%;
+  - dividing by C1: 7.7%;
+  - a linear stretch to $[-1, 1]$: 19.3%.
+  - One rescaling, $r / (r_{\max} - r_{\min})$, never failed. But its values lie in an interval only one unit wide, so they aren't comparable with $r$.
+- **On real BES item sets** (300 random sets of 8 items; 150 highly correlated sets of 8 and of 12), **no matrix failed**, rescaled or not.
+- **Two qualifications:**
+  - Being positive semi-definite is not quite the same as being invertible.
+  - `R/06` doesn't yet report how close to singular the matrices come.
+
+**Decision needed (D5):** what framing B recommends. One candidate is the split rescaling plus a check of the smallest eigenvalue.
+
+## Missing data and proportions {#sec-missing}
+
+*Why this is here:* it is your homework item 3, and my reading may save you some work.
+
+My reading is that this makes no difference to the bounds, but please check. The correlation and its bounds are both computed from the cases that are valid on *both* items. Writing those marginals as counts or as proportions gives identical bounds, because $r$ doesn't depend on $N$.
+
+What matters is that the marginals come from the same cases as $r$. Our BES pairs file stores pairwise-complete marginals, which differ slightly across pairs for the same item, and `R/01` uses them. Whether "don't know" should count as a substantive category is a separate measurement choice.
+
+## Data for comparisons within one survey {#sec-data}
+
+*Why this is here:* cross-section group comparisons need data we don't yet have in the repository.
+
+Group comparisons need respondent-level data. The BES pairs file holds only summaries for each pair.
+
+- **Do you still have the BES 2019 face-to-face data and your Stata set-up?** They contain the interest and attention items (v1, v61) and the respondent's sex and region.
+- **Is the 1986 Dutch panel accessible?**
+- **The variable list you sent on 9 September** would help here too. From v38 to v126 the BES names in column D seem to be one row out of step with the labels in column F. For example, `Q1_CSES` sits next to the tuition-fees label rather than "How closely do you follow politics?". Could you confirm that the labels are the authoritative ones?
+
+## Related literature on decomposition and bounds (a first pass) {#sec-literature}
+
+*Why this is here:* framing A needs a literature. This is a first pass, not yet a systematic search. I separate what I have read from what I haven't.
+
+**1. Stouthard.**
+
+- **The article I found does not seem to be the one you meant.** The only *Acta Politica* article by him that I found is @stou71-verkiezingen, on the March 1970 provincial elections. It is descriptive:
+  - vote shifts since 1967 and voting intentions (Tables 1–6);
+  - non-voting by age and education (Table 7);
+  - no separation of marginal changes from effects.
+- **A candidate English source:** @mill75-confessional studies confessional attachment and voting in the Netherlands. Its abstract argues that "a continued decline in confessional attachment appears to forecast a continued decline in confessional party vote" — a statement about margins. I have read only the abstract.
+
+**2. The 1979 debate already named the two remedies.** In a footnote, @bish79-questions [p. 188, n. 2] suggest two ways round skewed marginals: "an iterative procedure which involves standardizing crosstabular tables to a desired set of marginal totals", or, for dichotomous items, "an odds ratio which is likewise impervious to marginal skews". In the main text they compare unstandardized regression coefficients because, "unlike the Pearson r, gamma, and most other correlational measures", these "are unaffected by the homogeneity of the sampled population". They cite @ache77-measuring for the point (not yet read). @king86-how makes the same argument against correlations, standardized coefficients and $R^2$ (p. 669), with a numerical example (p. 672), quoting Achen (p. 671).
+
+The first remedy is easy to demonstrate (checks §8). Giving a $4 \times 4$ table lopsided, opposite-skewed margins by iterative proportional fitting leaves every local odds ratio unchanged (to $10^{-15}$), but lowers $r$ from .60 to .20. This gives a direct counterfactual: $r$ in group B with group A's marginals but B's own odds ratios. That is a second way to define the "substantive" part besides $r^*$; hence decision D7. The method is usually credited to @most68-association (not yet read).
+
+**3. Decomposing differences between groups.**
+
+- **Economics:** @fort11-chapter review methods that split a difference between groups into a "composition effect" (different $X$) and a "wage structure effect" (different coefficients) (p. 5). These start from @oaxa73-malefemale and @blin73-wage (p. 2), and include the reweighting method of @dina96-labor (pp. 7, 12). That method gives one group the other's composition: the same counterfactual as above. I have read only the review.
+- **Demography:** see @kita55-components (not yet read).
+- **Social mobility:** sociologists separate "structural" mobility, driven by changing marginals, from "exchange" mobility measured by odds ratios. The standard references are @feat75-assumptions, @sobe85-exchange and @erik92-constant (none yet read).
+
+**4. Partial identification.** Our bounds fit Charles Manski's framework: bounds on parameters that the data identify only partly [@mans03-partial; @tame10-partial].
+
+- **Fréchet's bounds are attainable.** Fréchet's bounds on a joint distribution given its marginals "are attainable ... with extreme forms of correlation structures" [@tame10-partial, p. 174]. So if only the two marginals were observed, $[r_{\min}, r_{\max}]$ would be the sharpest possible bounds on $r$.
+- **The ecological-inference link.** @dunc53-alternative used a numerical example to show that ecological inference is a problem of partial identification; @cros02-regressions characterised the bounds formally [@mans03-partial, p. 5; @tame10-partial, p. 174]. @king97-solution added assumptions to obtain point estimates, which drew criticism [@mans03-partial, p. 86]. I have read none of these three directly.
+- **Our case is different.** In our setting $r$ itself is observed; the bounds describe how much room the marginals leave. So this literature gives us vocabulary ("identified set", "sharp bounds") and a link to ecological inference, rather than a method.
+
+With best wishes, and thank you again for Friday,
+
+Scott
+
+# References {.unnumbered}
+
+::: {#refs}
+:::

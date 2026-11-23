@@ -1,0 +1,67 @@
+ONE TRUE FACTOR: share of data sets where parallel analysis retains 2+ factors (spurious)
+             pattern     K lambda     n   raw rescaled rescaled_not_psd
+              <char> <num>  <num> <int> <num>    <num>            <num>
+ 1:    opposite_mild     2    0.5    20   0.0     0.20              0.5
+ 2:    opposite_mild     2    0.7    20   0.0     0.00              1.0
+ 3:    opposite_mild     2    0.9    20   1.0     0.00              1.0
+ 4:    opposite_mild     3    0.5    20   0.0     0.15              0.8
+ 5:    opposite_mild     3    0.7    20   0.0     0.00              1.0
+ 6:    opposite_mild     3    0.9    20   1.0     0.00              1.0
+ 7:    opposite_mild     5    0.5    20   0.0     0.00              0.0
+ 8:    opposite_mild     5    0.7    20   0.0     0.00              0.0
+ 9:    opposite_mild     5    0.9    20   0.0     0.00              0.0
+10:  opposite_strong     2    0.5    20   0.0     0.95              1.0
+11:  opposite_strong     2    0.7    20   1.0     0.00              1.0
+12:  opposite_strong     2    0.9    20   1.0     0.00              1.0
+13:  opposite_strong     3    0.5    20   0.0     0.00              0.5
+14:  opposite_strong     3    0.7    20   0.0     0.00              1.0
+15:  opposite_strong     3    0.9    20   0.6     0.00              1.0
+16:  opposite_strong     5    0.5    20   0.0     0.00              0.0
+17:  opposite_strong     5    0.7    20   0.0     0.00              0.0
+18:  opposite_strong     5    0.9    20   0.0     0.00              0.0
+19: opposite_vstrong     2    0.5    20   0.3     1.00              1.0
+20: opposite_vstrong     2    0.7    20   1.0     0.25              1.0
+21: opposite_vstrong     2    0.9    20   1.0     0.00              1.0
+22: opposite_vstrong     3    0.5    20   0.0     0.00              0.0
+23: opposite_vstrong     3    0.7    20   0.0     0.00              0.0
+24: opposite_vstrong     3    0.9    20   0.0     0.00              0.0
+25: opposite_vstrong     5    0.5    20   0.0     0.00              0.0
+26: opposite_vstrong     5    0.7    20   0.0     0.00              0.0
+27: opposite_vstrong     5    0.9    20   0.0     0.00              0.5
+28:      same_strong     2    0.5    20   0.0     0.00              0.0
+29:      same_strong     2    0.7    20   0.0     0.00              0.0
+30:      same_strong     2    0.9    20   0.0     0.00              0.0
+31:      same_strong     3    0.5    20   0.0     0.00              0.0
+32:      same_strong     3    0.7    20   0.0     0.00              0.0
+33:      same_strong     3    0.9    20   0.0     0.00              0.0
+34:      same_strong     5    0.5    20   0.0     0.00              0.0
+35:      same_strong     5    0.7    20   0.0     0.00              0.0
+36:      same_strong     5    0.9    20   0.0     0.00              0.0
+37:        symmetric     2    0.5    20   0.0     0.00              0.0
+38:        symmetric     2    0.7    20   0.0     0.00              0.0
+39:        symmetric     2    0.9    20   0.0     0.00              0.0
+40:        symmetric     3    0.5    20   0.0     0.00              0.0
+41:        symmetric     3    0.7    20   0.0     0.00              0.0
+42:        symmetric     3    0.9    20   0.0     0.00              0.0
+43:        symmetric     5    0.5    20   0.0     0.00              0.0
+44:        symmetric     5    0.7    20   0.0     0.00              0.0
+45:        symmetric     5    0.9    20   0.0     0.00              0.0
+             pattern     K lambda     n   raw rescaled rescaled_not_psd
+
+overall: spurious with raw r 0.153; with rescaled r 0.057; rescaled matrix not PSD 0.318 (of 900 data sets)
+
+TWO TRUE FACTORS: share of data sets where parallel analysis finds both (2+ factors)
+             pattern     K lambda     n   raw rescaled rescaled_not_psd
+              <char> <num>  <num> <int> <num>    <num>            <num>
+ 1:    opposite_mild     2    0.7    20     1        1              1.0
+ 2:    opposite_mild     2    0.9    20     1        1              1.0
+ 3:    opposite_mild     5    0.7    20     1        1              0.0
+ 4:    opposite_mild     5    0.9    20     1        1              0.0
+ 5:  opposite_strong     2    0.7    20     1        1              1.0
+ 6:  opposite_strong     2    0.9    20     1        1              1.0
+ 7:  opposite_strong     5    0.7    20     1        1              0.0
+ 8:  opposite_strong     5    0.9    20     1        1              0.0
+ 9: opposite_vstrong     2    0.7    20     1        1              1.0
+10: opposite_vstrong     2    0.9    20     1        1              1.0
+11: opposite_vstrong     5    0.7    20     1        1              0.0
+12: opposite_vstrong     5    0.9    20     1        1              0.3

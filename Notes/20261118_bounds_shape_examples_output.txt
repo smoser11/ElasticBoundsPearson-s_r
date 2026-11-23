@@ -1,0 +1,6 @@
+1. Both symmetric, same shape                              X = (0.25,0.5,0.25)  Y = (0.25,0.5,0.25)  r_min -1.000  r_max 1.000
+2. Both equally skewed, same direction                     X = (0.6,0.3,0.1)  Y = (0.6,0.3,0.1)  r_min -0.556  r_max 1.000
+3. Both more skewed, same direction                        X = (0.8,0.15,0.05)  Y = (0.8,0.15,0.05)  r_min -0.217  r_max 1.000
+4. One symmetric, one skewed                               X = (0.25,0.5,0.25)  Y = (0.6,0.3,0.1)  r_min -0.738  r_max 0.738
+5. Skewed in opposite directions                           X = (0.6,0.3,0.1)  Y = (0.1,0.3,0.6)  r_min -1.000  r_max 0.556
+6. Both symmetric, different peakedness (no skew)          X = (0.333333333333333,0.333333333333333,0.333333333333333)  Y = (0.1,0.8,0.1)  r_min -0.548  r_max 0.548
